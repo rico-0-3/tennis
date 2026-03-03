@@ -1,0 +1,41 @@
+{
+  "hidden_layers": [
+    256,
+    128,
+    64
+  ],
+  "dropout": 0.30000000000000004,
+  "lr": 0.00011240768803005555,
+  "batch_size": 256,
+  "epochs": 120,
+  "lambda_decay": 0.001,
+  "input_dim": 25,
+  "features": [
+    "diff_rank",
+    "diff_rank_points",
+    "diff_seed",
+    "diff_age",
+    "diff_ht",
+    "diff_elo",
+    "diff_streak",
+    "surface_enc",
+    "tourney_level",
+    "round_enc",
+    "draw_size",
+    "diff_hand",
+    "diff_skill",
+    "diff_home",
+    "diff_fatigue",
+    "diff_momentum",
+    "diff_h2h",
+    "diff_ace",
+    "diff_df",
+    "diff_1st_pct",
+    "diff_1st_won",
+    "diff_2nd_won",
+    "diff_bp_saved",
+    "court_ace_pct",
+    "court_speed"
+  ],
+  "scaler_file": "scaler_ann.pkl"
+}
