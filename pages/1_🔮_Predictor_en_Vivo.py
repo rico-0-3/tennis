@@ -85,20 +85,14 @@ def cargar_todo():
     def ps(f): return os.path.join(ruta_scrap, f)
 
     try:
-        model_xgb      = joblib.load(pp('modelo_xgboost_final.pkl'))
-        model_log      = joblib.load(pp('modelo_logistico_final.pkl'))
-        model_ensemble = joblib.load(pp('modelo_ensemble.pkl'))
-        scaler         = joblib.load(pp('scaler_final.pkl'))
-        scaler_ens     = joblib.load(pp('scaler_ensemble.pkl'))
         stats_dict     = joblib.load(pp('stats_superficie_v2.pkl'))
         perfiles       = joblib.load(ps('perfiles_jugadores.pkl'))
     except FileNotFoundError as e:
         st.error(f"Mancano file fondamentali. Errore: {e}")
         st.stop()
 
-    # ANN globale + modelli per superficie (opzionali)
+    # ANN globale
     ann_global = None; ann_scaler = None
-    ann_surf   = {}   # {'Clay': model, 'Hard': model, 'Grass': model}
     elo_surface= {}   # {(player, surface): elo_float}
     streak_players = {}
 
@@ -115,19 +109,6 @@ def cargar_todo():
             ann_scaler = joblib.load(sca_base)
         except Exception as e:
             st.warning(f"ANN globale non caricata: {e}")
-
-    # Modelli per superficie
-    for surf in ['clay', 'hard', 'grass']:
-        pth = pp(f'modelo_ann_{surf}.pth'); cfgp = pp(f'ann_config_{surf}.json')
-        if os.path.exists(pth) and os.path.exists(cfgp) and ann_scaler is not None:
-            try:
-                with open(cfgp) as f: c = json.load(f)
-                mdl = TennisANN(c['input_dim'], c['hidden_layers'], c['dropout'])
-                mdl.load_state_dict(torch.load(pth, map_location='cpu'))
-                mdl.eval()
-                ann_surf[surf.capitalize()] = mdl
-            except Exception as e:
-                pass  # modello superficie non disponibile
 
     # Elo + streak
     elo_path    = pp('elo_surface.pkl')
@@ -147,16 +128,16 @@ def cargar_todo():
     except:
         ranking_dict = {}
 
-    return (model_xgb, model_log, model_ensemble, scaler, scaler_ens,
-            stats_dict, perfiles, df_history, ranking_dict,
-            ann_global, ann_scaler, ann_surf, elo_surface, streak_players)
+    return (stats_dict, perfiles, df_history, ranking_dict,
+            ann_global, ann_scaler, elo_surface, streak_players)
 
 
-(model_xgb, model_log, model_ensemble, scaler, scaler_ens,
- stats_dict, perfiles, df_history, ranking_dict,
- ann_global, ann_scaler, ann_surf, elo_surface, streak_players) = cargar_todo()
+(stats_dict, perfiles, df_history, ranking_dict,
+ ann_global, ann_scaler, elo_surface, streak_players) = cargar_todo()
 
-ann_model = ann_global  # backwards compat
+if ann_global is None:
+    st.error("❌ Modello ANN non trovato. Assicurati che `modelo_ann.pth`, `ann_config.json` e `scaler_ann.pkl` siano nella cartella `prediccion/`.")
+    st.stop()
 
 
 def get_skill(p, s): return stats_dict.get((p, s), 0.5)
@@ -245,49 +226,7 @@ with st.sidebar:
     st.header("⚙️ Configurazione")
 
     st.subheader("🧠 Cervello dell'IA")
-
-    ann_disponibile = ann_global is not None
-    opzioni_modello = ["Ensemble (LR+RF+XGB)", "XGBoost", "Regressione Logistica"]
-    captions_modello = [
-        "Combina 3 modelli (66%)",
-        "Alberi decisionali (66%)",
-        "Statistica classica (65%)"
-    ]
-    if ann_disponibile:
-        opzioni_modello.insert(0, "Rete Neurale (ANN)")
-        surfs_available = list(ann_surf.keys())
-        surf_note = f" +{len(surfs_available)} spec." if surfs_available else ""
-        captions_modello.insert(0, f"Deep Learning {surf_note} 🔥")
-
-    modello_sel = st.radio(
-        "Scegli l'algoritmo:",
-        opzioni_modello,
-        captions=captions_modello
-    )
-
-    if "Rete Neurale" in modello_sel:
-        active_model  = ann_global
-        active_scaler = ann_scaler
-        use_ann       = True
-        st.info("Usando: **Rete Neurale Artificiale** (PyTorch + Adam, 23 feature, Elo+Striscia)")
-    elif "Ensemble" in modello_sel:
-        active_model  = model_ensemble
-        active_scaler = scaler_ens
-        use_ann       = False
-        st.info("Usando: **Ensemble (LR + Random Forest + XGBoost)**")
-    elif "XGBoost" in modello_sel:
-        active_model  = model_xgb
-        active_scaler = scaler
-        use_ann       = False
-        st.info("Usando: **Alberi Decisionali Avanzati**")
-    else:
-        active_model  = model_log
-        active_scaler = scaler
-        use_ann       = False
-        st.info("Usando: **Statistica Lineare Classica**")
-
-    if not ann_disponibile:
-        st.caption("ℹ️ La Rete Neurale non è ancora disponibile. Esegui `aggiorna_tutto.py` con ESEGUI_ANN=True.")
+    st.info("Usando: **Rete Neurale Artificiale (ANN)** — Deep Learning (PyTorch, 25 feature, Elo+Striscia) 🔥")
 
     st.divider()
 
@@ -418,8 +357,7 @@ st.divider()
 
 
 # ─── PREDIZIONE ──────────────────────────────────────────────────────────────
-nome_btn = modello_sel.split(' ')[0]
-if st.button(f"🔮 PREDICI con {nome_btn}", type="primary", use_container_width=True):
+if st.button("🔮 PREDICI con ANN", type="primary", use_container_width=True):
 
     skill1  = get_skill(nombre1, superficie)
     skill2  = get_skill(nombre2, superficie)
@@ -427,106 +365,71 @@ if st.button(f"🔮 PREDICI con {nome_btn}", type="primary", use_container_width
     home2   = 1 if nac2 == pais_torneo else 0
     diff_h2h = wins_p1 - wins_p2
 
-    if use_ann and ann_global is not None:
-        # Usa sempre il modello globale (migliore generalizzazione)
-        ann_active = ann_global
-        model_label = "ANN Globale"
+    hand_map_d = {'R': 1, 'L': -1, 'U': 0}
+    hand1 = perfiles.get(nombre1, {}).get('hand', 'R')
+    hand2 = perfiles.get(nombre2, {}).get('hand', 'R')
+    sa1   = perfiles.get(nombre1, {})
+    sa2   = perfiles.get(nombre2, {})
+    pts1  = sa1.get('points', 0); pts2 = sa2.get('points', 0)
+    seed1_eff = seed1 if seed1 > 0 else 33
+    seed2_eff = seed2 if seed2 > 0 else 33
 
-        hand_map_d = {'R': 1, 'L': -1, 'U': 0}
-        hand1 = perfiles.get(nombre1, {}).get('hand', 'R')
-        hand2 = perfiles.get(nombre2, {}).get('hand', 'R')
-        sa1   = perfiles.get(nombre1, {})
-        sa2   = perfiles.get(nombre2, {})
-        pts1  = sa1.get('points', 0); pts2 = sa2.get('points', 0)
-        seed1_eff = seed1 if seed1 > 0 else 33
-        seed2_eff = seed2 if seed2 > 0 else 33
+    # Elo per superficie
+    ELO_DEFAULT = 1500.0
+    elo1 = elo_surface.get((nombre1, superficie), ELO_DEFAULT)
+    elo2 = elo_surface.get((nombre2, superficie), ELO_DEFAULT)
 
-        # Elo per superficie
-        ELO_DEFAULT = 1500.0
-        elo1 = elo_surface.get((nombre1, superficie), ELO_DEFAULT)
-        elo2 = elo_surface.get((nombre2, superficie), ELO_DEFAULT)
+    # Striscia attiva (dal pkl, oppure calcolata da last_5)
+    def calc_streak_from_last5(last5):
+        s = 0
+        for m in reversed(last5):
+            if m['risultato'] == 'W' if 'risultato' in m else m.get('resultado') == 'W':
+                if s >= 0: s += 1
+                else: break
+            else:
+                if s <= 0: s -= 1
+                else: break
+        return s
 
-        # Striscia attiva (dal pkl, oppure calcolata da last_5)
-        def calc_streak_from_last5(last5):
-            s = 0
-            for m in reversed(last5):
-                if m['risultato'] == 'W' if 'risultato' in m else m.get('resultado') == 'W':
-                    if s >= 0: s += 1
-                    else: break
-                else:
-                    if s <= 0: s -= 1
-                    else: break
-            return s
+    strk1 = streak_players.get(nombre1,
+                calc_streak_from_last5(st.session_state.get('l5_1', [])))
+    strk2 = streak_players.get(nombre2,
+                calc_streak_from_last5(st.session_state.get('l5_2', [])))
 
-        strk1 = streak_players.get(nombre1,
-                    calc_streak_from_last5(st.session_state.get('l5_1', [])))
-        strk2 = streak_players.get(nombre2,
-                    calc_streak_from_last5(st.session_state.get('l5_2', [])))
+    ann_input = pd.DataFrame([{
+        'diff_rank':        r2 - r1,
+        'diff_rank_points': pts1 - pts2,
+        'diff_seed':        seed2_eff - seed1_eff,
+        'diff_age':         a1 - a2,
+        'diff_ht':          h1 - h2,
+        'diff_elo':         elo1 - elo2,
+        'diff_streak':      float(strk1 - strk2),
+        'surface_enc':      float(SURFACE_MAP.get(superficie, 0)),
+        'tourney_level':    float(LEVEL_LABEL.get(livello, 3)),
+        'round_enc':        float(ROUND_MAP_STR.get(turno, 3)),
+        'draw_size':        float(draw_sz),
+        'diff_hand':        hand_map_d.get(hand1, 0) - hand_map_d.get(hand2, 0),
+        'diff_skill':       skill1 - skill2,
+        'diff_home':        home1 - home2,
+        'diff_fatigue':     fat1 - fat2,
+        'diff_momentum':    mom1 - mom2,
+        'diff_h2h':         diff_h2h,
+        'diff_ace':         sa1.get('aces', 0) - sa2.get('aces', 0),
+        'diff_df':          0.0,
+        'diff_1st_pct':     0.0,
+        'diff_1st_won':     (sa1.get('serve_win', 65) - sa2.get('serve_win', 65)) / 100,
+        'diff_2nd_won':     0.0,
+        'diff_bp_saved':    (sa1.get('bp_saved', 60) - sa2.get('bp_saved', 60)) / 100,
+        'court_ace_pct':    court_ace,
+        'court_speed':      court_spd,
+    }])
 
-        ann_input = pd.DataFrame([{
-            'diff_rank':        r2 - r1,
-            'diff_rank_points': pts1 - pts2,
-            'diff_seed':        seed2_eff - seed1_eff,
-            'diff_age':         a1 - a2,
-            'diff_ht':          h1 - h2,
-            'diff_elo':         elo1 - elo2,
-            'diff_streak':      float(strk1 - strk2),
-            'surface_enc':      float(SURFACE_MAP.get(superficie, 0)),
-            'tourney_level':    float(LEVEL_LABEL.get(livello, 3)),
-            'round_enc':        float(ROUND_MAP_STR.get(turno, 3)),
-            'draw_size':        float(draw_sz),
-            'diff_hand':        hand_map_d.get(hand1, 0) - hand_map_d.get(hand2, 0),
-            'diff_skill':       skill1 - skill2,
-            'diff_home':        home1 - home2,
-            'diff_fatigue':     fat1 - fat2,
-            'diff_momentum':    mom1 - mom2,
-            'diff_h2h':         diff_h2h,
-            'diff_ace':         sa1.get('aces', 0) - sa2.get('aces', 0),
-            'diff_df':          0.0,
-            'diff_1st_pct':     0.0,
-            'diff_1st_won':     (sa1.get('serve_win', 65) - sa2.get('serve_win', 65)) / 100,
-            'diff_2nd_won':     0.0,
-            'diff_bp_saved':    (sa1.get('bp_saved', 60) - sa2.get('bp_saved', 60)) / 100,
-            'court_ace_pct':    court_ace,
-            'court_speed':      court_spd,
-        }])
-
-        badge = f"🎯 Modello specializzato: **{model_label}**" if is_specialized else f"🌐 Modello globale"
-        st.caption(badge)
-
-        input_sc = ann_scaler.transform(ann_input[ANN_FEATURES])
-        input_t  = torch.tensor(input_sc.astype(np.float32))
-        ann_active.eval()
-        with torch.no_grad():
-            logit   = ann_active(input_t).item()
-        prob_j1 = 1 / (1 + np.exp(-logit))
-
-    else:
-        # ── Input modelli classici ────────────────────────────────────────────
-        pts1 = perfiles.get(nombre1, {}).get('points', 0)
-        pts2 = perfiles.get(nombre2, {}).get('points', 0)
-
-        input_data = pd.DataFrame([{
-            'diff_rank':        r2 - r1,
-            'diff_rank_points': pts1 - pts2,
-            'diff_age':         a1 - a2,
-            'diff_ht':          h1 - h2,
-            'diff_skill':       skill1 - skill2,
-            'diff_home':        home1 - home2,
-            'diff_fatigue':     fat1 - fat2,
-            'diff_momentum':    mom1 - mom2,
-            'diff_h2h':         diff_h2h,
-            'court_ace_pct':    court_ace,
-            'court_speed':      court_spd,
-        }])
-
-        try:
-            input_sc = active_scaler.transform(input_data)
-            prob     = active_model.predict_proba(input_sc)[0]
-            prob_j1  = prob[1]
-        except Exception as e:
-            st.error(f"⚠️ Errore nella predizione: {e}")
-            st.stop()
+    input_sc = ann_scaler.transform(ann_input[ANN_FEATURES])
+    input_t  = torch.tensor(input_sc.astype(np.float32))
+    ann_global.eval()
+    with torch.no_grad():
+        logit   = ann_global(input_t).item()
+    prob_j1 = 1 / (1 + np.exp(-logit))
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()
@@ -539,10 +442,10 @@ if st.button(f"🔮 PREDICI con {nome_btn}", type="primary", use_container_width
     with col_res_der:
         if prob_j1 > 0.5:
             st.success(f"🏆 Vincitore: **{nombre1}**")
-            st.metric("Confidenza", f"{prob_j1:.1%}", delta=f"Modello: {nome_btn}")
+            st.metric("Confidenza", f"{prob_j1:.1%}", delta="Modello: ANN")
         else:
             st.error(f"🏆 Vincitore: **{nombre2}**")
-            st.metric("Confidenza", f"{(1-prob_j1):.1%}", delta=f"Modello: {nome_btn}")
+            st.metric("Confidenza", f"{(1-prob_j1):.1%}", delta="Modello: ANN")
 
         # Barra probabilità
         prob_display = prob_j1 if prob_j1 > 0.5 else 1 - prob_j1
