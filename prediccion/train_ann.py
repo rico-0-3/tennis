@@ -1,25 +1,31 @@
 """
-train_ann.py v2.0  —  ANN Avanzata per Tennis Predictor
+train_ann.py v3.0  —  ANN Avanzata per Tennis Predictor
 ========================================================
-Funzionalità nuove rispetto v1:
+Funzionalità v3 rispetto v2:
   ✅ Rating Elo per superficie  (più accurato del ranking ATP)
   ✅ Striscia attiva            (consecutive wins/losses)
+  ✅ Momentum per superficie    (rolling 10 match per surface)
+  ✅ Statistiche di ritorno     (return_pct, bp_conv, return_1st)
+  ✅ Architettura Wide & Deep   (residual + feature interaction)
+  ✅ Label smoothing            (riduce overconfidence)
+  ✅ Temporal cross-validation  (expanding window per anno)
+  ✅ Calibrazione Platt scaling (probabilità calibrate)
   ✅ Ponderazione torneo        (Grand Slam pesa x2, Masters x1.5 ...)
   ✅ Optuna bayesian search     (più efficiente del random search)
-  ✅ Modelli per superficie     (All, Clay, Hard, Grass)
-  ✅ Comparazione finale        (ANN vs XGBoost vs LR vs RF)
 
 UTILIZZO:
     cd prediccion/
     python train_ann.py
 
 OUTPUT:
-    modelo_ann.pth / _clay.pth / _hard.pth / _grass.pth
-    ann_config.json (e _clay / _hard / _grass)
-    scaler_ann.pkl
-    elo_surface.pkl          ← Elo corrente per superficie (usato dal predictor)
-    resultados_ann.csv       ← tutti i trial Optuna
-    resultados_comparacion_finale.csv  ← confronto con modelli classici
+    modelo_ann.pth               ← modello globale v3
+    ann_config.json              ← config con v3 metadata
+    scaler_ann.pkl               ← StandardScaler 28 feature
+    elo_surface.pkl              ← Elo corrente per superficie
+    streak_players.pkl           ← striscia attiva per giocatore
+    momentum_surface.pkl         ← momentum per (giocatore, superficie)
+    calibrator_ann.pkl           ← Platt scaling calibrator
+    resultados_comparacion_finale.csv  ← confronto modelli
 """
 
 import os, json, warnings, sys
@@ -64,8 +70,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 60        # numero trial Optuna per il modello globale
-TRIALS_SURF = 20   # trial per ogni modello per superficie
+TRIALS = 60        # numero trial Optuna per ogni fold temporale
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
@@ -124,6 +129,7 @@ def carica_e_prepara(csv_path: str):
     racha_t   = {}
     h2h_t     = {}
     serve_t   = {}
+    return_t  = {}   # {player: {return_pct: [...], bp_conv: [...], return_1st: [...]}}
     elo_surf  = {}   # {(player, surface): float}  — ELO per superficie
     streak_t  = {}   # {player: int}  +N=N vittorie consecutive, -N=sconfitte
 
@@ -149,14 +155,14 @@ def carica_e_prepara(csv_path: str):
         f_w = fatiga_t.get((tid, w), 0); f_l = fatiga_t.get((tid, l), 0)
         fatiga_t[(tid, w)] = f_w + dur;  fatiga_t[(tid, l)] = f_l + dur
 
-        # --- Momentum ---
-        hw = racha_t.get(w, []); hl = racha_t.get(l, [])
+        # --- Momentum per superficie ---
+        hw = racha_t.get((w, surf), []); hl = racha_t.get((l, surf), [])
         mw = np.mean(hw) if hw else 0.5
         ml = np.mean(hl) if hl else 0.5
         hw.append(1); hl.append(0)
         if len(hw) > 10: hw.pop(0)
         if len(hl) > 10: hl.pop(0)
-        racha_t[w] = hw; racha_t[l] = hl
+        racha_t[(w, surf)] = hw; racha_t[(l, surf)] = hl
 
         # --- H2H ---
         p1k, p2k = sorted([w, l]); key = (p1k, p2k)
@@ -190,6 +196,47 @@ def carica_e_prepara(csv_path: str):
 
         sa_w = get_sa(w); sa_l = get_sa(l)
 
+        # --- Statistiche ritorno medie (derivate dal servizio avversario) ---
+        def get_ra(player):
+            s = return_t.get(player, {})
+            return {'return_pct':  np.mean(s.get('return_pct',  [0.35])),
+                    'bp_conv':     np.mean(s.get('bp_conv',     [0.35])),
+                    'return_1st':  np.mean(s.get('return_1st',  [0.30]))}
+
+        ra_w = get_ra(w); ra_l = get_ra(l)
+
+        def upd_return(player, rd, opp_pref):
+            """Calcola stats di ritorno dal servizio dell'avversario"""
+            s = return_t.setdefault(player, {})
+            opp_svpt   = rd.get(f'{opp_pref}_svpt', np.nan)
+            opp_1stWon = rd.get(f'{opp_pref}_1stWon', np.nan)
+            opp_2ndWon = rd.get(f'{opp_pref}_2ndWon', np.nan)
+            opp_1stIn  = rd.get(f'{opp_pref}_1stIn', np.nan)
+            opp_bpFaced = rd.get(f'{opp_pref}_bpFaced', np.nan)
+            opp_bpSaved = rd.get(f'{opp_pref}_bpSaved', np.nan)
+            # return_pct: % punti vinti in risposta
+            if opp_svpt and opp_svpt > 0 and not np.isnan(opp_svpt):
+                fw = opp_1stWon if not (isinstance(opp_1stWon, float) and np.isnan(opp_1stWon)) else 0
+                sw = opp_2ndWon if not (isinstance(opp_2ndWon, float) and np.isnan(opp_2ndWon)) else 0
+                rtn_won = (opp_svpt - fw - sw) / opp_svpt
+                lst = s.setdefault('return_pct', [])
+                lst.append(float(rtn_won))
+                if len(lst) > 10: lst.pop(0)
+            # bp_conv: % break point convertiti
+            if opp_bpFaced and opp_bpFaced > 0 and not (isinstance(opp_bpFaced, float) and np.isnan(opp_bpFaced)):
+                bps = opp_bpSaved if not (isinstance(opp_bpSaved, float) and np.isnan(opp_bpSaved)) else 0
+                bp_conv = (opp_bpFaced - bps) / opp_bpFaced
+                lst = s.setdefault('bp_conv', [])
+                lst.append(float(bp_conv))
+                if len(lst) > 10: lst.pop(0)
+            # return_1st: % punti vinti sulla prima dell'avversario
+            if opp_1stIn and opp_1stIn > 0 and not (isinstance(opp_1stIn, float) and np.isnan(opp_1stIn)):
+                fw = opp_1stWon if not (isinstance(opp_1stWon, float) and np.isnan(opp_1stWon)) else 0
+                rtn_1st = (opp_1stIn - fw) / opp_1stIn
+                lst = s.setdefault('return_1st', [])
+                lst.append(float(rtn_1st))
+                if len(lst) > 10: lst.pop(0)
+
         def upd_serve(player, rd, pref):
             s = serve_t.setdefault(player, {})
             svpt=rd.get(f'{pref}_svpt',np.nan); fi=rd.get(f'{pref}_1stIn',np.nan)
@@ -206,7 +253,7 @@ def carica_e_prepara(csv_path: str):
                     lst.append(float(v))
                     if len(lst) > 10: lst.pop(0)
 
-        rd = row.to_dict(); upd_serve(w, rd, 'w')
+        rd = row.to_dict(); upd_serve(w, rd, 'w'); upd_return(w, rd, 'l')
 
         sk_w = get_skill(w, surf); sk_l = get_skill(l, surf)
         home_w = 1 if row['winner_ioc'] == row['tourney_ioc'] else 0
@@ -246,6 +293,10 @@ def carica_e_prepara(csv_path: str):
             'diff_1st_won':      sa_w['1st_won'] - sa_l['1st_won'],
             'diff_2nd_won':      sa_w['2nd_won'] - sa_l['2nd_won'],
             'diff_bp_saved':     sa_w['bp_saved']- sa_l['bp_saved'],
+            # nuove feature ritorno
+            'diff_return_pct':   ra_w['return_pct'] - ra_l['return_pct'],
+            'diff_bp_conv':      ra_w['bp_conv']    - ra_l['bp_conv'],
+            'diff_return_1st':   ra_w['return_1st'] - ra_l['return_1st'],
             'tourney_date':      float(row['tourney_date']) if pd.notna(row['tourney_date']) else 20200101,
             'level_weight':      lev_w,
         }
@@ -264,7 +315,7 @@ def carica_e_prepara(csv_path: str):
               else v for k, v in diffs.items()}
         d0['target'] = 0
         rows.append(d1); rows.append(d0)
-        upd_serve(l, rd, 'l')
+        upd_serve(l, rd, 'l'); upd_return(l, rd, 'w')
 
     df_out = pd.DataFrame(rows)
     print(f"   → Dataset: {len(df_out):,} righe | {df_out.shape[1]} colonne")
@@ -274,22 +325,26 @@ def carica_e_prepara(csv_path: str):
     print("   → elo_surface.pkl salvato")
     # Salva anche streak corrente per il predictor
     joblib.dump(streak_t, 'streak_players.pkl')
+    # Salva momentum per superficie {(player, surface): [last 10 results]}
+    joblib.dump(racha_t, 'momentum_surface.pkl')
+    print("   → momentum_surface.pkl salvato")
 
     return df_out, stats_dict, elo_surf, streak_t
 
 
-# ── Lista feature (25)────────────────────────────────────────────────────────
+# ── Lista feature (28)────────────────────────────────────────────────────────
 FEATURES = [
     'diff_rank', 'diff_rank_points', 'diff_seed', 'diff_age', 'diff_ht',
-    'diff_elo', 'diff_streak',                          # ← NUOVE
+    'diff_elo', 'diff_streak',                          # Elo per superficie + striscia
     'surface_enc', 'tourney_level', 'round_enc', 'draw_size',
     'diff_hand',
     'diff_skill', 'diff_home',
     'diff_fatigue', 'diff_momentum', 'diff_h2h',
     'diff_ace', 'diff_df', 'diff_1st_pct', 'diff_1st_won',
     'diff_2nd_won', 'diff_bp_saved',
-    'court_ace_pct', 'court_speed',                     # ← Court speed
-]  # totale: 23 feature
+    'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',  # ← Ritorno
+    'court_ace_pct', 'court_speed',                         # ← Court speed
+]  # totale: 28 feature
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -332,25 +387,92 @@ ARCH_OPTIONS = {
     '4L_m':    [256, 128, 64, 32],
 }
 
-class TennisANN(nn.Module):
-    def __init__(self, input_dim: int, hidden_layers: list, dropout: float = 0.3):
+# Coppie di feature per interaction layer (indici in FEATURES)
+# 5=diff_elo, 12=diff_skill, 0=diff_rank, 15=diff_momentum, 1=diff_rank_points,
+# 14=diff_fatigue, 6=diff_streak, 16=diff_h2h, 23=diff_return_pct, 24=diff_bp_conv
+DEFAULT_INTERACTION_PAIRS = [
+    (5, 12), (0, 15), (5, 15), (12, 14), (0, 1),
+    (5, 16), (12, 16), (6, 15), (14, 15), (1, 12),
+]
+N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
+
+
+class TennisANNv3(nn.Module):
+    """Wide & Deep con Feature Interaction e Residual Connections."""
+    def __init__(self, input_dim: int, hidden_layers: list, dropout: float = 0.3,
+                 n_interactions: int = N_INTERACTIONS,
+                 interaction_pairs: list = None):
         super().__init__()
-        layers = []; prev = input_dim
+        self.interaction_pairs = interaction_pairs or DEFAULT_INTERACTION_PAIRS
+        self.n_interactions = min(n_interactions, len(self.interaction_pairs))
+
+        # === Wide path (linear, cattura relazioni dirette) ===
+        self.wide = nn.Linear(input_dim, 1)
+
+        # === Deep path con residual connections ===
+        interaction_dim = input_dim + self.n_interactions
+        self.deep_layers = nn.ModuleList()
+        self.deep_norms = nn.ModuleList()
+        self.deep_drops = nn.ModuleList()
+        self.residual_projs = nn.ModuleList()
+
+        prev = interaction_dim
         for h in hidden_layers:
-            layers += [nn.Linear(prev, h), nn.BatchNorm1d(h), nn.ReLU(), nn.Dropout(dropout)]
+            self.deep_layers.append(nn.Linear(prev, h))
+            self.deep_norms.append(nn.BatchNorm1d(h))
+            self.deep_drops.append(nn.Dropout(dropout))
+            if prev != h:
+                self.residual_projs.append(nn.Linear(prev, h))
+            else:
+                self.residual_projs.append(nn.Identity())
             prev = h
-        layers.append(nn.Linear(prev, 1))
-        self.net = nn.Sequential(*layers)
+
+        self.deep_out = nn.Linear(prev, 1)
 
     def forward(self, x):
-        return self.net(x).squeeze(1)
+        # Wide
+        wide_out = self.wide(x)
+
+        # Feature interactions (prodotti tra coppie importanti)
+        interactions = []
+        for i, j in self.interaction_pairs[:self.n_interactions]:
+            if i < x.shape[1] and j < x.shape[1]:
+                interactions.append(x[:, i] * x[:, j])
+            else:
+                interactions.append(torch.zeros(x.shape[0], device=x.device))
+        inter_t = torch.stack(interactions, dim=1)
+        deep_in = torch.cat([x, inter_t], dim=1)
+
+        # Deep con residual
+        h = deep_in
+        for layer, norm, drop, res_proj in zip(
+                self.deep_layers, self.deep_norms,
+                self.deep_drops, self.residual_projs):
+            identity = res_proj(h)
+            h = layer(h)
+            h = norm(h)
+            h = torch.relu(h)
+            h = drop(h)
+            h = h + identity  # residual connection
+
+        deep_out = self.deep_out(h)
+
+        # Combina wide + deep
+        return (wide_out + deep_out).squeeze(1)
 
 
-def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10):
+def label_smoothed_bce(logits, targets, smoothing=0.05):
+    """BCEWithLogitsLoss con label smoothing: 0→smoothing/2, 1→1-smoothing/2"""
+    targets_smooth = targets * (1.0 - smoothing) + 0.5 * smoothing
+    return nn.functional.binary_cross_entropy_with_logits(logits, targets_smooth)
+
+
+def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10,
+                smoothing=0.05):
     model.to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-5)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=4)
-    criterion = nn.BCEWithLogitsLoss()
+    criterion_val = nn.BCEWithLogitsLoss()  # no smoothing per validazione
     best_val = float('inf'); best_state = None; no_imp = 0
 
     for _ in range(epochs):
@@ -358,7 +480,7 @@ def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10
         for Xb, yb in loader_train:
             Xb, yb = Xb.to(device), yb.to(device)
             optimizer.zero_grad()
-            loss = criterion(model(Xb), yb)
+            loss = label_smoothed_bce(model(Xb), yb, smoothing=smoothing)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
@@ -366,7 +488,7 @@ def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10
         with torch.no_grad():
             for Xb, yb in loader_val:
                 Xb, yb = Xb.to(device), yb.to(device)
-                vl.append(criterion(model(Xb), yb).item())
+                vl.append(criterion_val(model(Xb), yb).item())
         vl_mean = np.mean(vl); scheduler.step(vl_mean)
         if vl_mean < best_val - 1e-5:
             best_val = vl_mean
@@ -391,7 +513,7 @@ def valuta(model, Xsc, y_np):
 # 4.  OPTUNA SEARCH  (o random search se optuna non disponibile)
 # ══════════════════════════════════════════════════════════════════════════════
 
-def optuna_search(X_tr, y_tr, X_val, X_val_sc, X_te_sc,
+def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
                   y_val, y_test, dates_tr, level_w_tr,
                   n_trials=TRIALS, input_dim=len(FEATURES), label="Global"):
 
@@ -423,9 +545,10 @@ def optuna_search(X_tr, y_tr, X_val, X_val_sc, X_te_sc,
             bs  = trial.suggest_categorical('batch_size', [256, 512, 1024, 2048])
             ep  = trial.suggest_categorical('epochs', [60, 80, 100, 120])
             lam = trial.suggest_categorical('lambda_decay', [0.0001, 0.001, 0.003, 0.007, 0.015])
+            sm  = trial.suggest_float('smoothing', 0.0, 0.1, step=0.01)
 
             # Stampa PRIMA di addestrare — aggiornamento immediato in console
-            print(f"  [{trial.number+1:3d}/{n_trials}] arch={arch_name:12s} dr={dr:.2f} lr={lr:.0e} λ={lam:.4f}  ▶ training...", flush=True)
+            print(f"  [{trial.number+1:3d}/{n_trials}] arch={arch_name:12s} dr={dr:.2f} lr={lr:.0e} λ={lam:.4f} sm={sm:.2f}  ▶ training...", flush=True)
 
             # Se GPU, usa batch più grandi per tenerla satura
             bs_eff = bs * 2 if USE_CUDA and bs < 2048 else bs
@@ -437,15 +560,16 @@ def optuna_search(X_tr, y_tr, X_val, X_val_sc, X_te_sc,
             ldr_val = DataLoader(dataset_val, batch_size=4096, shuffle=False,
                                  pin_memory=PIN_MEM, num_workers=N_WORKERS)
 
-            model = TennisANN(input_dim, hl, dr)
-            model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr)
+            model = TennisANNv3(input_dim, hl, dr)
+            model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
             acc_v, _ = valuta(model, X_val_sc, y_val_np)
 
             trial.set_user_attr('model', model)
             trial.set_user_attr('hl', hl)
             trial.set_user_attr('lam', lam)
             trial.set_user_attr('hp', {'hidden_layers': hl, 'dropout': dr, 'lr': lr,
-                                       'batch_size': bs, 'epochs': ep, 'lambda_decay': lam})
+                                       'batch_size': bs, 'epochs': ep, 'lambda_decay': lam,
+                                       'label_smoothing': sm})
             return acc_v
 
         study = optuna.create_study(direction='maximize',
@@ -469,6 +593,7 @@ def optuna_search(X_tr, y_tr, X_val, X_val_sc, X_te_sc,
                 'batch_size':   t.params.get('batch_size'),
                 'epochs':       t.params.get('epochs'),
                 'lambda_decay': t.params.get('lambda_decay'),
+                'smoothing':    t.params.get('smoothing'),
                 'val_acc':      t.value,
                 'test_acc':     acc_t,
                 'log_loss':     ll,
@@ -488,22 +613,23 @@ def optuna_search(X_tr, y_tr, X_val, X_val_sc, X_te_sc,
             bs  = random.choice([256, 512, 1024, 2048])
             ep  = random.choice([60, 80, 100])
             lam = random.choice([0.0001, 0.001, 0.003, 0.007, 0.015])
+            sm  = random.choice([0.0, 0.02, 0.05, 0.08, 0.1])
             hp  = {'hidden_layers': hl, 'dropout': dr, 'lr': lr,
-                   'batch_size': bs, 'epochs': ep, 'lambda_decay': lam}
-            print(f"  [{i+1:3d}/{n_trials}] {str(hl):22s} drop={dr} lr={lr:.0e} λ={lam:.4f}  ▶ avvio...", flush=True)
+                   'batch_size': bs, 'epochs': ep, 'lambda_decay': lam, 'label_smoothing': sm}
+            print(f"  [{i+1:3d}/{n_trials}] {str(hl):22s} drop={dr} lr={lr:.0e} λ={lam:.4f} sm={sm:.2f}  ▶ avvio...", flush=True)
             w_combined = calcola_pesi_combinati(dates_tr, level_w_tr, lam)
             w_t = torch.tensor(w_combined)
             sampler = WeightedRandomSampler(w_t, len(w_t), replacement=True)
             ldr_tr  = DataLoader(dataset_tr,  batch_size=bs, sampler=sampler)
             ldr_val = DataLoader(dataset_val, batch_size=2048, shuffle=False)
-            model = TennisANN(input_dim, hl, dr)
-            model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr)
+            model = TennisANNv3(input_dim, hl, dr)
+            model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
             acc_v, _ = valuta(model, X_val_sc, y_val_np)
             acc_t, ll = valuta(model, X_te_sc, y_test_np)
             print(f"     └─ val={acc_v:.3f} test={acc_t:.3f}", flush=True)
             risultati.append({'trial': i+1, 'hidden_layers': str(hl),
                                'dropout': dr, 'lr': lr, 'batch_size': bs,
-                               'epochs': ep, 'lambda_decay': lam,
+                               'epochs': ep, 'lambda_decay': lam, 'smoothing': sm,
                                'val_acc': acc_v, 'test_acc': acc_t,
                                'log_loss': ll, '_model': model, '_config': hp})
 
@@ -511,70 +637,12 @@ def optuna_search(X_tr, y_tr, X_val, X_val_sc, X_te_sc,
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 5.  TRAINING MODELLO PER SUPERFICIE
-# ══════════════════════════════════════════════════════════════════════════════
-
-def train_surface_model(df_ml, surface_name, best_config, scaler_global, n_trials=TRIALS_SURF):
-    """
-    Addestra un modello specializzato su una sola superficie.
-    Usa lo stesso scaler globale per compatibilità con il predictor.
-    """
-    surf_enc_map = {'Hard': 0, 'Clay': 1, 'Grass': 2}
-    surf_enc     = surf_enc_map.get(surface_name, -1)
-
-    df_s = df_ml[df_ml['surface_enc'] == surf_enc].copy()
-    print(f"\n   [{surface_name}]: {len(df_s):,} campioni", end="  ")
-
-    MIN_SAMPLES = 2000
-    if len(df_s) < MIN_SAMPLES:
-        print(f"⚠️  Troppo pochi dati (< {MIN_SAMPLES}), salto.")
-        return None
-
-    X_s = df_s[FEATURES].fillna(0)
-    y_s = df_s['target']
-    d_s = df_s['tourney_date']
-    lw_s= df_s['level_weight'].values
-
-    X_tr, X_te, y_tr, y_te, d_tr, _, lw_tr, _ = train_test_split(
-        X_s, y_s, d_s, lw_s, test_size=0.20, random_state=SEED)
-    X_val, X_te2, y_val, y_te2 = train_test_split(X_te, y_te, test_size=0.50, random_state=SEED)
-
-    # Usa scaler globale (compatibile con predictor)
-    X_tr_sc  = scaler_global.transform(X_tr)
-    X_val_sc = scaler_global.transform(X_val)
-    X_te_sc  = scaler_global.transform(X_te2)
-
-    res = optuna_search(
-        X_tr_sc, y_tr, None, X_val_sc, X_te_sc,
-        y_val, y_te2, d_tr, lw_tr,
-        n_trials=n_trials, input_dim=len(FEATURES),
-        label=surface_name
-    )
-    if not res: return None
-
-    best = res[0]
-    acc_t, ll = valuta(best['_model'], X_te_sc, y_te2.values)
-    print(f"   🏆 {surface_name}: test_acc={acc_t:.4f} | log_loss={ll:.4f}")
-
-    surf_tag = surface_name.lower()
-    torch.save(best['_model'].state_dict(), f'modelo_ann_{surf_tag}.pth')
-    cfg = best['_config'].copy()
-    cfg['input_dim'] = len(FEATURES); cfg['features'] = FEATURES
-    cfg['surface']   = surface_name;  cfg['scaler_file'] = 'scaler_ann.pkl'
-    with open(f'ann_config_{surf_tag}.json', 'w') as f:
-        json.dump(cfg, f, indent=2)
-
-    return {'surface': surface_name, 'test_acc': acc_t, 'log_loss': ll,
-            'arch': best['hidden_layers']}
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# 6.  CONFRONTO FINALE
+# 5.  CONFRONTO FINALE
 # ══════════════════════════════════════════════════════════════════════════════
 
 def confronto_finale(ann_global_acc, ann_global_ll, ann_surface_results):
-    rows = [{'Modello': 'ANN Globale (23 feat)', 'Accuracy': ann_global_acc,
-              'Log Loss': ann_global_ll, 'Note': 'Tutte le superfici'}]
+    rows = [{'Modello': 'ANN v3 Globale (28 feat)', 'Accuracy': ann_global_acc,
+              'Log Loss': ann_global_ll, 'Note': 'Wide&Deep + Residual + TemporalCV'}]
 
     for r in ann_surface_results:
         if r is None: continue
@@ -627,62 +695,182 @@ if __name__ == '__main__':
     dates = df_ml['tourney_date']
     level_w = df_ml['level_weight'].values
 
-    # Split globale: 70 / 15 / 15
-    X_tr, X_tmp, y_tr, y_tmp, d_tr, d_tmp, lw_tr, _ = train_test_split(
-        X, y, dates, level_w, test_size=0.30, random_state=SEED)
-    X_val, X_test, y_val, y_test = train_test_split(
-        X_tmp, y_tmp, test_size=0.50, random_state=SEED)
+    # Estrai anno da tourney_date (formato YYYYMMDD)
+    df_ml['year'] = (df_ml['tourney_date'] // 10000).astype(int)
 
-    # Scaler globale (usato anche dai modelli per superficie)
+    # ── 2. Temporal Cross-Validation ──────────────────────────────────────────
+    # Fold 1: train ≤2019, val 2020, test 2021
+    # Fold 2: train ≤2020, val 2021, test 2022
+    # Fold 3: train ≤2021, val 2022, test 2023
+    # Fold 4: train ≤2022, val 2023, test 2024
+    # Fold 5: train ≤2023, val 2024, test 2025
+    FOLDS = [
+        (2019, 2020, 2021),
+        (2020, 2021, 2022),
+        (2021, 2022, 2023),
+        (2022, 2023, 2024),
+        (2023, 2024, 2025),
+    ]
+
+    print(f"\n📅 Temporal Cross-Validation con {len(FOLDS)} fold...")
+    fold_results = []   # (fold_idx, hp_dict, val_acc, test_acc)
+
+    for fold_i, (train_end, val_year, test_year) in enumerate(FOLDS):
+        mask_tr  = df_ml['year'] <= train_end
+        mask_val = df_ml['year'] == val_year
+        mask_te  = df_ml['year'] == test_year
+
+        if mask_val.sum() < 100 or mask_te.sum() < 100:
+            print(f"   Fold {fold_i+1}: dati insufficienti (val={mask_val.sum()}, test={mask_te.sum()}), salto.")
+            continue
+
+        X_tr_f = X[mask_tr]; y_tr_f = y[mask_tr]
+        X_val_f = X[mask_val]; y_val_f = y[mask_val]
+        X_te_f = X[mask_te]; y_te_f = y[mask_te]
+        d_tr_f = dates[mask_tr]; lw_tr_f = level_w[mask_tr]
+
+        scaler_f = StandardScaler()
+        X_tr_sc  = scaler_f.fit_transform(X_tr_f)
+        X_val_sc = scaler_f.transform(X_val_f)
+        X_te_sc  = scaler_f.transform(X_te_f)
+
+        print(f"\n   === Fold {fold_i+1}: train ≤{train_end} | val {val_year} | test {test_year} ===")
+        print(f"       Campioni: train={len(X_tr_f):,} | val={len(X_val_f):,} | test={len(X_te_f):,}")
+
+        res_f = optuna_search(
+            X_tr_sc, y_tr_f, X_val_sc, X_te_sc,
+            y_val_f, y_te_f, d_tr_f, lw_tr_f,
+            n_trials=TRIALS, input_dim=len(FEATURES),
+            label=f"Fold {fold_i+1} (test {test_year})"
+        )
+        if res_f:
+            best_f = res_f[0]
+            fold_results.append({
+                'fold': fold_i+1,
+                'train_end': train_end, 'val_year': val_year, 'test_year': test_year,
+                'val_acc': best_f['val_acc'], 'test_acc': best_f['test_acc'],
+                'config': best_f['_config'],
+            })
+            print(f"       🏆 Fold {fold_i+1}: val_acc={best_f['val_acc']:.4f} | test_acc={best_f['test_acc']:.4f}")
+
+    # Sommario temporal CV
+    if fold_results:
+        avg_val  = np.mean([r['val_acc']  for r in fold_results])
+        avg_test = np.mean([r['test_acc'] for r in fold_results])
+        print(f"\n📊 Temporal CV — Media: val_acc={avg_val:.4f} | test_acc={avg_test:.4f}")
+        for r in fold_results:
+            print(f"   Fold {r['fold']} (test {r['test_year']}): val={r['val_acc']:.4f} test={r['test_acc']:.4f}")
+
+    # ── 3. Modello finale su TUTTI i dati con migliori iperparametri ──────────
+    # Usa l'HP del fold con migliore val_acc media (o il fold con miglior test_acc)
+    if fold_results:
+        best_fold = max(fold_results, key=lambda r: r['val_acc'])
+        best_hp = best_fold['config']
+    else:
+        # Fallback: configurazione di default
+        best_hp = {'hidden_layers': [512, 256, 128], 'dropout': 0.3, 'lr': 1e-3,
+                   'batch_size': 512, 'epochs': 100, 'lambda_decay': 0.001,
+                   'label_smoothing': 0.05}
+
+    print(f"\n🚀 Training modello finale su TUTTI i dati con HP migliori...")
+    print(f"   HP: {best_hp}")
+
+    # Scaler globale finale (fit su tutti i dati)
     scaler = StandardScaler()
-    X_tr_sc  = scaler.fit_transform(X_tr)
-    X_val_sc = scaler.transform(X_val)
-    X_te_sc  = scaler.transform(X_test)
+    scaler.fit(X)
     joblib.dump(scaler, 'scaler_ann.pkl')
     print(f"   → scaler_ann.pkl salvato  |  {len(FEATURES)} feature")
 
-    # ── 2. Optuna search globale ──────────────────────────────────────────────
-    risultati = optuna_search(
-        X_tr_sc, y_tr, None, X_val_sc, X_te_sc,
-        y_val, y_test, d_tr, lw_tr,
-        n_trials=TRIALS, input_dim=len(FEATURES), label="Global"
-    )
+    # Split finale per early stopping: 85% train, 15% val
+    X_tr_fin, X_val_fin, y_tr_fin, y_val_fin, d_tr_fin, _, lw_tr_fin, _ = train_test_split(
+        X, y, dates, level_w, test_size=0.15, random_state=SEED)
 
-    df_ris = pd.DataFrame([{k: v for k, v in r.items() if not k.startswith('_')}
-                           for r in risultati])
-    df_ris.to_csv('resultados_ann.csv', index=False)
+    X_tr_fin_sc  = scaler.transform(X_tr_fin)
+    X_val_fin_sc = scaler.transform(X_val_fin)
 
-    best = risultati[0]
-    acc_global, ll_global = valuta(best['_model'], X_te_sc, y_test.values)
+    hl  = best_hp['hidden_layers']
+    dr  = best_hp['dropout']
+    lr  = best_hp['lr']
+    bs  = best_hp['batch_size']
+    ep  = best_hp['epochs']
+    lam = best_hp['lambda_decay']
+    sm  = best_hp.get('label_smoothing', 0.05)
 
-    print(f"\n🏆 Modello globale migliore:")
-    print(f"   Architettura:  {best['hidden_layers']}")
-    print(f"   Hyperparams:   dropout={best['dropout']} | lr={best['lr']:.0e} | bs={best['batch_size']} | λ={best['lambda_decay']}")
-    print(f"   Test Accuracy: {acc_global:.2%}")
-    print(f"   Log Loss:      {ll_global:.4f}")
-    print(f"   Top 5 trial:\n{df_ris[['hidden_layers','dropout','lr','lambda_decay','val_acc','test_acc']].head(5).to_string(index=False)}")
+    X_tr_t = torch.tensor(X_tr_fin_sc.astype(np.float32))
+    y_tr_t = torch.tensor(y_tr_fin.values.astype(np.float32) if hasattr(y_tr_fin, 'values')
+                          else y_tr_fin.astype(np.float32))
+    X_val_t = torch.tensor(X_val_fin_sc.astype(np.float32))
+    y_val_t = torch.tensor(y_val_fin.values.astype(np.float32) if hasattr(y_val_fin, 'values')
+                           else y_val_fin.astype(np.float32))
 
-    torch.save(best['_model'].state_dict(), 'modelo_ann.pth')
-    cfg = best['_config'].copy()
-    cfg['input_dim'] = len(FEATURES); cfg['features'] = FEATURES
+    w_combined = calcola_pesi_combinati(d_tr_fin, lw_tr_fin, lam)
+    w_t = torch.tensor(w_combined)
+    sampler = WeightedRandomSampler(w_t, len(w_t), replacement=True)
+
+    USE_CUDA = device.type == 'cuda'
+    PIN_MEM  = USE_CUDA
+    N_WORK   = 2 if USE_CUDA else 0
+    bs_eff   = bs * 2 if USE_CUDA and bs < 2048 else bs
+
+    ldr_tr  = DataLoader(TensorDataset(X_tr_t, y_tr_t), batch_size=bs_eff,
+                         sampler=sampler, pin_memory=PIN_MEM, num_workers=N_WORK)
+    ldr_val = DataLoader(TensorDataset(X_val_t, y_val_t), batch_size=4096,
+                         shuffle=False, pin_memory=PIN_MEM, num_workers=N_WORK)
+
+    model_final = TennisANNv3(len(FEATURES), hl, dr)
+    model_final, _ = train_model(model_final, ldr_tr, ldr_val, epochs=ep, lr=lr,
+                                  smoothing=sm)
+
+    # Valutazione finale sul validation set
+    y_val_np = y_val_fin.values if hasattr(y_val_fin, 'values') else np.array(y_val_fin)
+    acc_global, ll_global = valuta(model_final, X_val_fin_sc, y_val_np)
+
+    print(f"\n🏆 Modello finale v3:")
+    print(f"   Architettura:  {hl}")
+    print(f"   Hyperparams:   dropout={dr} | lr={lr:.0e} | bs={bs} | λ={lam} | smoothing={sm}")
+    print(f"   Val Accuracy:  {acc_global:.2%}")
+    print(f"   Val Log Loss:  {ll_global:.4f}")
+
+    # ── 4. Calibrazione (Platt scaling) ───────────────────────────────────────
+    from sklearn.linear_model import LogisticRegression as LR_Cal
+
+    model_final.eval()
+    with torch.no_grad():
+        logits_val = model_final(torch.tensor(X_val_fin_sc.astype(np.float32)).to(device)).cpu().numpy()
+
+    calibrator = LR_Cal()
+    calibrator.fit(logits_val.reshape(-1, 1), y_val_np)
+    joblib.dump(calibrator, 'calibrator_ann.pkl')
+    print("   → calibrator_ann.pkl salvato (Platt scaling)")
+
+    # Accuracy dopo calibrazione
+    probs_cal = calibrator.predict_proba(logits_val.reshape(-1, 1))[:, 1]
+    acc_cal = accuracy_score(y_val_np, (probs_cal >= 0.5).astype(int))
+    ll_cal  = log_loss(y_val_np, probs_cal)
+    print(f"   Post-calibrazione: acc={acc_cal:.2%} | log_loss={ll_cal:.4f}")
+
+    # ── 5. Salvataggio ────────────────────────────────────────────────────────
+    torch.save(model_final.state_dict(), 'modelo_ann.pth')
+    cfg = best_hp.copy()
+    cfg['model_version'] = 'v3'
+    cfg['input_dim'] = len(FEATURES)
+    cfg['features'] = FEATURES
+    cfg['n_interactions'] = N_INTERACTIONS
+    cfg['interaction_pairs'] = DEFAULT_INTERACTION_PAIRS
     cfg['scaler_file'] = 'scaler_ann.pkl'
+    cfg['calibrator_file'] = 'calibrator_ann.pkl'
+    cfg['elo_surface_file'] = 'elo_surface.pkl'
+    cfg['streak_file'] = 'streak_players.pkl'
+    cfg['momentum_file'] = 'momentum_surface.pkl'
     with open('ann_config.json', 'w') as f:
         json.dump(cfg, f, indent=2)
 
-    # ── 3. Modelli per superficie ─────────────────────────────────────────────
-    print("\n\n📐 Training modelli specializzati per superficie...")
-    surf_results = []
-    for surf in ['Clay', 'Hard', 'Grass']:
-        r = train_surface_model(df_ml, surf, best['_config'], scaler, n_trials=TRIALS_SURF)
-        surf_results.append(r)
-
-    # ── 4. Confronto finale ───────────────────────────────────────────────────
-    df_confronto = confronto_finale(acc_global, ll_global, surf_results)
+    # ── 6. Confronto finale ───────────────────────────────────────────────────
+    df_confronto = confronto_finale(acc_global, ll_global, [])
 
     print("\n✅ File salvati:")
-    for f in ['modelo_ann.pth','modelo_ann_clay.pth','modelo_ann_hard.pth',
-              'modelo_ann_grass.pth','scaler_ann.pkl','ann_config.json',
-              'elo_surface.pkl','streak_players.pkl',
-              'resultados_ann.csv','resultados_comparacion_finale.csv']:
+    for f in ['modelo_ann.pth', 'scaler_ann.pkl', 'ann_config.json',
+              'elo_surface.pkl', 'streak_players.pkl', 'momentum_surface.pkl',
+              'calibrator_ann.pkl', 'resultados_comparacion_finale.csv']:
         stato = "✅" if os.path.exists(f) else "—"
         print(f"  {stato}  {f}")

@@ -40,20 +40,71 @@ Il sistema analizza:
 st.write("---")
 
 
-# ─── Definizione ANN (stessa architettura di train_ann.py) ───────────────────
-class TennisANN(nn.Module):
-    def __init__(self, input_dim: int, hidden_layers: list, dropout: float = 0.3):
+# ─── Definizione ANN v3 (stessa architettura di train_ann.py) ────────────────
+DEFAULT_INTERACTION_PAIRS = [
+    (5, 12), (0, 15), (5, 15), (12, 14), (0, 1),
+    (5, 16), (12, 16), (6, 15), (14, 15), (1, 12),
+]
+N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
+
+
+class TennisANNv3(nn.Module):
+    """Wide & Deep con Feature Interaction e Residual Connections."""
+    def __init__(self, input_dim: int, hidden_layers: list, dropout: float = 0.3,
+                 n_interactions: int = N_INTERACTIONS,
+                 interaction_pairs: list = None):
         super().__init__()
-        layers = []
-        prev = input_dim
+        self.interaction_pairs = interaction_pairs or DEFAULT_INTERACTION_PAIRS
+        self.n_interactions = min(n_interactions, len(self.interaction_pairs))
+
+        # === Wide path ===
+        self.wide = nn.Linear(input_dim, 1)
+
+        # === Deep path con residual ===
+        interaction_dim = input_dim + self.n_interactions
+        self.deep_layers = nn.ModuleList()
+        self.deep_norms = nn.ModuleList()
+        self.deep_drops = nn.ModuleList()
+        self.residual_projs = nn.ModuleList()
+
+        prev = interaction_dim
         for h in hidden_layers:
-            layers += [nn.Linear(prev, h), nn.BatchNorm1d(h), nn.ReLU(), nn.Dropout(dropout)]
+            self.deep_layers.append(nn.Linear(prev, h))
+            self.deep_norms.append(nn.BatchNorm1d(h))
+            self.deep_drops.append(nn.Dropout(dropout))
+            if prev != h:
+                self.residual_projs.append(nn.Linear(prev, h))
+            else:
+                self.residual_projs.append(nn.Identity())
             prev = h
-        layers.append(nn.Linear(prev, 1))
-        self.net = nn.Sequential(*layers)
+
+        self.deep_out = nn.Linear(prev, 1)
 
     def forward(self, x):
-        return self.net(x).squeeze(1)
+        wide_out = self.wide(x)
+
+        interactions = []
+        for i, j in self.interaction_pairs[:self.n_interactions]:
+            if i < x.shape[1] and j < x.shape[1]:
+                interactions.append(x[:, i] * x[:, j])
+            else:
+                interactions.append(torch.zeros(x.shape[0], device=x.device))
+        inter_t = torch.stack(interactions, dim=1)
+        deep_in = torch.cat([x, inter_t], dim=1)
+
+        h = deep_in
+        for layer, norm, drop, res_proj in zip(
+                self.deep_layers, self.deep_norms,
+                self.deep_drops, self.residual_projs):
+            identity = res_proj(h)
+            h = layer(h)
+            h = norm(h)
+            h = torch.relu(h)
+            h = drop(h)
+            h = h + identity
+
+        deep_out = self.deep_out(h)
+        return (wide_out + deep_out).squeeze(1)
 
 
 ANN_FEATURES = [
@@ -65,8 +116,9 @@ ANN_FEATURES = [
     'diff_fatigue', 'diff_momentum', 'diff_h2h',
     'diff_ace', 'diff_df', 'diff_1st_pct', 'diff_1st_won',
     'diff_2nd_won', 'diff_bp_saved',
-    'court_ace_pct', 'court_speed',                    # Court speed
-]  # 25 feature
+    'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',  # Ritorno
+    'court_ace_pct', 'court_speed',                         # Court speed
+]  # 28 feature
 
 SURFACE_MAP   = {'Hard': 0, 'Clay': 1, 'Grass': 2}
 LEVEL_MAP     = {'G': 5, 'M': 4, 'A': 3, 'F': 4, 'C': 2, 'S': 1, 'E': 0}
@@ -91,10 +143,11 @@ def cargar_todo():
         st.error(f"Mancano file fondamentali. Errore: {e}")
         st.stop()
 
-    # ANN globale
-    ann_global = None; ann_scaler = None
-    elo_surface= {}   # {(player, surface): elo_float}
+    # ANN globale v3
+    ann_global = None; ann_scaler = None; ann_calibrator = None
+    elo_surface = {}     # {(player, surface): elo_float}
     streak_players = {}
+    momentum_surface = {}  # {(player, surface): [last 10 results]}
 
     ann_base = pp('modelo_ann.pth')
     cfg_base = pp('ann_config.json')
@@ -103,18 +156,29 @@ def cargar_todo():
     if os.path.exists(ann_base) and os.path.exists(cfg_base) and os.path.exists(sca_base):
         try:
             with open(cfg_base) as f: cfg = json.load(f)
-            ann_global = TennisANN(cfg['input_dim'], cfg['hidden_layers'], cfg['dropout'])
+            n_inter = cfg.get('n_interactions', N_INTERACTIONS)
+            i_pairs = cfg.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
+            ann_global = TennisANNv3(cfg['input_dim'], cfg['hidden_layers'],
+                                     cfg['dropout'], n_inter, i_pairs)
             ann_global.load_state_dict(torch.load(ann_base, map_location='cpu'))
             ann_global.eval()
             ann_scaler = joblib.load(sca_base)
         except Exception as e:
             st.warning(f"ANN globale non caricata: {e}")
 
-    # Elo + streak
+    # Calibratore (Platt scaling)
+    cal_path = pp('calibrator_ann.pkl')
+    if os.path.exists(cal_path):
+        try: ann_calibrator = joblib.load(cal_path)
+        except: pass
+
+    # Elo + streak + momentum
     elo_path    = pp('elo_surface.pkl')
     streak_path = pp('streak_players.pkl')
-    if os.path.exists(elo_path):    elo_surface    = joblib.load(elo_path)
-    if os.path.exists(streak_path): streak_players = joblib.load(streak_path)
+    mom_path    = pp('momentum_surface.pkl')
+    if os.path.exists(elo_path):    elo_surface      = joblib.load(elo_path)
+    if os.path.exists(streak_path): streak_players   = joblib.load(streak_path)
+    if os.path.exists(mom_path):    momentum_surface = joblib.load(mom_path)
 
     # Storico e Ranking
     try:
@@ -129,11 +193,13 @@ def cargar_todo():
         ranking_dict = {}
 
     return (stats_dict, perfiles, df_history, ranking_dict,
-            ann_global, ann_scaler, elo_surface, streak_players)
+            ann_global, ann_scaler, ann_calibrator, elo_surface, streak_players,
+            momentum_surface)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
- ann_global, ann_scaler, elo_surface, streak_players) = cargar_todo()
+ ann_global, ann_scaler, ann_calibrator, elo_surface, streak_players,
+ momentum_surface) = cargar_todo()
 
 if ann_global is None:
     st.error("❌ Modello ANN non trovato. Assicurati che `modelo_ann.pth`, `ann_config.json` e `scaler_ann.pkl` siano nella cartella `prediccion/`.")
@@ -226,7 +292,7 @@ with st.sidebar:
     st.header("⚙️ Configurazione")
 
     st.subheader("🧠 Cervello dell'IA")
-    st.info("Usando: **Rete Neurale Artificiale (ANN)** — Deep Learning (PyTorch, 25 feature, Elo+Striscia) 🔥")
+    st.info("Usando: **ANN v3** — Wide&Deep + Residual (PyTorch, 28 feature, calibrato) 🔥")
 
     st.divider()
 
@@ -357,7 +423,7 @@ st.divider()
 
 
 # ─── PREDIZIONE ──────────────────────────────────────────────────────────────
-if st.button("🔮 PREDICI con ANN", type="primary", use_container_width=True):
+if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True):
 
     skill1  = get_skill(nombre1, superficie)
     skill2  = get_skill(nombre2, superficie)
@@ -396,6 +462,20 @@ if st.button("🔮 PREDICI con ANN", type="primary", use_container_width=True):
     strk2 = streak_players.get(nombre2,
                 calc_streak_from_last5(st.session_state.get('l5_2', [])))
 
+    # Momentum per superficie (dal pkl, fallback a slider)
+    mom_surf_1 = momentum_surface.get((nombre1, superficie), [])
+    mom_surf_2 = momentum_surface.get((nombre2, superficie), [])
+    mom1_val = np.mean(mom_surf_1) if mom_surf_1 else mom1
+    mom2_val = np.mean(mom_surf_2) if mom_surf_2 else mom2
+
+    # Return stats (dai profili, approssimazione)
+    rtn_pct1 = 1.0 - (sa1.get('serve_win', 65) / 100)  # approssimazione
+    rtn_pct2 = 1.0 - (sa2.get('serve_win', 65) / 100)
+    bp_conv1 = 1.0 - (sa1.get('bp_saved', 60) / 100)   # approssimazione
+    bp_conv2 = 1.0 - (sa2.get('bp_saved', 60) / 100)
+    rtn_1st1 = 0.30  # default (non disponibile nel profilo)
+    rtn_1st2 = 0.30
+
     ann_input = pd.DataFrame([{
         'diff_rank':        r2 - r1,
         'diff_rank_points': pts1 - pts2,
@@ -412,7 +492,7 @@ if st.button("🔮 PREDICI con ANN", type="primary", use_container_width=True):
         'diff_skill':       skill1 - skill2,
         'diff_home':        home1 - home2,
         'diff_fatigue':     fat1 - fat2,
-        'diff_momentum':    mom1 - mom2,
+        'diff_momentum':    mom1_val - mom2_val,
         'diff_h2h':         diff_h2h,
         'diff_ace':         sa1.get('aces', 0) - sa2.get('aces', 0),
         'diff_df':          0.0,
@@ -420,6 +500,9 @@ if st.button("🔮 PREDICI con ANN", type="primary", use_container_width=True):
         'diff_1st_won':     (sa1.get('serve_win', 65) - sa2.get('serve_win', 65)) / 100,
         'diff_2nd_won':     0.0,
         'diff_bp_saved':    (sa1.get('bp_saved', 60) - sa2.get('bp_saved', 60)) / 100,
+        'diff_return_pct':  rtn_pct1 - rtn_pct2,
+        'diff_bp_conv':     bp_conv1 - bp_conv2,
+        'diff_return_1st':  rtn_1st1 - rtn_1st2,
         'court_ace_pct':    court_ace,
         'court_speed':      court_spd,
     }])
@@ -428,8 +511,13 @@ if st.button("🔮 PREDICI con ANN", type="primary", use_container_width=True):
     input_t  = torch.tensor(input_sc.astype(np.float32))
     ann_global.eval()
     with torch.no_grad():
-        logit   = ann_global(input_t).item()
-    prob_j1 = 1 / (1 + np.exp(-logit))
+        logit = ann_global(input_t).item()
+
+    # Calibrazione Platt scaling
+    if ann_calibrator is not None:
+        prob_j1 = ann_calibrator.predict_proba(np.array([[logit]]))[0, 1]
+    else:
+        prob_j1 = 1 / (1 + np.exp(-logit))
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()
@@ -442,7 +530,7 @@ if st.button("🔮 PREDICI con ANN", type="primary", use_container_width=True):
     with col_res_der:
         if prob_j1 > 0.5:
             st.success(f"🏆 Vincitore: **{nombre1}**")
-            st.metric("Confidenza", f"{prob_j1:.1%}", delta="Modello: ANN")
+            st.metric("Confidenza", f"{prob_j1:.1%}", delta="Modello: ANN v3")
         else:
             st.error(f"🏆 Vincitore: **{nombre2}**")
             st.metric("Confidenza", f"{(1-prob_j1):.1%}", delta="Modello: ANN")
