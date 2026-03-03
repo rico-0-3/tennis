@@ -697,123 +697,50 @@ if __name__ == '__main__':
     dates = df_ml['tourney_date']
     level_w = df_ml['level_weight'].values
 
-    # Estrai anno da tourney_date (formato YYYYMMDD)
-    df_ml['year'] = (df_ml['tourney_date'] // 10000).astype(int)
-    years_available = sorted(df_ml['year'].unique())
-    print(f"\n📅 Anni nel dataset: {years_available}")
-    print(f"   Distribuzione:")
-    for yr in years_available:
-        n = (df_ml['year'] == yr).sum()
-        print(f"     {yr}: {n:,} campioni")
+    # ── 2. Split globale: 70 / 15 / 15 ───────────────────────────────────────
+    X_tr, X_tmp, y_tr, y_tmp, d_tr, d_tmp, lw_tr, _ = train_test_split(
+        X, y, dates, level_w, test_size=0.30, random_state=SEED)
+    X_val, X_test, y_val, y_test = train_test_split(
+        X_tmp, y_tmp, test_size=0.50, random_state=SEED)
 
-    # ── 2. Temporal Cross-Validation ──────────────────────────────────────────
-    # Genera fold automaticamente dagli anni disponibili
-    # Servono almeno 3 anni (train, val, test). Usiamo gli ultimi N anni come fold.
-    MIN_TRAIN_YEARS = 1  # minimo anni per training
-    FOLDS = []
-    if len(years_available) >= 3:
-        # Fold espandenti: train su primi anni, val e test sugli ultimi
-        for i in range(MIN_TRAIN_YEARS, len(years_available) - 1):
-            train_end = years_available[i - 1]
-            val_year  = years_available[i]
-            test_year = years_available[i + 1]
-            FOLDS.append((train_end, val_year, test_year))
-    else:
-        print("   ⚠️  Meno di 3 anni disponibili — skip temporal CV, uso split diretto.")
-
-    print(f"\n📅 Temporal Cross-Validation con {len(FOLDS)} fold...")
-    fold_results = []   # (fold_idx, hp_dict, val_acc, test_acc)
-
-    for fold_i, (train_end, val_year, test_year) in enumerate(FOLDS):
-        mask_tr  = df_ml['year'] <= train_end
-        mask_val = df_ml['year'] == val_year
-        mask_te  = df_ml['year'] == test_year
-
-        if mask_val.sum() < 100 or mask_te.sum() < 100:
-            print(f"   Fold {fold_i+1}: dati insufficienti (val={mask_val.sum()}, test={mask_te.sum()}), salto.")
-            continue
-
-        X_tr_f = X[mask_tr]; y_tr_f = y[mask_tr]
-        X_val_f = X[mask_val]; y_val_f = y[mask_val]
-        X_te_f = X[mask_te]; y_te_f = y[mask_te]
-        d_tr_f = dates[mask_tr]; lw_tr_f = level_w[mask_tr]
-
-        scaler_f = StandardScaler()
-        X_tr_sc  = scaler_f.fit_transform(X_tr_f)
-        X_val_sc = scaler_f.transform(X_val_f)
-        X_te_sc  = scaler_f.transform(X_te_f)
-
-        print(f"\n   === Fold {fold_i+1}: train ≤{train_end} | val {val_year} | test {test_year} ===")
-        print(f"       Campioni: train={len(X_tr_f):,} | val={len(X_val_f):,} | test={len(X_te_f):,}")
-
-        res_f = optuna_search(
-            X_tr_sc, y_tr_f, X_val_sc, X_te_sc,
-            y_val_f, y_te_f, d_tr_f, lw_tr_f,
-            n_trials=TRIALS, input_dim=len(FEATURES),
-            label=f"Fold {fold_i+1} (test {test_year})"
-        )
-        if res_f:
-            best_f = res_f[0]
-            fold_results.append({
-                'fold': fold_i+1,
-                'train_end': train_end, 'val_year': val_year, 'test_year': test_year,
-                'val_acc': best_f['val_acc'], 'test_acc': best_f['test_acc'],
-                'config': best_f['_config'],
-            })
-            print(f"       🏆 Fold {fold_i+1}: val_acc={best_f['val_acc']:.4f} | test_acc={best_f['test_acc']:.4f}")
-
-    # Sommario temporal CV
-    if fold_results:
-        avg_val  = np.mean([r['val_acc']  for r in fold_results])
-        avg_test = np.mean([r['test_acc'] for r in fold_results])
-        print(f"\n📊 Temporal CV — Media: val_acc={avg_val:.4f} | test_acc={avg_test:.4f}")
-        for r in fold_results:
-            print(f"   Fold {r['fold']} (test {r['test_year']}): val={r['val_acc']:.4f} test={r['test_acc']:.4f}")
-
-    # ── 3. Selezione migliori iperparametri ──────────────────────────────────
-    if fold_results:
-        best_fold = max(fold_results, key=lambda r: r['val_acc'])
-        best_hp = best_fold['config']
-    else:
-        # Fallback: Optuna search con split classico 70/15/15
-        print("\n⚠️  Temporal CV non disponibile — Optuna search con split classico...")
-        X_tr_fb, X_tmp_fb, y_tr_fb, y_tmp_fb, d_tr_fb, _, lw_tr_fb, _ = train_test_split(
-            X, y, dates, level_w, test_size=0.30, random_state=SEED)
-        X_val_fb, X_te_fb, y_val_fb, y_te_fb = train_test_split(
-            X_tmp_fb, y_tmp_fb, test_size=0.50, random_state=SEED)
-
-        scaler_fb = StandardScaler()
-        X_tr_fb_sc  = scaler_fb.fit_transform(X_tr_fb)
-        X_val_fb_sc = scaler_fb.transform(X_val_fb)
-        X_te_fb_sc  = scaler_fb.transform(X_te_fb)
-
-        risultati_fb = optuna_search(
-            X_tr_fb_sc, y_tr_fb, X_val_fb_sc, X_te_fb_sc,
-            y_val_fb, y_te_fb, d_tr_fb, lw_tr_fb,
-            n_trials=TRIALS, input_dim=len(FEATURES), label="Global (fallback)"
-        )
-        if risultati_fb:
-            best_hp = risultati_fb[0]['_config']
-            df_ris = pd.DataFrame([{k: v for k, v in r.items() if not k.startswith('_')}
-                                   for r in risultati_fb])
-            df_ris.to_csv('resultados_ann.csv', index=False)
-            print(f"\n   🏆 Miglior trial: test_acc={risultati_fb[0]['test_acc']:.4f}")
-            print(f"   Top 5:\n{df_ris[['hidden_layers','dropout','lr','lambda_decay','smoothing','val_acc','test_acc']].head(5).to_string(index=False)}")
-        else:
-            best_hp = {'hidden_layers': [512, 256, 128], 'dropout': 0.3, 'lr': 1e-3,
-                       'batch_size': 512, 'epochs': 100, 'lambda_decay': 0.001,
-                       'label_smoothing': 0.05}
-
-    print(f"\n🚀 Training modello finale su TUTTI i dati con HP migliori...")
-    print(f"   HP: {best_hp}")
-
-    # Scaler globale finale (fit su tutti i dati)
     scaler = StandardScaler()
-    scaler.fit(X)
+    X_tr_sc  = scaler.fit_transform(X_tr)
+    X_val_sc = scaler.transform(X_val)
+    X_te_sc  = scaler.transform(X_test)
     joblib.dump(scaler, 'scaler_ann.pkl')
     print(f"   → scaler_ann.pkl salvato  |  {len(FEATURES)} feature")
 
-    # Split finale per early stopping: 85% train, 15% val
+    # ── 3. Optuna search globale ──────────────────────────────────────────────
+    risultati = optuna_search(
+        X_tr_sc, y_tr, X_val_sc, X_te_sc,
+        y_val, y_test, d_tr, lw_tr,
+        n_trials=TRIALS, input_dim=len(FEATURES), label="Global"
+    )
+
+    df_ris = pd.DataFrame([{k: v for k, v in r.items() if not k.startswith('_')}
+                           for r in risultati])
+    df_ris.to_csv('resultados_ann.csv', index=False)
+
+    best = risultati[0]
+    best_hp = best['_config']
+    acc_test, ll_test = valuta(best['_model'], X_te_sc, y_test.values)
+
+    print(f"\n🏆 Modello migliore (Optuna):")
+    print(f"   Architettura:  {best['hidden_layers']}")
+    print(f"   Hyperparams:   dropout={best['dropout']} | lr={best['lr']:.0e} | bs={best['batch_size']} | λ={best['lambda_decay']} | sm={best.get('smoothing', '?')}")
+    print(f"   Test Accuracy: {acc_test:.2%}")
+    print(f"   Log Loss:      {ll_test:.4f}")
+    print(f"   Top 5 trial:\n{df_ris[['hidden_layers','dropout','lr','lambda_decay','smoothing','val_acc','test_acc']].head(5).to_string(index=False)}")
+
+    # ── 4. Re-training finale su TUTTI i dati con migliori HP ─────────────────
+    print(f"\n🚀 Re-training modello finale su TUTTI i dati...")
+
+    # Scaler finale (fit su tutti i dati per il predictor)
+    scaler = StandardScaler()
+    scaler.fit(X)
+    joblib.dump(scaler, 'scaler_ann.pkl')
+
+    # Split per early stopping: 85% train, 15% val
     X_tr_fin, X_val_fin, y_tr_fin, y_val_fin, d_tr_fin, _, lw_tr_fin, _ = train_test_split(
         X, y, dates, level_w, test_size=0.15, random_state=SEED)
 
@@ -853,17 +780,17 @@ if __name__ == '__main__':
     model_final, _ = train_model(model_final, ldr_tr, ldr_val, epochs=ep, lr=lr,
                                   smoothing=sm)
 
-    # Valutazione finale sul validation set
+    # Valutazione finale
     y_val_np = y_val_fin.values if hasattr(y_val_fin, 'values') else np.array(y_val_fin)
     acc_global, ll_global = valuta(model_final, X_val_fin_sc, y_val_np)
 
-    print(f"\n🏆 Modello finale v3:")
+    print(f"\n🏆 Modello finale v3 (re-trained su tutti i dati):")
     print(f"   Architettura:  {hl}")
     print(f"   Hyperparams:   dropout={dr} | lr={lr:.0e} | bs={bs} | λ={lam} | smoothing={sm}")
-    print(f"   Val Accuracy:  {acc_global:.2%}")
-    print(f"   Val Log Loss:  {ll_global:.4f}")
+    print(f"   Optuna test:   {acc_test:.2%} (sul 15% test set)")
+    print(f"   Finale val:    {acc_global:.2%} (sul 15% early-stop set)")
 
-    # ── 4. Calibrazione (Platt scaling) ───────────────────────────────────────
+    # ── 5. Calibrazione (Platt scaling) ───────────────────────────────────────
     from sklearn.linear_model import LogisticRegression as LR_Cal
 
     model_final.eval()

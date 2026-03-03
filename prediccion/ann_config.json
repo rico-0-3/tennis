@@ -1,14 +1,16 @@
 {
   "hidden_layers": [
     512,
-    256
+    256,
+    128,
+    64
   ],
-  "dropout": 0.1,
-  "lr": 0.0028527972927565805,
-  "batch_size": 512,
-  "epochs": 100,
-  "lambda_decay": 0.0001,
-  "label_smoothing": 0.1,
+  "dropout": 0.5,
+  "lr": 0.0003636817400938816,
+  "batch_size": 256,
+  "epochs": 60,
+  "lambda_decay": 0.001,
+  "label_smoothing": 0.06,
   "model_version": "v3",
   "input_dim": 28,
   "features": [
