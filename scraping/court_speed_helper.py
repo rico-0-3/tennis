@@ -3,8 +3,20 @@ import re
 import os
 
 # Carica il dizionario una volta
+_helper_dir = os.path.dirname(os.path.abspath(__file__))
+_pkl_candidates = [
+    os.path.join(_helper_dir, 'court_speed_dict.pkl'),
+    os.path.join(_helper_dir, '..', 'prediccion', 'court_speed_dict.pkl'),
+    'court_speed_dict.pkl',
+]
 try:
-    COURT_SPEED_DICT = joblib.load('court_speed_dict.pkl')
+    COURT_SPEED_DICT = None
+    for _path in _pkl_candidates:
+        if os.path.exists(_path):
+            COURT_SPEED_DICT = joblib.load(_path)
+            break
+    if COURT_SPEED_DICT is None:
+        raise FileNotFoundError("court_speed_dict.pkl non trovato")
 except:
     # Se non esiste, usa valori di default
     COURT_SPEED_DICT = {}
