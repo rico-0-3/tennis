@@ -149,7 +149,8 @@ def carica_e_prepara(csv_path: str):
         # Salta righe con nomi mancanti
         if not isinstance(w, str) or not isinstance(l, str) or pd.isna(w) or pd.isna(l):
             continue
-        surf = row['surface']
+        if not isinstance(surf, str):
+            continue  # salta righe senza superficie
 
         # --- Fatica ---
         f_w = fatiga_t.get((tid, w), 0); f_l = fatiga_t.get((tid, l), 0)
@@ -303,8 +304,9 @@ def carica_e_prepara(csv_path: str):
 
         # ── Court speed (contestuali, uguali per entrambi → NON negare in d0) ──
         tourney_year = int(str(row['tourney_date'])[:4]) if pd.notna(row.get('tourney_date')) else 2025
+        surf_safe = surf if isinstance(surf, str) else 'Hard'
         court_ace, court_spd = get_court_stats(
-            row.get('tourney_name', ''), surf or 'Hard', tourney_year)
+            row.get('tourney_name', ''), surf_safe, tourney_year)
         diffs['court_ace_pct'] = court_ace
         diffs['court_speed']   = court_spd
 
@@ -697,20 +699,27 @@ if __name__ == '__main__':
 
     # Estrai anno da tourney_date (formato YYYYMMDD)
     df_ml['year'] = (df_ml['tourney_date'] // 10000).astype(int)
+    years_available = sorted(df_ml['year'].unique())
+    print(f"\n📅 Anni nel dataset: {years_available}")
+    print(f"   Distribuzione:")
+    for yr in years_available:
+        n = (df_ml['year'] == yr).sum()
+        print(f"     {yr}: {n:,} campioni")
 
     # ── 2. Temporal Cross-Validation ──────────────────────────────────────────
-    # Fold 1: train ≤2019, val 2020, test 2021
-    # Fold 2: train ≤2020, val 2021, test 2022
-    # Fold 3: train ≤2021, val 2022, test 2023
-    # Fold 4: train ≤2022, val 2023, test 2024
-    # Fold 5: train ≤2023, val 2024, test 2025
-    FOLDS = [
-        (2019, 2020, 2021),
-        (2020, 2021, 2022),
-        (2021, 2022, 2023),
-        (2022, 2023, 2024),
-        (2023, 2024, 2025),
-    ]
+    # Genera fold automaticamente dagli anni disponibili
+    # Servono almeno 3 anni (train, val, test). Usiamo gli ultimi N anni come fold.
+    MIN_TRAIN_YEARS = 1  # minimo anni per training
+    FOLDS = []
+    if len(years_available) >= 3:
+        # Fold espandenti: train su primi anni, val e test sugli ultimi
+        for i in range(MIN_TRAIN_YEARS, len(years_available) - 1):
+            train_end = years_available[i - 1]
+            val_year  = years_available[i]
+            test_year = years_available[i + 1]
+            FOLDS.append((train_end, val_year, test_year))
+    else:
+        print("   ⚠️  Meno di 3 anni disponibili — skip temporal CV, uso split diretto.")
 
     print(f"\n📅 Temporal Cross-Validation con {len(FOLDS)} fold...")
     fold_results = []   # (fold_idx, hp_dict, val_acc, test_acc)
@@ -761,16 +770,39 @@ if __name__ == '__main__':
         for r in fold_results:
             print(f"   Fold {r['fold']} (test {r['test_year']}): val={r['val_acc']:.4f} test={r['test_acc']:.4f}")
 
-    # ── 3. Modello finale su TUTTI i dati con migliori iperparametri ──────────
-    # Usa l'HP del fold con migliore val_acc media (o il fold con miglior test_acc)
+    # ── 3. Selezione migliori iperparametri ──────────────────────────────────
     if fold_results:
         best_fold = max(fold_results, key=lambda r: r['val_acc'])
         best_hp = best_fold['config']
     else:
-        # Fallback: configurazione di default
-        best_hp = {'hidden_layers': [512, 256, 128], 'dropout': 0.3, 'lr': 1e-3,
-                   'batch_size': 512, 'epochs': 100, 'lambda_decay': 0.001,
-                   'label_smoothing': 0.05}
+        # Fallback: Optuna search con split classico 70/15/15
+        print("\n⚠️  Temporal CV non disponibile — Optuna search con split classico...")
+        X_tr_fb, X_tmp_fb, y_tr_fb, y_tmp_fb, d_tr_fb, _, lw_tr_fb, _ = train_test_split(
+            X, y, dates, level_w, test_size=0.30, random_state=SEED)
+        X_val_fb, X_te_fb, y_val_fb, y_te_fb = train_test_split(
+            X_tmp_fb, y_tmp_fb, test_size=0.50, random_state=SEED)
+
+        scaler_fb = StandardScaler()
+        X_tr_fb_sc  = scaler_fb.fit_transform(X_tr_fb)
+        X_val_fb_sc = scaler_fb.transform(X_val_fb)
+        X_te_fb_sc  = scaler_fb.transform(X_te_fb)
+
+        risultati_fb = optuna_search(
+            X_tr_fb_sc, y_tr_fb, X_val_fb_sc, X_te_fb_sc,
+            y_val_fb, y_te_fb, d_tr_fb, lw_tr_fb,
+            n_trials=TRIALS, input_dim=len(FEATURES), label="Global (fallback)"
+        )
+        if risultati_fb:
+            best_hp = risultati_fb[0]['_config']
+            df_ris = pd.DataFrame([{k: v for k, v in r.items() if not k.startswith('_')}
+                                   for r in risultati_fb])
+            df_ris.to_csv('resultados_ann.csv', index=False)
+            print(f"\n   🏆 Miglior trial: test_acc={risultati_fb[0]['test_acc']:.4f}")
+            print(f"   Top 5:\n{df_ris[['hidden_layers','dropout','lr','lambda_decay','smoothing','val_acc','test_acc']].head(5).to_string(index=False)}")
+        else:
+            best_hp = {'hidden_layers': [512, 256, 128], 'dropout': 0.3, 'lr': 1e-3,
+                       'batch_size': 512, 'epochs': 100, 'lambda_decay': 0.001,
+                       'label_smoothing': 0.05}
 
     print(f"\n🚀 Training modello finale su TUTTI i dati con HP migliori...")
     print(f"   HP: {best_hp}")

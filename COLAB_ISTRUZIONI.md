@@ -15,7 +15,7 @@
 /content/
 ├── prediccion/
 │   ├── train_ann.py
-│   └── historialTenis.csv
+│   └── historialTenis.csv (da scraping)
 └── scraping/
     ├── court_speed_dict.pkl
     └── court_speed_helper.py
