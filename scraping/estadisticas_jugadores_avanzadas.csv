@@ -1,0 +1,401 @@
+player,aces_avg,df_avg,serve_win_pct,bp_saved_pct,service_hold_pct
+Carlos Alcaraz,1512.0,811.0,72.0,64.0,85.0
+Jannik Sinner,2400.0,794.0,75.0,67.0,86.0
+Novak Djokovic,7793.0,3117.0,74.0,66.0,86.0
+Alexander Zverev,6117.0,2552.0,75.0,62.0,84.0
+Lorenzo Musetti,1167.0,628.0,70.0,59.0,80.0
+Alex De Minaur,1811.0,1179.0,71.0,62.0,81.0
+Felix Auger Aliassime,4046.0,1684.0,76.0,64.0,84.0
+Taylor Fritz,5517.0,1262.0,77.0,64.0,85.0
+Ben Shelton,1985.0,706.0,76.0,69.0,87.0
+Alexander Bublik,4290.0,2278.0,77.0,63.0,81.0
+Daniil Medvedev,4789.0,2266.0,75.0,63.0,83.0
+Jack Draper,1324.0,474.0,77.0,65.0,85.0
+Casper Ruud,2288.0,974.0,72.0,64.0,84.0
+Andrey Rublev,4050.0,1483.0,75.0,63.0,83.0
+Alejandro Davidovich Fokina,993.0,758.0,67.0,60.0,76.0
+Jakub Mensik,1265.0,427.0,77.0,64.0,83.0
+Karen Khachanov,4105.0,1328.0,74.0,63.0,82.0
+Holger Rune,1442.0,889.0,72.0,63.0,83.0
+Francisco Cerundolo,786.0,758.0,68.0,62.0,76.0
+Flavio Cobolli,707.0,458.0,70.0,62.0,78.0
+Luciano Darderi,713.0,321.0,72.0,60.0,79.0
+Jiri Lehecka,1277.0,446.0,73.0,63.0,82.0
+Learner Tien,364.0,304.0,69.0,63.0,78.0
+Tommy Paul,1784.0,752.0,71.0,62.0,80.0
+Tallon Griekspoor,1843.0,733.0,74.0,65.0,83.0
+Valentin Vacherot,186.0,67.0,72.0,64.0,82.0
+Cameron Norrie,2042.0,1114.0,71.0,63.0,80.0
+Frances Tiafoe,3367.0,1111.0,73.0,62.0,81.0
+Brandon Nakashima,1891.0,354.0,75.0,64.0,85.0
+Arthur Rinderknech,2060.0,563.0,76.0,65.0,84.0
+Tomas Machac,736.0,355.0,70.0,62.0,80.0
+Sebastian Baez,409.0,391.0,64.0,59.0,73.0
+Stefanos Tsitsipas,3886.0,1296.0,76.0,65.0,86.0
+Corentin Moutet,565.0,607.0,66.0,59.0,73.0
+Denis Shapovalov,3393.0,2334.0,76.0,65.0,83.0
+Ugo Humbert,2216.0,827.0,74.0,64.0,83.0
+Jaume Munar,1087.0,879.0,69.0,58.0,75.0
+Joao Fonseca,341.0,124.0,71.0,61.0,82.0
+Gabriel Diallo,645.0,212.0,73.0,60.0,82.0
+Arthur Fils,834.0,443.0,74.0,62.0,82.0
+Alex Michelsen,696.0,346.0,70.0,60.0,79.0
+Grigor Dimitrov,5391.0,2683.0,75.0,63.0,83.0
+Marin Cilic,8437.0,2744.0,77.0,64.0,84.0
+Zizou Bergs,712.0,401.0,72.0,62.0,79.0
+Nuno Borges,829.0,377.0,71.0,61.0,79.0
+Camilo Ugo Carabelli,183.0,176.0,65.0,58.0,69.0
+Jenson Brooksby,346.0,200.0,68.0,59.0,76.0
+Fabian Marozsan,600.0,286.0,70.0,59.0,79.0
+Adrian Mannarino,3196.0,1677.0,70.0,60.0,77.0
+Sebastian Korda,1791.0,567.0,73.0,63.0,82.0
+Tomas Martin Etcheverry,1260.0,335.0,71.0,64.0,80.0
+Alexandre Muller,467.0,275.0,67.0,59.0,73.0
+Alexei Popyrin,2311.0,845.0,75.0,65.0,82.0
+Daniel Altmaier,1147.0,450.0,70.0,61.0,77.0
+Botic Van De Zandschulp,1282.0,859.0,72.0,61.0,77.0
+Kamil Majchrzak,516.0,203.0,71.0,61.0,79.0
+Matteo Berrettini,3109.0,585.0,78.0,69.0,88.0
+Giovanni Mpetshi Perricard,1363.0,382.0,78.0,68.0,88.0
+Raphael Collignon,151.0,135.0,73.0,60.0,78.0
+Valentin Royer,213.0,62.0,72.0,66.0,82.0
+Marton Fucsovics,1368.0,1088.0,70.0,60.0,77.0
+Damir Dzumhur,661.0,783.0,65.0,56.0,71.0
+Francisco Comesana,477.0,200.0,73.0,60.0,79.0
+Marcos Giron,1469.0,474.0,71.0,61.0,79.0
+Lorenzo Sonego,2115.0,701.0,73.0,64.0,82.0
+Terence Atmane,269.0,133.0,73.0,59.0,75.0
+Eliot Spizzirri,145.0,34.0,71.0,57.0,79.0
+Alejandro Tabilo,893.0,358.0,72.0,62.0,80.0
+Reilly Opelka,4230.0,758.0,79.0,69.0,90.0
+Ethan Quinn,288.0,133.0,71.0,62.0,78.0
+Hubert Hurkacz,4329.0,776.0,77.0,66.0,86.0
+Quentin Halys,1716.0,673.0,78.0,65.0,83.0
+Arthur Cazaux,573.0,158.0,75.0,65.0,83.0
+Mariano Navone,216.0,211.0,64.0,58.0,70.0
+Aleksandar Kovacevic,884.0,319.0,76.0,63.0,82.0
+Emilio Nava,286.0,145.0,71.0,58.0,75.0
+Jan Lennard Struff,4358.0,1787.0,76.0,62.0,81.0
+Juan Manuel Cerundolo,167.0,169.0,65.0,59.0,71.0
+Alexander Shevchenko,591.0,317.0,68.0,57.0,73.0
+James Duckworth,1642.0,592.0,72.0,64.0,79.0
+Filip Misolic,161.0,99.0,69.0,64.0,74.0
+Roberto Bautista Agut,2202.0,1352.0,70.0,62.0,80.0
+Miomir Kecmanovic,1458.0,718.0,70.0,61.0,79.0
+Jacob Fearnley,231.0,251.0,70.0,58.0,75.0
+Matteo Arnaldi,853.0,428.0,71.0,64.0,78.0
+Jesper De Jong,309.0,136.0,72.0,57.0,79.0
+Vit Kopriva,165.0,160.0,67.0,59.0,70.0
+Aleksandar Vukic,1216.0,268.0,73.0,62.0,80.0
+Cristian Garin,961.0,719.0,69.0,61.0,76.0
+Yannick Hanfmann,862.0,315.0,69.0,60.0,78.0
+Ignacio Buse,28.0,26.0,71.0,59.0,77.0
+Thiago Agustin Tirante,142.0,55.0,70.0,57.0,79.0
+Adam Walton,316.0,112.0,71.0,60.0,79.0
+Luca Nardi,176.0,213.0,67.0,59.0,71.0
+Christopher O'Connell,1139.0,301.0,72.0,63.0,80.0
+Hugo Gaston,337.0,295.0,65.0,61.0,69.0
+Hamad Medjedovic,681.0,255.0,73.0,65.0,83.0
+Stan Wawrinka,6846.0,2375.0,74.0,64.0,83.0
+Dalibor Svrcina,12.0,50.0,61.0,57.0,63.0
+Carlos Taberner,112.0,173.0,67.0,58.0,72.0
+Pedro Martinez,391.0,750.0,65.0,59.0,71.0
+Roman Andres Burruchaga,18.0,33.0,65.0,61.0,69.0
+Adolfo Daniel Vallejo,0.0,0.0,0.0,0.0,0.0
+Alexander Blockx,108.0,26.0,74.0,68.0,84.0
+Patrick Kypson,95.0,29.0,71.0,61.0,77.0
+Zachary Svajda,154.0,70.0,68.0,55.0,72.0
+Tomas Barrios Vera,89.0,51.0,64.0,61.0,68.0
+Tristan Schoolkate,220.0,106.0,75.0,60.0,78.0
+Mattia Bellucci,356.0,153.0,72.0,66.0,79.0
+Francesco Maestrelli,47.0,13.0,69.0,59.0,76.0
+Jordan Thompson,2196.0,606.0,72.0,61.0,79.0
+Benjamin Bonzi,851.0,316.0,72.0,63.0,80.0
+Rinky Hijikata,368.0,261.0,68.0,60.0,73.0
+Laslo Djere,1678.0,1009.0,71.0,62.0,78.0
+Chun Hsin Tseng,127.0,132.0,66.0,59.0,71.0
+Mackenzie Mcdonald,1282.0,627.0,69.0,59.0,77.0
+Shintaro Mochizuki,106.0,124.0,67.0,55.0,67.0
+Rafael Jodar,22.0,6.0,64.0,47.0,63.0
+David Goffin,3120.0,2036.0,71.0,59.0,76.0
+Titouan Droguet,132.0,25.0,73.0,59.0,82.0
+Elmer Moller,14.0,40.0,57.0,59.0,53.0
+Dino Prizmic,71.0,67.0,69.0,54.0,72.0
+Pablo Carreno Busta,2039.0,941.0,69.0,61.0,79.0
+Jan Choinski,53.0,24.0,67.0,70.0,77.0
+Martin Damm,172.0,29.0,80.0,59.0,91.0
+Vilius Gaubas,0.0,2.0,55.0,58.0,61.0
+Borna Coric,2344.0,890.0,72.0,61.0,81.0
+Otto Virtanen,173.0,89.0,73.0,61.0,79.0
+Dusan Lajovic,1607.0,769.0,67.0,60.0,76.0
+Luca Van Assche,246.0,176.0,69.0,62.0,76.0
+Marco Trungelliti,156.0,157.0,67.0,60.0,72.0
+Sebastian Ofner,838.0,340.0,74.0,62.0,78.0
+Nicolai Budkov Kjaer,59.0,25.0,69.0,52.0,72.0
+Dane Sweeny,10.0,36.0,67.0,60.0,74.0
+Sho Shimabukuro,61.0,25.0,71.0,40.0,75.0
+Nikoloz Basilashvili,1361.0,1409.0,68.0,58.0,74.0
+Coleman Wong,208.0,41.0,73.0,65.0,78.0
+Jack Pinnington Jones,46.0,36.0,74.0,62.0,79.0
+Moez Echargui,7.0,1.0,64.0,82.0,80.0
+Andrea Pellegrino,13.0,12.0,63.0,50.0,70.0
+Colton Smith,32.0,27.0,69.0,63.0,73.0
+Chris Rodesch,7.0,5.0,78.0,60.0,88.0
+Nicolas Jarry,2162.0,625.0,74.0,66.0,84.0
+Billy Harris,178.0,66.0,71.0,65.0,81.0
+Daniel Merida,0.0,0.0,0.0,0.0,0.0
+Yibing Wu,242.0,121.0,68.0,62.0,77.0
+Jaime Faria,126.0,79.0,73.0,55.0,76.0
+Yunchaokete Bu,376.0,101.0,73.0,63.0,80.0
+Liam Draxl,16.0,12.0,68.0,44.0,64.0
+Lukas Klein,173.0,84.0,72.0,61.0,83.0
+Brandon Holt,123.0,22.0,66.0,59.0,73.0
+Michael Zheng,10.0,2.0,65.0,55.0,79.0
+Kyrian Jacquet,61.0,25.0,73.0,66.0,80.0
+Guy Den Ouden,2.0,5.0,60.0,69.0,74.0
+Lloyd Harris,1622.0,351.0,75.0,61.0,82.0
+Giulio Zeppieri,183.0,78.0,71.0,61.0,78.0
+Arthur Fery,30.0,12.0,62.0,61.0,70.0
+Hugo Dellien,177.0,161.0,63.0,57.0,69.0
+Martin Landaluce,79.0,75.0,69.0,58.0,71.0
+Alex Bolt,362.0,143.0,70.0,58.0,76.0
+Mark Lajal,39.0,13.0,73.0,68.0,84.0
+Arthur Gea,45.0,18.0,76.0,64.0,86.0
+Francesco Passaro,148.0,103.0,69.0,56.0,76.0
+Ugo Blanchet,92.0,64.0,70.0,53.0,74.0
+Luka Mikrut,0.0,2.0,62.0,20.0,60.0
+Stefano Travaglia,615.0,291.0,72.0,56.0,75.0
+Matteo Gigante,66.0,59.0,72.0,68.0,77.0
+Rei Sakamoto,15.0,8.0,66.0,66.0,77.0
+Yoshihito Nishioka,591.0,494.0,65.0,58.0,74.0
+Gael Monfils,7650.0,3442.0,73.0,62.0,81.0
+Daniil Glinka,0.0,0.0,0.0,0.0,0.0
+Henrique Rocha,40.0,33.0,63.0,49.0,68.0
+Leandro Riedi,79.0,61.0,68.0,57.0,75.0
+Harold Mayot,123.0,51.0,68.0,63.0,77.0
+Roberto Carballes Baena,797.0,814.0,67.0,58.0,73.0
+Jurij Rodionov,209.0,97.0,70.0,58.0,77.0
+Yosuke Watanuki,396.0,173.0,76.0,63.0,82.0
+Zsombor Piros,17.0,8.0,57.0,51.0,56.0
+Nicolas Mejia,7.0,6.0,60.0,32.0,52.0
+Alex Barrena,4.0,4.0,63.0,55.0,67.0
+Vitaliy Sachko,41.0,21.0,68.0,65.0,75.0
+Federico Agustin Gomez,63.0,33.0,69.0,57.0,73.0
+Juan Pablo Ficovich,23.0,14.0,69.0,63.0,74.0
+Daniel Elahi Galan,584.0,200.0,68.0,59.0,74.0
+Jay Clarke,74.0,59.0,69.0,60.0,74.0
+Roman Safiullin,884.0,420.0,73.0,61.0,80.0
+Bernard Tomic,2755.0,615.0,71.0,64.0,81.0
+Elias Ymer,428.0,332.0,68.0,58.0,71.0
+Pablo Llamas Ruiz,35.0,17.0,66.0,64.0,75.0
+Pierre Hugues Herbert,2086.0,1030.0,74.0,62.0,81.0
+Clement Tabur,16.0,11.0,72.0,67.0,84.0
+Nishesh Basavareddy,137.0,97.0,71.0,55.0,76.0
+Hugo Grenier,203.0,111.0,70.0,57.0,73.0
+Justin Engel,88.0,32.0,74.0,69.0,81.0
+Timofey Skatov,32.0,38.0,62.0,56.0,69.0
+Zdenek Kolar,17.0,22.0,69.0,59.0,75.0
+Jerome Kym,92.0,29.0,78.0,62.0,88.0
+Daniel Evans,1343.0,946.0,70.0,61.0,77.0
+August Holmgren,71.0,28.0,80.0,71.0,87.0
+Alex Molcan,290.0,217.0,66.0,60.0,75.0
+Dan Added,3.0,3.0,55.0,50.0,29.0
+Alvaro Guillen Meza,0.0,4.0,58.0,17.0,38.0
+Jason Kubler,367.0,222.0,70.0,58.0,77.0
+George Loffhagen,36.0,17.0,74.0,59.0,75.0
+Clement Chidekh,1.0,6.0,70.0,71.0,81.0
+Lorenzo Giustino,21.0,30.0,60.0,43.0,56.0
+Joao Lucas Reis Da Silva,0.0,0.0,0.0,0.0,0.0
+Thiago Monteiro,1123.0,467.0,72.0,62.0,80.0
+Luka Pavlovic,8.0,1.0,76.0,67.0,70.0
+James Mccabe,61.0,21.0,70.0,55.0,72.0
+Gilles Arnaud Bailly,4.0,9.0,67.0,73.0,78.0
+Juan Carlos Prado Angelo,0.0,0.0,0.0,0.0,0.0
+Remy Bertola,3.0,3.0,66.0,25.0,67.0
+Ilia Simakin,0.0,0.0,0.0,0.0,0.0
+Oliver Crawford,5.0,3.0,72.0,70.0,85.0
+Marco Cecchinato,859.0,516.0,68.0,57.0,75.0
+Tristan Boyer,60.0,30.0,71.0,52.0,78.0
+Gonzalo Bueno,0.0,0.0,0.0,0.0,0.0
+Thiago Seyboth Wild,490.0,267.0,70.0,62.0,78.0
+Yi Zhou,79.0,14.0,70.0,55.0,74.0
+Yu Hsiou Hsu,23.0,15.0,66.0,60.0,72.0
+Lukas Neumayer,8.0,12.0,68.0,47.0,70.0
+Nerman Fatic,0.0,0.0,0.0,0.0,0.0
+Frederico Ferreira Silva,17.0,17.0,62.0,50.0,66.0
+Federico Cina,16.0,13.0,68.0,58.0,78.0
+Lautaro Midon,3.0,1.0,54.0,55.0,44.0
+Marc Andrea Huesler,613.0,190.0,74.0,63.0,82.0
+Rodrigo Pacheco Mendez,18.0,19.0,61.0,39.0,60.0
+Genaro Alberto Olivieri,8.0,9.0,66.0,60.0,72.0
+Alexis Galarneau,21.0,14.0,73.0,39.0,73.0
+Santiago Rodriguez Taverna,9.0,7.0,71.0,59.0,72.0
+Matej Dodig,8.0,13.0,71.0,73.0,79.0
+Andrea Collarini,0.0,4.0,57.0,38.0,56.0
+Ryan Peniston,54.0,38.0,70.0,58.0,77.0
+Max Houkes,0.0,0.0,0.0,0.0,0.0
+Dmitry Popko,10.0,11.0,66.0,50.0,65.0
+Borna Gojo,367.0,119.0,75.0,60.0,82.0
+Felipe Meligeni Alves,80.0,23.0,69.0,62.0,75.0
+Marko Topo,12.0,22.0,63.0,59.0,60.0
+Johannus Monday,7.0,2.0,73.0,33.0,71.0
+Murphy Cassone,11.0,8.0,82.0,67.0,88.0
+Kaichi Uchida,18.0,11.0,69.0,65.0,80.0
+Toby Samuel,0.0,0.0,0.0,0.0,0.0
+Alejandro Moro Canas,10.0,7.0,64.0,68.0,73.0
+Tom Gentzsch,0.0,0.0,0.0,0.0,0.0
+Joel Schwaerzler,12.0,5.0,63.0,55.0,68.0
+Filip Cristian Jianu,1.0,0.0,61.0,65.0,74.0
+Henri Squire,30.0,17.0,75.0,48.0,76.0
+Mitchell Krueger,167.0,88.0,68.0,57.0,75.0
+Rio Noguchi,1.0,5.0,69.0,54.0,74.0
+Kimmer Coppejans,79.0,32.0,65.0,60.0,70.0
+Andres Andrade,0.0,0.0,0.0,0.0,0.0
+Ivan Gakhov,23.0,22.0,65.0,59.0,66.0
+Edas Butvilas,0.0,0.0,0.0,0.0,0.0
+Pol Martin Tiffon,0.0,0.0,0.0,0.0,0.0
+Pedro Boscardin Dias,0.0,0.0,0.0,0.0,0.0
+Patrick Zahraj,2.0,6.0,75.0,38.0,62.0
+Gustavo Heide,58.0,39.0,70.0,72.0,81.0
+Charles Broom,8.0,6.0,61.0,63.0,64.0
+Daniel Michalski,3.0,5.0,59.0,55.0,60.0
+Juncheng Shang,355.0,201.0,70.0,63.0,80.0
+Franco Agamenone,6.0,13.0,63.0,54.0,67.0
+Mikhail Kukushkin,1173.0,572.0,66.0,60.0,74.0
+Fajing Sun,11.0,4.0,72.0,38.0,80.0
+Dimitar Kuzmanov,50.0,47.0,65.0,64.0,72.0
+Geoffrey Blancaneaux,32.0,18.0,66.0,41.0,64.0
+Sascha Gueymard Wayenburg,0.0,0.0,0.0,0.0,0.0
+Nicolas Kicker,104.0,120.0,66.0,58.0,73.0
+Tiago Pereira,0.0,0.0,0.0,0.0,0.0
+Andres Martin,14.0,3.0,69.0,56.0,67.0
+Florent Bax,0.0,0.0,0.0,0.0,0.0
+Stefan Kozlov,91.0,150.0,63.0,56.0,62.0
+Darwin Blanch,34.0,13.0,66.0,57.0,70.0
+Nikolas Sanchez Izquierdo,2.0,4.0,62.0,40.0,50.0
+Stefanos Sakellaridis,28.0,6.0,70.0,68.0,78.0
+Harry Wendelken,0.0,0.0,0.0,0.0,0.0
+Daniel Rincon,9.0,16.0,65.0,40.0,60.0
+Murkel Dellien,0.0,0.0,0.0,0.0,0.0
+Saba Purtseladze,0.0,0.0,0.0,0.0,0.0
+Juan Pablo Varillas,241.0,86.0,68.0,59.0,74.0
+Andrej Nedic,0.0,0.0,0.0,0.0,0.0
+Liam Broady,198.0,143.0,66.0,58.0,72.0
+Kei Nishikori,2129.0,1680.0,70.0,61.0,80.0
+Facundo Diaz Acosta,150.0,172.0,67.0,59.0,75.0
+Yasutaka Uchiyama,263.0,83.0,72.0,60.0,78.0
+Petr Brunclik,0.0,0.0,0.0,0.0,0.0
+Benjamin Hassan,10.0,13.0,69.0,57.0,66.0
+Fabrizio Andaloro,0.0,0.0,0.0,0.0,0.0
+Matheus Pucinelli De Almeida,3.0,2.0,58.0,43.0,53.0
+Robin Bertrand,0.0,0.0,0.0,0.0,0.0
+Lilian Marmousez,0.0,0.0,0.0,0.0,0.0
+Beibit Zhukayev,110.0,31.0,75.0,58.0,77.0
+Hynek Barton,0.0,0.0,0.0,0.0,0.0
+Calvin Hemery,71.0,69.0,67.0,49.0,68.0
+Mats Rosenkranz,0.0,0.0,0.0,0.0,0.0
+Alex Rybakov,7.0,2.0,58.0,56.0,71.0
+Sumit Nagal,59.0,99.0,61.0,58.0,66.0
+Norbert Gombos,363.0,263.0,70.0,60.0,75.0
+Michael Geerts,1.0,2.0,57.0,20.0,50.0
+Jacopo Berrettini,3.0,8.0,66.0,36.0,59.0
+Maximus Jones,0.0,0.0,0.0,0.0,0.0
+Akira Santillan,46.0,24.0,70.0,45.0,74.0
+Petr Bar Biryukov,0.0,0.0,0.0,0.0,0.0
+Sandro Kopp,0.0,0.0,0.0,0.0,0.0
+Miguel Damas,0.0,0.0,0.0,0.0,0.0
+Gianluca Cadenasso,0.0,0.0,0.0,0.0,0.0
+Garrett Johns,0.0,0.0,0.0,0.0,0.0
+Keegan Smith,0.0,0.0,0.0,0.0,0.0
+Eliakim Coulibaly,0.0,0.0,0.0,0.0,0.0
+Diego Dedura,1.0,3.0,65.0,38.0,65.0
+Philip Henning,0.0,0.0,0.0,0.0,0.0
+Gauthier Onclin,2.0,4.0,65.0,43.0,78.0
+Gabi Adrian Boitan,0.0,0.0,0.0,0.0,0.0
+Mathys Erhard,0.0,0.0,0.0,0.0,0.0
+Cedrik Marcel Stebe,288.0,229.0,65.0,55.0,68.0
+Renta Tokuda,0.0,0.0,0.0,0.0,0.0
+Matias Soto,0.0,0.0,0.0,0.0,0.0
+Abdullah Shelbayh,59.0,53.0,67.0,60.0,69.0
+Zhizhen Zhang,881.0,233.0,73.0,60.0,82.0
+Daniel Dutra Da Silva,3.0,9.0,62.0,61.0,65.0
+Maxim Mrva,0.0,0.0,0.0,0.0,0.0
+Felix Gill,0.0,0.0,0.0,0.0,0.0
+Sergey Fomin,0.0,0.0,0.0,0.0,0.0
+Oliver Tarvet,8.0,2.0,72.0,40.0,79.0
+Viktor Durasovic,54.0,29.0,63.0,58.0,58.0
+Giles Hussey,4.0,6.0,78.0,44.0,78.0
+Tyler Zink,0.0,0.0,0.0,0.0,0.0
+Andrej Martin,121.0,131.0,63.0,61.0,67.0
+Matteo Martineau,8.0,6.0,70.0,62.0,76.0
+Tom Paris,0.0,0.0,0.0,0.0,0.0
+Paul Jubb,35.0,44.0,72.0,53.0,76.0
+James Trotter,8.0,1.0,66.0,67.0,78.0
+Facundo Mena,3.0,2.0,79.0,71.0,80.0
+Hady Habib,49.0,14.0,76.0,65.0,81.0
+Soonwoo Kwon,592.0,394.0,70.0,60.0,77.0
+Pavel Kotov,297.0,216.0,69.0,62.0,77.0
+Jelle Sels,0.0,0.0,0.0,0.0,0.0
+Franco Roncadelli,0.0,2.0,50.0,31.0,31.0
+Hamish Stewart,0.0,0.0,0.0,0.0,0.0
+Raul Brancaccio,1.0,6.0,63.0,50.0,70.0
+Sean Cuenin,0.0,0.0,0.0,0.0,0.0
+Carlos Sanchez Jover,0.0,0.0,0.0,0.0,0.0
+Antoine Ghibaudo,0.0,0.0,0.0,0.0,0.0
+Martin Krumich,0.0,0.0,0.0,0.0,0.0
+Florian Broska,0.0,0.0,0.0,0.0,0.0
+Duje Ajdukovic,42.0,23.0,67.0,41.0,67.0
+Guido Ivan Justo,0.0,0.0,0.0,0.0,0.0
+Igor Marcondes,0.0,0.0,0.0,0.0,0.0
+Sanhui Shin,0.0,0.0,0.0,0.0,0.0
+Denis Yevseyev,14.0,13.0,70.0,69.0,76.0
+Marat Sharipov,0.0,0.0,0.0,0.0,0.0
+Gonzalo Villanueva,3.0,3.0,64.0,33.0,82.0
+Oleg Prihodko,0.0,0.0,0.0,0.0,0.0
+Stefan Dostanic,22.0,12.0,68.0,68.0,81.0
+Michael Mmoh,453.0,279.0,69.0,60.0,75.0
+Juan Bautista Torres,0.0,0.0,0.0,0.0,0.0
+Richard Gasquet,5248.0,2438.0,73.0,61.0,81.0
+Arthur Bouquier,0.0,0.0,0.0,0.0,0.0
+Gabriele Piraino,0.0,0.0,0.0,0.0,0.0
+Juan Manuel La Serna,0.0,0.0,0.0,0.0,0.0
+Trevor Svajda,6.0,2.0,67.0,67.0,76.0
+Jonas Forejtek,9.0,2.0,75.0,67.0,78.0
+Christoph Negritu,0.0,0.0,0.0,0.0,0.0
+Christian Langmo,0.0,0.0,0.0,0.0,0.0
+Andre Ilagan,0.0,0.0,0.0,0.0,0.0
+Max Basing,0.0,0.0,0.0,0.0,0.0
+Ioannis Xilas,0.0,0.0,0.0,0.0,0.0
+Viacheslav Bielinskyi,0.0,0.0,0.0,0.0,0.0
+Marc Polmans,102.0,92.0,65.0,58.0,71.0
+Hayato Matsuoka,0.0,0.0,0.0,0.0,0.0
+Maks Kasnikowski,6.0,5.0,62.0,50.0,67.0
+Raphael Perot,0.0,0.0,0.0,0.0,0.0
+Yuta Shimizu,1.0,3.0,52.0,29.0,38.0
+Tung Lin Wu,13.0,9.0,64.0,64.0,75.0
+Li Tu,80.0,33.0,71.0,54.0,75.0
+Dominic Stricker,462.0,150.0,77.0,57.0,81.0
+Javier Barranco Cosano,2.0,4.0,69.0,70.0,81.0
+Cezar Cretu,0.0,0.0,0.0,0.0,0.0
+Inaki Montes De La Torre,0.0,0.0,0.0,0.0,0.0
+Omar Jasika,15.0,15.0,63.0,49.0,68.0
+Federico Coria,355.0,337.0,63.0,56.0,67.0
+Pedro Sakamoto,2.0,2.0,56.0,0.0,50.0
+Mert Alkaya,0.0,0.0,0.0,0.0,0.0
+Daniel Milavsky,0.0,0.0,0.0,0.0,0.0
+David Jorda Sanchis,17.0,3.0,65.0,78.0,80.0
+Dan  Martin,0.0,1.0,40.0,50.0,38.0
+Aidan Mchugh,0.0,0.0,0.0,0.0,0.0
+Luciano Emanuel Ambrogi,0.0,0.0,0.0,0.0,0.0
+Gastao Elias,264.0,201.0,69.0,57.0,71.0
+Mili Poljicak,9.0,8.0,69.0,68.0,68.0
+Alfredo Perez,0.0,0.0,0.0,0.0,0.0
+Facundo Bagnis,637.0,410.0,67.0,61.0,74.0
+Christopher Eubanks,1167.0,368.0,74.0,64.0,84.0
+Adria Soriano Barrera,0.0,0.0,0.0,0.0,0.0
+Carlo Alberto Caniato,0.0,0.0,0.0,0.0,0.0
+Hyeon Chung,508.0,405.0,70.0,58.0,77.0
+Federico Arnaboldi,0.0,0.0,0.0,0.0,0.0
+Kasidit Samrej,4.0,6.0,65.0,54.0,71.0
+Hernan Casanova,1.0,2.0,64.0,70.0,67.0
+Corentin Denolly,3.0,14.0,73.0,69.0,76.0

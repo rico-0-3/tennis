@@ -1,0 +1,16 @@
+# Ignorar entorno virtual (¡MUY IMPORTANTE!)
+venv/
+env/
+.env
+
+# Ignorar archivos compilados de Python
+__pycache__/
+*.pyc
+
+# Ignorar archivos del sistema
+.DS_Store
+
+# Opcional: Si tus archivos .pkl o .csv pesan más de 100MB, GitHub los rechazará.
+# Si son livianos, puedes borrarlos de esta lista para subirlos.
+# *.pkl
+# *.csv

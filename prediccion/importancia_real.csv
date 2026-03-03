@@ -1,0 +1,28 @@
+Modelo,Variable,Importancia
+Regresión Logística,diff_rank,20.740143150824345
+Regresión Logística,diff_rank_points,13.330579985936811
+Regresión Logística,diff_age,0.24684358857685104
+Regresión Logística,diff_ht,0.24611096611713443
+Regresión Logística,diff_skill,41.5204276518948
+Regresión Logística,diff_home,1.0289152632153395
+Regresión Logística,diff_fatigue,18.011684740160323
+Regresión Logística,diff_momentum,0.8642836637410447
+Regresión Logística,diff_h2h,4.011010989533342
+Random Forest,diff_rank,16.850811040072983
+Random Forest,diff_rank_points,18.671549464399828
+Random Forest,diff_age,4.314487641574057
+Random Forest,diff_ht,2.9049099900092297
+Random Forest,diff_skill,34.87108453758985
+Random Forest,diff_home,0.17930184125275223
+Random Forest,diff_fatigue,17.985575904224753
+Random Forest,diff_momentum,2.5473171509158665
+Random Forest,diff_h2h,1.6749624299606822
+XGBoost,diff_rank,9.405355453491211
+XGBoost,diff_rank_points,16.44890022277832
+XGBoost,diff_age,1.923789620399475
+XGBoost,diff_ht,1.0987036228179932
+XGBoost,diff_skill,48.45573425292969
+XGBoost,diff_home,0.0
+XGBoost,diff_fatigue,18.6119441986084
+XGBoost,diff_momentum,1.6468276977539062
+XGBoost,diff_h2h,2.4087493419647217

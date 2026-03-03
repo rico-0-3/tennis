@@ -1,0 +1,401 @@
+player,rank,points,url_perfil
+C. Alcaraz,1,13550,https://www.atptour.com/en/players/carlos-alcaraz/a0e2/overview
+J. Sinner,2,10400,https://www.atptour.com/en/players/jannik-sinner/s0ag/overview
+N. Djokovic,3,5280,https://www.atptour.com/en/players/novak-djokovic/d643/overview
+A. Zverev,4,4555,https://www.atptour.com/en/players/alexander-zverev/z355/overview
+L. Musetti,5,4405,https://www.atptour.com/en/players/lorenzo-musetti/m0ej/overview
+A. de Minaur,6,4235,https://www.atptour.com/en/players/alex-de-minaur/dh58/overview
+T. Fritz,7,4220,https://www.atptour.com/en/players/taylor-fritz/fb98/overview
+B. Shelton,8,4010,https://www.atptour.com/en/players/ben-shelton/s0s1/overview
+F. Auger-Aliassime,9,3950,https://www.atptour.com/en/players/felix-auger-aliassime/ag37/overview
+A. Bublik,10,3405,https://www.atptour.com/en/players/alexander-bublik/bk92/overview
+D. Medvedev,11,3360,https://www.atptour.com/en/players/daniil-medvedev/mm58/overview
+J. Mensik,12,2650,https://www.atptour.com/en/players/jakub-mensik/m0ni/overview
+C. Ruud,13,2625,https://www.atptour.com/en/players/casper-ruud/rh16/overview
+J. Draper,14,2510,https://www.atptour.com/en/players/jack-draper/d0co/overview
+F. Cobolli,15,2480,https://www.atptour.com/en/players/flavio-cobolli/c0e9/overview
+K. Khachanov,16,2450,https://www.atptour.com/en/players/karen-khachanov/ke29/overview
+A. Rublev,17,2400,https://www.atptour.com/en/players/andrey-rublev/re44/overview
+H. Rune,18,2290,https://www.atptour.com/en/players/holger-rune/r0dg/overview
+A. Davidovich Fokina,19,2190,https://www.atptour.com/en/players/alejandro-davidovich-fokina/dh50/overview
+F. Cerundolo,20,2170,https://www.atptour.com/en/players/francisco-cerundolo/c0au/overview
+L. Darderi,21,2104,https://www.atptour.com/en/players/luciano-darderi/d0fj/overview
+F. Tiafoe,22,1870,https://www.atptour.com/en/players/frances-tiafoe/td51/overview
+J. Lehecka,23,1850,https://www.atptour.com/en/players/jiri-lehecka/l0bv/overview
+T. Paul,24,1815,https://www.atptour.com/en/players/tommy-paul/pl56/overview
+T. Griekspoor,25,1785,https://www.atptour.com/en/players/tallon-griekspoor/gj37/overview
+V. Vacherot,26,1691,https://www.atptour.com/en/players/valentin-vacherot/va25/overview
+L. Tien,27,1685,https://www.atptour.com/en/players/learner-tien/t0ha/overview
+A. Rinderknech,28,1617,https://www.atptour.com/en/players/arthur-rinderknech/rc91/overview
+C. Norrie,29,1603,https://www.atptour.com/en/players/cameron-norrie/n771/overview
+B. Nakashima,30,1535,https://www.atptour.com/en/players/brandon-nakashima/n0ae/overview
+T. Etcheverry,31,1445,https://www.atptour.com/en/players/tomas-martin-etcheverry/ea24/overview
+A. Fils,32,1440,https://www.atptour.com/en/players/arthur-fils/f0f1/overview
+C. Moutet,33,1383,https://www.atptour.com/en/players/corentin-moutet/mw02/overview
+U. Humbert,34,1285,https://www.atptour.com/en/players/ugo-humbert/hh26/overview
+J. Fonseca,35,1240,https://www.atptour.com/en/players/joao-fonseca/f0fv/overview
+J. Munar,36,1235,https://www.atptour.com/en/players/jaume-munar/mu94/overview
+S. Korda,37,1220,https://www.atptour.com/en/players/sebastian-korda/k0ah/overview
+G. Diallo,38,1175,https://www.atptour.com/en/players/gabriel-diallo/d0f6/overview
+D. Shapovalov,39,1160,https://www.atptour.com/en/players/denis-shapovalov/su55/overview
+A. Tabilo,40,1138,https://www.atptour.com/en/players/alejandro-tabilo/te30/overview
+J. Brooksby,41,1135,https://www.atptour.com/en/players/jenson-brooksby/b0cd/overview
+G. Dimitrov,42,1105,https://www.atptour.com/en/players/grigor-dimitrov/d875/overview
+S. Tsitsipas,43,1085,https://www.atptour.com/en/players/stefanos-tsitsipas/te51/overview
+A. Michelsen,44,1085,https://www.atptour.com/en/players/alex-michelsen/m0qi/overview
+A. Popyrin,45,1050,https://www.atptour.com/en/players/alexei-popyrin/p09z/overview
+F. Marozsan,46,1040,https://www.atptour.com/en/players/fabian-marozsan/m0ci/overview
+Z. Bergs,47,1030,https://www.atptour.com/en/players/zizou-bergs/bu13/overview
+A. Mannarino,48,1025,https://www.atptour.com/en/players/adrian-mannarino/me82/overview
+N. Borges,49,1020,https://www.atptour.com/en/players/nuno-borges/bt72/overview
+T. Machac,50,1010,https://www.atptour.com/en/players/tomas-machac/m0fh/overview
+M. Cilic,51,990,https://www.atptour.com/en/players/marin-cilic/c977/overview
+T. Atmane,52,958,https://www.atptour.com/en/players/terence-atmane/a0gc/overview
+S. Baez,53,940,https://www.atptour.com/en/players/sebastian-baez/b0bi/overview
+G. Mpetshi Perricard,54,930,https://www.atptour.com/en/players/giovanni-mpetshi-perricard/m0gz/overview
+D. Altmaier,55,921,https://www.atptour.com/en/players/daniel-altmaier/ae14/overview
+M. Fucsovics,56,916,https://www.atptour.com/en/players/marton-fucsovics/f724/overview
+K. Majchrzak,57,895,https://www.atptour.com/en/players/kamil-majchrzak/mq75/overview
+M. Kecmanovic,58,875,https://www.atptour.com/en/players/miomir-kecmanovic/ki95/overview
+B. van de Zandschulp,59,873,https://www.atptour.com/en/players/botic-van-de-zandschulp/v812/overview
+V. Royer,60,872,https://www.atptour.com/en/players/valentin-royer/r0eb/overview
+L. Sonego,61,850,https://www.atptour.com/en/players/lorenzo-sonego/su87/overview
+V. Kopriva,62,848,https://www.atptour.com/en/players/vit-kopriva/ki82/overview
+I. Buse,63,848,https://www.atptour.com/en/players/ignacio-buse/b0id/overview
+D. Dzumhur,64,840,https://www.atptour.com/en/players/damir-dzumhur/d923/overview
+Y. Hanfmann,65,835,https://www.atptour.com/en/players/yannick-hanfmann/h997/overview
+M. Berrettini,66,820,https://www.atptour.com/en/players/matteo-berrettini/bk40/overview
+C. Ugo Carabelli,67,790,https://www.atptour.com/en/players/camilo-ugo-carabelli/u182/overview
+R. Opelka,68,786,https://www.atptour.com/en/players/reilly-opelka/o522/overview
+M. Giron,69,780,https://www.atptour.com/en/players/marcos-giron/gc88/overview
+J. Cerundolo,70,778,https://www.atptour.com/en/players/juan-manuel-cerundolo/c0c8/overview
+H. Hurkacz,71,775,https://www.atptour.com/en/players/hubert-hurkacz/hb71/overview
+A. Kovacevic,72,771,https://www.atptour.com/en/players/aleksandar-kovacevic/k0az/overview
+E. Quinn,73,761,https://www.atptour.com/en/players/ethan-quinn/q02l/overview
+T. Tirante,74,756,https://www.atptour.com/en/players/thiago-agustin-tirante/t0a1/overview
+E. Nava,75,753,https://www.atptour.com/en/players/emilio-nava/n0am/overview
+A. Cazaux,76,741,https://www.atptour.com/en/players/arthur-cazaux/c0h0/overview
+R. Collignon,77,733,https://www.atptour.com/en/players/raphael-collignon/c0jp/overview
+E. Spizzirri,78,731,https://www.atptour.com/en/players/eliot-spizzirri/s0ja/overview
+M. Navone,79,725,https://www.atptour.com/en/players/mariano-navone/n0bs/overview
+J. Struff,80,719,https://www.atptour.com/en/players/jan-lennard-struff/sl28/overview
+A. Muller,81,715,https://www.atptour.com/en/players/alexandre-muller/mp20/overview
+F. Comesana,82,694,https://www.atptour.com/en/players/francisco-comesana/c0df/overview
+J. Duckworth,83,691,https://www.atptour.com/en/players/james-duckworth/d994/overview
+F. Misolic,84,671,https://www.atptour.com/en/players/filip-misolic/m0jz/overview
+M. Arnaldi,85,665,https://www.atptour.com/en/players/matteo-arnaldi/a0fc/overview
+J. de Jong,86,665,https://www.atptour.com/en/players/jesper-de-jong/d0c1/overview
+J. Fearnley,87,662,https://www.atptour.com/en/players/jacob-fearnley/f0by/overview
+A. Shevchenko,88,659,https://www.atptour.com/en/players/alexander-shevchenko/s0h2/overview
+A. Vukic,89,656,https://www.atptour.com/en/players/aleksandar-vukic/v832/overview
+C. Garin,90,656,https://www.atptour.com/en/players/cristian-garin/gd64/overview
+A. Walton,91,650,https://www.atptour.com/en/players/adam-walton/w09e/overview
+S. Wawrinka,92,649,https://www.atptour.com/en/players/stan-wawrinka/w367/overview
+R. Bautista Agut,93,645,https://www.atptour.com/en/players/roberto-bautista-agut/bd06/overview
+M. Bellucci,94,640,https://www.atptour.com/en/players/mattia-bellucci/b0gg/overview
+P. Kypson,95,640,https://www.atptour.com/en/players/patrick-kypson/k0a3/overview
+H. Gaston,96,631,https://www.atptour.com/en/players/hugo-gaston/g09o/overview
+A. Blockx,97,626,https://www.atptour.com/en/players/alexander-blockx/b0pg/overview
+R. Burruchaga,98,617,https://www.atptour.com/en/players/roman-andres-burruchaga/b0fv/overview
+Z. Svajda,99,614,https://www.atptour.com/en/players/zachary-svajda/s0k7/overview
+C. Taberner,100,608,https://www.atptour.com/en/players/carlos-taberner/te16/overview
+V. Gaubas,101,603,https://www.atptour.com/en/players/vilius-gaubas/g0fw/overview
+Q. Halys,102,600,https://www.atptour.com/en/players/quentin-halys/hb64/overview
+R. Jodar,103,594,https://www.atptour.com/en/players/rafael-jodar/j0dz/overview
+A. Vallejo,104,593,https://www.atptour.com/en/players/adolfo-daniel-vallejo/v0dp/overview
+L. Van Assche,105,590,https://www.atptour.com/en/players/luca-van-assche/v0dz/overview
+P. Martinez,106,586,https://www.atptour.com/en/players/pedro-martinez/mo44/overview
+P. Carreno Busta,107,578,https://www.atptour.com/en/players/pablo-carreno-busta/cd85/overview
+S. Ofner,108,571,https://www.atptour.com/en/players/sebastian-ofner/o513/overview
+D. Svrcina,109,569,https://www.atptour.com/en/players/dalibor-svrcina/s0gd/overview
+H. Medjedovic,110,565,https://www.atptour.com/en/players/hamad-medjedovic/m0jf/overview
+B. Bonzi,111,564,https://www.atptour.com/en/players/benjamin-bonzi/bm95/overview
+Y. Wu,112,559,https://www.atptour.com/en/players/yibing-wu/wb32/overview
+S. Shimabukuro,113,554,https://www.atptour.com/en/players/sho-shimabukuro/sy67/overview
+F. Maestrelli,114,553,https://www.atptour.com/en/players/francesco-maestrelli/m0if/overview
+T. Barrios Vera,115,551,https://www.atptour.com/en/players/tomas-barrios-vera/bs86/overview
+J. Thompson,116,548,https://www.atptour.com/en/players/jordan-thompson/tc61/overview
+R. Hijikata,117,547,https://www.atptour.com/en/players/rinky-hijikata/h0bh/overview
+T. Schoolkate,118,547,https://www.atptour.com/en/players/tristan-schoolkate/s0n0/overview
+D. Prizmic,119,541,https://www.atptour.com/en/players/dino-prizmic/p0hw/overview
+D. Lajovic,120,535,https://www.atptour.com/en/players/dusan-lajovic/l987/overview
+E. Moller,121,534,https://www.atptour.com/en/players/elmer-moller/m0k4/overview
+J. Choinski,122,530,https://www.atptour.com/en/players/jan-choinski/ch12/overview
+C. Wong,123,528,https://www.atptour.com/en/players/coleman-wong/w0bh/overview
+T. Droguet,124,528,https://www.atptour.com/en/players/titouan-droguet/d0dw/overview
+A. Pellegrino,125,510,https://www.atptour.com/en/players/andrea-pellegrino/ph64/overview
+M. McDonald,126,498,https://www.atptour.com/en/players/mackenzie-mcdonald/mk66/overview
+C. O'Connell,127,493,https://www.atptour.com/en/players/christopher-o'connell/o483/overview
+O. Virtanen,128,487,https://www.atptour.com/en/players/otto-virtanen/v0am/overview
+M. Damm,129,477,https://www.atptour.com/en/players/martin-damm/d0dt/overview
+S. Mochizuki,130,474,https://www.atptour.com/en/players/shintaro-mochizuki/m0hu/overview
+D. Sweeny,131,468,https://www.atptour.com/en/players/dane-sweeny/s0ia/overview
+M. Trungelliti,132,465,https://www.atptour.com/en/players/marco-trungelliti/ta29/overview
+N. Basilashvili,133,464,https://www.atptour.com/en/players/nikoloz-basilashvili/bg23/overview
+J. Pinnington Jones,134,456,https://www.atptour.com/en/players/jack-pinnington-jones/p0ht/overview
+L. Nardi,135,454,https://www.atptour.com/en/players/luca-nardi/n0bg/overview
+C. Smith,136,446,https://www.atptour.com/en/players/colton-smith/s0ze/overview
+C. Rodesch,137,446,https://www.atptour.com/en/players/chris-rodesch/r0e0/overview
+M. Echargui,138,435,https://www.atptour.com/en/players/moez-echargui/ea13/overview
+D. Merida,139,432,https://www.atptour.com/en/players/daniel-merida/m0n7/overview
+F. Passaro,140,431,https://www.atptour.com/en/players/francesco-passaro/p0ct/overview
+Y. Bu,141,424,https://www.atptour.com/en/players/yunchaokete-bu/y09v/overview
+Z. Piros,142,416,https://www.atptour.com/en/players/zsombor-piros/p09o/overview
+D. Goffin,143,415,https://www.atptour.com/en/players/david-goffin/gb88/overview
+C. Tseng,144,414,https://www.atptour.com/en/players/chun-hsin-tseng/t0ap/overview
+M. Zheng,145,414,https://www.atptour.com/en/players/michael-zheng/z0bz/overview
+B. Coric,146,413,https://www.atptour.com/en/players/borna-coric/cg80/overview
+L. Draxl,147,412,https://www.atptour.com/en/players/liam-draxl/d0dp/overview
+G. Monfils,148,410,https://www.atptour.com/en/players/gael-monfils/mc65/overview
+K. Jacquet,149,407,https://www.atptour.com/en/players/kyrian-jacquet/j0az/overview
+N. Budkov Kjaer,150,407,https://www.atptour.com/en/players/nicolai-budkov-kjaer/b0u4/overview
+B. Harris,151,406,https://www.atptour.com/en/players/billy-harris/hd68/overview
+L. Harris,152,399,https://www.atptour.com/en/players/lloyd-harris/hg86/overview
+G. Zeppieri,153,397,https://www.atptour.com/en/players/giulio-zeppieri/z0a1/overview
+N. Jarry,154,391,https://www.atptour.com/en/players/nicolas-jarry/j551/overview
+M. Landaluce,155,391,https://www.atptour.com/en/players/martin-landaluce/l0il/overview
+G. Den Ouden,156,391,https://www.atptour.com/en/players/guy-den-ouden/d0h9/overview
+P. Herbert,157,388,https://www.atptour.com/en/players/pierre-hugues-herbert/h996/overview
+L. Klein,158,386,https://www.atptour.com/en/players/lukas-klein/ki63/overview
+R. Sakamoto,159,382,https://www.atptour.com/en/players/rei-sakamoto/s0uv/overview
+M. Lajal,160,379,https://www.atptour.com/en/players/mark-lajal/l0gh/overview
+A. Gea,161,377,https://www.atptour.com/en/players/arthur-gea/g0ix/overview
+U. Blanchet,162,375,https://www.atptour.com/en/players/ugo-blanchet/bv16/overview
+J. Faria,163,375,https://www.atptour.com/en/players/jaime-faria/f0f2/overview
+H. Dellien,164,375,https://www.atptour.com/en/players/hugo-dellien/da31/overview
+L. Mikrut,165,371,https://www.atptour.com/en/players/luka-mikrut/m0n1/overview
+S. Travaglia,166,370,https://www.atptour.com/en/players/stefano-travaglia/ta12/overview
+A. Bolt,167,369,https://www.atptour.com/en/players/alex-bolt/bi81/overview
+R. Carballes Baena,168,368,https://www.atptour.com/en/players/roberto-carballes-baena/cf59/overview
+H. Rocha,169,364,https://www.atptour.com/en/players/henrique-rocha/r0go/overview
+Y. Nishioka,170,361,https://www.atptour.com/en/players/yoshihito-nishioka/n732/overview
+M. Gigante,171,360,https://www.atptour.com/en/players/matteo-gigante/g0gd/overview
+L. Riedi,172,356,https://www.atptour.com/en/players/leandro-riedi/r0fs/overview
+A. Fery,173,355,https://www.atptour.com/en/players/arthur-fery/f0dm/overview
+E. Ymer,174,352,https://www.atptour.com/en/players/elias-ymer/y218/overview
+Y. Watanuki,175,349,https://www.atptour.com/en/players/yosuke-watanuki/wb08/overview
+D. Glinka,176,349,https://www.atptour.com/en/players/daniil-glinka/g0by/overview
+J. Rodionov,177,348,https://www.atptour.com/en/players/jurij-rodionov/r09x/overview
+H. Mayot,178,347,https://www.atptour.com/en/players/harold-mayot/m0g4/overview
+A. Barrena,179,347,https://www.atptour.com/en/players/alex-barrena/b0gy/overview
+J. Kym,180,342,https://www.atptour.com/en/players/jerome-kym/k0ep/overview
+N. Mejia,181,338,https://www.atptour.com/en/players/nicolas-mejia/m0aw/overview
+D. Galan,182,337,https://www.atptour.com/en/players/daniel-elahi-galan/ge33/overview
+F. Cina,183,335,https://www.atptour.com/en/players/federico-cina/c0nb/overview
+J. Clarke,184,333,https://www.atptour.com/en/players/jay-clarke/ci14/overview
+F. Gomez,185,331,https://www.atptour.com/en/players/federico-agustin-gomez/gj16/overview
+J. Ficovich,186,330,https://www.atptour.com/en/players/juan-pablo-ficovich/fa43/overview
+C. Chidekh,187,330,https://www.atptour.com/en/players/clement-chidekh/c0bh/overview
+V. Sachko,188,329,https://www.atptour.com/en/players/vitaliy-sachko/ss25/overview
+B. Tomic,189,323,https://www.atptour.com/en/players/bernard-tomic/ta46/overview
+C. Tabur,190,318,https://www.atptour.com/en/players/clement-tabur/t09x/overview
+T. Skatov,191,318,https://www.atptour.com/en/players/timofey-skatov/s0gr/overview
+J. Engel,192,315,https://www.atptour.com/en/players/justin-engel/e0dd/overview
+P. Llamas Ruiz,193,314,https://www.atptour.com/en/players/pablo-llamas-ruiz/l0cx/overview
+B. Gojo,194,311,https://www.atptour.com/en/players/borna-gojo/gh92/overview
+H. Grenier,195,310,https://www.atptour.com/en/players/hugo-grenier/gf95/overview
+O. Crawford,196,309,https://www.atptour.com/en/players/oliver-crawford/c0ak/overview
+Z. Kolar,197,308,https://www.atptour.com/en/players/zdenek-kolar/kh56/overview
+N. Basavareddy,198,306,https://www.atptour.com/en/players/nishesh-basavareddy/b0nn/overview
+R. Safiullin,199,303,https://www.atptour.com/en/players/roman-safiullin/sx50/overview
+A. Molcan,200,302,https://www.atptour.com/en/players/alex-molcan/mv14/overview
+A. Holmgren,201,301,https://www.atptour.com/en/players/august-holmgren/h09n/overview
+D. Evans,202,300,https://www.atptour.com/en/players/daniel-evans/e687/overview
+D. Added,203,295,https://www.atptour.com/en/players/dan-added/a09t/overview
+L. Giustino,204,292,https://www.atptour.com/en/players/lorenzo-giustino/ga79/overview
+J. Reis Da Silva,205,291,https://www.atptour.com/en/players/joao-lucas-reis-da-silva/r0a7/overview
+L. Djere,206,288,https://www.atptour.com/en/players/laslo-djere/db63/overview
+A. Guillen Meza,207,287,https://www.atptour.com/en/players/alvaro-guillen-meza/g0dh/overview
+G. Loffhagen,208,281,https://www.atptour.com/en/players/george-loffhagen/l0cf/overview
+G. Bailly,209,280,https://www.atptour.com/en/players/gilles-arnaud-bailly/b0qc/overview
+J. Prado Angelo,210,279,https://www.atptour.com/en/players/juan-carlos-prado-angelo/p0iy/overview
+L. Pavlovic,211,276,https://www.atptour.com/en/players/luka-pavlovic/p0ay/overview
+R. Bertola,212,273,https://www.atptour.com/en/players/remy-bertola/bu70/overview
+G. Bueno,213,273,https://www.atptour.com/en/players/gonzalo-bueno/b0gr/overview
+J. Schwaerzler,214,272,https://www.atptour.com/en/players/joel-schwaerzler/s0wt/overview
+M. Dodig,215,271,https://www.atptour.com/en/players/matej-dodig/d0l3/overview
+L. Midon,216,271,https://www.atptour.com/en/players/lautaro-midon/m0oh/overview
+J. Kubler,217,270,https://www.atptour.com/en/players/jason-kubler/kb95/overview
+T. Boyer,218,268,https://www.atptour.com/en/players/tristan-boyer/b0ej/overview
+A. Galarneau,219,265,https://www.atptour.com/en/players/alexis-galarneau/gk06/overview
+T. Seyboth Wild,220,262,https://www.atptour.com/en/players/thiago-seyboth-wild/sx91/overview
+M. Huesler,221,262,https://www.atptour.com/en/players/marc-andrea-huesler/hh06/overview
+Y. Zhou,222,261,https://www.atptour.com/en/players/yi-zhou/z0cq/overview
+I. Simakin,223,260,https://www.atptour.com/en/players/ilia-simakin/s0o6/overview
+S. Sakellaridis,224,253,https://www.atptour.com/en/players/stefanos-sakellaridis/s0kt/overview
+M. Cecchinato,225,251,https://www.atptour.com/en/players/marco-cecchinato/cf01/overview
+G. Olivieri,226,249,https://www.atptour.com/en/players/genaro-alberto-olivieri/o660/overview
+Y. Hsu,227,247,https://www.atptour.com/en/players/yu-hsiou-hsu/h09f/overview
+A. Collarini,228,244,https://www.atptour.com/en/players/andrea-collarini/cc66/overview
+B. Holt,229,243,https://www.atptour.com/en/players/brandon-holt/h09p/overview
+L. Neumayer,230,243,https://www.atptour.com/en/players/lukas-neumayer/n0cs/overview
+J. McCabe,231,241,https://www.atptour.com/en/players/james-mccabe/m0oq/overview
+T. Monteiro,232,240,https://www.atptour.com/en/players/thiago-monteiro/mj08/overview
+N. Fatic,233,239,https://www.atptour.com/en/players/nerman-fatic/f840/overview
+D. Popko,234,239,https://www.atptour.com/en/players/dmitry-popko/pg20/overview
+M. Topo,235,239,https://www.atptour.com/en/players/marko-topo/t0fi/overview
+A. Andrade,236,239,https://www.atptour.com/en/players/andres-andrade/ag08/overview
+S. Rodriguez Taverna,237,238,https://www.atptour.com/en/players/santiago-rodriguez-taverna/rh59/overview
+F. Diaz Acosta,238,236,https://www.atptour.com/en/players/facundo-diaz-acosta/d0cg/overview
+E. Butvilas,239,235,https://www.atptour.com/en/players/edas-butvilas/b0mm/overview
+F. Ferreira Silva,240,233,https://www.atptour.com/en/players/frederico-ferreira-silva/sn54/overview
+K. Uchida,241,233,https://www.atptour.com/en/players/kaichi-uchida/u120/overview
+A. Moro Canas,242,231,https://www.atptour.com/en/players/alejandro-moro-canas/m0ht/overview
+R. Peniston,243,229,https://www.atptour.com/en/players/ryan-peniston/ph78/overview
+T. Samuel,244,228,https://www.atptour.com/en/players/toby-samuel/s0tm/overview
+M. Houkes,245,228,https://www.atptour.com/en/players/max-houkes/h0cx/overview
+T. Gentzsch,246,227,https://www.atptour.com/en/players/tom-gentzsch/g0ib/overview
+R. Noguchi,247,225,https://www.atptour.com/en/players/rio-noguchi/n09u/overview
+F. Meligeni Alves,248,223,https://www.atptour.com/en/players/felipe-meligeni-alves/mw75/overview
+J. Monday,249,221,https://www.atptour.com/en/players/johannus-monday/m0on/overview
+K. Coppejans,250,221,https://www.atptour.com/en/players/kimmer-coppejans/cg33/overview
+I. Gakhov,251,221,https://www.atptour.com/en/players/ivan-gakhov/ge28/overview
+F. Jianu,252,219,https://www.atptour.com/en/players/filip-cristian-jianu/j09x/overview
+F. Gill,253,216,https://www.atptour.com/en/players/felix-gill/g0eu/overview
+P. Martin Tiffon,254,215,https://www.atptour.com/en/players/pol-martin-tiffon/m0ea/overview
+M. Krueger,255,214,https://www.atptour.com/en/players/mitchell-krueger/kc12/overview
+H. Squire,256,211,https://www.atptour.com/en/players/henri-squire/s0ak/overview
+D. Michalski,257,210,https://www.atptour.com/en/players/daniel-michalski/m0e1/overview
+P. Boscardin Dias,258,209,https://www.atptour.com/en/players/pedro-boscardin-dias/b0fi/overview
+M. Kukushkin,259,207,https://www.atptour.com/en/players/mikhail-kukushkin/k926/overview
+C. Broom,260,206,https://www.atptour.com/en/players/charles-broom/bv21/overview
+J. Shang,261,205,https://www.atptour.com/en/players/juncheng-shang/s0re/overview
+Z. Zhang,262,205,https://www.atptour.com/en/players/zhizhen-zhang/z371/overview
+N. Kicker,263,204,https://www.atptour.com/en/players/nicolas-kicker/kc29/overview
+D. Kuzmanov,264,204,https://www.atptour.com/en/players/dimitar-kuzmanov/kc33/overview
+F. Sun,265,202,https://www.atptour.com/en/players/fajing-sun/sx90/overview
+S. Gueymard Wayenburg,266,202,https://www.atptour.com/en/players/sascha-gueymard-wayenburg/g0gw/overview
+T. Pereira,267,201,https://www.atptour.com/en/players/tiago-pereira/p0k4/overview
+F. Bax,268,197,https://www.atptour.com/en/players/florent-bax/b0bu/overview
+F. Agamenone,269,196,https://www.atptour.com/en/players/franco-agamenone/aa27/overview
+S. Kozlov,270,195,https://www.atptour.com/en/players/stefan-kozlov/ke64/overview
+N. Sanchez Izquierdo,271,195,https://www.atptour.com/en/players/nikolas-sanchez-izquierdo/s0gz/overview
+A. Martin,272,193,https://www.atptour.com/en/players/andres-martin/m0np/overview
+G. Onclin,273,192,https://www.atptour.com/en/players/gauthier-onclin/o0a2/overview
+S. Purtseladze,274,192,https://www.atptour.com/en/players/saba-purtseladze/p0ea/overview
+M. Cassone,275,191,https://www.atptour.com/en/players/murphy-cassone/c0ht/overview
+P. Brunclik,276,190,https://www.atptour.com/en/players/petr-brunclik/b0ov/overview
+H. Wendelken,277,190,https://www.atptour.com/en/players/harry-wendelken/w0ah/overview
+M. Damas,278,190,https://www.atptour.com/en/players/miguel-damas/d0cn/overview
+G. Justo,279,188,https://www.atptour.com/en/players/guido-ivan-justo/j0aw/overview
+M. Dellien,280,186,https://www.atptour.com/en/players/murkel-dellien/dc48/overview
+J. Varillas,281,185,https://www.atptour.com/en/players/juan-pablo-varillas/v836/overview
+S. Nagal,282,185,https://www.atptour.com/en/players/sumit-nagal/n897/overview
+L. Broady,283,183,https://www.atptour.com/en/players/liam-broady/bi23/overview
+K. Nishikori,284,182,https://www.atptour.com/en/players/kei-nishikori/n552/overview
+Y. Uchiyama,285,182,https://www.atptour.com/en/players/yasutaka-uchiyama/u134/overview
+A. Boitan,286,182,https://www.atptour.com/en/players/adrian-boitan/b0c0/overview
+D. Blanch,287,181,https://www.atptour.com/en/players/darwin-blanch/b0no/overview
+B. Hassan,288,180,https://www.atptour.com/en/players/benjamin-hassan/hg94/overview
+L. Marmousez,289,179,https://www.atptour.com/en/players/lilian-marmousez/m0gy/overview
+B. Zhukayev,290,178,https://www.atptour.com/en/players/beibit-zhukayev/z09z/overview
+D. Dedura,291,176,https://www.atptour.com/en/players/diego-dedura/d0lj/overview
+M. Pucinelli De Almeida,292,176,https://www.atptour.com/en/players/matheus-pucinelli-de-almeida/p0df/overview
+E. Coulibaly,293,175,https://www.atptour.com/en/players/eliakim-coulibaly/c0hb/overview
+N. Gombos,294,175,https://www.atptour.com/en/players/norbert-gombos/gb93/overview
+R. Bertrand,295,175,https://www.atptour.com/en/players/robin-bertrand/b0jj/overview
+A. Nedic,296,174,https://www.atptour.com/en/players/andrej-nedic/n0db/overview
+M. Geerts,297,174,https://www.atptour.com/en/players/michael-geerts/gg65/overview
+G. Cadenasso,298,173,https://www.atptour.com/en/players/gianluca-cadenasso/c0nn/overview
+F. Andaloro,299,172,https://www.atptour.com/en/players/fabrizio-andaloro/a0f3/overview
+R. Pacheco Mendez,300,170,https://www.atptour.com/en/players/rodrigo-pacheco-mendez/p0j1/overview
+G. Heide,301,169,https://www.atptour.com/en/players/gustavo-heide/h0du/overview
+J. Berrettini,302,169,https://www.atptour.com/en/players/jacopo-berrettini/bu10/overview
+D. Rincon,303,169,https://www.atptour.com/en/players/daniel-rincon/r0fp/overview
+A. Rybakov,304,167,https://www.atptour.com/en/players/alex-rybakov/rg42/overview
+M. Mrva,305,166,https://www.atptour.com/en/players/maxim-mrva/m0se/overview
+K. Smith,306,166,https://www.atptour.com/en/players/keegan-smith/s0dq/overview
+I. Marcondes,307,165,https://www.atptour.com/en/players/igor-marcondes/rd48/overview
+A. Santillan,308,164,https://www.atptour.com/en/players/akira-santillan/sq80/overview
+M. Rosenkranz,309,164,https://www.atptour.com/en/players/mats-rosenkranz/rh62/overview
+P. Jubb,310,163,https://www.atptour.com/en/players/paul-jubb/j0a4/overview
+M. Basing,311,161,https://www.atptour.com/en/players/max-basing/b0je/overview
+D. Ajdukovic,312,161,https://www.atptour.com/en/players/duje-ajdukovic/a0cj/overview
+H. Barton,313,160,https://www.atptour.com/en/players/hynek-barton/b0ou/overview
+M. Jones,314,159,https://www.atptour.com/en/players/maximus-jones/j0d2/overview
+G. Blancaneaux,315,158,https://www.atptour.com/en/players/geoffrey-blancaneaux/bu54/overview
+C. Hemery,316,157,https://www.atptour.com/en/players/calvin-hemery/hb48/overview
+R. Tokuda,317,157,https://www.atptour.com/en/players/renta-tokuda/td55/overview
+M. Soto,318,157,https://www.atptour.com/en/players/matias-soto/s0ek/overview
+A. Shelbayh,319,156,https://www.atptour.com/en/players/abdullah-shelbayh/s0nv/overview
+S. Kopp,320,156,https://www.atptour.com/en/players/sandro-kopp/k0cj/overview
+D. Dutra da Silva,321,156,https://www.atptour.com/en/players/daniel-dutra-da-silva/sg56/overview
+P. Bar Biryukov,322,155,https://www.atptour.com/en/players/petr-bar-biryukov/b0lq/overview
+C. Stebe,323,154,https://www.atptour.com/en/players/cedrik-marcel-stebe/sk94/overview
+P. Henning,324,154,https://www.atptour.com/en/players/philip-henning/h0bf/overview
+G. Johns,325,153,https://www.atptour.com/en/players/garrett-johns/j0b5/overview
+M. Martineau,326,151,https://www.atptour.com/en/players/matteo-martineau/mw76/overview
+O. Tarvet,327,150,https://www.atptour.com/en/players/oliver-tarvet/t0gr/overview
+T. Zink,328,150,https://www.atptour.com/en/players/tyler-zink/z0ak/overview
+S. Fomin,329,150,https://www.atptour.com/en/players/sergey-fomin/f0a3/overview
+M. Erhard,330,148,https://www.atptour.com/en/players/mathys-erhard/e0ac/overview
+M. Kasnikowski,331,147,https://www.atptour.com/en/players/maks-kasnikowski/k0hc/overview
+T. Paris,332,146,https://www.atptour.com/en/players/tom-paris/p0gn/overview
+F. Roncadelli,333,146,https://www.atptour.com/en/players/franco-roncadelli/r0bt/overview
+J. Torres,334,146,https://www.atptour.com/en/players/juan-bautista-torres/t0dm/overview
+J. Trotter,335,145,https://www.atptour.com/en/players/james-trotter/t0bw/overview
+F. Mena,336,145,https://www.atptour.com/en/players/facundo-mena/mj98/overview
+G. Hussey,337,145,https://www.atptour.com/en/players/giles-hussey/h0dc/overview
+A. Ghibaudo,338,144,https://www.atptour.com/en/players/antoine-ghibaudo/g0iw/overview
+H. Habib,339,143,https://www.atptour.com/en/players/hady-habib/hf80/overview
+J. La Serna,340,143,https://www.atptour.com/en/players/juan-manuel-la-serna/l0gr/overview
+S. Cuenin,341,143,https://www.atptour.com/en/players/sean-cuenin/c0jx/overview
+S. Kwon,342,142,https://www.atptour.com/en/players/soonwoo-kwon/kf17/overview
+J. Sels,343,142,https://www.atptour.com/en/players/jelle-sels/so20/overview
+G. Villanueva,344,141,https://www.atptour.com/en/players/gonzalo-villanueva/v821/overview
+P. Zahraj,345,140,https://www.atptour.com/en/players/patrick-zahraj/z09f/overview
+M. Krumich,346,140,https://www.atptour.com/en/players/martin-krumich/k0fy/overview
+F. Broska,347,139,https://www.atptour.com/en/players/florian-broska/b0c5/overview
+R. Brancaccio,348,139,https://www.atptour.com/en/players/raul-brancaccio/bv24/overview
+D. Stricker,349,138,https://www.atptour.com/en/players/dominic-stricker/s0la/overview
+S. Shin,350,138,https://www.atptour.com/en/players/sanhui-shin/s09p/overview
+C. Sanchez Jover,351,138,https://www.atptour.com/en/players/carlos-sanchez-jover/s0cg/overview
+T. Wu,352,137,https://www.atptour.com/en/players/tung-lin-wu/w857/overview
+D. Milavsky,353,137,https://www.atptour.com/en/players/daniel-milavsky/m0rg/overview
+M. Sharipov,354,137,https://www.atptour.com/en/players/marat-sharipov/s0mn/overview
+O. Prihodko,355,136,https://www.atptour.com/en/players/oleg-prihodko/pl64/overview
+J. Forejtek,356,135,https://www.atptour.com/en/players/jonas-forejtek/f0bt/overview
+G. Piraino,357,135,https://www.atptour.com/en/players/gabriele-piraino/p0i6/overview
+S. Dostanic,358,133,https://www.atptour.com/en/players/stefan-dostanic/d0d4/overview
+M. Mmoh,359,133,https://www.atptour.com/en/players/michael-mmoh/mp01/overview
+Y. Shimizu,360,133,https://www.atptour.com/en/players/yuta-shimizu/s0aq/overview
+V. Bielinskyi,361,132,https://www.atptour.com/en/players/viacheslav-bielinskyi/b0ll/overview
+A. Gray,362,132,https://www.atptour.com/en/players/alastair-gray/g0ao/overview
+I. Xilas,363,132,https://www.atptour.com/en/players/ioannis-xilas/x01c/overview
+C. Cretu,364,130,https://www.atptour.com/en/players/cezar-cretu/c0b2/overview
+A. Ilagan,365,130,https://www.atptour.com/en/players/andre-ilagan/i0b0/overview
+D. Yevseyev,366,130,https://www.atptour.com/en/players/denis-yevseyev/y171/overview
+M. Polmans,367,128,https://www.atptour.com/en/players/marc-polmans/pg94/overview
+H. Matsuoka,368,128,https://www.atptour.com/en/players/hayato-matsuoka/m0sc/overview
+R. Perot,369,127,https://www.atptour.com/en/players/raphael-perot/p0mg/overview
+C. Negritu,370,127,https://www.atptour.com/en/players/christoph-negritu/n731/overview
+L. Tu,371,126,https://www.atptour.com/en/players/li-tu/tc01/overview
+A. Soriano Barrera,372,126,https://www.atptour.com/en/players/adria-soriano-barrera/s0bt/overview
+J. Barranco Cosano,373,126,https://www.atptour.com/en/players/javier-barranco-cosano/bv25/overview
+H. Stewart,374,126,https://www.atptour.com/en/players/hamish-stewart/s0ex/overview
+R. Gasquet,375,125,https://www.atptour.com/en/players/richard-gasquet/g628/overview
+I. Montes-De La Torre,376,125,https://www.atptour.com/en/players/inaki-montes-de-la-torre/m0nl/overview
+M. Alcala Gurri,377,125,https://www.atptour.com/en/players/max-alcala-gurri/a0ea/overview
+Y. Erel,378,124,https://www.atptour.com/en/players/yanki-erel/e0aa/overview
+P. Sakamoto,379,124,https://www.atptour.com/en/players/pedro-sakamoto/sl94/overview
+M. Alkaya,380,124,https://www.atptour.com/en/players/mert-alkaya/a09q/overview
+D. Jorda Sanchis,381,124,https://www.atptour.com/en/players/david-jorda-sanchis/j476/overview
+B. Gadamauri,382,122,https://www.atptour.com/en/players/buvaysar-gadamauri/g0cv/overview
+D. Martin,383,121,https://www.atptour.com/en/players/dan--martin/m0c2/overview
+M. Brunold,384,121,https://www.atptour.com/en/players/mika-brunold/b0lw/overview
+F. Arnaboldi,385,121,https://www.atptour.com/en/players/federico-arnaboldi/a0ba/overview
+F. Bagnis,386,120,https://www.atptour.com/en/players/facundo-bagnis/bf23/overview
+C. Eubanks,387,120,https://www.atptour.com/en/players/christopher-eubanks/e865/overview
+M. Poljicak,388,120,https://www.atptour.com/en/players/mili-poljicak/p0gq/overview
+C. Caniato,389,119,https://www.atptour.com/en/players/carlo-alberto-caniato/c0lk/overview
+C. Denolly,390,119,https://www.atptour.com/en/players/corentin-denolly/df92/overview
+A. Ramos-Vinolas,391,118,https://www.atptour.com/en/players/albert-ramos-vinolas/r772/overview
+A. Dougaz,392,118,https://www.atptour.com/en/players/aziz-dougaz/df88/overview
+M. Kouame,393,118,https://www.atptour.com/en/players/moise-kouame/k0o4/overview
+O. Wallin,394,118,https://www.atptour.com/en/players/olle-wallin/w0bu/overview
+S. Palosi,395,118,https://www.atptour.com/en/players/stefan-palosi/p0cy/overview
+T. Svajda,396,117,https://www.atptour.com/en/players/trevor-svajda/s0vm/overview
+A. Picchione,397,117,https://www.atptour.com/en/players/andrea-picchione/p0dr/overview
+O. Roca Batalla,398,117,https://www.atptour.com/en/players/oriol-roca-batalla/rb60/overview
+L. Castelnuovo,399,117,https://www.atptour.com/en/players/luca-castelnuovo/ch80/overview
+K. Samrej,400,117,https://www.atptour.com/en/players/kasidit-samrej/s0hr/overview

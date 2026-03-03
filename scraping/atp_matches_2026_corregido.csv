@@ -1,0 +1,938 @@
+tourney_id,tourney_name,surface,winner_name,loser_name,score,round,minutes,draw_size,tourney_level,tourney_date,match_num,winner_id,winner_seed,winner_entry,winner_hand,winner_ht,winner_ioc,winner_age,loser_id,loser_seed,loser_entry,loser_hand,loser_ht,loser_ioc,loser_age,best_of,winner_rank,winner_rank_points,loser_rank,loser_rank_points
+2026-perth-sydney-0,perth-sydney,Hard,Belinda Bencic,Iga Swiatek,3-6 6-0 6-3,Final ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Hubert Hurkacz,Stan Wawrinka,6-3 3-6 6-3,Final ,100,0,0,0,0,0,0,0,R,196.0,POL,30.7,0,0,0,R,183.0,SUI,42.6,0,71.0,0,92.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Coco Gauff,Iga Swiatek,6-4 6-2,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Hubert Hurkacz,Taylor Fritz,7-6 7-1,Semifinals ,100,0,0,0,0,0,0,0,R,196.0,POL,30.7,0,0,0,R,196.0,USA,30.0,0,71.0,0,7.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Belinda Bencic,Elise Mertens,6-3 4-6 7-6,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Zizou Bergs,Stan Wawrinka,6-3 6-7 4-3,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,BEL,28.4,0,0,0,R,183.0,SUI,42.6,0,47.0,0,92.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Alex de Minaur,Hubert Hurkacz,6-4 4-6 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,196.0,POL,30.7,0,150.0,0,71.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Iga Swiatek,Maya Joint,6-1 6-1,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Zizou Bergs,Jakub Mensik,6-2 7-6,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,BEL,28.4,0,0,0,R,193.0,CZE,22.2,0,47.0,0,12.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Elise Mertens,Barbora Krejcikova,5-7 6-1 7-5,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Coco Gauff,Maria Sakkari,6-3 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Stefanos Tsitsipas,Taylor Fritz,6-4 7-5,Quarterfinals ,100,0,0,0,0,0,0,0,R,193.0,GRE,29.2,0,0,0,R,196.0,USA,30.0,0,43.0,0,7.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Sebastian Baez,Stan Wawrinka,7-5 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,183.0,SUI,42.6,0,53.0,0,92.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Belinda Bencic,Solana Sierra,6-2 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Hubert Hurkacz,Tallon Griekspoor,6-3 7-6,Round Robin Day 6 ,100,0,0,0,0,0,0,0,R,196.0,POL,30.7,0,0,0,R,188.0,NED,31.3,0,71.0,0,25.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Iga Swiatek,Suzan Lamens,6-3 6-2,Round Robin Day 6 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Zizou Bergs,Felix Auger-Aliassime,6-4 6-2,Round Robin Day 5 ,100,0,0,0,0,0,0,0,R,185.0,BEL,28.4,0,0,0,R,185.0,UNK,23.5,0,47.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Elise Mertens,Victoria Mboko,6-3 3-6 6-3,Round Robin Day 5 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Jasmine Paolini,Leolia Jeanjean,6-2 6-3,Round Robin Day 5 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Arthur Rinderknech,Flavio Cobolli,6-7 4-6 7-5 7-5,Round Robin Day 5 ,100,0,0,0,0,0,0,0,R,196.0,FRA,32.2,0,0,0,R,183.0,ITA,25.4,0,28.0,0,15.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Alex de Minaur,Jakub Mensik,6-4 6-1,Round Robin Day 5 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,193.0,CZE,22.2,0,150.0,0,12.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Barbora Krejcikova,Maya Joint,6-4 6-1,Round Robin Day 5 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Jessica Bouzas Maneiro,Coco Gauff,6-1 6-7 3-0,Round Robin Day 4 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Taylor Fritz,Jaume Munar,7-6 3-4 7-6,Round Robin Day 4 ,100,0,0,0,0,0,0,0,R,196.0,USA,30.0,0,0,0,R,183.0,ESP,30.4,0,7.0,0,36.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Maria Sakkari,Emma Raducanu,6-3 3-6 6-1,Round Robin Day 4 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Stefanos Tsitsipas,Billy Harris,4-6 6-1 7-6,Round Robin Day 4 ,100,0,0,0,0,0,0,0,R,193.0,GRE,29.2,0,0,0,R,193.0,GBR,32.6,0,43.0,0,151.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Hubert Hurkacz,Alexander Zverev,6-3 6-4,Round Robin Day 4 ,100,0,0,0,0,0,0,0,R,196.0,POL,30.7,0,0,0,R,198.0,GER,30.5,0,71.0,0,4.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Iga Swiatek,Eva Lys,3-6 6-3 6-4,Round Robin Day 4 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Barbora Krejcikova,Malene Helgo,6-4 6-3,Round Robin Day 4 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Jakub Mensik,Casper Ruud,7-5 7-6,Round Robin Day 4 ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,183.0,NOR,28.8,0,12.0,0,13.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Felix Auger-Aliassime,Zhizhen Zhang,6-4 6-4,Round Robin Day 3 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,193.0,CHN,31.0,0,150.0,0,262.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Victoria Mboko,Lin Zhu,2-6 6-2 6-0,Round Robin Day 3 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Belinda Bencic,Jasmine Paolini,6-4 6-3,Round Robin Day 3 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Flavio Cobolli,Stan Wawrinka,6-4 6-7 2-6 7-4,Round Robin Day 3 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,183.0,SUI,42.6,0,15.0,0,92.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Billy Harris,Shintaro Mochizuki,7-6 6-4,Round Robin Day 3 ,100,0,0,0,0,0,0,0,R,193.0,GBR,32.6,0,0,0,R,175.0,JPN,24.3,0,151.0,0,130.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Naomi Osaka,Katie Swan,7-6 6-4,Round Robin Day 3 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Eva Lys,Suzan Lamens,6-2 6-2,Round Robin Day 3 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Alexander Zverev,Tallon Griekspoor,7-5 6-0,Round Robin Day 3 ,100,0,0,0,0,0,0,0,R,198.0,GER,30.5,0,0,0,R,188.0,NED,31.3,0,4.0,0,25.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Sebastian Baez,Taylor Fritz,4-6 7-5 6-4,Round Robin Day 2 ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,196.0,USA,30.0,0,53.0,0,7.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Coco Gauff,Solana Sierra,6-1 6-1,Round Robin Day 2 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Storm Hunter,Malene Helgo,6-2 7-6,Round Robin Day 2 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Casper Ruud,Alex de Minaur,6-3 6-3,Round Robin Day 2 ,100,0,0,0,0,0,0,0,R,183.0,NOR,28.8,0,0,0,R,185.0,UNK,23.5,0,13.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Elise Mertens,Lin Zhu,6-2 6-2,Round Robin Day 2 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Zhizhen Zhang,Zizou Bergs,6-7 2-6 7-3 7-5,Round Robin Day 2 ,100,0,0,0,0,0,0,0,R,193.0,CHN,31.0,0,0,0,R,185.0,BEL,28.4,0,262.0,0,47.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Belinda Bencic,Leolia Jeanjean,6-2 6-4,Round Robin Day 2 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Stan Wawrinka,Arthur Rinderknech,5-7 7-6 7-5,Round Robin Day 2 ,100,0,0,0,0,0,0,0,R,183.0,SUI,42.6,0,0,0,R,196.0,FRA,32.2,0,92.0,0,28.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Sebastian Baez,Jaume Munar,6-4 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,183.0,ESP,30.4,0,53.0,0,36.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Solana Sierra,Jessica Bouzas Maneiro,6-4 5-7 6-0,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Maria Sakkari,Naomi Osaka,6-4 6-2,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-perth-sydney-0,perth-sydney,Hard,Stefanos Tsitsipas,Shintaro Mochizuki,6-3 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,193.0,GRE,29.2,0,0,0,R,175.0,JPN,24.3,0,43.0,0,130.0,0
+2026-brisbane-1,brisbane,Hard,Daniil Medvedev,Brandon Nakashima,6-2 7-6,Final ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,188.0,USA,26.2,0,11.0,0,30.0,0
+2026-brisbane-1,brisbane,Hard,Daniil Medvedev,Alex Michelsen,6-4 6-2,Semifinals ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,193.0,USA,23.3,0,11.0,0,44.0,0
+2026-brisbane-1,brisbane,Hard,Brandon Nakashima,Aleksandar Kovacevic,7-6 6-4,Semifinals ,100,0,0,0,0,0,0,0,R,188.0,USA,26.2,0,0,0,R,183.0,USA,29.1,0,30.0,0,72.0,0
+2026-brisbane-1,brisbane,Hard,Daniil Medvedev,Kamil Majchrzak,6-7 4-3 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,180.0,POL,31.6,0,11.0,0,57.0,0
+2026-brisbane-1,brisbane,Hard,Aleksandar Kovacevic,Giovanni Mpetshi Perricard,7-6 4-3 6-6,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,USA,29.1,0,0,0,R,203.0,FRA,24.3,0,72.0,0,54.0,0
+2026-brisbane-1,brisbane,Hard,Alex Michelsen,Sebastian Korda,6-3 7-6,Quarterfinals ,100,0,0,0,0,0,0,0,R,193.0,USA,23.3,0,0,0,R,196.0,USA,27.1,0,44.0,0,37.0,0
+2026-brisbane-1,brisbane,Hard,Brandon Nakashima,Raphael Collignon,6-3 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,USA,26.2,0,0,0,R,191.0,BEL,25.7,0,30.0,0,77.0,0
+2026-brisbane-1,brisbane,Hard,Aleksandar Kovacevic,Cameron Norrie,7-6 4-4 6-6,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,USA,29.1,0,0,0,R,188.0,GBR,32.2,0,72.0,0,29.0,0
+2026-brisbane-1,brisbane,Hard,Raphael Collignon,Grigor Dimitrov,7-6 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,191.0,BEL,25.7,0,0,0,R,191.0,BUL,36.4,0,77.0,0,42.0,0
+2026-brisbane-1,brisbane,Hard,Giovanni Mpetshi Perricard,Rinky Hijikata,4-6 7-6 7-5,Round of 16 ,100,0,0,0,0,0,0,0,R,203.0,FRA,24.3,0,0,0,R,178.0,AUS,26.6,0,54.0,0,117.0,0
+2026-brisbane-1,brisbane,Hard,Brandon Nakashima,Quentin Halys,6-2 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,USA,26.2,0,0,0,R,191.0,FRA,31.0,0,30.0,0,102.0,0
+2026-brisbane-1,brisbane,Hard,Daniil Medvedev,Frances Tiafoe,6-3 6-2,Round of 16 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,188.0,USA,29.7,0,11.0,0,22.0,0
+2026-brisbane-1,brisbane,Hard,Sebastian Korda,Jiri Lehecka,6-3 1-2,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,USA,27.1,0,0,0,R,185.0,CZE,25.9,0,37.0,0,23.0,0
+2026-brisbane-1,brisbane,Hard,Alex Michelsen,Learner Tien,6-4 6-2,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,USA,23.3,0,0,0,R,180.0,USA,22.0,0,44.0,0,27.0,0
+2026-brisbane-1,brisbane,Hard,Kamil Majchrzak,Reilly Opelka,6-7 2-6 7-7 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,180.0,POL,31.6,0,0,0,R,211.0,USA,30.0,0,57.0,0,68.0,0
+2026-brisbane-1,brisbane,Hard,Brandon Nakashima,Alejandro Davidovich Fokina,7-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,26.2,0,0,0,R,183.0,ESP,28.3,0,30.0,0,19.0,0
+2026-brisbane-1,brisbane,Hard,Giovanni Mpetshi Perricard,Tommy Paul,7-6 3-2 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,203.0,FRA,24.3,0,0,0,R,185.0,USA,30.4,0,54.0,0,24.0,0
+2026-brisbane-1,brisbane,Hard,Raphael Collignon,Denis Shapovalov,6-4 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,BEL,25.7,0,0,0,R,185.0,CAN,28.5,0,77.0,0,39.0,0
+2026-brisbane-1,brisbane,Hard,Cameron Norrie,Ugo Humbert,1-6 7-6 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,GBR,32.2,0,0,0,R,188.0,FRA,29.3,0,29.0,0,34.0,0
+2026-brisbane-1,brisbane,Hard,Grigor Dimitrov,Pablo Carreno Busta,6-3 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,BUL,36.4,0,0,0,R,188.0,ESP,36.2,0,42.0,0,107.0,0
+2026-brisbane-1,brisbane,Hard,Rinky Hijikata,Adam Walton,6-3 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,AUS,26.6,0,0,0,R,183.0,AUS,28.4,0,117.0,0,91.0,0
+2026-brisbane-1,brisbane,Hard,Aleksandar Kovacevic,Nick Kyrgios,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,USA,29.1,0,0,0,R,193.0,AUS,31.1,0,72.0,0,25.0,0
+2026-brisbane-1,brisbane,Hard,Daniil Medvedev,Marton Fucsovics,6-2 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,188.0,HUN,35.7,0,11.0,0,56.0,0
+2026-brisbane-1,brisbane,Hard,Jiri Lehecka,Tomas Machac,6-4 6-7 5-2,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,CZE,25.9,0,0,0,R,183.0,CZE,27.0,0,23.0,0,50.0,0
+2026-brisbane-1,brisbane,Hard,Quentin Halys,Alexei Popyrin,5-7 6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,196.0,AUS,28.2,0,102.0,0,45.0,0
+2026-brisbane-1,brisbane,Hard,Sebastian Korda,Valentin Vacherot,7-6 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,USA,27.1,0,0,0,R,193.0,MON,28.5,0,37.0,0,26.0,0
+2026-brisbane-1,brisbane,Hard,Kamil Majchrzak,Daniel Altmaier,7-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,POL,31.6,0,0,0,R,188.0,GER,29.1,0,57.0,0,55.0,0
+2026-brisbane-1,brisbane,Hard,Alex Michelsen,James Duckworth,6-7 4-6 7-2 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,USA,23.3,0,0,0,R,183.0,AUS,35.7,0,44.0,0,83.0,0
+2026-brisbane-1,brisbane,Hard,Reilly Opelka,Dane Sweeny,6-3 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,211.0,USA,30.0,0,0,0,R,170.0,AUS,25.9,0,68.0,0,131.0,0
+2026-brisbane-1,brisbane,Hard,Learner Tien,Camilo Ugo Carabelli,7-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,USA,22.0,0,0,0,R,185.0,ARG,28.1,0,27.0,0,67.0,0
+2026-brisbane-1,brisbane,Hard,Frances Tiafoe,Aleksandar Vukic,6-2 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,188.0,AUS,31.5,0,22.0,0,89.0,0
+2026-brisbane-1,brisbane,Hard,Rinky Hijikata,Matteo Arnaldi,,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,AUS,26.6,0,0,0,R,185.0,ITA,26.6,0,117.0,0,85.0,0
+2026-brisbane-1,brisbane,Hard,Quentin Halys,Kamil Majchrzak,1-6 7-6 6-5,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,180.0,POL,31.6,0,102.0,0,57.0,0
+2026-brisbane-1,brisbane,Hard,James Duckworth,Terence Atmane,7-6 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,AUS,35.7,0,0,0,R,193.0,FRA,25.7,0,83.0,0,52.0,0
+2026-brisbane-1,brisbane,Hard,Pablo Carreno Busta,Arthur Cazaux,5-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,ESP,36.2,0,0,0,R,183.0,FRA,25.1,0,107.0,0,76.0,0
+2026-brisbane-1,brisbane,Hard,Raphael Collignon,Ethan Quinn,7-5 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,BEL,25.7,0,0,0,R,191.0,USA,23.3,0,77.0,0,73.0,0
+2026-brisbane-1,brisbane,Hard,Dane Sweeny,Christopher O'Connell,6-7 4-3 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,170.0,AUS,25.9,0,0,0,R,185.0,UNK,23.5,0,131.0,0,127.0,0
+2026-brisbane-1,brisbane,Hard,Matteo Arnaldi,Hugo Gaston,6-1 5-7 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ITA,26.6,0,0,0,R,173.0,FRA,27.1,0,85.0,0,96.0,0
+2026-brisbane-1,brisbane,Hard,Kamil Majchrzak,Cruz Hewitt,6-4 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,POL,31.6,0,0,0,R,185.0,UNK,23.5,0,57.0,0,150.0,0
+2026-brisbane-1,brisbane,Hard,Terence Atmane,Yannick Hanfmann,6-4 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,FRA,25.7,0,0,0,R,193.0,GER,35.8,0,52.0,0,65.0,0
+2026-brisbane-1,brisbane,Hard,Arthur Cazaux,Martin Landaluce,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,FRA,25.1,0,0,0,R,191.0,ESP,21.2,0,76.0,0,155.0,0
+2026-brisbane-1,brisbane,Hard,Ethan Quinn,Benjamin Bonzi,4-6 6-3 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,USA,23.3,0,0,0,R,183.0,FRA,31.4,0,73.0,0,111.0,0
+2026-brisbane-1,brisbane,Hard,Dane Sweeny,Jacob Fearnley,6-1 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,170.0,AUS,25.9,0,0,0,R,183.0,GBR,26.2,0,131.0,0,87.0,0
+2026-brisbane-1,brisbane,Hard,Pablo Carreno Busta,Mattia Bellucci,6-4 2-6 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,ESP,36.2,0,0,0,R,175.0,ITA,26.3,0,107.0,0,94.0,0
+2026-brisbane-1,brisbane,Hard,Rinky Hijikata,Filip Misolic,6-3 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,AUS,26.6,0,0,0,R,180.0,AUT,25.9,0,117.0,0,84.0,0
+2026-brisbane-1,brisbane,Hard,Raphael Collignon,Alexander Shevchenko,7-5 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,BEL,25.7,0,0,0,R,185.0,KAZ,26.9,0,77.0,0,88.0,0
+2026-brisbane-1,brisbane,Hard,James Duckworth,Tristan Schoolkate,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,AUS,35.7,0,0,0,R,183.0,AUS,26.4,0,83.0,0,118.0,0
+2026-brisbane-1,brisbane,Hard,Quentin Halys,Eliot Spizzirri,6-4 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,183.0,USA,25.6,0,102.0,0,78.0,0
+2026-brisbane-1,brisbane,Hard,Christopher O'Connell,Nikoloz Basilashvili,6-2 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,GEO,34.0,0,127.0,0,133.0,0
+2026-hong-kong-2,hong-kong,Hard,Alexander Bublik,Lorenzo Musetti,7-6 6-2,Final ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,185.0,ITA,25.7,0,10.0,0,5.0,0
+2026-hong-kong-2,hong-kong,Hard,Lorenzo Musetti,Andrey Rublev,6-7 3-5 7-4,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,ITA,25.7,0,0,0,R,188.0,RUS,30.0,0,5.0,0,17.0,0
+2026-hong-kong-2,hong-kong,Hard,Alexander Bublik,Marcos Giron,3-6 6-4 6-2,Semifinals ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,180.0,USA,34.2,0,10.0,0,69.0,0
+2026-hong-kong-2,hong-kong,Hard,Lorenzo Musetti,Coleman Wong,6-4 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,ITA,25.7,0,0,0,R,191.0,HKG,23.3,0,5.0,0,123.0,0
+2026-hong-kong-2,hong-kong,Hard,Alexander Bublik,Juncheng Shang,6-1 7-6,Quarterfinals ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,180.0,CHN,22.8,0,10.0,0,261.0,0
+2026-hong-kong-2,hong-kong,Hard,Andrey Rublev,Nuno Borges,6-3 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,185.0,POR,30.7,0,17.0,0,49.0,0
+2026-hong-kong-2,hong-kong,Hard,Marcos Giron,Michael Mmoh,6-3 1-0,Quarterfinals ,100,0,0,0,0,0,0,0,R,180.0,USA,34.2,0,0,0,R,188.0,USA,29.2,0,69.0,0,359.0,0
+2026-hong-kong-2,hong-kong,Hard,Alexander Bublik,Botic van de Zandschulp,6-3 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,185.0,UNK,23.5,0,10.0,0,150.0,0
+2026-hong-kong-2,hong-kong,Hard,Michael Mmoh,Karen Khachanov,7-6 7-2,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.2,0,0,0,R,198.0,RUS,31.4,0,359.0,0,16.0,0
+2026-hong-kong-2,hong-kong,Hard,Juncheng Shang,Lorenzo Sonego,6-3 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,180.0,CHN,22.8,0,0,0,R,191.0,ITA,32.4,0,261.0,0,61.0,0
+2026-hong-kong-2,hong-kong,Hard,Marcos Giron,Alexandre Muller,6-4 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,180.0,USA,34.2,0,0,0,R,183.0,FRA,30.7,0,69.0,0,81.0,0
+2026-hong-kong-2,hong-kong,Hard,Lorenzo Musetti,Tomas Martin Etcheverry,6-7 3-2 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,ITA,25.7,0,0,0,R,196.0,ARG,28.3,0,5.0,0,31.0,0
+2026-hong-kong-2,hong-kong,Hard,Andrey Rublev,Yibing Wu,3-6 6-2 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,183.0,CHN,27.9,0,17.0,0,112.0,0
+2026-hong-kong-2,hong-kong,Hard,Coleman Wong,Gabriel Diallo,1-6 7-5 7-5,Round of 16 ,100,0,0,0,0,0,0,0,R,191.0,HKG,23.3,0,0,0,R,203.0,CAN,26.1,0,123.0,0,38.0,0
+2026-hong-kong-2,hong-kong,Hard,Nuno Borges,Marin Cilic,7-5 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,POR,30.7,0,0,0,R,198.0,CRO,39.1,0,49.0,0,51.0,0
+2026-hong-kong-2,hong-kong,Hard,Lorenzo Sonego,Rei Sakamoto,6-2 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,ITA,32.4,0,0,0,R,185.0,UNK,23.5,0,61.0,0,159.0,0
+2026-hong-kong-2,hong-kong,Hard,Gabriel Diallo,Jesper de Jong,6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,203.0,CAN,26.1,0,0,0,R,185.0,UNK,23.5,0,38.0,0,150.0,0
+2026-hong-kong-2,hong-kong,Hard,Alexandre Muller,Miomir Kecmanovic,7-5 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,FRA,30.7,0,0,0,R,183.0,SRB,28.1,0,81.0,0,58.0,0
+2026-hong-kong-2,hong-kong,Hard,Tomas Martin Etcheverry,Valentin Royer,6-4 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,185.0,UNK,23.5,0,31.0,0,60.0,0
+2026-hong-kong-2,hong-kong,Hard,Marcos Giron,Laslo Djere,6-2 6-0,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,USA,34.2,0,0,0,R,188.0,SRB,32.4,0,69.0,0,206.0,0
+2026-hong-kong-2,hong-kong,Hard,Michael Mmoh,Alejandro Tabilo,7-5 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.2,0,0,0,R,188.0,CHI,30.4,0,359.0,0,40.0,0
+2026-hong-kong-2,hong-kong,Hard,Juncheng Shang,Francisco Comesana,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,CHN,22.8,0,0,0,R,178.0,ARG,26.8,0,261.0,0,82.0,0
+2026-hong-kong-2,hong-kong,Hard,Botic van de Zandschulp,Jan-Lennard Struff,6-3 1-6 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-hong-kong-2,hong-kong,Hard,Coleman Wong,Mariano Navone,6-3 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,HKG,23.3,0,0,0,R,178.0,ARG,26.6,0,123.0,0,79.0,0
+2026-hong-kong-2,hong-kong,Hard,Nuno Borges,Damir Dzumhur,6-4 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,POR,30.7,0,0,0,R,175.0,BIH,35.4,0,49.0,0,64.0,0
+2026-hong-kong-2,hong-kong,Hard,Marin Cilic,Adrian Mannarino,6-3 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,CRO,39.1,0,0,0,R,180.0,FRA,39.3,0,51.0,0,48.0,0
+2026-hong-kong-2,hong-kong,Hard,Yibing Wu,Fabian Marozsan,6-4 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,193.0,HUN,28.0,0,112.0,0,46.0,0
+2026-hong-kong-2,hong-kong,Hard,Alejandro Tabilo,Yi Zhou,4-6 6-4 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,193.0,CHN,22.5,0,40.0,0,222.0,0
+2026-hong-kong-2,hong-kong,Hard,Jan-Lennard Struff,Nishesh Basavareddy,7-6 6-5,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,180.0,USA,22.6,0,150.0,0,198.0,0
+2026-hong-kong-2,hong-kong,Hard,Laslo Djere,Emilio Nava,7-5 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,SRB,32.4,0,0,0,R,185.0,USA,25.6,0,206.0,0,75.0,0
+2026-hong-kong-2,hong-kong,Hard,Michael Mmoh,Patrick Kypson,6-2 3-6 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,USA,29.2,0,0,0,R,188.0,USA,27.4,0,359.0,0,95.0,0
+2026-hong-kong-2,hong-kong,Hard,Michael Mmoh,Cristian Garin,3-6 6-3 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,USA,29.2,0,0,0,R,185.0,CHI,31.2,0,359.0,0,90.0,0
+2026-hong-kong-2,hong-kong,Hard,Alejandro Tabilo,Luca Van Assche,7-6 3-3 6-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,178.0,FRA,23.5,0,40.0,0,105.0,0
+2026-hong-kong-2,hong-kong,Hard,Jan-Lennard Struff,Zsombor Piros,7-5 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,180.0,HUN,27.9,0,150.0,0,142.0,0
+2026-hong-kong-2,hong-kong,Hard,Emilio Nava,Kai Thompson,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,USA,25.6,0,0,0,R,185.0,UNK,23.5,0,75.0,0,150.0,0
+2026-hong-kong-2,hong-kong,Hard,Laslo Djere,Elias Ymer,6-4 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,SRB,32.4,0,0,0,R,185.0,SWE,31.5,0,206.0,0,174.0,0
+2026-hong-kong-2,hong-kong,Hard,Patrick Kypson,Vitaliy Sachko,6-2 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,USA,27.4,0,0,0,R,188.0,UKR,30.1,0,95.0,0,188.0,0
+2026-hong-kong-2,hong-kong,Hard,Nishesh Basavareddy,Yunchaokete Bu,7-6 6-9,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,USA,22.6,0,0,0,R,185.0,UNK,23.5,0,198.0,0,141.0,0
+2026-hong-kong-2,hong-kong,Hard,Yi Zhou,Francesco Maestrelli,6-0 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,CHN,22.5,0,0,0,R,196.0,ITA,22.8,0,222.0,0,114.0,0
+2026-adelaide-3,adelaide,Hard,Tomas Machac,Ugo Humbert,6-4 6-7 2-2,Final ,100,0,0,0,0,0,0,0,R,183.0,CZE,27.0,0,0,0,R,188.0,FRA,29.3,0,50.0,0,34.0,0
+2026-adelaide-3,adelaide,Hard,Ugo Humbert,Alejandro Davidovich Fokina,6-3 5-7 7-6,Semifinals ,100,0,0,0,0,0,0,0,R,188.0,FRA,29.3,0,0,0,R,183.0,ESP,28.3,0,34.0,0,19.0,0
+2026-adelaide-3,adelaide,Hard,Tomas Machac,Tommy Paul,2-6 6-3 6-3,Semifinals ,100,0,0,0,0,0,0,0,R,183.0,CZE,27.0,0,0,0,R,185.0,USA,30.4,0,50.0,0,24.0,0
+2026-adelaide-3,adelaide,Hard,Alejandro Davidovich Fokina,Valentin Vacherot,7-6 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,ESP,28.3,0,0,0,R,193.0,MON,28.5,0,19.0,0,26.0,0
+2026-adelaide-3,adelaide,Hard,Tommy Paul,Aleksandar Vukic,6-3 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,188.0,AUS,31.5,0,24.0,0,89.0,0
+2026-adelaide-3,adelaide,Hard,Tomas Machac,Jaume Munar,6-4 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,CZE,27.0,0,0,0,R,183.0,ESP,30.4,0,50.0,0,36.0,0
+2026-adelaide-3,adelaide,Hard,Ugo Humbert,Alexander Shevchenko,6-0 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,FRA,29.3,0,0,0,R,185.0,KAZ,26.9,0,34.0,0,88.0,0
+2026-adelaide-3,adelaide,Hard,Alejandro Davidovich Fokina,Rinky Hijikata,6-3 6-2,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ESP,28.3,0,0,0,R,178.0,AUS,26.6,0,19.0,0,117.0,0
+2026-adelaide-3,adelaide,Hard,Tommy Paul,Reilly Opelka,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,211.0,USA,30.0,0,24.0,0,68.0,0
+2026-adelaide-3,adelaide,Hard,Jaume Munar,Francisco Cerundolo,3-6 7-5 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ESP,30.4,0,0,0,R,185.0,ARG,29.2,0,36.0,0,20.0,0
+2026-adelaide-3,adelaide,Hard,Ugo Humbert,Tallon Griekspoor,6-4 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,FRA,29.3,0,0,0,R,188.0,NED,31.3,0,34.0,0,25.0,0
+2026-adelaide-3,adelaide,Hard,Valentin Vacherot,Thanasi Kokkinakis,,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,MON,28.5,0,0,0,R,193.0,AUS,31.6,0,26.0,0,77.0,0
+2026-adelaide-3,adelaide,Hard,Tomas Machac,Quentin Halys,6-4 6-2,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,CZE,27.0,0,0,0,R,191.0,FRA,31.0,0,50.0,0,102.0,0
+2026-adelaide-3,adelaide,Hard,Alexander Shevchenko,Marton Fucsovics,6-3 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,KAZ,26.9,0,0,0,R,188.0,HUN,35.7,0,88.0,0,56.0,0
+2026-adelaide-3,adelaide,Hard,Aleksandar Vukic,Andrea Vavassori,6-2 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,AUS,31.5,0,0,0,R,193.0,ITA,32.2,0,89.0,0,206.0,0
+2026-adelaide-3,adelaide,Hard,Aleksandar Vukic,Stefanos Tsitsipas,7-6 7-3,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,AUS,31.5,0,0,0,R,193.0,GRE,29.2,0,89.0,0,43.0,0
+2026-adelaide-3,adelaide,Hard,Tomas Machac,James Duckworth,6-3 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,CZE,27.0,0,0,0,R,183.0,AUS,35.7,0,50.0,0,83.0,0
+2026-adelaide-3,adelaide,Hard,Marton Fucsovics,Ethan Quinn,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,HUN,35.7,0,0,0,R,191.0,USA,23.3,0,56.0,0,73.0,0
+2026-adelaide-3,adelaide,Hard,Quentin Halys,Jacob Fearnley,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,183.0,GBR,26.2,0,102.0,0,87.0,0
+2026-adelaide-3,adelaide,Hard,Rinky Hijikata,Tristan Schoolkate,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,AUS,26.6,0,0,0,R,183.0,AUS,26.4,0,117.0,0,118.0,0
+2026-adelaide-3,adelaide,Hard,Alexander Shevchenko,Damir Dzumhur,4-6 6-4 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,KAZ,26.9,0,0,0,R,175.0,BIH,35.4,0,88.0,0,64.0,0
+2026-adelaide-3,adelaide,Hard,Andrea Vavassori,Gabriel Diallo,6-3 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,ITA,32.2,0,0,0,R,203.0,CAN,26.1,0,206.0,0,38.0,0
+2026-adelaide-3,adelaide,Hard,Valentin Vacherot,Miomir Kecmanovic,7-6 6-5,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,MON,28.5,0,0,0,R,183.0,SRB,28.1,0,26.0,0,58.0,0
+2026-adelaide-3,adelaide,Hard,Ugo Humbert,Terence Atmane,6-3 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,FRA,29.3,0,0,0,R,193.0,FRA,25.7,0,34.0,0,52.0,0
+2026-adelaide-3,adelaide,Hard,Thanasi Kokkinakis,Sebastian Korda,3-6 6-3 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,AUS,31.6,0,0,0,R,196.0,USA,27.1,0,77.0,0,37.0,0
+2026-adelaide-3,adelaide,Hard,Jaume Munar,Daniel Altmaier,6-3 6-0,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ESP,30.4,0,0,0,R,188.0,GER,29.1,0,36.0,0,55.0,0
+2026-adelaide-3,adelaide,Hard,Reilly Opelka,Alexei Popyrin,6-3 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,211.0,USA,30.0,0,0,0,R,196.0,AUS,28.2,0,68.0,0,45.0,0
+2026-adelaide-3,adelaide,Hard,Aleksandar Vukic,Jacob Fearnley,6-4 6-7 7-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,AUS,31.5,0,0,0,R,183.0,GBR,26.2,0,89.0,0,87.0,0
+2026-adelaide-3,adelaide,Hard,Quentin Halys,Adam Walton,6-2 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,183.0,AUS,28.4,0,102.0,0,91.0,0
+2026-adelaide-3,adelaide,Hard,Alexander Shevchenko,Filip Misolic,7-5 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,KAZ,26.9,0,0,0,R,180.0,AUT,25.9,0,88.0,0,84.0,0
+2026-adelaide-3,adelaide,Hard,Andrea Vavassori,Thiago Agustin Tirante,6-2 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,ITA,32.2,0,0,0,R,185.0,ARG,26.5,0,206.0,0,74.0,0
+2026-adelaide-3,adelaide,Hard,Thiago Agustin Tirante,Jesper de Jong,3-6 6-1 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ARG,26.5,0,0,0,R,185.0,UNK,23.5,0,74.0,0,150.0,0
+2026-adelaide-3,adelaide,Hard,Jacob Fearnley,Christopher O'Connell,7-6 7-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,GBR,26.2,0,0,0,R,185.0,UNK,23.5,0,87.0,0,127.0,0
+2026-adelaide-3,adelaide,Hard,Adam Walton,Jake Delaney,6-2 3-6 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,AUS,28.4,0,0,0,R,185.0,UNK,23.5,0,91.0,0,150.0,0
+2026-adelaide-3,adelaide,Hard,Filip Misolic,Daniel Jovanovski,7-5 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,AUT,25.9,0,0,0,R,185.0,UNK,23.5,0,84.0,0,150.0,0
+2026-adelaide-3,adelaide,Hard,Andrea Vavassori,Raphael Collignon,6-3 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,ITA,32.2,0,0,0,R,191.0,BEL,25.7,0,206.0,0,77.0,0
+2026-adelaide-3,adelaide,Hard,Aleksandar Vukic,Luca Nardi,6-7 4-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,AUS,31.5,0,0,0,R,185.0,ITA,24.1,0,89.0,0,135.0,0
+2026-adelaide-3,adelaide,Hard,Quentin Halys,Benjamin Bonzi,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,183.0,FRA,31.4,0,102.0,0,111.0,0
+2026-adelaide-3,adelaide,Hard,Alexander Shevchenko,Carlos Taberner,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,KAZ,26.9,0,0,0,R,183.0,ESP,29.6,0,88.0,0,100.0,0
+2026-auckland-4,auckland,Hard,Jakub Mensik,Sebastian Baez,6-3 7-6,Final ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,170.0,ARG,26.8,0,12.0,0,53.0,0
+2026-auckland-4,auckland,Hard,Jakub Mensik,Fabian Marozsan,7-6 4-9 6-6,Semifinals ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,193.0,HUN,28.0,0,12.0,0,46.0,0
+2026-auckland-4,auckland,Hard,Sebastian Baez,Marcos Giron,6-1 6-4,Semifinals ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,180.0,USA,34.2,0,53.0,0,69.0,0
+2026-auckland-4,auckland,Hard,Sebastian Baez,Ben Shelton,7-5 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,193.0,USA,25.1,0,53.0,0,8.0,0
+2026-auckland-4,auckland,Hard,Jakub Mensik,Giovanni Mpetshi Perricard,6-4 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,203.0,FRA,24.3,0,12.0,0,54.0,0
+2026-auckland-4,auckland,Hard,Marcos Giron,Luciano Darderi,1-6 7-5 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,180.0,USA,34.2,0,0,0,R,183.0,ITA,25.7,0,69.0,0,21.0,0
+2026-auckland-4,auckland,Hard,Fabian Marozsan,Eliot Spizzirri,6-4 2-6 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,193.0,HUN,28.0,0,0,0,R,183.0,USA,25.6,0,46.0,0,78.0,0
+2026-auckland-4,auckland,Hard,Ben Shelton,Francisco Comesana,7-5 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,178.0,ARG,26.8,0,8.0,0,82.0,0
+2026-auckland-4,auckland,Hard,Fabian Marozsan,Casper Ruud,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,HUN,28.0,0,0,0,R,183.0,NOR,28.8,0,46.0,0,13.0,0
+2026-auckland-4,auckland,Hard,Jakub Mensik,Hamad Medjedovic,6-1 3-6 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,188.0,SRB,24.3,0,12.0,0,110.0,0
+2026-auckland-4,auckland,Hard,Luciano Darderi,Alejandro Tabilo,1-6 7-5 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,188.0,CHI,30.4,0,21.0,0,40.0,0
+2026-auckland-4,auckland,Hard,Giovanni Mpetshi Perricard,Cameron Norrie,4-6 6-3 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,203.0,FRA,24.3,0,0,0,R,188.0,GBR,32.2,0,54.0,0,29.0,0
+2026-auckland-4,auckland,Hard,Marcos Giron,Alex Michelsen,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,180.0,USA,34.2,0,0,0,R,193.0,USA,23.3,0,69.0,0,44.0,0
+2026-auckland-4,auckland,Hard,Sebastian Baez,Jenson Brooksby,7-5 6-0,Round of 16 ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,188.0,USA,25.2,0,53.0,0,41.0,0
+2026-auckland-4,auckland,Hard,Eliot Spizzirri,Nuno Borges,7-6 6-6,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,USA,25.6,0,0,0,R,185.0,POR,30.7,0,78.0,0,49.0,0
+2026-auckland-4,auckland,Hard,Alex Michelsen,Mariano Navone,2-6 6-2 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,USA,23.3,0,0,0,R,178.0,ARG,26.6,0,44.0,0,79.0,0
+2026-auckland-4,auckland,Hard,Nuno Borges,Tomas Martin Etcheverry,7-5 3-6 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,POR,30.7,0,0,0,R,196.0,ARG,28.3,0,49.0,0,31.0,0
+2026-auckland-4,auckland,Hard,Marcos Giron,Alexandre Muller,6-2 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,USA,34.2,0,0,0,R,183.0,FRA,30.7,0,69.0,0,81.0,0
+2026-auckland-4,auckland,Hard,Fabian Marozsan,Gael Monfils,5-7 6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,HUN,28.0,0,0,0,R,193.0,FRA,41.1,0,46.0,0,148.0,0
+2026-auckland-4,auckland,Hard,Hamad Medjedovic,Aleksandar Kovacevic,6-4 3-6 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,SRB,24.3,0,0,0,R,183.0,USA,29.1,0,110.0,0,72.0,0
+2026-auckland-4,auckland,Hard,Giovanni Mpetshi Perricard,Roberto Bautista Agut,6-3 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,203.0,FRA,24.3,0,0,0,R,183.0,ESP,39.5,0,54.0,0,93.0,0
+2026-auckland-4,auckland,Hard,Alejandro Tabilo,Camilo Ugo Carabelli,6-4 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,185.0,ARG,28.1,0,40.0,0,67.0,0
+2026-auckland-4,auckland,Hard,Cameron Norrie,Hugo Gaston,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,GBR,32.2,0,0,0,R,173.0,FRA,27.1,0,29.0,0,96.0,0
+2026-auckland-4,auckland,Hard,Sebastian Baez,Emilio Nava,4-6 7-5 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,185.0,USA,25.6,0,53.0,0,75.0,0
+2026-auckland-4,auckland,Hard,Jenson Brooksby,James Watt,6-4 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,25.2,0,0,0,R,185.0,UNK,23.5,0,41.0,0,150.0,0
+2026-auckland-4,auckland,Hard,Francisco Comesana,Valentin Royer,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,ARG,26.8,0,0,0,R,185.0,UNK,23.5,0,82.0,0,60.0,0
+2026-auckland-4,auckland,Hard,Eliot Spizzirri,Adrian Mannarino,6-4 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,USA,25.6,0,0,0,R,180.0,FRA,39.3,0,78.0,0,48.0,0
+2026-auckland-4,auckland,Hard,Hamad Medjedovic,Mattia Bellucci,6-3 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,SRB,24.3,0,0,0,R,175.0,ITA,26.3,0,110.0,0,94.0,0
+2026-auckland-4,auckland,Hard,Emilio Nava,Jan-Lennard Struff,3-6 6-4 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,USA,25.6,0,0,0,R,185.0,UNK,23.5,0,75.0,0,150.0,0
+2026-auckland-4,auckland,Hard,Eliot Spizzirri,Juan Manuel Cerundolo,6-4 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,USA,25.6,0,0,0,R,183.0,ARG,25.2,0,78.0,0,70.0,0
+2026-auckland-4,auckland,Hard,Hugo Gaston,Vit Kopriva,6-2 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,173.0,FRA,27.1,0,0,0,R,178.0,CZE,30.1,0,96.0,0,62.0,0
+2026-auckland-4,auckland,Hard,Mattia Bellucci,Geoffrey Blancaneaux,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,ITA,26.3,0,0,0,R,180.0,FRA,27.5,0,94.0,0,315.0,0
+2026-auckland-4,auckland,Hard,Eliot Spizzirri,Cristian Garin,6-2 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,USA,25.6,0,0,0,R,185.0,CHI,31.2,0,78.0,0,90.0,0
+2026-auckland-4,auckland,Hard,Hamad Medjedovic,Dalibor Svrcina,6-1 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,SRB,24.3,0,0,0,R,178.0,CZE,24.3,0,110.0,0,109.0,0
+2026-auckland-4,auckland,Hard,Jan-Lennard Struff,Anton Shepp,7-5 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-auckland-4,auckland,Hard,Juan Manuel Cerundolo,Shintaro Mochizuki,6-4 6-7 3-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,ARG,25.2,0,0,0,R,175.0,JPN,24.3,0,70.0,0,130.0,0
+2026-auckland-4,auckland,Hard,Hugo Gaston,Isaac Becroft,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,173.0,FRA,27.1,0,0,0,R,180.0,NZL,24.8,0,96.0,0,1016.0,0
+2026-auckland-4,auckland,Hard,Vit Kopriva,Pablo Carreno Busta,6-3 1-6 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,CZE,30.1,0,0,0,R,188.0,ESP,36.2,0,62.0,0,107.0,0
+2026-auckland-4,auckland,Hard,Emilio Nava,Patrick Kypson,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,USA,25.6,0,0,0,R,188.0,USA,27.4,0,75.0,0,95.0,0
+2026-australian-open-5,australian-open,Hard,Carlos Alcaraz,Novak Djokovic,2-6 6-2 6-3 7-5,Final ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,188.0,SRB,40.3,0,1.0,0,3.0,0
+2026-australian-open-5,australian-open,Hard,Carlos Alcaraz,Alexander Zverev,6-4 7-6 6-5 3-7 6-7 4-5,Semifinals ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,198.0,GER,30.5,0,1.0,0,4.0,0
+2026-australian-open-5,australian-open,Hard,Novak Djokovic,Jannik Sinner,3-6 6-3 4-6 6-4 6-4,Semifinals ,100,0,0,0,0,0,0,0,R,188.0,SRB,40.3,0,0,0,R,191.0,ITA,26.2,0,3.0,0,2.0,0
+2026-australian-open-5,australian-open,Hard,Jannik Sinner,Ben Shelton,6-3 6-4 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,191.0,ITA,26.2,0,0,0,R,193.0,USA,25.1,0,2.0,0,8.0,0
+2026-australian-open-5,australian-open,Hard,Novak Djokovic,Lorenzo Musetti,4-6 3-6 3-1,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,SRB,40.3,0,0,0,R,185.0,ITA,25.7,0,3.0,0,5.0,0
+2026-australian-open-5,australian-open,Hard,Carlos Alcaraz,Alex de Minaur,7-5 6-2 6-1,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,185.0,UNK,23.5,0,1.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Zverev,Learner Tien,6-3 6-7 5-1 6-6 7-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,198.0,GER,30.5,0,0,0,R,180.0,USA,22.0,0,4.0,0,27.0,0
+2026-australian-open-5,australian-open,Hard,Jannik Sinner,Luciano Darderi,6-1 6-3 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,191.0,ITA,26.2,0,0,0,R,183.0,ITA,25.7,0,2.0,0,21.0,0
+2026-australian-open-5,australian-open,Hard,Novak Djokovic,Jakub Mensik,,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,SRB,40.3,0,0,0,R,193.0,CZE,22.2,0,3.0,0,12.0,0
+2026-australian-open-5,australian-open,Hard,Lorenzo Musetti,Taylor Fritz,6-2 7-5 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,ITA,25.7,0,0,0,R,196.0,USA,30.0,0,5.0,0,7.0,0
+2026-australian-open-5,australian-open,Hard,Ben Shelton,Casper Ruud,3-6 6-4 6-3 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,183.0,NOR,28.8,0,8.0,0,13.0,0
+2026-australian-open-5,australian-open,Hard,Carlos Alcaraz,Tommy Paul,7-6 6-6 7-4,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,185.0,USA,30.4,0,1.0,0,24.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Zverev,Francisco Cerundolo,6-2 6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,198.0,GER,30.5,0,0,0,R,185.0,ARG,29.2,0,4.0,0,20.0,0
+2026-australian-open-5,australian-open,Hard,Alex de Minaur,Alexander Bublik,6-4 6-1 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,196.0,KAZ,30.3,0,150.0,0,10.0,0
+2026-australian-open-5,australian-open,Hard,Learner Tien,Daniil Medvedev,6-4 6-0 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,180.0,USA,22.0,0,0,0,R,198.0,RUS,31.7,0,27.0,0,11.0,0
+2026-australian-open-5,australian-open,Hard,Jannik Sinner,Eliot Spizzirri,4-6 6-3 6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,ITA,26.2,0,0,0,R,183.0,USA,25.6,0,2.0,0,78.0,0
+2026-australian-open-5,australian-open,Hard,Novak Djokovic,Botic van de Zandschulp,6-3 6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,SRB,40.3,0,0,0,R,185.0,UNK,23.5,0,3.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Ben Shelton,Valentin Vacherot,6-4 6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,193.0,MON,28.5,0,8.0,0,26.0,0
+2026-australian-open-5,australian-open,Hard,Taylor Fritz,Stan Wawrinka,7-6 2-5 6-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,USA,30.0,0,0,0,R,183.0,SUI,42.6,0,7.0,0,92.0,0
+2026-australian-open-5,australian-open,Hard,Casper Ruud,Marin Cilic,6-4 6-4 3-6 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,NOR,28.8,0,0,0,R,198.0,CRO,39.1,0,13.0,0,51.0,0
+2026-australian-open-5,australian-open,Hard,Jakub Mensik,Ethan Quinn,6-2 7-6 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,191.0,USA,23.3,0,12.0,0,73.0,0
+2026-australian-open-5,australian-open,Hard,Carlos Alcaraz,Corentin Moutet,6-2 6-4 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,180.0,FRA,28.5,0,1.0,0,33.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Zverev,Cameron Norrie,7-5 4-6 6-3 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,GER,30.5,0,0,0,R,188.0,GBR,32.2,0,4.0,0,29.0,0
+2026-australian-open-5,australian-open,Hard,Lorenzo Musetti,Tomas Machac,5-7 6-4 6-2 5-7 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,ITA,25.7,0,0,0,R,183.0,CZE,27.0,0,5.0,0,50.0,0
+2026-australian-open-5,australian-open,Hard,Alex de Minaur,Frances Tiafoe,6-3 6-4 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,USA,29.7,0,150.0,0,22.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Bublik,Tomas Martin Etcheverry,7-6 7-4 6-6,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,196.0,ARG,28.3,0,10.0,0,31.0,0
+2026-australian-open-5,australian-open,Hard,Daniil Medvedev,Fabian Marozsan,6-7 5-6 4-5 7-0 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,193.0,HUN,28.0,0,11.0,0,46.0,0
+2026-australian-open-5,australian-open,Hard,Francisco Cerundolo,Andrey Rublev,6-3 7-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,188.0,RUS,30.0,0,20.0,0,17.0,0
+2026-australian-open-5,australian-open,Hard,Tommy Paul,Alejandro Davidovich Fokina,6-1 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,183.0,ESP,28.3,0,24.0,0,19.0,0
+2026-australian-open-5,australian-open,Hard,Luciano Darderi,Karen Khachanov,7-6 3-5 6-6 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,198.0,RUS,31.4,0,21.0,0,16.0,0
+2026-australian-open-5,australian-open,Hard,Learner Tien,Nuno Borges,7-6 6-9 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,USA,22.0,0,0,0,R,185.0,POR,30.7,0,27.0,0,49.0,0
+2026-australian-open-5,australian-open,Hard,Jannik Sinner,James Duckworth,6-1 6-4 6-2,Round of 64 ,100,0,0,0,0,0,0,0,R,191.0,ITA,26.2,0,0,0,R,183.0,AUS,35.7,0,2.0,0,83.0,0
+2026-australian-open-5,australian-open,Hard,Novak Djokovic,Francesco Maestrelli,6-3 6-2 6-2,Round of 64 ,100,0,0,0,0,0,0,0,R,188.0,SRB,40.3,0,0,0,R,196.0,ITA,22.8,0,3.0,0,114.0,0
+2026-australian-open-5,australian-open,Hard,Lorenzo Musetti,Lorenzo Sonego,6-3 6-3 6-4,Round of 64 ,100,0,0,0,0,0,0,0,R,185.0,ITA,25.7,0,0,0,R,191.0,ITA,32.4,0,5.0,0,61.0,0
+2026-australian-open-5,australian-open,Hard,Ben Shelton,Dane Sweeny,6-3 6-2 6-2,Round of 64 ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,170.0,AUS,25.9,0,8.0,0,131.0,0
+2026-australian-open-5,australian-open,Hard,Taylor Fritz,Vit Kopriva,6-1 6-4 7-6,Round of 64 ,100,0,0,0,0,0,0,0,R,196.0,USA,30.0,0,0,0,R,178.0,CZE,30.1,0,7.0,0,62.0,0
+2026-australian-open-5,australian-open,Hard,Casper Ruud,Jaume Munar,6-3 7-5 6-4,Round of 64 ,100,0,0,0,0,0,0,0,R,183.0,NOR,28.8,0,0,0,R,183.0,ESP,30.4,0,13.0,0,36.0,0
+2026-australian-open-5,australian-open,Hard,Karen Khachanov,Nishesh Basavareddy,6-1 6-4 6-3,Round of 64 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.4,0,0,0,R,180.0,USA,22.6,0,16.0,0,198.0,0
+2026-australian-open-5,australian-open,Hard,Jakub Mensik,Rafael Jodar,6-2 6-4 6-4,Round of 64 ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,185.0,UNK,23.5,0,12.0,0,103.0,0
+2026-australian-open-5,australian-open,Hard,Marin Cilic,Denis Shapovalov,6-4 6-3 6-2,Round of 64 ,100,0,0,0,0,0,0,0,R,198.0,CRO,39.1,0,0,0,R,185.0,CAN,28.5,0,51.0,0,39.0,0
+2026-australian-open-5,australian-open,Hard,Luciano Darderi,Sebastian Baez,6-3 1-6 6-4 6-3,Round of 64 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,170.0,ARG,26.8,0,21.0,0,53.0,0
+2026-australian-open-5,australian-open,Hard,Valentin Vacherot,Rinky Hijikata,6-1 6-3 4-6 6-2,Round of 64 ,100,0,0,0,0,0,0,0,R,193.0,MON,28.5,0,0,0,R,178.0,AUS,26.6,0,26.0,0,117.0,0
+2026-australian-open-5,australian-open,Hard,Tomas Machac,Stefanos Tsitsipas,6-4 3-6 7-6 7-5,Round of 64 ,100,0,0,0,0,0,0,0,R,183.0,CZE,27.0,0,0,0,R,193.0,GRE,29.2,0,50.0,0,43.0,0
+2026-australian-open-5,australian-open,Hard,Ethan Quinn,Hubert Hurkacz,6-4 7-6 6-5,Round of 64 ,100,0,0,0,0,0,0,0,R,191.0,USA,23.3,0,0,0,R,196.0,POL,30.7,0,73.0,0,71.0,0
+2026-australian-open-5,australian-open,Hard,Eliot Spizzirri,Yibing Wu,6-2 6-4 6-7 4-6 4-3,Round of 64 ,100,0,0,0,0,0,0,0,R,183.0,USA,25.6,0,0,0,R,183.0,CHN,27.9,0,78.0,0,112.0,0
+2026-australian-open-5,australian-open,Hard,Botic van de Zandschulp,Juncheng Shang,7-6 6-6 6-2,Round of 64 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,180.0,CHN,22.8,0,150.0,0,261.0,0
+2026-australian-open-5,australian-open,Hard,Stan Wawrinka,Arthur Gea,4-6 6-3 3-6 7-5 7-6,Round of 64 ,100,0,0,0,0,0,0,0,R,183.0,SUI,42.6,0,0,0,R,185.0,UNK,23.5,0,92.0,0,161.0,0
+2026-australian-open-5,australian-open,Hard,Carlos Alcaraz,Yannick Hanfmann,7-6 6-4 6-3,Round of 64 ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,193.0,GER,35.8,0,1.0,0,65.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Zverev,Alexandre Muller,6-3 4-6 6-3 6-4,Round of 64 ,100,0,0,0,0,0,0,0,R,198.0,GER,30.5,0,0,0,R,183.0,FRA,30.7,0,4.0,0,81.0,0
+2026-australian-open-5,australian-open,Hard,Alex de Minaur,Hamad Medjedovic,6-7 5-2 6-2 6-1,Round of 64 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,SRB,24.3,0,150.0,0,110.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Bublik,Marton Fucsovics,7-5 6-4 7-5,Round of 64 ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,188.0,HUN,35.7,0,10.0,0,56.0,0
+2026-australian-open-5,australian-open,Hard,Daniil Medvedev,Quentin Halys,6-7 9-3 6-4 6-2,Round of 64 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,191.0,FRA,31.0,0,11.0,0,102.0,0
+2026-australian-open-5,australian-open,Hard,Andrey Rublev,Jaime Faria,6-4 6-3 4-6 7-5,Round of 64 ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,188.0,POR,24.0,0,17.0,0,163.0,0
+2026-australian-open-5,australian-open,Hard,Alejandro Davidovich Fokina,Reilly Opelka,6-3 7-6 5-3 4-7 6-6,Round of 64 ,100,0,0,0,0,0,0,0,R,183.0,ESP,28.3,0,0,0,R,211.0,USA,30.0,0,19.0,0,68.0,0
+2026-australian-open-5,australian-open,Hard,Francisco Cerundolo,Damir Dzumhur,6-3 6-2 6-1,Round of 64 ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,175.0,BIH,35.4,0,20.0,0,64.0,0
+2026-australian-open-5,australian-open,Hard,Tommy Paul,Thiago Agustin Tirante,6-3 6-4 6-2,Round of 64 ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,185.0,ARG,26.5,0,24.0,0,74.0,0
+2026-australian-open-5,australian-open,Hard,Learner Tien,Alexander Shevchenko,6-2 5-7 6-1 6-0,Round of 64 ,100,0,0,0,0,0,0,0,R,180.0,USA,22.0,0,0,0,R,185.0,KAZ,26.9,0,27.0,0,88.0,0
+2026-australian-open-5,australian-open,Hard,Cameron Norrie,Emilio Nava,6-1 7-6 4-3 7-6,Round of 64 ,100,0,0,0,0,0,0,0,R,188.0,GBR,32.2,0,0,0,R,185.0,USA,25.6,0,29.0,0,75.0,0
+2026-australian-open-5,australian-open,Hard,Frances Tiafoe,Francisco Comesana,6-4 6-3 4-6 6-2,Round of 64 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,178.0,ARG,26.8,0,22.0,0,82.0,0
+2026-australian-open-5,australian-open,Hard,Corentin Moutet,Michael Zheng,3-6 6-1 6-3 2-0,Round of 64 ,100,0,0,0,0,0,0,0,R,180.0,FRA,28.5,0,0,0,R,185.0,UNK,23.5,0,33.0,0,145.0,0
+2026-australian-open-5,australian-open,Hard,Nuno Borges,Jordan Thompson,6-7 9-3 6-2 6-4,Round of 64 ,100,0,0,0,0,0,0,0,R,185.0,POR,30.7,0,0,0,R,183.0,AUS,33.5,0,49.0,0,116.0,0
+2026-australian-open-5,australian-open,Hard,Tomas Martin Etcheverry,Arthur Fery,7-6 6-4 6-1,Round of 64 ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,175.0,GBR,24.9,0,31.0,0,173.0,0
+2026-australian-open-5,australian-open,Hard,Fabian Marozsan,Kamil Majchrzak,6-3 6-4 7-6,Round of 64 ,100,0,0,0,0,0,0,0,R,193.0,HUN,28.0,0,0,0,R,180.0,POL,31.6,0,46.0,0,57.0,0
+2026-australian-open-5,australian-open,Hard,Jannik Sinner,Hugo Gaston,6-2 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,191.0,ITA,26.2,0,0,0,R,173.0,FRA,27.1,0,2.0,0,96.0,0
+2026-australian-open-5,australian-open,Hard,Lorenzo Musetti,Raphael Collignon,4-6 7-6 7-3 3-5,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,ITA,25.7,0,0,0,R,191.0,BEL,25.7,0,5.0,0,77.0,0
+2026-australian-open-5,australian-open,Hard,Ben Shelton,Ugo Humbert,6-3 7-6 7-2,Round of 128 ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,188.0,FRA,29.3,0,8.0,0,34.0,0
+2026-australian-open-5,australian-open,Hard,Taylor Fritz,Valentin Royer,7-6 5-5 6-7 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,196.0,USA,30.0,0,0,0,R,185.0,UNK,23.5,0,7.0,0,60.0,0
+2026-australian-open-5,australian-open,Hard,Karen Khachanov,Alex Michelsen,4-6 6-4 6-3 5-7 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.4,0,0,0,R,193.0,USA,23.3,0,16.0,0,44.0,0
+2026-australian-open-5,australian-open,Hard,Jakub Mensik,Pablo Carreno Busta,7-5 4-6 2-6 7-6 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,188.0,ESP,36.2,0,12.0,0,107.0,0
+2026-australian-open-5,australian-open,Hard,Luciano Darderi,Cristian Garin,7-6 7-5 7-5,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,185.0,CHI,31.2,0,21.0,0,90.0,0
+2026-australian-open-5,australian-open,Hard,Ethan Quinn,Tallon Griekspoor,6-2 6-3 6-2,Round of 128 ,100,0,0,0,0,0,0,0,R,191.0,USA,23.3,0,0,0,R,188.0,NED,31.3,0,73.0,0,25.0,0
+2026-australian-open-5,australian-open,Hard,Eliot Spizzirri,Joao Fonseca,6-4 2-6 6-1 6-2,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,USA,25.6,0,0,0,R,185.0,BRA,21.3,0,78.0,0,35.0,0
+2026-australian-open-5,australian-open,Hard,Stefanos Tsitsipas,Shintaro Mochizuki,4-6 6-3 6-2 6-2,Round of 128 ,100,0,0,0,0,0,0,0,R,193.0,GRE,29.2,0,0,0,R,175.0,JPN,24.3,0,43.0,0,130.0,0
+2026-australian-open-5,australian-open,Hard,Sebastian Baez,Giovanni Mpetshi Perricard,6-4 6-4 3-6 5-7 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,203.0,FRA,24.3,0,53.0,0,54.0,0
+2026-australian-open-5,australian-open,Hard,Nishesh Basavareddy,Christopher O'Connell,4-6 7-6 6-7 3-7 6-2 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,180.0,USA,22.6,0,0,0,R,185.0,UNK,23.5,0,198.0,0,127.0,0
+2026-australian-open-5,australian-open,Hard,James Duckworth,Dino Prizmic,7-6 3-4 1-6 7-6 6-5,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,AUS,35.7,0,0,0,R,188.0,CRO,21.5,0,83.0,0,119.0,0
+2026-australian-open-5,australian-open,Hard,Hubert Hurkacz,Zizou Bergs,6-7 6-6 7-6 6-3 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,196.0,POL,30.7,0,0,0,R,185.0,BEL,28.4,0,71.0,0,47.0,0
+2026-australian-open-5,australian-open,Hard,Rafael Jodar,Rei Sakamoto,7-6 6-6 5-1 4-7 6-6,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,103.0,0,159.0,0
+2026-australian-open-5,australian-open,Hard,Vit Kopriva,Jan-Lennard Struff,4-6 6-2 2-6 6-3 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,178.0,CZE,30.1,0,0,0,R,185.0,UNK,23.5,0,62.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Tomas Machac,Grigor Dimitrov,6-4 6-4 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,CZE,27.0,0,0,0,R,191.0,BUL,36.4,0,50.0,0,42.0,0
+2026-australian-open-5,australian-open,Hard,Lorenzo Sonego,Carlos Taberner,6-4 6-0 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,191.0,ITA,32.4,0,0,0,R,183.0,ESP,29.6,0,61.0,0,100.0,0
+2026-australian-open-5,australian-open,Hard,Dane Sweeny,Gael Monfils,6-7 3-5 7-4 6-5,Round of 128 ,100,0,0,0,0,0,0,0,R,170.0,AUS,25.9,0,0,0,R,193.0,FRA,41.1,0,131.0,0,148.0,0
+2026-australian-open-5,australian-open,Hard,Yibing Wu,Luca Nardi,7-5 4-6 6-4 6-2,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,185.0,ITA,24.1,0,112.0,0,135.0,0
+2026-australian-open-5,australian-open,Hard,Novak Djokovic,Pedro Martinez,6-3 6-2 6-2,Round of 128 ,100,0,0,0,0,0,0,0,R,188.0,SRB,40.3,0,0,0,R,185.0,ESP,30.5,0,3.0,0,106.0,0
+2026-australian-open-5,australian-open,Hard,Alex de Minaur,Mackenzie McDonald,6-2 6-2 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Nuno Borges,Felix Auger-Aliassime,3-6 6-4 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,POR,30.7,0,0,0,R,185.0,UNK,23.5,0,49.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Daniil Medvedev,Jesper de Jong,7-5 6-2 7-6,Round of 128 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,185.0,UNK,23.5,0,11.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Casper Ruud,Mattia Bellucci,6-1 6-2 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,NOR,28.8,0,0,0,R,175.0,ITA,26.3,0,13.0,0,94.0,0
+2026-australian-open-5,australian-open,Hard,Andrey Rublev,Matteo Arnaldi,6-4 6-2 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,185.0,ITA,26.6,0,17.0,0,85.0,0
+2026-australian-open-5,australian-open,Hard,Alejandro Davidovich Fokina,Filip Misolic,6-2 6-3 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,ESP,28.3,0,0,0,R,180.0,AUT,25.9,0,19.0,0,84.0,0
+2026-australian-open-5,australian-open,Hard,Arthur Gea,Jiri Lehecka,7-5 7-6 7-1,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,CZE,25.9,0,161.0,0,23.0,0
+2026-australian-open-5,australian-open,Hard,Tommy Paul,Aleksandar Kovacevic,6-4 6-3 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,183.0,USA,29.1,0,24.0,0,72.0,0
+2026-australian-open-5,australian-open,Hard,Denis Shapovalov,Yunchaokete Bu,6-3 7-6 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,CAN,28.5,0,0,0,R,185.0,UNK,23.5,0,39.0,0,141.0,0
+2026-australian-open-5,australian-open,Hard,Fabian Marozsan,Arthur Rinderknech,6-3 6-4 6-7 2-4,Round of 128 ,100,0,0,0,0,0,0,0,R,193.0,HUN,28.0,0,0,0,R,196.0,FRA,32.2,0,46.0,0,28.0,0
+2026-australian-open-5,australian-open,Hard,Learner Tien,Marcos Giron,7-6 4-2 3-6 7-6 6-6,Round of 128 ,100,0,0,0,0,0,0,0,R,180.0,USA,22.0,0,0,0,R,180.0,USA,34.2,0,27.0,0,69.0,0
+2026-australian-open-5,australian-open,Hard,Botic van de Zandschulp,Brandon Nakashima,6-3 4-6 7-6 7-1,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,USA,26.2,0,150.0,0,30.0,0
+2026-australian-open-5,australian-open,Hard,Valentin Vacherot,Martin Damm,6-4 6-4 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,193.0,MON,28.5,0,0,0,R,203.0,USA,23.4,0,26.0,0,129.0,0
+2026-australian-open-5,australian-open,Hard,Marin Cilic,Daniel Altmaier,6-0 6-0 7-6,Round of 128 ,100,0,0,0,0,0,0,0,R,198.0,CRO,39.1,0,0,0,R,188.0,GER,29.1,0,51.0,0,55.0,0
+2026-australian-open-5,australian-open,Hard,Quentin Halys,Alejandro Tabilo,6-2 6-2 7-6,Round of 128 ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,188.0,CHI,30.4,0,102.0,0,40.0,0
+2026-australian-open-5,australian-open,Hard,Rinky Hijikata,Adrian Mannarino,6-3 6-3 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,178.0,AUS,26.6,0,0,0,R,180.0,FRA,39.3,0,117.0,0,48.0,0
+2026-australian-open-5,australian-open,Hard,Francesco Maestrelli,Terence Atmane,6-4 3-6 6-7 4-1 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,196.0,ITA,22.8,0,0,0,R,193.0,FRA,25.7,0,114.0,0,52.0,0
+2026-australian-open-5,australian-open,Hard,Kamil Majchrzak,Jacob Fearnley,7-6 7-2 3-5 7-6,Round of 128 ,100,0,0,0,0,0,0,0,R,180.0,POL,31.6,0,0,0,R,183.0,GBR,26.2,0,57.0,0,87.0,0
+2026-australian-open-5,australian-open,Hard,Hamad Medjedovic,Mariano Navone,6-2 6-7 3-4 6-2,Round of 128 ,100,0,0,0,0,0,0,0,R,188.0,SRB,24.3,0,0,0,R,178.0,ARG,26.6,0,110.0,0,79.0,0
+2026-australian-open-5,australian-open,Hard,Alexandre Muller,Alexei Popyrin,2-6 6-3 3-6 7-6 7-5,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,FRA,30.7,0,0,0,R,196.0,AUS,28.2,0,81.0,0,45.0,0
+2026-australian-open-5,australian-open,Hard,Jaume Munar,Dalibor Svrcina,3-6 6-2 6-7 5-5 7-3,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,ESP,30.4,0,0,0,R,178.0,CZE,24.3,0,36.0,0,109.0,0
+2026-australian-open-5,australian-open,Hard,Reilly Opelka,Nicolai Budkov Kjaer,6-4 6-3 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,211.0,USA,30.0,0,0,0,R,188.0,NOR,21.0,0,68.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Juncheng Shang,Roberto Bautista Agut,6-4 6-7 2-4 6-0,Round of 128 ,100,0,0,0,0,0,0,0,R,180.0,CHN,22.8,0,0,0,R,183.0,ESP,39.5,0,261.0,0,93.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Shevchenko,Elias Ymer,3-6 7-5 6-4 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,KAZ,26.9,0,0,0,R,185.0,SWE,31.5,0,88.0,0,174.0,0
+2026-australian-open-5,australian-open,Hard,Jordan Thompson,Juan Manuel Cerundolo,6-7 3-5 7-1 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,AUS,33.5,0,0,0,R,183.0,ARG,25.2,0,116.0,0,70.0,0
+2026-australian-open-5,australian-open,Hard,Thiago Agustin Tirante,Aleksandar Vukic,7-5 6-2 6-2,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,ARG,26.5,0,0,0,R,188.0,AUS,31.5,0,74.0,0,89.0,0
+2026-australian-open-5,australian-open,Hard,Stan Wawrinka,Laslo Djere,5-7 6-3 6-4 7-6,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,SUI,42.6,0,0,0,R,188.0,SRB,32.4,0,92.0,0,206.0,0
+2026-australian-open-5,australian-open,Hard,Carlos Alcaraz,Adam Walton,6-3 7-6 6-2,Round of 128 ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,183.0,AUS,28.4,0,1.0,0,91.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Zverev,Gabriel Diallo,6-7 1-1 6-4 6-2,Round of 128 ,100,0,0,0,0,0,0,0,R,198.0,GER,30.5,0,0,0,R,203.0,CAN,26.1,0,4.0,0,38.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Bublik,Jenson Brooksby,6-4 6-4 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,188.0,USA,25.2,0,10.0,0,41.0,0
+2026-australian-open-5,australian-open,Hard,Francisco Cerundolo,Zhizhen Zhang,6-3 7-6 6-0,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,193.0,CHN,31.0,0,20.0,0,262.0,0
+2026-australian-open-5,australian-open,Hard,Arthur Fery,Flavio Cobolli,7-6 6-1 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,175.0,GBR,24.9,0,0,0,R,183.0,ITA,25.4,0,173.0,0,15.0,0
+2026-australian-open-5,australian-open,Hard,Cameron Norrie,Benjamin Bonzi,6-0 6-7 2-6 4-3 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,188.0,GBR,32.2,0,0,0,R,183.0,FRA,31.4,0,29.0,0,111.0,0
+2026-australian-open-5,australian-open,Hard,Frances Tiafoe,Jason Kubler,7-6 6-4 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,178.0,AUS,33.6,0,22.0,0,217.0,0
+2026-australian-open-5,australian-open,Hard,Corentin Moutet,Tristan Schoolkate,6-4 7-6 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,180.0,FRA,28.5,0,0,0,R,183.0,AUS,26.4,0,33.0,0,118.0,0
+2026-australian-open-5,australian-open,Hard,Francisco Comesana,Patrick Kypson,6-2 6-3 3-6 6-3,Round of 128 ,100,0,0,0,0,0,0,0,R,178.0,ARG,26.8,0,0,0,R,188.0,USA,27.4,0,82.0,0,95.0,0
+2026-australian-open-5,australian-open,Hard,Damir Dzumhur,Liam Draxl,7-5 6-0 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,175.0,BIH,35.4,0,0,0,R,185.0,UNK,23.5,0,64.0,0,147.0,0
+2026-australian-open-5,australian-open,Hard,Tomas Martin Etcheverry,Miomir Kecmanovic,6-2 3-6 4-6 6-3 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,183.0,SRB,28.1,0,31.0,0,58.0,0
+2026-australian-open-5,australian-open,Hard,Jaime Faria,Alexander Blockx,6-3 3-6 6-3 6-4,Round of 128 ,100,0,0,0,0,0,0,0,R,188.0,POR,24.0,0,0,0,R,191.0,BEL,22.5,0,163.0,0,97.0,0
+2026-australian-open-5,australian-open,Hard,Marton Fucsovics,Camilo Ugo Carabelli,7-6 6-5 6-1,Round of 128 ,100,0,0,0,0,0,0,0,R,188.0,HUN,35.7,0,0,0,R,185.0,ARG,28.1,0,56.0,0,67.0,0
+2026-australian-open-5,australian-open,Hard,Yannick Hanfmann,Zachary Svajda,7-5 4-6 6-4 7-6,Round of 128 ,100,0,0,0,0,0,0,0,R,193.0,GER,35.8,0,0,0,R,175.0,USA,24.8,0,65.0,0,99.0,0
+2026-australian-open-5,australian-open,Hard,Emilio Nava,Kyrian Jacquet,6-2 7-5 6-7 5-6 4-6 7-6,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,USA,25.6,0,0,0,R,178.0,FRA,26.2,0,75.0,0,149.0,0
+2026-australian-open-5,australian-open,Hard,Michael Zheng,Sebastian Korda,6-4 6-4 3-6 6-7 0-3,Round of 128 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,196.0,USA,27.1,0,145.0,0,37.0,0
+2026-australian-open-5,australian-open,Hard,Liam Draxl,Mackenzie McDonald,3-6 7-6 6-2,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,147.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Jason Kubler,Alexander Blockx,3-6 6-3 1-0,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,AUS,33.6,0,0,0,R,191.0,BEL,22.5,0,217.0,0,97.0,0
+2026-australian-open-5,australian-open,Hard,Francesco Maestrelli,Dusan Lajovic,4-6 6-4 6-3,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,ITA,22.8,0,0,0,R,183.0,SRB,37.3,0,114.0,0,120.0,0
+2026-australian-open-5,australian-open,Hard,Arthur Fery,Dino Prizmic,6-4 6-1,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,GBR,24.9,0,0,0,R,188.0,CRO,21.5,0,173.0,0,119.0,0
+2026-australian-open-5,australian-open,Hard,Jaime Faria,Marco Trungelliti,7-6 6-5,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,POR,24.0,0,0,0,R,178.0,ARG,37.6,0,163.0,0,132.0,0
+2026-australian-open-5,australian-open,Hard,Nicolai Budkov Kjaer,Pierre-Hugues Herbert,6-2 6-3,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,NOR,21.0,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Michael Zheng,Lukas Klein,4-6 6-3 7-6,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,193.0,SVK,29.6,0,145.0,0,158.0,0
+2026-australian-open-5,australian-open,Hard,Zachary Svajda,Kimmer Coppejans,7-6 6-5,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,USA,24.8,0,0,0,R,178.0,BEL,32.6,0,99.0,0,250.0,0
+2026-australian-open-5,australian-open,Hard,Arthur Gea,Adolfo Daniel Vallejo,6-2 6-2,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,161.0,0,104.0,0
+2026-australian-open-5,australian-open,Hard,Nishesh Basavareddy,George Loffhagen,5-7 6-4 6-4,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,USA,22.6,0,0,0,R,188.0,GBR,25.2,0,198.0,0,208.0,0
+2026-australian-open-5,australian-open,Hard,Martin Damm,Gilles Arnaud Bailly,7-5 7-5,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,203.0,USA,23.4,0,0,0,R,180.0,BEL,22.0,0,129.0,0,209.0,0
+2026-australian-open-5,australian-open,Hard,Rafael Jodar,Luca Van Assche,6-3 0-6 6-1,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,178.0,FRA,23.5,0,103.0,0,105.0,0
+2026-australian-open-5,australian-open,Hard,Rei Sakamoto,Giulio Zeppieri,6-2 6-2,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,ITA,25.4,0,159.0,0,153.0,0
+2026-australian-open-5,australian-open,Hard,Dane Sweeny,Stefano Travaglia,7-6 7-5,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,170.0,AUS,25.9,0,0,0,R,185.0,ITA,34.6,0,131.0,0,166.0,0
+2026-australian-open-5,australian-open,Hard,Yibing Wu,Tristan Boyer,6-3 6-2,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,185.0,UNK,23.5,0,112.0,0,218.0,0
+2026-australian-open-5,australian-open,Hard,Elias Ymer,Coleman Wong,7-6 4-4 6-6,3rd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,SWE,31.5,0,0,0,R,191.0,HKG,23.3,0,174.0,0,123.0,0
+2026-australian-open-5,australian-open,Hard,Arthur Gea,Roman Andres Burruchaga,6-2 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,ARG,25.3,0,161.0,0,98.0,0
+2026-australian-open-5,australian-open,Hard,Michael Zheng,Tomas Barrios Vera,6-4 6-7 5-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,191.0,CHI,29.7,0,145.0,0,115.0,0
+2026-australian-open-5,australian-open,Hard,Mackenzie McDonald,Hugo Grenier,7-6 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,196.0,FRA,31.4,0,150.0,0,195.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Blockx,Alex Molcan,6-1 6-1,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,BEL,22.5,0,0,0,R,178.0,SVK,29.2,0,97.0,0,200.0,0
+2026-australian-open-5,australian-open,Hard,Elias Ymer,Elmer Moller,4-6 6-4 7-5,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,SWE,31.5,0,0,0,R,183.0,DEN,24.1,0,174.0,0,121.0,0
+2026-australian-open-5,australian-open,Hard,Dusan Lajovic,Murphy Cassone,7-5 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,SRB,37.3,0,0,0,R,185.0,UNK,23.5,0,120.0,0,275.0,0
+2026-australian-open-5,australian-open,Hard,Dino Prizmic,Gustavo Heide,7-5 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,191.0,BRA,25.3,0,119.0,0,301.0,0
+2026-australian-open-5,australian-open,Hard,Jason Kubler,Vilius Gaubas,7-5 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,AUS,33.6,0,0,0,R,178.0,LTU,22.6,0,217.0,0,101.0,0
+2026-australian-open-5,australian-open,Hard,Marco Trungelliti,Henrique Rocha,7-5 4-6 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,ARG,37.6,0,0,0,R,180.0,POR,23.4,0,132.0,0,169.0,0
+2026-australian-open-5,australian-open,Hard,Liam Draxl,Vitaliy Sachko,6-3 5-7 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,UKR,30.1,0,147.0,0,188.0,0
+2026-australian-open-5,australian-open,Hard,Nicolai Budkov Kjaer,James McCabe,4-6 6-3 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,NOR,21.0,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Francesco Maestrelli,Thiago Seyboth Wild,7-6 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,ITA,22.8,0,0,0,R,185.0,BRA,27.6,0,114.0,0,220.0,0
+2026-australian-open-5,australian-open,Hard,Tristan Boyer,Francesco Passaro,6-7 4-4 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,180.0,ITA,26.3,0,218.0,0,140.0,0
+2026-australian-open-5,australian-open,Hard,Lukas Klein,Daniel Merida,6-3 6-7 2-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,SVK,29.6,0,0,0,R,185.0,UNK,23.5,0,158.0,0,139.0,0
+2026-australian-open-5,australian-open,Hard,Zachary Svajda,Jurij Rodionov,6-1 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,USA,24.8,0,0,0,R,191.0,AUT,28.3,0,99.0,0,177.0,0
+2026-australian-open-5,australian-open,Hard,Adolfo Daniel Vallejo,Federico Cina,4-6 6-2 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,104.0,0,183.0,0
+2026-australian-open-5,australian-open,Hard,Kimmer Coppejans,Leandro Riedi,3-6 6-3 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,BEL,32.6,0,0,0,R,191.0,SUI,25.4,0,250.0,0,172.0,0
+2026-australian-open-5,australian-open,Hard,Jaime Faria,Benjamin Hassan,6-3 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,POR,24.0,0,0,0,R,183.0,LBN,32.6,0,163.0,0,288.0,0
+2026-australian-open-5,australian-open,Hard,Arthur Fery,Bernard Tomic,6-4 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,GBR,24.9,0,0,0,R,196.0,AUS,31.3,0,173.0,0,189.0,0
+2026-australian-open-5,australian-open,Hard,Pierre-Hugues Herbert,Gonzalo Bueno,7-5 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,173.0,PER,23.4,0,150.0,0,213.0,0
+2026-australian-open-5,australian-open,Hard,Rafael Jodar,Chris Rodesch,7-6 6-10,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,198.0,LUX,26.1,0,103.0,0,137.0,0
+2026-australian-open-5,australian-open,Hard,Dane Sweeny,Jerome Kym,6-4 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,170.0,AUS,25.9,0,0,0,R,198.0,SUI,24.6,0,131.0,0,180.0,0
+2026-australian-open-5,australian-open,Hard,Stefano Travaglia,Martin Landaluce,4-6 6-1 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ITA,34.6,0,0,0,R,191.0,ESP,21.2,0,166.0,0,155.0,0
+2026-australian-open-5,australian-open,Hard,Luca Van Assche,Daniil Glinka,6-3 6-0,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,FRA,23.5,0,0,0,R,188.0,EST,24.3,0,105.0,0,176.0,0
+2026-australian-open-5,australian-open,Hard,Coleman Wong,Pablo Llamas Ruiz,7-6 6-7,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,HKG,23.3,0,0,0,R,188.0,ESP,24.5,0,123.0,0,193.0,0
+2026-australian-open-5,australian-open,Hard,Yibing Wu,Nicolas Mejia,6-4 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,183.0,COL,27.5,0,112.0,0,181.0,0
+2026-australian-open-5,australian-open,Hard,Giulio Zeppieri,Brandon Holt,6-7 4-5 7-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,185.0,USA,29.3,0,153.0,0,229.0,0
+2026-australian-open-5,australian-open,Hard,George Loffhagen,Yoshihito Nishioka,6-3 3-1,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,GBR,25.2,0,0,0,R,170.0,JPN,32.0,0,208.0,0,170.0,0
+2026-australian-open-5,australian-open,Hard,Gilles Arnaud Bailly,Roberto Carballes Baena,7-6 6-4 3-7 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,BEL,22.0,0,0,0,R,183.0,ESP,34.6,0,209.0,0,168.0,0
+2026-australian-open-5,australian-open,Hard,Nishesh Basavareddy,Sebastian Ofner,4-6 6-4 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,USA,22.6,0,0,0,R,191.0,AUT,31.2,0,198.0,0,108.0,0
+2026-australian-open-5,australian-open,Hard,Rei Sakamoto,Colton Smith,6-4 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,159.0,0,136.0,0
+2026-australian-open-5,australian-open,Hard,Martin Damm,Titouan Droguet,6-4 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,203.0,USA,23.4,0,0,0,R,191.0,FRA,26.3,0,129.0,0,124.0,0
+2026-australian-open-5,australian-open,Hard,Roman Andres Burruchaga,Ryan Peniston,6-1 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,ARG,25.3,0,0,0,R,180.0,GBR,30.6,0,98.0,0,243.0,0
+2026-australian-open-5,australian-open,Hard,Tomas Barrios Vera,Sascha Gueymard Wayenburg,6-2 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,CHI,29.7,0,0,0,R,185.0,UNK,23.5,0,115.0,0,266.0,0
+2026-australian-open-5,australian-open,Hard,Mackenzie McDonald,Dmitry Popko,6-7 4-4 6-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,191.0,KAZ,30.2,0,150.0,0,234.0,0
+2026-australian-open-5,australian-open,Hard,Alexander Blockx,Marco Cecchinato,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,BEL,22.5,0,0,0,R,185.0,ITA,33.9,0,97.0,0,225.0,0
+2026-australian-open-5,australian-open,Hard,Elmer Moller,Marc Polmans,6-4 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,DEN,24.1,0,0,0,R,188.0,AUS,30.2,0,121.0,0,367.0,0
+2026-australian-open-5,australian-open,Hard,Leandro Riedi,Jan Choinski,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,SUI,25.4,0,0,0,R,196.0,GBR,31.2,0,172.0,0,122.0,0
+2026-australian-open-5,australian-open,Hard,Nicolas Mejia,Otto Virtanen,6-3 3-6 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,COL,27.5,0,0,0,R,193.0,FIN,26.3,0,181.0,0,128.0,0
+2026-australian-open-5,australian-open,Hard,Chris Rodesch,Billy Harris,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,198.0,LUX,26.1,0,0,0,R,193.0,GBR,32.6,0,137.0,0,151.0,0
+2026-australian-open-5,australian-open,Hard,Vilius Gaubas,Nicolas Moreno De Alboran,7-5 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,LTU,22.6,0,0,0,R,185.0,USA,30.0,0,101.0,0,143.0,0
+2026-australian-open-5,australian-open,Hard,Liam Draxl,Moerani Bouzige,7-6 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,147.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Zachary Svajda,Hady Habib,6-1 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,USA,24.8,0,0,0,R,188.0,LIB,29.0,0,99.0,0,339.0,0
+2026-australian-open-5,australian-open,Hard,Adolfo Daniel Vallejo,Rodrigo Pacheco Mendez,6-1 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,MEX,22.3,0,104.0,0,300.0,0
+2026-australian-open-5,australian-open,Hard,Coleman Wong,Ugo Blanchet,6-3 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,HKG,23.3,0,0,0,R,175.0,FRA,28.5,0,123.0,0,162.0,0
+2026-australian-open-5,australian-open,Hard,Federico Cina,Lloyd Harris,6-4 6-7 4-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,193.0,RSA,30.3,0,183.0,0,152.0,0
+2026-australian-open-5,australian-open,Hard,Kimmer Coppejans,Omar Jasika,7-6 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,BEL,32.6,0,0,0,R,183.0,AUS,29.6,0,250.0,0,343.0,0
+2026-australian-open-5,australian-open,Hard,Arthur Gea,Zdenek Kolar,6-2 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,CZE,28.7,0,161.0,0,197.0,0
+2026-australian-open-5,australian-open,Hard,Hugo Grenier,Daniel Elahi Galan,7-6 1-9,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,FRA,31.4,0,0,0,R,191.0,COL,31.1,0,195.0,0,182.0,0
+2026-australian-open-5,australian-open,Hard,Rafael Jodar,Li Tu,6-2 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,AUS,31.3,0,103.0,0,371.0,0
+2026-australian-open-5,australian-open,Hard,Jason Kubler,Harold Mayot,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,AUS,33.6,0,0,0,R,180.0,FRA,25.7,0,217.0,0,178.0,0
+2026-australian-open-5,australian-open,Hard,Pablo Llamas Ruiz,Henry Bernet,3-6 6-3 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,ESP,24.5,0,0,0,R,185.0,UNK,23.5,0,193.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Alex Molcan,Sho Shimabukuro,6-4 4-6 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,SVK,29.2,0,0,0,R,180.0,JPN,29.2,0,200.0,0,113.0,0
+2026-australian-open-5,australian-open,Hard,Jurij Rodionov,Juan Pablo Ficovich,7-5 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,AUT,28.3,0,0,0,R,191.0,ARG,28.0,0,177.0,0,186.0,0
+2026-australian-open-5,australian-open,Hard,Vitaliy Sachko,Viktor Durasovic,6-3 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,UKR,30.1,0,0,0,R,185.0,NOR,29.8,0,188.0,0,413.0,0
+2026-australian-open-5,australian-open,Hard,Yibing Wu,Mitchell Krueger,7-5 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,188.0,USA,33.6,0,112.0,0,255.0,0
+2026-australian-open-5,australian-open,Hard,Elias Ymer,Alex Bolt,7-6 7-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,SWE,31.5,0,0,0,R,183.0,AUS,34.5,0,174.0,0,167.0,0
+2026-australian-open-5,australian-open,Hard,Michael Zheng,Cruz Hewitt,6-3 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,145.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Gonzalo Bueno,Nikoloz Basilashvili,6-1 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,173.0,PER,23.4,0,0,0,R,185.0,GEO,34.0,0,213.0,0,133.0,0
+2026-australian-open-5,australian-open,Hard,Brandon Holt,Lukas Neumayer,4-6 6-2 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,USA,29.3,0,0,0,R,183.0,AUT,25.0,0,229.0,0,230.0,0
+2026-australian-open-5,australian-open,Hard,Yoshihito Nishioka,Nerman Fatic,6-1 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,170.0,JPN,32.0,0,0,0,R,191.0,BIH,32.2,0,170.0,0,233.0,0
+2026-australian-open-5,australian-open,Hard,Martin Landaluce,Chun-Hsin Tseng,7-5 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,ESP,21.2,0,0,0,R,185.0,UNK,23.5,0,155.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Dusan Lajovic,Facundo Diaz Acosta,7-6 5-3 7-7,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,SRB,37.3,0,0,0,R,183.0,ARG,26.8,0,120.0,0,238.0,0
+2026-australian-open-5,australian-open,Hard,Dino Prizmic,Genaro Alberto Olivieri,6-1 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,175.0,ARG,27.8,0,119.0,0,226.0,0
+2026-australian-open-5,australian-open,Hard,Roberto Carballes Baena,Arthur Bouquier,6-2 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,ESP,34.6,0,0,0,R,185.0,UNK,23.5,0,168.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Marco Trungelliti,Philip Sekulic,6-2 1-6 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,ARG,37.6,0,0,0,R,191.0,AUS,23.0,0,132.0,0,298.0,0
+2026-australian-open-5,australian-open,Hard,Sebastian Ofner,August Holmgren,6-4 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,AUT,31.2,0,0,0,R,188.0,DEN,29.3,0,108.0,0,201.0,0
+2026-australian-open-5,australian-open,Hard,Titouan Droguet,Nicolas Jarry,6-4 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,26.3,0,0,0,R,201.0,CHI,32.0,0,124.0,0,154.0,0
+2026-australian-open-5,australian-open,Hard,Luca Van Assche,Moez Echargui,6-4 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,FRA,23.5,0,0,0,R,178.0,TUN,34.5,0,105.0,0,138.0,0
+2026-australian-open-5,australian-open,Hard,Nicolai Budkov Kjaer,Yosuke Watanuki,6-7 5-5 7-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,NOR,21.0,0,0,0,R,180.0,JPN,29.4,0,150.0,0,175.0,0
+2026-australian-open-5,australian-open,Hard,Francesco Maestrelli,Lorenzo Giustino,7-6 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,ITA,22.8,0,0,0,R,180.0,ITA,34.6,0,114.0,0,204.0,0
+2026-australian-open-5,australian-open,Hard,Bernard Tomic,Hugo Dellien,6-3 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,AUS,31.3,0,0,0,R,180.0,BOL,34.2,0,189.0,0,164.0,0
+2026-australian-open-5,australian-open,Hard,Dane Sweeny,Andrea Pellegrino,6-2 4-6 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,170.0,AUS,25.9,0,0,0,R,185.0,ITA,30.3,0,131.0,0,125.0,0
+2026-australian-open-5,australian-open,Hard,Francesco Passaro,Mark Lajal,7-6 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,ITA,26.3,0,0,0,R,191.0,EST,24.3,0,140.0,0,160.0,0
+2026-australian-open-5,australian-open,Hard,Lukas Klein,Zsombor Piros,6-4 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,SVK,29.6,0,0,0,R,180.0,HUN,27.9,0,158.0,0,142.0,0
+2026-australian-open-5,australian-open,Hard,Colton Smith,Luka Pavlovic,7-6 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,136.0,0,211.0,0
+2026-australian-open-5,australian-open,Hard,Gilles Arnaud Bailly,Jack Pinnington Jones,6-4 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,BEL,22.0,0,0,0,R,185.0,UNK,23.5,0,209.0,0,134.0,0
+2026-australian-open-5,australian-open,Hard,Nishesh Basavareddy,Alexis Galarneau,6-4 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,USA,22.6,0,0,0,R,180.0,CAN,27.5,0,198.0,0,219.0,0
+2026-australian-open-5,australian-open,Hard,Tristan Boyer,Alex Barrena,6-2 6-7 4-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,218.0,0,179.0,0
+2026-australian-open-5,australian-open,Hard,Murphy Cassone,Yu Hsiou Hsu,3-6 6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,178.0,TPE,27.8,0,275.0,0,227.0,0
+2026-australian-open-5,australian-open,Hard,Martin Damm,Gauthier Onclin,6-3 3-6 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,203.0,USA,23.4,0,0,0,R,185.0,UNK,23.5,0,129.0,0,273.0,0
+2026-australian-open-5,australian-open,Hard,Jaime Faria,Luka Mikrut,7-6 7-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,POR,24.0,0,0,0,R,188.0,CRO,23.2,0,163.0,0,165.0,0
+2026-australian-open-5,australian-open,Hard,Arthur Fery,Edward Winter,6-2 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,GBR,24.9,0,0,0,R,185.0,UNK,23.5,0,173.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Daniil Glinka,Clement Tabur,5-7 6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,EST,24.3,0,0,0,R,185.0,UNK,23.5,0,176.0,0,190.0,0
+2026-australian-open-5,australian-open,Hard,Benjamin Hassan,Matej Dodig,5-7 6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,LBN,32.6,0,0,0,R,188.0,CRO,22.1,0,288.0,0,215.0,0
+2026-australian-open-5,australian-open,Hard,Gustavo Heide,Jay Clarke,6-3 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,BRA,25.3,0,0,0,R,183.0,GBR,26.9,0,301.0,0,184.0,0
+2026-australian-open-5,australian-open,Hard,Pierre-Hugues Herbert,Guy Den Ouden,3-6 6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,156.0,0
+2026-australian-open-5,australian-open,Hard,Jerome Kym,Juan Carlos Prado Angelo,6-3 6-0,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,198.0,SUI,24.6,0,0,0,R,185.0,BOL,21.8,0,180.0,0,210.0,0
+2026-australian-open-5,australian-open,Hard,George Loffhagen,Justin Engel,7-6 7-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,GBR,25.2,0,0,0,R,185.0,UNK,23.5,0,208.0,0,192.0,0
+2026-australian-open-5,australian-open,Hard,James McCabe,Pavle Marinkov,6-2 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Daniel Merida,Oliver Crawford,6-3 2-6 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,139.0,0,196.0,0
+2026-australian-open-5,australian-open,Hard,Henrique Rocha,Joao Lucas Reis Da Silva,6-2 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,POR,23.4,0,0,0,R,185.0,UNK,23.5,0,169.0,0,205.0,0
+2026-australian-open-5,australian-open,Hard,Rei Sakamoto,Daniel Evans,6-1 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,175.0,GBR,37.3,0,159.0,0,202.0,0
+2026-australian-open-5,australian-open,Hard,Thiago Seyboth Wild,Alvaro Guillen Meza,7-5 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,BRA,27.6,0,0,0,R,175.0,ECU,24.0,0,220.0,0,207.0,0
+2026-australian-open-5,australian-open,Hard,Stefano Travaglia,Blake Ellis,6-3 4-6 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ITA,34.6,0,0,0,R,185.0,UNK,23.5,0,166.0,0,150.0,0
+2026-australian-open-5,australian-open,Hard,Giulio Zeppieri,Dan Added,6-3 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,185.0,UNK,23.5,0,153.0,0,203.0,0
+2026-montpellier-6,montpellier,Hard,Felix Auger-Aliassime,Adrian Mannarino,6-3 7-6,Final ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,180.0,FRA,39.3,0,150.0,0,48.0,0
+2026-montpellier-6,montpellier,Hard,Felix Auger-Aliassime,Titouan Droguet,6-4 6-7 5-1,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,191.0,FRA,26.3,0,150.0,0,124.0,0
+2026-montpellier-6,montpellier,Hard,Adrian Mannarino,Martin Damm,1-6 6-3 6-4,Semifinals ,100,0,0,0,0,0,0,0,R,180.0,FRA,39.3,0,0,0,R,203.0,USA,23.4,0,48.0,0,129.0,0
+2026-montpellier-6,montpellier,Hard,Felix Auger-Aliassime,Arthur Fils,6-4 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,FRA,23.5,0,150.0,0,32.0,0
+2026-montpellier-6,montpellier,Hard,Titouan Droguet,Tallon Griekspoor,7-6 7-5,Quarterfinals ,100,0,0,0,0,0,0,0,R,191.0,FRA,26.3,0,0,0,R,188.0,NED,31.3,0,124.0,0,25.0,0
+2026-montpellier-6,montpellier,Hard,Martin Damm,Luca Nardi,6-3 7-6,Quarterfinals ,100,0,0,0,0,0,0,0,R,203.0,USA,23.4,0,0,0,R,185.0,ITA,24.1,0,129.0,0,135.0,0
+2026-montpellier-6,montpellier,Hard,Adrian Mannarino,Arthur Gea,5-7 6-4 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,180.0,FRA,39.3,0,0,0,R,185.0,UNK,23.5,0,48.0,0,161.0,0
+2026-montpellier-6,montpellier,Hard,Felix Auger-Aliassime,Stan Wawrinka,6-4 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,SUI,42.6,0,150.0,0,92.0,0
+2026-montpellier-6,montpellier,Hard,Luca Nardi,Flavio Cobolli,6-2 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,ITA,24.1,0,0,0,R,183.0,ITA,25.4,0,135.0,0,15.0,0
+2026-montpellier-6,montpellier,Hard,Tallon Griekspoor,Pablo Carreno Busta,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,NED,31.3,0,0,0,R,188.0,ESP,36.2,0,25.0,0,107.0,0
+2026-montpellier-6,montpellier,Hard,Arthur Fils,Ugo Blanchet,7-6 7-4,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,FRA,23.5,0,0,0,R,175.0,FRA,28.5,0,32.0,0,162.0,0
+2026-montpellier-6,montpellier,Hard,Titouan Droguet,Aleksandar Kovacevic,4-6 7-6 6-5,Round of 16 ,100,0,0,0,0,0,0,0,R,191.0,FRA,26.3,0,0,0,R,183.0,USA,29.1,0,124.0,0,72.0,0
+2026-montpellier-6,montpellier,Hard,Arthur Gea,Tomas Machac,6-3 4-5,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,CZE,27.0,0,161.0,0,50.0,0
+2026-montpellier-6,montpellier,Hard,Adrian Mannarino,Ugo Humbert,6-7 4-3 6-6 7-4,Round of 16 ,100,0,0,0,0,0,0,0,R,180.0,FRA,39.3,0,0,0,R,188.0,FRA,29.3,0,48.0,0,34.0,0
+2026-montpellier-6,montpellier,Hard,Martin Damm,Roberto Bautista Agut,6-1 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,203.0,USA,23.4,0,0,0,R,183.0,ESP,39.5,0,129.0,0,93.0,0
+2026-montpellier-6,montpellier,Hard,Aleksandar Kovacevic,Moise Kouame,6-7 5-2 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,USA,29.1,0,0,0,R,185.0,UNK,23.5,0,72.0,0,393.0,0
+2026-montpellier-6,montpellier,Hard,Luca Nardi,Nikoloz Basilashvili,6-3 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,ITA,24.1,0,0,0,R,185.0,GEO,34.0,0,135.0,0,133.0,0
+2026-montpellier-6,montpellier,Hard,Stan Wawrinka,Hamad Medjedovic,7-6 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,SUI,42.6,0,0,0,R,188.0,SRB,24.3,0,92.0,0,110.0,0
+2026-montpellier-6,montpellier,Hard,Ugo Humbert,Botic van de Zandschulp,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,FRA,29.3,0,0,0,R,185.0,UNK,23.5,0,34.0,0,150.0,0
+2026-montpellier-6,montpellier,Hard,Arthur Fils,Valentin Royer,7-6 6-7 4-7 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,FRA,23.5,0,0,0,R,185.0,UNK,23.5,0,32.0,0,60.0,0
+2026-montpellier-6,montpellier,Hard,Martin Damm,Hubert Hurkacz,7-6 6-5,Round of 32 ,100,0,0,0,0,0,0,0,R,203.0,USA,23.4,0,0,0,R,196.0,POL,30.7,0,129.0,0,71.0,0
+2026-montpellier-6,montpellier,Hard,Ugo Blanchet,Andrea Vavassori,6-4 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,175.0,FRA,28.5,0,0,0,R,193.0,ITA,32.2,0,162.0,0,206.0,0
+2026-montpellier-6,montpellier,Hard,Pablo Carreno Busta,Miomir Kecmanovic,4-6 6-3 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,ESP,36.2,0,0,0,R,183.0,SRB,28.1,0,107.0,0,58.0,0
+2026-montpellier-6,montpellier,Hard,Titouan Droguet,Jan Choinski,6-2 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,FRA,26.3,0,0,0,R,196.0,GBR,31.2,0,124.0,0,122.0,0
+2026-montpellier-6,montpellier,Hard,Roberto Bautista Agut,Christopher O'Connell,5-7 6-3 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ESP,39.5,0,0,0,R,185.0,UNK,23.5,0,93.0,0,127.0,0
+2026-montpellier-6,montpellier,Hard,Arthur Gea,Giovanni Mpetshi Perricard,6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,203.0,FRA,24.3,0,161.0,0,54.0,0
+2026-montpellier-6,montpellier,Hard,Adrian Mannarino,Pedro Martinez,7-6 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,FRA,39.3,0,0,0,R,185.0,ESP,30.5,0,48.0,0,106.0,0
+2026-montpellier-6,montpellier,Hard,Titouan Droguet,Ugo Blanchet,4-6 7-6 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,26.3,0,0,0,R,175.0,FRA,28.5,0,124.0,0,162.0,0
+2026-montpellier-6,montpellier,Hard,Martin Damm,Clement Tabur,7-6 6-5 3-7 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,203.0,USA,23.4,0,0,0,R,185.0,UNK,23.5,0,129.0,0,190.0,0
+2026-montpellier-6,montpellier,Hard,Andrea Vavassori,Hugo Grenier,6-3 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,ITA,32.2,0,0,0,R,196.0,FRA,31.4,0,206.0,0,195.0,0
+2026-montpellier-6,montpellier,Hard,Moise Kouame,Clement Chidekh,7-5 6-7 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,180.0,FRA,24.6,0,393.0,0,187.0,0
+2026-montpellier-6,montpellier,Hard,Clement Tabur,Billy Harris,4-6 7-6 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,193.0,GBR,32.6,0,190.0,0,151.0,0
+2026-montpellier-6,montpellier,Hard,Ugo Blanchet,Bernabe Zapata Miralles,6-2 6-0,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,FRA,28.5,0,0,0,R,183.0,ESP,30.1,0,162.0,0,144.0,0
+2026-montpellier-6,montpellier,Hard,Andrea Vavassori,Roberto Carballes Baena,7-6 6-8,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,ITA,32.2,0,0,0,R,183.0,ESP,34.6,0,206.0,0,168.0,0
+2026-montpellier-6,montpellier,Hard,Clement Chidekh,Martin Landaluce,6-4 3-6 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,FRA,24.6,0,0,0,R,191.0,ESP,21.2,0,187.0,0,155.0,0
+2026-montpellier-6,montpellier,Hard,Titouan Droguet,Robin Bertrand,6-1 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,26.3,0,0,0,R,185.0,UNK,23.5,0,124.0,0,295.0,0
+2026-montpellier-6,montpellier,Hard,Moise Kouame,Elias Ymer,6-4 4-6 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,SWE,31.5,0,393.0,0,174.0,0
+2026-montpellier-6,montpellier,Hard,Martin Damm,Matteo Martineau,7-6 6-7,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,203.0,USA,23.4,0,0,0,R,183.0,FRA,28.3,0,129.0,0,326.0,0
+2026-montpellier-6,montpellier,Hard,Hugo Grenier,Geoffrey Blancaneaux,3-6 6-3 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,FRA,31.4,0,0,0,R,180.0,FRA,27.5,0,195.0,0,315.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Hyeon Chung,Marco Trungelliti,6-4 6-3,Round Robin ,100,0,0,0,0,0,0,0,R,188.0,KOR,26.4,0,0,0,R,178.0,ARG,37.6,0,139.0,0,132.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Raphael Collignon,Ivan Ivanov,6-2 6-2,Round Robin ,100,0,0,0,0,0,0,0,R,191.0,BEL,25.7,0,0,0,R,185.0,UNK,23.5,0,77.0,0,150.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Jesper de Jong,Sumit Nagal,5-7 6-1 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,178.0,IND,30.2,0,150.0,0,282.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Jason Kubler,Emilio Camacho,6-4 6-2,Round Robin ,100,0,0,0,0,0,0,0,R,178.0,AUS,33.6,0,0,0,R,185.0,UNK,23.5,0,217.0,0,150.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Soonwoo Kwon,Thiago Agustin Tirante,6-4 4-6 6-3,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,ARG,26.5,0,342.0,0,74.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Arthur Rinderknech,Alex Molcan,7-5 7-6,Round Robin ,100,0,0,0,0,0,0,0,R,196.0,FRA,32.2,0,0,0,R,178.0,SVK,29.2,0,28.0,0,200.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Dhakshineswar Suresh,Guy Den Ouden,6-4 7-6,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,156.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Olle Wallin,Maxim Mrva,6-4 7-6,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,394.0,0,305.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Andres Andrade,James Duckworth,3-6 6-3 7-5,Round Robin ,100,0,0,0,0,0,0,0,R,180.0,ECU,28.7,0,0,0,R,183.0,AUS,35.7,0,236.0,0,83.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Alexander Blockx,Iliyan Radulov,6-7 3-4 6-1,Round Robin ,100,0,0,0,0,0,0,0,R,191.0,BEL,22.5,0,0,0,R,187.0,BUL,22.2,0,97.0,0,766.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Raphael Collignon,Alexander Vasilev,6-3 6-3,Round Robin ,100,0,0,0,0,0,0,0,R,191.0,BEL,25.7,0,0,0,R,185.0,UNK,23.5,0,77.0,0,150.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Guy Den Ouden,Sumit Nagal,6-0 4-6 6-3,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,178.0,IND,30.2,0,156.0,0,282.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Gabriel Diallo,Matheus Pucinelli De Almeida,3-6 6-1 7-6,Round Robin ,100,0,0,0,0,0,0,0,R,203.0,CAN,26.1,0,0,0,R,183.0,BRA,24.8,0,38.0,0,292.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Liam Draxl,Gustavo Heide,6-3 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,191.0,BRA,25.3,0,147.0,0,301.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Justin Engel,Gonzalo Bueno,6-3 6-7,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,173.0,PER,23.4,0,192.0,0,213.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Alvaro Guillen Meza,Rinky Hijikata,6-4 1-6 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,175.0,ECU,24.0,0,0,0,R,178.0,AUS,26.6,0,207.0,0,117.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Jiri Lehecka,Dragos Nicolae Madaras,6-3 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,CZE,25.9,0,0,0,R,191.0,SWE,28.8,0,23.0,0,191.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Alex Molcan,Alexandre Muller,6-4 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,178.0,SVK,29.2,0,0,0,R,183.0,FRA,30.7,0,200.0,0,81.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Emilio Nava,Matyas Fuele,6-2 6-3,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,USA,25.6,0,0,0,R,185.0,UNK,23.5,0,75.0,0,150.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Lukas Neumayer,Shintaro Mochizuki,6-3 6-3,Round Robin ,100,0,0,0,0,0,0,0,R,183.0,AUT,25.0,0,0,0,R,175.0,JPN,24.3,0,230.0,0,130.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Tommy Paul,Zsombor Piros,7-6 6-3,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,180.0,HUN,27.9,0,24.0,0,142.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Dino Prizmic,Elmer Moller,7-6 7-5,Round Robin ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,183.0,DEN,24.1,0,119.0,0,121.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Ethan Quinn,Fabian Marozsan,3-6 6-3 7-6,Round Robin ,100,0,0,0,0,0,0,0,R,191.0,USA,23.3,0,0,0,R,193.0,HUN,28.0,0,73.0,0,46.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Arthur Rinderknech,Norbert Gombos,7-6 7-1,Round Robin ,100,0,0,0,0,0,0,0,R,196.0,FRA,32.2,0,0,0,R,193.0,SVK,37.0,0,28.0,0,294.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Jurij Rodionov,Yoshihito Nishioka,5-7 6-1 6-0,Round Robin ,100,0,0,0,0,0,0,0,R,191.0,AUT,28.3,0,0,0,R,170.0,JPN,32.0,0,177.0,0,170.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Matias Soto,Branko Djuric,6-7 2-6 7-4 10-7,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,SRB,22.7,0,318.0,0,781.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Dhakshineswar Suresh,Jesper de Jong,6-4 7-5,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Dalibor Svrcina,Olle Wallin,6-1 6-3,Round Robin ,100,0,0,0,0,0,0,0,R,178.0,CZE,24.3,0,0,0,R,185.0,UNK,23.5,0,109.0,0,394.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Tomas Barrios Vera,Dusan Lajovic,7-5 7-6,Round Robin ,100,0,0,0,0,0,0,0,R,191.0,CHI,29.7,0,0,0,R,183.0,SRB,37.3,0,115.0,0,120.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Liam Draxl,Joao Lucas Reis Da Silva,6-3 6-3,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,147.0,0,205.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Jacob Fearnley,Nicolai Budkov Kjaer,3-6 6-3 10-7,Round Robin ,100,0,0,0,0,0,0,0,R,183.0,GBR,26.2,0,0,0,R,188.0,NOR,21.0,0,87.0,0,150.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Jacob Fearnley,Nicolai Budkov Kjaer,3-6 6-3 10-7,Round Robin ,100,0,0,0,0,0,0,0,R,183.0,GBR,26.2,0,0,0,R,188.0,NOR,21.0,0,87.0,0,150.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Yannick Hanfmann,Gonzalo Bueno,6-4 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,193.0,GER,35.8,0,0,0,R,173.0,PER,23.4,0,65.0,0,213.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Gustavo Heide,Gabriel Diallo,7-6 3-4 7-6,Round Robin ,100,0,0,0,0,0,0,0,R,191.0,BRA,25.3,0,0,0,R,203.0,CAN,26.1,0,301.0,0,38.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Soonwoo Kwon,Marco Trungelliti,7-6 6-6,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,178.0,ARG,37.6,0,342.0,0,132.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Elmer Moller,Matej Dodig,6-4 7-6,Round Robin ,100,0,0,0,0,0,0,0,R,183.0,DEN,24.1,0,0,0,R,188.0,CRO,22.1,0,121.0,0,215.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Dino Prizmic,August Holmgren,5-7 6-0 6-2,Round Robin ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,188.0,DEN,29.3,0,119.0,0,201.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Jurij Rodionov,Shintaro Mochizuki,6-4 7-5,Round Robin ,100,0,0,0,0,0,0,0,R,191.0,AUT,28.3,0,0,0,R,175.0,JPN,24.3,0,177.0,0,130.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Jan-Lennard Struff,Juan Pablo Varillas,6-4 6-2,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,PER,31.9,0,150.0,0,281.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Alejandro Tabilo,Ognjen Milic,6-7 3-2 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,185.0,UNK,23.5,0,40.0,0,150.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Thiago Agustin Tirante,Hyeon Chung,2-6 7-5 7-6,Round Robin ,100,0,0,0,0,0,0,0,R,185.0,ARG,26.5,0,0,0,R,188.0,KOR,26.4,0,74.0,0,139.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Jack Draper,Viktor Durasovic,6-2 6-2,Round Robin ,100,0,0,0,0,0,0,0,R,193.0,GBR,25.8,0,0,0,R,185.0,NOR,29.8,0,14.0,0,413.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Cameron Norrie,Nicolai Budkov Kjaer,6-4 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,188.0,GBR,32.2,0,0,0,R,188.0,NOR,21.0,0,29.0,0,150.0,0
+2026-davis-cup-qualifiers-1st-rd-7,davis-cup-qualifiers-1st-rd,Hard,Yosuke Watanuki,Sebastian Ofner,6-3 6-4,Round Robin ,100,0,0,0,0,0,0,0,R,180.0,JPN,29.4,0,0,0,R,191.0,AUT,31.2,0,175.0,0,108.0,0
+2026-dallas-8,dallas,Hard,Ben Shelton,Taylor Fritz,3-6 6-3 7-5,Final ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,196.0,USA,30.0,0,8.0,0,7.0,0
+2026-dallas-8,dallas,Hard,Taylor Fritz,Marin Cilic,7-6 7-5,Semifinals ,100,0,0,0,0,0,0,0,R,196.0,USA,30.0,0,0,0,R,198.0,CRO,39.1,0,7.0,0,51.0,0
+2026-dallas-8,dallas,Hard,Ben Shelton,Denis Shapovalov,4-6 6-4 7-6,Semifinals ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,185.0,CAN,28.5,0,8.0,0,39.0,0
+2026-dallas-8,dallas,Hard,Taylor Fritz,Sebastian Korda,6-7 2-4 6-6 7-5,Quarterfinals ,100,0,0,0,0,0,0,0,R,196.0,USA,30.0,0,0,0,R,196.0,USA,27.1,0,7.0,0,37.0,0
+2026-dallas-8,dallas,Hard,Ben Shelton,Miomir Kecmanovic,5-7 6-3 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,183.0,SRB,28.1,0,8.0,0,58.0,0
+2026-dallas-8,dallas,Hard,Denis Shapovalov,Alejandro Davidovich Fokina,5-7 6-4 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,CAN,28.5,0,0,0,R,183.0,ESP,28.3,0,39.0,0,19.0,0
+2026-dallas-8,dallas,Hard,Marin Cilic,Jack Pinnington Jones,6-1 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,198.0,CRO,39.1,0,0,0,R,185.0,UNK,23.5,0,51.0,0,134.0,0
+2026-dallas-8,dallas,Hard,Ben Shelton,Adrian Mannarino,7-6 6-2 4-7 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,180.0,FRA,39.3,0,8.0,0,48.0,0
+2026-dallas-8,dallas,Hard,Miomir Kecmanovic,Tommy Paul,5-7 6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,SRB,28.1,0,0,0,R,185.0,USA,30.4,0,58.0,0,24.0,0
+2026-dallas-8,dallas,Hard,Denis Shapovalov,Aleksandar Kovacevic,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,CAN,28.5,0,0,0,R,183.0,USA,29.1,0,39.0,0,72.0,0
+2026-dallas-8,dallas,Hard,Marin Cilic,Ethan Quinn,7-6 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,198.0,CRO,39.1,0,0,0,R,191.0,USA,23.3,0,51.0,0,73.0,0
+2026-dallas-8,dallas,Hard,Jack Pinnington Jones,Eliot Spizzirri,7-6 4-5 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,USA,25.6,0,134.0,0,78.0,0
+2026-dallas-8,dallas,Hard,Taylor Fritz,Brandon Nakashima,6-3 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,USA,30.0,0,0,0,R,188.0,USA,26.2,0,7.0,0,30.0,0
+2026-dallas-8,dallas,Hard,Alejandro Davidovich Fokina,Alex Michelsen,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ESP,28.3,0,0,0,R,193.0,USA,23.3,0,19.0,0,44.0,0
+2026-dallas-8,dallas,Hard,Sebastian Korda,Frances Tiafoe,7-5 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,USA,27.1,0,0,0,R,188.0,USA,29.7,0,37.0,0,22.0,0
+2026-dallas-8,dallas,Hard,Tommy Paul,Jenson Brooksby,4-6 6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,188.0,USA,25.2,0,24.0,0,41.0,0
+2026-dallas-8,dallas,Hard,Adrian Mannarino,Adam Walton,6-4 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,FRA,39.3,0,0,0,R,183.0,AUS,28.4,0,48.0,0,91.0,0
+2026-dallas-8,dallas,Hard,Ethan Quinn,Trevor Svajda,7-6 7-3,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,USA,23.3,0,0,0,R,185.0,UNK,23.5,0,73.0,0,396.0,0
+2026-dallas-8,dallas,Hard,Eliot Spizzirri,James Duckworth,6-2 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,USA,25.6,0,0,0,R,183.0,AUS,35.7,0,78.0,0,83.0,0
+2026-dallas-8,dallas,Hard,Taylor Fritz,Marcos Giron,6-4 5-7 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,USA,30.0,0,0,0,R,180.0,USA,34.2,0,7.0,0,69.0,0
+2026-dallas-8,dallas,Hard,Ben Shelton,Gabriel Diallo,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,USA,25.1,0,0,0,R,203.0,CAN,26.1,0,8.0,0,38.0,0
+2026-dallas-8,dallas,Hard,Jack Pinnington Jones,Flavio Cobolli,6-2 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,ITA,25.4,0,134.0,0,15.0,0
+2026-dallas-8,dallas,Hard,Marin Cilic,Learner Tien,7-5 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,CRO,39.1,0,0,0,R,180.0,USA,22.0,0,51.0,0,27.0,0
+2026-dallas-8,dallas,Hard,Denis Shapovalov,Rafael Jodar,6-1 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,CAN,28.5,0,0,0,R,185.0,UNK,23.5,0,39.0,0,103.0,0
+2026-dallas-8,dallas,Hard,Miomir Kecmanovic,Sho Shimabukuro,6-7 3-3 6-6 7-3,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,SRB,28.1,0,0,0,R,180.0,JPN,29.2,0,58.0,0,113.0,0
+2026-dallas-8,dallas,Hard,Aleksandar Kovacevic,Patrick Kypson,6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,USA,29.1,0,0,0,R,188.0,USA,27.4,0,72.0,0,95.0,0
+2026-dallas-8,dallas,Hard,Alex Michelsen,Grigor Dimitrov,5-7 6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,USA,23.3,0,0,0,R,191.0,BUL,36.4,0,44.0,0,42.0,0
+2026-dallas-8,dallas,Hard,Alejandro Davidovich Fokina,Zachary Svajda,6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ESP,28.3,0,0,0,R,175.0,USA,24.8,0,19.0,0,99.0,0
+2026-dallas-8,dallas,Hard,Frances Tiafoe,Terence Atmane,4-6 6-2 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,193.0,FRA,25.7,0,22.0,0,52.0,0
+2026-dallas-8,dallas,Hard,Sebastian Korda,Michael Zheng,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,USA,27.1,0,0,0,R,185.0,UNK,23.5,0,37.0,0,145.0,0
+2026-dallas-8,dallas,Hard,Brandon Nakashima,Mattia Bellucci,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,26.2,0,0,0,R,175.0,ITA,26.3,0,30.0,0,94.0,0
+2026-dallas-8,dallas,Hard,Jack Pinnington Jones,Patrick Kypson,7-6 5-4 7-7,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,USA,27.4,0,134.0,0,95.0,0
+2026-dallas-8,dallas,Hard,Zachary Svajda,Tristan Boyer,6-3 5-7 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,USA,24.8,0,0,0,R,185.0,UNK,23.5,0,99.0,0,218.0,0
+2026-dallas-8,dallas,Hard,Rafael Jodar,Murphy Cassone,7-6 7-5,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,103.0,0,275.0,0
+2026-dallas-8,dallas,Hard,Sho Shimabukuro,Bernard Tomic,6-3 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,JPN,29.2,0,0,0,R,196.0,AUS,31.3,0,113.0,0,189.0,0
+2026-dallas-8,dallas,Hard,Patrick Kypson,Pedro Sakamoto,6-2 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,USA,27.4,0,0,0,R,178.0,BRA,28.6,0,95.0,0,379.0,0
+2026-dallas-8,dallas,Hard,Zachary Svajda,Georgi Georgiev,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,USA,24.8,0,0,0,R,185.0,UNK,23.5,0,99.0,0,150.0,0
+2026-dallas-8,dallas,Hard,Rafael Jodar,Mitchell Krueger,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,USA,33.6,0,103.0,0,255.0,0
+2026-dallas-8,dallas,Hard,Sho Shimabukuro,Thai-Son Kwiatkowski,6-0 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,JPN,29.2,0,0,0,R,185.0,UNK,23.5,0,113.0,0,150.0,0
+2026-dallas-8,dallas,Hard,Jack Pinnington Jones,Daniel Dutra da Silva,6-3 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,134.0,0,150.0,0
+2026-dallas-8,dallas,Hard,Bernard Tomic,Krish Arora,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,AUS,31.3,0,0,0,R,185.0,UNK,23.5,0,189.0,0,150.0,0
+2026-dallas-8,dallas,Hard,Tristan Boyer,Alex Finkelstein,6-4 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,218.0,0,150.0,0
+2026-dallas-8,dallas,Hard,Murphy Cassone,Alex Rybakov,6-2 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,USA,29.0,0,275.0,0,304.0,0
+2026-rotterdam-9,rotterdam,Hard,Alex de Minaur,Felix Auger-Aliassime,6-3 6-2,Final ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-rotterdam-9,rotterdam,Hard,Alex de Minaur,Ugo Humbert,6-4 6-3,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,FRA,29.3,0,150.0,0,34.0,0
+2026-rotterdam-9,rotterdam,Hard,Felix Auger-Aliassime,Alexander Bublik,6-1 6-2,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,196.0,KAZ,30.3,0,150.0,0,10.0,0
+2026-rotterdam-9,rotterdam,Hard,Alex de Minaur,Botic van de Zandschulp,3-6 7-6 7-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-rotterdam-9,rotterdam,Hard,Felix Auger-Aliassime,Tallon Griekspoor,7-6 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,NED,31.3,0,150.0,0,25.0,0
+2026-rotterdam-9,rotterdam,Hard,Alexander Bublik,Jaume Munar,6-4 6-7 4-6 7-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,183.0,ESP,30.4,0,10.0,0,36.0,0
+2026-rotterdam-9,rotterdam,Hard,Ugo Humbert,Christopher O'Connell,6-4 6-1,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,FRA,29.3,0,0,0,R,185.0,UNK,23.5,0,34.0,0,127.0,0
+2026-rotterdam-9,rotterdam,Hard,Alex de Minaur,Stan Wawrinka,6-4 6-2,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,SUI,42.6,0,150.0,0,92.0,0
+2026-rotterdam-9,rotterdam,Hard,Felix Auger-Aliassime,Hamad Medjedovic,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,SRB,24.3,0,150.0,0,110.0,0
+2026-rotterdam-9,rotterdam,Hard,Alexander Bublik,Jan-Lennard Struff,7-6 4-2 6-6,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,185.0,UNK,23.5,0,10.0,0,150.0,0
+2026-rotterdam-9,rotterdam,Hard,Jaume Munar,Karen Khachanov,7-6 3-8 6-6,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ESP,30.4,0,0,0,R,198.0,RUS,31.4,0,36.0,0,16.0,0
+2026-rotterdam-9,rotterdam,Hard,Ugo Humbert,Guy Den Ouden,6-4 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,FRA,29.3,0,0,0,R,185.0,UNK,23.5,0,34.0,0,156.0,0
+2026-rotterdam-9,rotterdam,Hard,Botic van de Zandschulp,Stefanos Tsitsipas,6-4 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,193.0,GRE,29.2,0,150.0,0,43.0,0
+2026-rotterdam-9,rotterdam,Hard,Christopher O'Connell,Cameron Norrie,7-6 6-9,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,GBR,32.2,0,127.0,0,29.0,0
+2026-rotterdam-9,rotterdam,Hard,Tallon Griekspoor,Quentin Halys,7-5 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,NED,31.3,0,0,0,R,191.0,FRA,31.0,0,25.0,0,102.0,0
+2026-rotterdam-9,rotterdam,Hard,Felix Auger-Aliassime,Alexei Popyrin,7-5 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,196.0,AUS,28.2,0,150.0,0,45.0,0
+2026-rotterdam-9,rotterdam,Hard,Alexander Bublik,Hubert Hurkacz,6-7 2-6 7-1 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,196.0,POL,30.7,0,10.0,0,71.0,0
+2026-rotterdam-9,rotterdam,Hard,Karen Khachanov,Jesper de Jong,3-6 6-4 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.4,0,0,0,R,185.0,UNK,23.5,0,16.0,0,150.0,0
+2026-rotterdam-9,rotterdam,Hard,Stefanos Tsitsipas,Arthur Rinderknech,7-5 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,GRE,29.2,0,0,0,R,196.0,FRA,32.2,0,43.0,0,28.0,0
+2026-rotterdam-9,rotterdam,Hard,Guy Den Ouden,Marton Fucsovics,7-6 6-5,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,HUN,35.7,0,156.0,0,56.0,0
+2026-rotterdam-9,rotterdam,Hard,Stan Wawrinka,Thijs Boogaard,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,SUI,42.6,0,0,0,R,185.0,UNK,23.5,0,92.0,0,150.0,0
+2026-rotterdam-9,rotterdam,Hard,Alex de Minaur,Arthur Fils,7-6 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,FRA,23.5,0,150.0,0,32.0,0
+2026-rotterdam-9,rotterdam,Hard,Tallon Griekspoor,Giovanni Mpetshi Perricard,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,NED,31.3,0,0,0,R,203.0,FRA,24.3,0,25.0,0,54.0,0
+2026-rotterdam-9,rotterdam,Hard,Quentin Halys,Mees Rottgering,3-6 6-1 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,185.0,UNK,23.5,0,102.0,0,150.0,0
+2026-rotterdam-9,rotterdam,Hard,Hamad Medjedovic,Zizou Bergs,7-6 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,SRB,24.3,0,0,0,R,185.0,BEL,28.4,0,110.0,0,47.0,0
+2026-rotterdam-9,rotterdam,Hard,Jan-Lennard Struff,Hugo Grenier,6-0 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,196.0,FRA,31.4,0,150.0,0,195.0,0
+2026-rotterdam-9,rotterdam,Hard,Ugo Humbert,Daniil Medvedev,7-6 3-4 6-6,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,FRA,29.3,0,0,0,R,198.0,RUS,31.7,0,34.0,0,11.0,0
+2026-rotterdam-9,rotterdam,Hard,Cameron Norrie,Roberto Bautista Agut,7-6 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,GBR,32.2,0,0,0,R,183.0,ESP,39.5,0,29.0,0,93.0,0
+2026-rotterdam-9,rotterdam,Hard,Jaume Munar,Nicolai Budkov Kjaer,6-1 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ESP,30.4,0,0,0,R,188.0,NOR,21.0,0,36.0,0,150.0,0
+2026-rotterdam-9,rotterdam,Hard,Christopher O'Connell,Valentin Royer,6-4 4-6 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,127.0,0,60.0,0
+2026-rotterdam-9,rotterdam,Hard,Botic van de Zandschulp,Luka Pavlovic,7-6 6-5,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,211.0,0
+2026-rotterdam-9,rotterdam,Hard,Luka Pavlovic,Hamad Medjedovic,7-6 3-5 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,SRB,24.3,0,211.0,0,110.0,0
+2026-rotterdam-9,rotterdam,Hard,Christopher O'Connell,Hugo Gaston,6-2 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,173.0,FRA,27.1,0,127.0,0,96.0,0
+2026-rotterdam-9,rotterdam,Hard,Hugo Grenier,Thijs Boogaard,2-6 7-6 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,FRA,31.4,0,0,0,R,185.0,UNK,23.5,0,195.0,0,150.0,0
+2026-rotterdam-9,rotterdam,Hard,Mees Rottgering,Roberto Carballes Baena,7-6 6-3 8-7 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,ESP,34.6,0,150.0,0,168.0,0
+2026-rotterdam-9,rotterdam,Hard,Hamad Medjedovic,Nikoloz Basilashvili,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,SRB,24.3,0,0,0,R,185.0,GEO,34.0,0,110.0,0,133.0,0
+2026-rotterdam-9,rotterdam,Hard,Hugo Gaston,Alec Deckers,6-3 6-7 2-6 7-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,173.0,FRA,27.1,0,0,0,R,185.0,UNK,23.5,0,96.0,0,150.0,0
+2026-rotterdam-9,rotterdam,Hard,Roberto Carballes Baena,Pablo Carreno Busta,6-4 3-6 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,ESP,34.6,0,0,0,R,188.0,ESP,36.2,0,168.0,0,107.0,0
+2026-rotterdam-9,rotterdam,Hard,Mees Rottgering,Kyrian Jacquet,0-6 6-4 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,178.0,FRA,26.2,0,150.0,0,149.0,0
+2026-rotterdam-9,rotterdam,Hard,Christopher O'Connell,Vitaliy Sachko,6-3 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,UKR,30.1,0,127.0,0,188.0,0
+2026-rotterdam-9,rotterdam,Hard,Hugo Grenier,Jan Choinski,7-5 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,FRA,31.4,0,0,0,R,196.0,GBR,31.2,0,195.0,0,122.0,0
+2026-rotterdam-9,rotterdam,Hard,Luka Pavlovic,Billy Harris,6-4 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,193.0,GBR,32.6,0,211.0,0,151.0,0
+2026-rotterdam-9,rotterdam,Hard,Thijs Boogaard,Kimmer Coppejans,3-6 7-6 6-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,178.0,BEL,32.6,0,150.0,0,250.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Francisco Cerundolo,Luciano Darderi,6-4 6-2,Final ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,183.0,ITA,25.7,0,20.0,0,21.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Francisco Cerundolo,Tomas Martin Etcheverry,6-3 7-5,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,196.0,ARG,28.3,0,20.0,0,31.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Luciano Darderi,Sebastian Baez,7-6 6-2,Semifinals ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,170.0,ARG,26.8,0,21.0,0,53.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Francisco Cerundolo,Vit Kopriva,6-4 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,178.0,CZE,30.1,0,20.0,0,62.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Luciano Darderi,Pedro Martinez,7-5 6-1,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,185.0,ESP,30.5,0,21.0,0,106.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Sebastian Baez,Camilo Ugo Carabelli,7-6 6-5,Quarterfinals ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,185.0,ARG,28.1,0,53.0,0,67.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Tomas Martin Etcheverry,Alejandro Tabilo,1-6 6-3 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,188.0,CHI,30.4,0,31.0,0,40.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Luciano Darderi,Tomas Barrios Vera,6-1 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,191.0,CHI,29.7,0,21.0,0,115.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Sebastian Baez,Ignacio Buse,6-4 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,185.0,PER,23.4,0,53.0,0,63.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Camilo Ugo Carabelli,Mariano Navone,6-2 7-5,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,ARG,28.1,0,0,0,R,178.0,ARG,26.6,0,67.0,0,79.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Pedro Martinez,Juan Manuel Cerundolo,7-6 6-5,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,ESP,30.5,0,0,0,R,183.0,ARG,25.2,0,106.0,0,70.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Francisco Cerundolo,Hugo Dellien,6-0 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,180.0,BOL,34.2,0,20.0,0,164.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Alejandro Tabilo,Joao Fonseca,6-3 3-6 7-5,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,185.0,BRA,21.3,0,40.0,0,35.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Tomas Martin Etcheverry,Roman Andres Burruchaga,7-6 6-5 3-7 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,183.0,ARG,25.3,0,31.0,0,98.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Vit Kopriva,Matteo Berrettini,6-4 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,178.0,CZE,30.1,0,0,0,R,196.0,ITA,31.6,0,62.0,0,66.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Mariano Navone,Emilio Nava,6-2 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,ARG,26.6,0,0,0,R,185.0,USA,25.6,0,79.0,0,75.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Juan Manuel Cerundolo,Daniel Altmaier,6-2 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ARG,25.2,0,0,0,R,188.0,GER,29.1,0,70.0,0,55.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Camilo Ugo Carabelli,Francisco Comesana,6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,ARG,28.1,0,0,0,R,178.0,ARG,26.8,0,67.0,0,82.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Matteo Berrettini,Federico Coria,7-5 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,ITA,31.6,0,0,0,R,180.0,ARG,35.4,0,66.0,0,79.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Tomas Barrios Vera,Thiago Seyboth Wild,4-6 6-5,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,CHI,29.7,0,0,0,R,185.0,BRA,27.6,0,115.0,0,220.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Roman Andres Burruchaga,Laslo Djere,6-2 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ARG,25.3,0,0,0,R,188.0,SRB,32.4,0,98.0,0,206.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Ignacio Buse,Francesco Passaro,5-7 7-5 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,PER,23.4,0,0,0,R,180.0,ITA,26.3,0,63.0,0,140.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Alejandro Tabilo,Facundo Diaz Acosta,7-6 6-5,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,183.0,ARG,26.8,0,40.0,0,238.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Tomas Martin Etcheverry,Andrea Pellegrino,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,185.0,ITA,30.3,0,31.0,0,125.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Hugo Dellien,Damir Dzumhur,6-4 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,BOL,34.2,0,0,0,R,175.0,BIH,35.4,0,164.0,0,64.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Vit Kopriva,Alex Barrena,6-4 3-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,CZE,30.1,0,0,0,R,185.0,UNK,23.5,0,62.0,0,179.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Pedro Martinez,Lautaro Midon,6-4 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,ESP,30.5,0,0,0,R,185.0,UNK,23.5,0,106.0,0,216.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Andrea Pellegrino,Thiago Seyboth Wild,7-6 6-9,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ITA,30.3,0,0,0,R,185.0,BRA,27.6,0,125.0,0,220.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Hugo Dellien,Thiago Monteiro,6-1 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,BOL,34.2,0,0,0,R,183.0,BRA,33.4,0,164.0,0,232.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Francesco Passaro,Marco Cecchinato,5-7 6-4 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,ITA,26.3,0,0,0,R,185.0,ITA,33.9,0,140.0,0,225.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Lautaro Midon,Daniel Elahi Galan,6-4 4-6 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,191.0,COL,31.1,0,216.0,0,182.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Andrea Pellegrino,Juan Manuel La Serna,6-1 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ITA,30.3,0,0,0,R,185.0,UNK,23.5,0,125.0,0,340.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Hugo Dellien,Genaro Alberto Olivieri,6-1 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,BOL,34.2,0,0,0,R,175.0,ARG,27.8,0,164.0,0,226.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Francesco Passaro,Nicolas Kicker,6-3 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,ITA,26.3,0,0,0,R,178.0,ARG,32.5,0,140.0,0,263.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Daniel Elahi Galan,Juan Bautista Torres,6-2 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,COL,31.1,0,0,0,R,185.0,UNK,23.5,0,182.0,0,334.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Thiago Seyboth Wild,Andrea Collarini,7-6 6-8 4-7 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,BRA,27.6,0,0,0,R,183.0,ARG,35.4,0,220.0,0,228.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Thiago Monteiro,Franco Agamenone,6-4 6-0,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,BRA,33.4,0,0,0,R,191.0,ITA,32.2,0,232.0,0,269.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Marco Cecchinato,Santiago Rodriguez Taverna,6-3 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ITA,33.9,0,0,0,R,185.0,UNK,23.5,0,225.0,0,237.0,0
+2026-buenos-aires-10,buenos-aires,Hard,Lautaro Midon,Felipe Meligeni Alves,6-2 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,BRA,29.4,0,216.0,0,248.0,0
+2026-doha-11,doha,Hard,Carlos Alcaraz,Arthur Fils,6-2 6-1,Final ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,185.0,FRA,23.5,0,1.0,0,32.0,0
+2026-doha-11,doha,Hard,Carlos Alcaraz,Andrey Rublev,7-6 6-3,Semifinals ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,188.0,RUS,30.0,0,1.0,0,17.0,0
+2026-doha-11,doha,Hard,Arthur Fils,Jakub Mensik,6-4 7-6,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,FRA,23.5,0,0,0,R,193.0,CZE,22.2,0,32.0,0,12.0,0
+2026-doha-11,doha,Hard,Carlos Alcaraz,Karen Khachanov,6-7 3-4 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,198.0,RUS,31.4,0,1.0,0,16.0,0
+2026-doha-11,doha,Hard,Jakub Mensik,Jannik Sinner,7-6 2-3 6-6,Quarterfinals ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,191.0,ITA,26.2,0,12.0,0,2.0,0
+2026-doha-11,doha,Hard,Andrey Rublev,Stefanos Tsitsipas,6-3 7-6,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,193.0,GRE,29.2,0,17.0,0,43.0,0
+2026-doha-11,doha,Hard,Arthur Fils,Jiri Lehecka,6-3 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,FRA,23.5,0,0,0,R,185.0,CZE,25.9,0,32.0,0,23.0,0
+2026-doha-11,doha,Hard,Carlos Alcaraz,Valentin Royer,6-2 7-5,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,185.0,UNK,23.5,0,1.0,0,60.0,0
+2026-doha-11,doha,Hard,Jannik Sinner,Alexei Popyrin,6-3 7-5,Round of 16 ,100,0,0,0,0,0,0,0,R,191.0,ITA,26.2,0,0,0,R,196.0,AUS,28.2,0,2.0,0,45.0,0
+2026-doha-11,doha,Hard,Stefanos Tsitsipas,Daniil Medvedev,6-3 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,GRE,29.2,0,0,0,R,198.0,RUS,31.7,0,43.0,0,11.0,0
+2026-doha-11,doha,Hard,Andrey Rublev,Fabian Marozsan,6-2 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,193.0,HUN,28.0,0,17.0,0,46.0,0
+2026-doha-11,doha,Hard,Jakub Mensik,Zhizhen Zhang,6-3 6-2,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,193.0,CHN,31.0,0,12.0,0,262.0,0
+2026-doha-11,doha,Hard,Karen Khachanov,Marton Fucsovics,6-2 4-6 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.4,0,0,0,R,188.0,HUN,35.7,0,16.0,0,56.0,0
+2026-doha-11,doha,Hard,Jiri Lehecka,Zizou Bergs,6-2 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,CZE,25.9,0,0,0,R,185.0,BEL,28.4,0,23.0,0,47.0,0
+2026-doha-11,doha,Hard,Arthur Fils,Quentin Halys,6-1 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,FRA,23.5,0,0,0,R,191.0,FRA,31.0,0,32.0,0,102.0,0
+2026-doha-11,doha,Hard,Carlos Alcaraz,Arthur Rinderknech,6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ESP,24.5,0,0,0,R,196.0,FRA,32.2,0,1.0,0,28.0,0
+2026-doha-11,doha,Hard,Andrey Rublev,Jesper de Jong,6-4 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,185.0,UNK,23.5,0,17.0,0,150.0,0
+2026-doha-11,doha,Hard,Karen Khachanov,Shintaro Mochizuki,6-1 3-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.4,0,0,0,R,175.0,JPN,24.3,0,16.0,0,130.0,0
+2026-doha-11,doha,Hard,Jiri Lehecka,Jenson Brooksby,6-3 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,CZE,25.9,0,0,0,R,188.0,USA,25.2,0,23.0,0,41.0,0
+2026-doha-11,doha,Hard,Zizou Bergs,Giovanni Mpetshi Perricard,6-3 6-7 5-4,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,BEL,28.4,0,0,0,R,203.0,FRA,24.3,0,47.0,0,54.0,0
+2026-doha-11,doha,Hard,Marton Fucsovics,Hady Habib,6-3 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,HUN,35.7,0,0,0,R,188.0,LIB,29.0,0,56.0,0,339.0,0
+2026-doha-11,doha,Hard,Quentin Halys,Pablo Carreno Busta,4-6 7-5 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,188.0,ESP,36.2,0,102.0,0,107.0,0
+2026-doha-11,doha,Hard,Fabian Marozsan,Ugo Humbert,6-3 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,HUN,28.0,0,0,0,R,188.0,FRA,29.3,0,46.0,0,34.0,0
+2026-doha-11,doha,Hard,Stefanos Tsitsipas,Moez Echargui,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,GRE,29.2,0,0,0,R,178.0,TUN,34.5,0,43.0,0,138.0,0
+2026-doha-11,doha,Hard,Zhizhen Zhang,Roberto Carballes Baena,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,CHN,31.0,0,0,0,R,183.0,ESP,34.6,0,262.0,0,168.0,0
+2026-doha-11,doha,Hard,Jannik Sinner,Tomas Machac,6-1 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,ITA,26.2,0,0,0,R,183.0,CZE,27.0,0,2.0,0,50.0,0
+2026-doha-11,doha,Hard,Daniil Medvedev,Juncheng Shang,6-4 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,180.0,CHN,22.8,0,11.0,0,261.0,0
+2026-doha-11,doha,Hard,Jakub Mensik,Jan Choinski,6-7 6-2 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,196.0,GBR,31.2,0,12.0,0,122.0,0
+2026-doha-11,doha,Hard,Arthur Fils,Kamil Majchrzak,6-7 5-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,FRA,23.5,0,0,0,R,180.0,POL,31.6,0,32.0,0,57.0,0
+2026-doha-11,doha,Hard,Alexei Popyrin,Mubarak Shannan Zayid,6-0 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,AUS,28.2,0,0,0,R,185.0,UNK,23.5,0,45.0,0,150.0,0
+2026-doha-11,doha,Hard,Valentin Royer,Pierre-Hugues Herbert,6-0 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,60.0,0,150.0,0
+2026-doha-11,doha,Hard,Jan Choinski,Quentin Halys,1-6 6-3 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,GBR,31.2,0,0,0,R,191.0,FRA,31.0,0,122.0,0,102.0,0
+2026-doha-11,doha,Hard,Pablo Carreno Busta,Billy Harris,7-5 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,ESP,36.2,0,0,0,R,193.0,GBR,32.6,0,107.0,0,151.0,0
+2026-doha-11,doha,Hard,Roberto Carballes Baena,Shintaro Mochizuki,6-0 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,ESP,34.6,0,0,0,R,175.0,JPN,24.3,0,168.0,0,130.0,0
+2026-doha-11,doha,Hard,Pierre-Hugues Herbert,Elias Ymer,6-4 3-6 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,SWE,31.5,0,150.0,0,174.0,0
+2026-doha-11,doha,Hard,Quentin Halys,Mert Alkaya,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,185.0,UNK,23.5,0,102.0,0,380.0,0
+2026-doha-11,doha,Hard,Pierre-Hugues Herbert,Aleksandar Vukic,6-4 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,AUS,31.5,0,150.0,0,89.0,0
+2026-doha-11,doha,Hard,Pablo Carreno Busta,Reda Bennani,6-4 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,ESP,36.2,0,0,0,R,185.0,UNK,23.5,0,107.0,0,150.0,0
+2026-doha-11,doha,Hard,Shintaro Mochizuki,Ghanim Al Sulaiti,6-0 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,JPN,24.3,0,0,0,R,185.0,UNK,23.5,0,130.0,0,150.0,0
+2026-doha-11,doha,Hard,Jan Choinski,James McCabe,6-4 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,GBR,31.2,0,0,0,R,185.0,UNK,23.5,0,122.0,0,150.0,0
+2026-doha-11,doha,Hard,Billy Harris,Marco Trungelliti,3-6 6-4 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,GBR,32.6,0,0,0,R,178.0,ARG,37.6,0,151.0,0,132.0,0
+2026-doha-11,doha,Hard,Roberto Carballes Baena,Lucas Miedler,6-3 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,ESP,34.6,0,0,0,R,183.0,AUT,30.6,0,168.0,0,1071.0,0
+2026-doha-11,doha,Hard,Elias Ymer,Nikoloz Basilashvili,6-3 6-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,SWE,31.5,0,0,0,R,185.0,GEO,34.0,0,174.0,0,133.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Tomas Martin Etcheverry,Alejandro Tabilo,3-6 7-6 6-3,Final ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,188.0,CHI,30.4,0,31.0,0,40.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Tomas Martin Etcheverry,Vit Kopriva,4-6 7-6 7-2,Semifinals ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,178.0,CZE,30.1,0,31.0,0,62.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Alejandro Tabilo,Ignacio Buse,6-3 6-3,Semifinals ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,185.0,PER,23.4,0,40.0,0,63.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Tomas Martin Etcheverry,Jaime Faria,7-6 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,188.0,POR,24.0,0,31.0,0,163.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Ignacio Buse,Matteo Berrettini,6-3 2-6 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,PER,23.4,0,0,0,R,196.0,ITA,31.6,0,63.0,0,66.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Vit Kopriva,Juan Manuel Cerundolo,6-4 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,178.0,CZE,30.1,0,0,0,R,183.0,ARG,25.2,0,62.0,0,70.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Alejandro Tabilo,Thiago Agustin Tirante,7-6 6-2 6-7 6-1,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,185.0,ARG,26.5,0,40.0,0,74.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Ignacio Buse,Joao Fonseca,5-7 6-3 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,PER,23.4,0,0,0,R,185.0,BRA,21.3,0,63.0,0,35.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Tomas Martin Etcheverry,Vilius Gaubas,7-6 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,178.0,LTU,22.6,0,31.0,0,101.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Matteo Berrettini,Dusan Lajovic,3-6 6-4 6-2,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,ITA,31.6,0,0,0,R,183.0,SRB,37.3,0,66.0,0,120.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Jaime Faria,Damir Dzumhur,7-6 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,POR,24.0,0,0,0,R,175.0,BIH,35.4,0,163.0,0,64.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Thiago Agustin Tirante,Francisco Cerundolo,6-2 3-1,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,ARG,26.5,0,0,0,R,185.0,ARG,29.2,0,74.0,0,20.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Juan Manuel Cerundolo,Yannick Hanfmann,6-4 6-7 1-4,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ARG,25.2,0,0,0,R,193.0,GER,35.8,0,70.0,0,65.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Vit Kopriva,Roman Andres Burruchaga,6-3 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,178.0,CZE,30.1,0,0,0,R,183.0,ARG,25.3,0,62.0,0,98.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Alejandro Tabilo,Francesco Passaro,4-6 7-6 6-0,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,180.0,ITA,26.3,0,40.0,0,140.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Francisco Cerundolo,Mariano Navone,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,178.0,ARG,26.6,0,20.0,0,79.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Juan Manuel Cerundolo,Luciano Darderi,6-1 3-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ARG,25.2,0,0,0,R,183.0,ITA,25.7,0,70.0,0,21.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Joao Fonseca,Thiago Monteiro,7-6 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,BRA,21.3,0,0,0,R,183.0,BRA,33.4,0,35.0,0,232.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Jaime Faria,Sebastian Baez,7-5 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,POR,24.0,0,0,0,R,170.0,ARG,26.8,0,163.0,0,53.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Roman Andres Burruchaga,Camilo Ugo Carabelli,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ARG,25.3,0,0,0,R,185.0,ARG,28.1,0,98.0,0,67.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Tomas Martin Etcheverry,Francisco Comesana,3-6 6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,ARG,28.3,0,0,0,R,178.0,ARG,26.8,0,31.0,0,82.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Matteo Berrettini,Tomas Barrios Vera,7-6 7-1,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,ITA,31.6,0,0,0,R,191.0,CHI,29.7,0,66.0,0,115.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Damir Dzumhur,Pedro Martinez,0-6 7-6 6-5,Round of 32 ,100,0,0,0,0,0,0,0,R,175.0,BIH,35.4,0,0,0,R,185.0,ESP,30.5,0,64.0,0,106.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Vilius Gaubas,Guto Miguel,6-3 2-6 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,LTU,22.6,0,0,0,R,185.0,UNK,23.5,0,101.0,0,150.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Francesco Passaro,Dino Prizmic,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,ITA,26.3,0,0,0,R,188.0,CRO,21.5,0,140.0,0,119.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Dusan Lajovic,Daniel Altmaier,6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,SRB,37.3,0,0,0,R,188.0,GER,29.1,0,120.0,0,55.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Ignacio Buse,Igor Marcondes,4-6 7-5 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,PER,23.4,0,0,0,R,185.0,UNK,23.5,0,63.0,0,307.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Yannick Hanfmann,Joao Lucas Reis Da Silva,7-6 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,GER,35.8,0,0,0,R,185.0,UNK,23.5,0,65.0,0,205.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Vit Kopriva,Gustavo Heide,6-2 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,CZE,30.1,0,0,0,R,191.0,BRA,25.3,0,62.0,0,301.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Alejandro Tabilo,Emilio Nava,6-3 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,185.0,USA,25.6,0,40.0,0,75.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Thiago Agustin Tirante,Cristian Garin,7-5 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,ARG,26.5,0,0,0,R,185.0,CHI,31.2,0,74.0,0,90.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Dino Prizmic,Tomas Barrios Vera,6-3 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,191.0,CHI,29.7,0,119.0,0,115.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Thiago Monteiro,Dusan Lajovic,2-6 6-3 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,BRA,33.4,0,0,0,R,183.0,SRB,37.3,0,232.0,0,120.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Vilius Gaubas,Francesco Passaro,6-4 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,LTU,22.6,0,0,0,R,180.0,ITA,26.3,0,101.0,0,140.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Igor Marcondes,Jaime Faria,6-1 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,POR,24.0,0,307.0,0,163.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Thiago Monteiro,Adolfo Daniel Vallejo,6-4 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,BRA,33.4,0,0,0,R,185.0,UNK,23.5,0,232.0,0,104.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Tomas Barrios Vera,Pedro Boscardin Dias,6-4 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,CHI,29.7,0,0,0,R,185.0,UNK,23.5,0,115.0,0,258.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Igor Marcondes,Chun-Hsin Tseng,6-3 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,307.0,0,150.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Francesco Passaro,Elmer Moller,7-6 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,ITA,26.3,0,0,0,R,183.0,DEN,24.1,0,140.0,0,121.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Dino Prizmic,Daniel Elahi Galan,6-1 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,191.0,COL,31.1,0,119.0,0,182.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Dusan Lajovic,Hugo Dellien,3-6 7-6 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,SRB,37.3,0,0,0,R,180.0,BOL,34.2,0,120.0,0,164.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Vilius Gaubas,Andrea Pellegrino,6-4 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,LTU,22.6,0,0,0,R,185.0,ITA,30.3,0,101.0,0,125.0,0
+2026-rio-de-janeiro-12,rio-de-janeiro,Clay,Jaime Faria,Nicolas Jarry,7-6 6-6 4-7 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,POR,24.0,0,0,0,R,201.0,CHI,32.0,0,163.0,0,154.0,0
+2026-delray-beach-13,delray-beach,Hard,Sebastian Korda,Tommy Paul,6-4 6-3,Final ,100,0,0,0,0,0,0,0,R,196.0,USA,27.1,0,0,0,R,185.0,USA,30.4,0,37.0,0,24.0,0
+2026-delray-beach-13,delray-beach,Hard,Sebastian Korda,Flavio Cobolli,7-6 6-1,Semifinals ,100,0,0,0,0,0,0,0,R,196.0,USA,27.1,0,0,0,R,183.0,ITA,25.4,0,37.0,0,15.0,0
+2026-delray-beach-13,delray-beach,Hard,Tommy Paul,Learner Tien,4-6 6-4 6-3,Semifinals ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,180.0,USA,22.0,0,24.0,0,27.0,0
+2026-delray-beach-13,delray-beach,Hard,Tommy Paul,Taylor Fritz,6-4 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,196.0,USA,30.0,0,24.0,0,7.0,0
+2026-delray-beach-13,delray-beach,Hard,Sebastian Korda,Casper Ruud,4-6 6-2 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,196.0,USA,27.1,0,0,0,R,183.0,NOR,28.8,0,37.0,0,13.0,0
+2026-delray-beach-13,delray-beach,Hard,Flavio Cobolli,Coleman Wong,7-5 6-7 7-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,191.0,HKG,23.3,0,15.0,0,123.0,0
+2026-delray-beach-13,delray-beach,Hard,Learner Tien,Frances Tiafoe,7-6 3-5 7-6,Quarterfinals ,100,0,0,0,0,0,0,0,R,180.0,USA,22.0,0,0,0,R,188.0,USA,29.7,0,27.0,0,22.0,0
+2026-delray-beach-13,delray-beach,Hard,Taylor Fritz,Rafael Jodar,7-6 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,USA,30.0,0,0,0,R,185.0,UNK,23.5,0,7.0,0,103.0,0
+2026-delray-beach-13,delray-beach,Hard,Learner Tien,Miomir Kecmanovic,6-4 6-7 4-6 7-5,Round of 16 ,100,0,0,0,0,0,0,0,R,180.0,USA,22.0,0,0,0,R,183.0,SRB,28.1,0,27.0,0,58.0,0
+2026-delray-beach-13,delray-beach,Hard,Tommy Paul,Adam Walton,7-6 6-11,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,183.0,AUS,28.4,0,24.0,0,91.0,0
+2026-delray-beach-13,delray-beach,Hard,Frances Tiafoe,Zachary Svajda,6-4 3-6 7-5,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,175.0,USA,24.8,0,22.0,0,99.0,0
+2026-delray-beach-13,delray-beach,Hard,Casper Ruud,Marcos Giron,4-6 7-6 6-6,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,NOR,28.8,0,0,0,R,180.0,USA,34.2,0,13.0,0,69.0,0
+2026-delray-beach-13,delray-beach,Hard,Flavio Cobolli,Terence Atmane,7-5 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,193.0,FRA,25.7,0,15.0,0,52.0,0
+2026-delray-beach-13,delray-beach,Hard,Coleman Wong,Brandon Nakashima,6-4 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,191.0,HKG,23.3,0,0,0,R,188.0,USA,26.2,0,123.0,0,30.0,0
+2026-delray-beach-13,delray-beach,Hard,Sebastian Korda,Alex Michelsen,6-3 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,USA,27.1,0,0,0,R,193.0,USA,23.3,0,37.0,0,44.0,0
+2026-delray-beach-13,delray-beach,Hard,Tommy Paul,Corentin Moutet,4-6 6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,USA,30.4,0,0,0,R,180.0,FRA,28.5,0,24.0,0,33.0,0
+2026-delray-beach-13,delray-beach,Hard,Brandon Nakashima,Marin Cilic,7-6 7-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,26.2,0,0,0,R,198.0,CRO,39.1,0,30.0,0,51.0,0
+2026-delray-beach-13,delray-beach,Hard,Rafael Jodar,Ethan Quinn,6-2 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,191.0,USA,23.3,0,103.0,0,73.0,0
+2026-delray-beach-13,delray-beach,Hard,Miomir Kecmanovic,Mattia Bellucci,6-1 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,SRB,28.1,0,0,0,R,175.0,ITA,26.3,0,58.0,0,94.0,0
+2026-delray-beach-13,delray-beach,Hard,Sebastian Korda,Mackenzie McDonald,6-4 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,USA,27.1,0,0,0,R,185.0,UNK,23.5,0,37.0,0,150.0,0
+2026-delray-beach-13,delray-beach,Hard,Zachary Svajda,Aleksandar Kovacevic,7-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,175.0,USA,24.8,0,0,0,R,183.0,USA,29.1,0,99.0,0,72.0,0
+2026-delray-beach-13,delray-beach,Hard,Adam Walton,Gabriel Diallo,7-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,AUS,28.4,0,0,0,R,203.0,CAN,26.1,0,91.0,0,38.0,0
+2026-delray-beach-13,delray-beach,Hard,Alex Michelsen,Valentin Vacherot,7-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,USA,23.3,0,0,0,R,193.0,MON,28.5,0,44.0,0,26.0,0
+2026-delray-beach-13,delray-beach,Hard,Frances Tiafoe,Rinky Hijikata,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,178.0,AUS,26.6,0,22.0,0,117.0,0
+2026-delray-beach-13,delray-beach,Hard,Terence Atmane,Patrick Kypson,6-3 2-6 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,FRA,25.7,0,0,0,R,188.0,USA,27.4,0,52.0,0,95.0,0
+2026-delray-beach-13,delray-beach,Hard,Marcos Giron,Sho Shimabukuro,6-3 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,USA,34.2,0,0,0,R,180.0,JPN,29.2,0,69.0,0,113.0,0
+2026-delray-beach-13,delray-beach,Hard,Coleman Wong,Nuno Borges,7-6 4-5 6-6,Round of 32 ,100,0,0,0,0,0,0,0,R,191.0,HKG,23.3,0,0,0,R,185.0,POR,30.7,0,123.0,0,49.0,0
+2026-delray-beach-13,delray-beach,Hard,Sho Shimabukuro,Adam Walton,6-3 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,JPN,29.2,0,0,0,R,183.0,AUS,28.4,0,113.0,0,91.0,0
+2026-delray-beach-13,delray-beach,Hard,Rinky Hijikata,Dalibor Svrcina,6-4 6-3,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,AUS,26.6,0,0,0,R,178.0,CZE,24.3,0,117.0,0,109.0,0
+2026-delray-beach-13,delray-beach,Hard,Coleman Wong,Tristan Schoolkate,6-4 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,HKG,23.3,0,0,0,R,183.0,AUS,26.4,0,123.0,0,118.0,0
+2026-delray-beach-13,delray-beach,Hard,Zachary Svajda,Yibing Wu,6-3 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,USA,24.8,0,0,0,R,183.0,CHN,27.9,0,99.0,0,112.0,0
+2026-delray-beach-13,delray-beach,Hard,Adam Walton,Nicolas Moreno De Alboran,6-3 4-6 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,AUS,28.4,0,0,0,R,185.0,USA,30.0,0,91.0,0,143.0,0
+2026-delray-beach-13,delray-beach,Hard,Dalibor Svrcina,Nicolas Mejia,3-6 6-1 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,CZE,24.3,0,0,0,R,183.0,COL,27.5,0,109.0,0,181.0,0
+2026-delray-beach-13,delray-beach,Hard,Tristan Schoolkate,Murphy Cassone,6-4 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,AUS,26.4,0,0,0,R,185.0,UNK,23.5,0,118.0,0,275.0,0
+2026-delray-beach-13,delray-beach,Hard,Zachary Svajda,Liam Draxl,6-2 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,USA,24.8,0,0,0,R,185.0,UNK,23.5,0,99.0,0,147.0,0
+2026-delray-beach-13,delray-beach,Hard,Rinky Hijikata,Michael Mmoh,6-3 3-6 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,AUS,26.6,0,0,0,R,188.0,USA,29.2,0,117.0,0,359.0,0
+2026-delray-beach-13,delray-beach,Hard,Coleman Wong,Yoshihito Nishioka,6-2 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,HKG,23.3,0,0,0,R,170.0,JPN,32.0,0,123.0,0,170.0,0
+2026-delray-beach-13,delray-beach,Hard,Yibing Wu,Colton Smith,7-5 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,185.0,UNK,23.5,0,112.0,0,136.0,0
+2026-delray-beach-13,delray-beach,Hard,Sho Shimabukuro,Benjamin Willwerth,6-4 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,JPN,29.2,0,0,0,R,185.0,UNK,23.5,0,113.0,0,150.0,0
+2026-dubai-14,dubai,Hard,Daniil Medvedev,Tallon Griekspoor,,Final ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,188.0,NED,31.3,0,11.0,0,25.0,0
+2026-dubai-14,dubai,Hard,Daniil Medvedev,Felix Auger-Aliassime,6-4 6-2,Semifinals ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,185.0,UNK,23.5,0,11.0,0,150.0,0
+2026-dubai-14,dubai,Hard,Tallon Griekspoor,Andrey Rublev,7-5 7-6,Semifinals ,100,0,0,0,0,0,0,0,R,188.0,NED,31.3,0,0,0,R,188.0,RUS,30.0,0,25.0,0,17.0,0
+2026-dubai-14,dubai,Hard,Felix Auger-Aliassime,Jiri Lehecka,6-3 7-6,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,CZE,25.9,0,150.0,0,23.0,0
+2026-dubai-14,dubai,Hard,Daniil Medvedev,Jenson Brooksby,6-2 6-1,Quarterfinals ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,188.0,USA,25.2,0,11.0,0,41.0,0
+2026-dubai-14,dubai,Hard,Andrey Rublev,Arthur Rinderknech,6-2 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,196.0,FRA,32.2,0,17.0,0,28.0,0
+2026-dubai-14,dubai,Hard,Tallon Griekspoor,Jakub Mensik,6-3 3-6 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,NED,31.3,0,0,0,R,193.0,CZE,22.2,0,25.0,0,12.0,0
+2026-dubai-14,dubai,Hard,Felix Auger-Aliassime,Giovanni Mpetshi Perricard,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,203.0,FRA,24.3,0,150.0,0,54.0,0
+2026-dubai-14,dubai,Hard,Tallon Griekspoor,Alexander Bublik,6-3 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,NED,31.3,0,0,0,R,196.0,KAZ,30.3,0,25.0,0,10.0,0
+2026-dubai-14,dubai,Hard,Daniil Medvedev,Stan Wawrinka,6-2 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,183.0,SUI,42.6,0,11.0,0,92.0,0
+2026-dubai-14,dubai,Hard,Arthur Rinderknech,Jack Draper,7-5 6-7 4-4,Round of 16 ,100,0,0,0,0,0,0,0,R,196.0,FRA,32.2,0,0,0,R,193.0,GBR,25.8,0,28.0,0,14.0,0
+2026-dubai-14,dubai,Hard,Andrey Rublev,Ugo Humbert,6-4 6-7 5-3,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,188.0,FRA,29.3,0,17.0,0,34.0,0
+2026-dubai-14,dubai,Hard,Jakub Mensik,Alexei Popyrin,6-3 6-2,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,196.0,AUS,28.2,0,12.0,0,45.0,0
+2026-dubai-14,dubai,Hard,Jenson Brooksby,Karen Khachanov,7-6 6-6,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,USA,25.2,0,0,0,R,198.0,RUS,31.4,0,41.0,0,16.0,0
+2026-dubai-14,dubai,Hard,Jiri Lehecka,Pablo Carreno Busta,7-6 6-6,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,CZE,25.9,0,0,0,R,188.0,ESP,36.2,0,23.0,0,107.0,0
+2026-dubai-14,dubai,Hard,Alexander Bublik,Jan-Lennard Struff,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,KAZ,30.3,0,0,0,R,185.0,UNK,23.5,0,10.0,0,150.0,0
+2026-dubai-14,dubai,Hard,Daniil Medvedev,Juncheng Shang,6-1 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.7,0,0,0,R,180.0,CHN,22.8,0,11.0,0,261.0,0
+2026-dubai-14,dubai,Hard,Andrey Rublev,Valentin Royer,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,RUS,30.0,0,0,0,R,185.0,UNK,23.5,0,17.0,0,60.0,0
+2026-dubai-14,dubai,Hard,Jakub Mensik,Hubert Hurkacz,6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,CZE,22.2,0,0,0,R,196.0,POL,30.7,0,12.0,0,71.0,0
+2026-dubai-14,dubai,Hard,Karen Khachanov,Alexander Shevchenko,6-7 5-2 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,RUS,31.4,0,0,0,R,185.0,KAZ,26.9,0,16.0,0,88.0,0
+2026-dubai-14,dubai,Hard,Jiri Lehecka,Luca Nardi,4-6 6-4 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,CZE,25.9,0,0,0,R,185.0,ITA,24.1,0,23.0,0,135.0,0
+2026-dubai-14,dubai,Hard,Jenson Brooksby,Zizou Bergs,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,25.2,0,0,0,R,185.0,BEL,28.4,0,41.0,0,47.0,0
+2026-dubai-14,dubai,Hard,Pablo Carreno Busta,Denis Shapovalov,6-2 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,ESP,36.2,0,0,0,R,185.0,CAN,28.5,0,107.0,0,39.0,0
+2026-dubai-14,dubai,Hard,Tallon Griekspoor,Otto Virtanen,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,NED,31.3,0,0,0,R,193.0,FIN,26.3,0,25.0,0,128.0,0
+2026-dubai-14,dubai,Hard,Ugo Humbert,Stefanos Tsitsipas,6-4 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,FRA,29.3,0,0,0,R,193.0,GRE,29.2,0,34.0,0,43.0,0
+2026-dubai-14,dubai,Hard,Alexei Popyrin,Kamil Majchrzak,3-6 6-3 7-5,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,AUS,28.2,0,0,0,R,180.0,POL,31.6,0,45.0,0,57.0,0
+2026-dubai-14,dubai,Hard,Arthur Rinderknech,Fabian Marozsan,3-6 6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,196.0,FRA,32.2,0,0,0,R,193.0,HUN,28.0,0,28.0,0,46.0,0
+2026-dubai-14,dubai,Hard,Felix Auger-Aliassime,Zhizhen Zhang,6-3 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,193.0,CHN,31.0,0,150.0,0,262.0,0
+2026-dubai-14,dubai,Hard,Jack Draper,Quentin Halys,7-6 6-8,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,GBR,25.8,0,0,0,R,191.0,FRA,31.0,0,14.0,0,102.0,0
+2026-dubai-14,dubai,Hard,Giovanni Mpetshi Perricard,Moez Echargui,7-6 6-3 3-7 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,203.0,FRA,24.3,0,0,0,R,178.0,TUN,34.5,0,54.0,0,138.0,0
+2026-dubai-14,dubai,Hard,Stan Wawrinka,Benjamin Hassan,7-5 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,SUI,42.6,0,0,0,R,183.0,LBN,32.6,0,92.0,0,288.0,0
+2026-dubai-14,dubai,Hard,Giovanni Mpetshi Perricard,Jan Choinski,4-6 6-3 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,203.0,FRA,24.3,0,0,0,R,196.0,GBR,31.2,0,54.0,0,122.0,0
+2026-dubai-14,dubai,Hard,Quentin Halys,Alexander Shevchenko,7-6 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,185.0,KAZ,26.9,0,102.0,0,88.0,0
+2026-dubai-14,dubai,Hard,Otto Virtanen,Jan-Lennard Struff,6-7 7-4 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,FIN,26.3,0,0,0,R,185.0,UNK,23.5,0,128.0,0,150.0,0
+2026-dubai-14,dubai,Hard,Pablo Carreno Busta,Luca Nardi,6-7 4-4 6-6 7-5,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,ESP,36.2,0,0,0,R,185.0,ITA,24.1,0,107.0,0,135.0,0
+2026-dubai-14,dubai,Hard,Pablo Carreno Busta,Botic van de Zandschulp,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,ESP,36.2,0,0,0,R,185.0,UNK,23.5,0,107.0,0,150.0,0
+2026-dubai-14,dubai,Hard,Giovanni Mpetshi Perricard,Shintaro Mochizuki,6-1 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,203.0,FRA,24.3,0,0,0,R,175.0,JPN,24.3,0,54.0,0,130.0,0
+2026-dubai-14,dubai,Hard,Quentin Halys,Christopher O'Connell,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,FRA,31.0,0,0,0,R,185.0,UNK,23.5,0,102.0,0,127.0,0
+2026-dubai-14,dubai,Hard,Jan-Lennard Struff,Abdulrahman Al Janahi,6-0 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,150.0,0,150.0,0
+2026-dubai-14,dubai,Hard,Alexander Shevchenko,Nikoloz Basilashvili,7-6 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,KAZ,26.9,0,0,0,R,185.0,GEO,34.0,0,88.0,0,133.0,0
+2026-dubai-14,dubai,Hard,Jan Choinski,Jesper de Jong,6-1 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,GBR,31.2,0,0,0,R,185.0,UNK,23.5,0,122.0,0,150.0,0
+2026-dubai-14,dubai,Hard,Otto Virtanen,Aleksandar Vukic,6-2 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,193.0,FIN,26.3,0,0,0,R,188.0,AUS,31.5,0,128.0,0,89.0,0
+2026-dubai-14,dubai,Hard,Luca Nardi,Marco Trungelliti,2-6 6-2 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ITA,24.1,0,0,0,R,178.0,ARG,37.6,0,135.0,0,132.0,0
+2026-acapulco-15,acapulco,Hard,Flavio Cobolli,Frances Tiafoe,7-6 6-4,Final ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,188.0,USA,29.7,0,15.0,0,22.0,0
+2026-acapulco-15,acapulco,Hard,Flavio Cobolli,Miomir Kecmanovic,7-6 3-5 6-6,Semifinals ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,183.0,SRB,28.1,0,15.0,0,58.0,0
+2026-acapulco-15,acapulco,Hard,Frances Tiafoe,Brandon Nakashima,3-6 7-6 6-6,Semifinals ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,188.0,USA,26.2,0,22.0,0,30.0,0
+2026-acapulco-15,acapulco,Hard,Flavio Cobolli,Yibing Wu,7-6 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,183.0,CHN,27.9,0,15.0,0,112.0,0
+2026-acapulco-15,acapulco,Hard,Brandon Nakashima,Valentin Vacherot,2-6 6-2 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,USA,26.2,0,0,0,R,193.0,MON,28.5,0,30.0,0,26.0,0
+2026-acapulco-15,acapulco,Hard,Frances Tiafoe,Mattia Bellucci,6-3 6-4,Quarterfinals ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,175.0,ITA,26.3,0,22.0,0,94.0,0
+2026-acapulco-15,acapulco,Hard,Miomir Kecmanovic,Terence Atmane,6-3 6-3,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,SRB,28.1,0,0,0,R,193.0,FRA,25.7,0,58.0,0,52.0,0
+2026-acapulco-15,acapulco,Hard,Miomir Kecmanovic,Alexander Zverev,6-3 6-7 3-6 7-4,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,SRB,28.1,0,0,0,R,198.0,GER,30.5,0,58.0,0,4.0,0
+2026-acapulco-15,acapulco,Hard,Mattia Bellucci,Alejandro Davidovich Fokina,6-3 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,175.0,ITA,26.3,0,0,0,R,183.0,ESP,28.3,0,94.0,0,19.0,0
+2026-acapulco-15,acapulco,Hard,Flavio Cobolli,Dalibor Svrcina,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,178.0,CZE,24.3,0,15.0,0,109.0,0
+2026-acapulco-15,acapulco,Hard,Valentin Vacherot,Gael Monfils,6-3 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,MON,28.5,0,0,0,R,193.0,FRA,41.1,0,26.0,0,148.0,0
+2026-acapulco-15,acapulco,Hard,Frances Tiafoe,Aleksandar Kovacevic,6-4 3-6 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,183.0,USA,29.1,0,22.0,0,72.0,0
+2026-acapulco-15,acapulco,Hard,Terence Atmane,Rafael Jodar,6-2 4-6 6-1,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,FRA,25.7,0,0,0,R,185.0,UNK,23.5,0,52.0,0,103.0,0
+2026-acapulco-15,acapulco,Hard,Brandon Nakashima,Patrick Kypson,6-4 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,USA,26.2,0,0,0,R,188.0,USA,27.4,0,30.0,0,95.0,0
+2026-acapulco-15,acapulco,Hard,Yibing Wu,Sho Shimabukuro,6-3 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,180.0,JPN,29.2,0,112.0,0,113.0,0
+2026-acapulco-15,acapulco,Hard,Alexander Zverev,Corentin Moutet,6-2 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,198.0,GER,30.5,0,0,0,R,180.0,FRA,28.5,0,4.0,0,33.0,0
+2026-acapulco-15,acapulco,Hard,Yibing Wu,Casper Ruud,7-6 7-2,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,183.0,NOR,28.8,0,112.0,0,13.0,0
+2026-acapulco-15,acapulco,Hard,Flavio Cobolli,Rodrigo Pacheco Mendez,7-6 7-3,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.4,0,0,0,R,188.0,MEX,22.3,0,15.0,0,300.0,0
+2026-acapulco-15,acapulco,Hard,Frances Tiafoe,Nuno Borges,6-4 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,29.7,0,0,0,R,185.0,POR,30.7,0,22.0,0,49.0,0
+2026-acapulco-15,acapulco,Hard,Terence Atmane,Grigor Dimitrov,6-3 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,FRA,25.7,0,0,0,R,191.0,BUL,36.4,0,52.0,0,42.0,0
+2026-acapulco-15,acapulco,Hard,Mattia Bellucci,Rinky Hijikata,7-6 6-5,Round of 32 ,100,0,0,0,0,0,0,0,R,175.0,ITA,26.3,0,0,0,R,178.0,AUS,26.6,0,94.0,0,117.0,0
+2026-acapulco-15,acapulco,Hard,Gael Monfils,Damir Dzumhur,6-4 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,FRA,41.1,0,0,0,R,175.0,BIH,35.4,0,148.0,0,64.0,0
+2026-acapulco-15,acapulco,Hard,Sho Shimabukuro,Adrian Mannarino,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,180.0,JPN,29.2,0,0,0,R,180.0,FRA,39.3,0,113.0,0,48.0,0
+2026-acapulco-15,acapulco,Hard,Dalibor Svrcina,James Duckworth,6-4 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,CZE,24.3,0,0,0,R,183.0,AUS,35.7,0,109.0,0,83.0,0
+2026-acapulco-15,acapulco,Hard,Patrick Kypson,Alex de Minaur,6-1 6-7 4-6 7-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,27.4,0,0,0,R,185.0,UNK,23.5,0,95.0,0,150.0,0
+2026-acapulco-15,acapulco,Hard,Alejandro Davidovich Fokina,Daniel Altmaier,7-5 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,ESP,28.3,0,0,0,R,188.0,GER,29.1,0,19.0,0,55.0,0
+2026-acapulco-15,acapulco,Hard,Valentin Vacherot,Coleman Wong,4-6 6-3 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,MON,28.5,0,0,0,R,191.0,HKG,23.3,0,26.0,0,123.0,0
+2026-acapulco-15,acapulco,Hard,Rafael Jodar,Cameron Norrie,6-3 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,GBR,32.2,0,103.0,0,29.0,0
+2026-acapulco-15,acapulco,Hard,Miomir Kecmanovic,Tristan Schoolkate,6-2 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,SRB,28.1,0,0,0,R,183.0,AUS,26.4,0,58.0,0,118.0,0
+2026-acapulco-15,acapulco,Hard,Aleksandar Kovacevic,Adam Walton,7-6 7-1,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,USA,29.1,0,0,0,R,183.0,AUS,28.4,0,72.0,0,91.0,0
+2026-acapulco-15,acapulco,Hard,Brandon Nakashima,Elias Ymer,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,USA,26.2,0,0,0,R,185.0,SWE,31.5,0,30.0,0,174.0,0
+2026-acapulco-15,acapulco,Hard,Patrick Kypson,Coleman Wong,6-3 6-0,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,USA,27.4,0,0,0,R,191.0,HKG,23.3,0,95.0,0,123.0,0
+2026-acapulco-15,acapulco,Hard,Sho Shimabukuro,Zachary Svajda,5-1,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,JPN,29.2,0,0,0,R,175.0,USA,24.8,0,113.0,0,99.0,0
+2026-acapulco-15,acapulco,Hard,Yibing Wu,Rinky Hijikata,6-1 7-6,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,178.0,AUS,26.6,0,112.0,0,117.0,0
+2026-acapulco-15,acapulco,Hard,Elias Ymer,Nicolas Mejia,6-4 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,SWE,31.5,0,0,0,R,183.0,COL,27.5,0,174.0,0,181.0,0
+2026-acapulco-15,acapulco,Hard,Patrick Kypson,Stefan Kozlov,7-6 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,USA,27.4,0,0,0,R,183.0,USA,27.6,0,95.0,0,270.0,0
+2026-acapulco-15,acapulco,Hard,Zachary Svajda,Andres Martin,6-0 6-0,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,USA,24.8,0,0,0,R,183.0,USA,26.0,0,99.0,0,272.0,0
+2026-acapulco-15,acapulco,Hard,Rinky Hijikata,Alan Magadan,7-6 6-0,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,AUS,26.6,0,0,0,R,185.0,UNK,23.5,0,117.0,0,150.0,0
+2026-acapulco-15,acapulco,Hard,Elias Ymer,Mackenzie McDonald,7-6 4-7 6-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,SWE,31.5,0,0,0,R,185.0,UNK,23.5,0,174.0,0,150.0,0
+2026-acapulco-15,acapulco,Hard,Sho Shimabukuro,Rafael De Alba,6-2 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,JPN,29.2,0,0,0,R,185.0,UNK,23.5,0,113.0,0,150.0,0
+2026-acapulco-15,acapulco,Hard,Coleman Wong,Alex Hernandez,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,HKG,23.3,0,0,0,R,185.0,UNK,23.5,0,123.0,0,150.0,0
+2026-acapulco-15,acapulco,Hard,Yibing Wu,Juan Pablo Ficovich,6-0 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,CHN,27.9,0,0,0,R,191.0,ARG,28.0,0,112.0,0,186.0,0
+2026-acapulco-15,acapulco,Hard,Nicolas Mejia,Bernard Tomic,6-3 3-0,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,COL,27.5,0,0,0,R,196.0,AUS,31.3,0,181.0,0,189.0,0
+2026-santiago-16,santiago,Clay,Luciano Darderi,Yannick Hanfmann,7-6 7-6,Final ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,193.0,GER,35.8,0,21.0,0,65.0,0
+2026-santiago-16,santiago,Clay,Yannick Hanfmann,Francisco Cerundolo,6-3 6-4,Semifinals ,100,0,0,0,0,0,0,0,R,193.0,GER,35.8,0,0,0,R,185.0,ARG,29.2,0,65.0,0,20.0,0
+2026-santiago-16,santiago,Clay,Luciano Darderi,Sebastian Baez,6-4 6-3,Semifinals ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,170.0,ARG,26.8,0,21.0,0,53.0,0
+2026-santiago-16,santiago,Clay,Francisco Cerundolo,Emilio Nava,6-1 6-1,Quarterfinals ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,185.0,USA,25.6,0,20.0,0,75.0,0
+2026-santiago-16,santiago,Clay,Luciano Darderi,Andrea Pellegrino,6-3 3-6 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,185.0,ITA,30.3,0,21.0,0,125.0,0
+2026-santiago-16,santiago,Clay,Sebastian Baez,Alejandro Tabilo,7-6 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,188.0,CHI,30.4,0,53.0,0,40.0,0
+2026-santiago-16,santiago,Clay,Yannick Hanfmann,Vilius Gaubas,3-6 6-2 6-2,Quarterfinals ,100,0,0,0,0,0,0,0,R,193.0,GER,35.8,0,0,0,R,178.0,LTU,22.6,0,65.0,0,101.0,0
+2026-santiago-16,santiago,Clay,Francisco Cerundolo,Elmer Moller,6-2 6-2,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,ARG,29.2,0,0,0,R,183.0,DEN,24.1,0,20.0,0,121.0,0
+2026-santiago-16,santiago,Clay,Sebastian Baez,Cristian Garin,7-6 1-2 7-6,Round of 16 ,100,0,0,0,0,0,0,0,R,170.0,ARG,26.8,0,0,0,R,185.0,CHI,31.2,0,53.0,0,90.0,0
+2026-santiago-16,santiago,Clay,Alejandro Tabilo,Thiago Agustin Tirante,4-6 6-3 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,185.0,ARG,26.5,0,40.0,0,74.0,0
+2026-santiago-16,santiago,Clay,Emilio Nava,Adolfo Daniel Vallejo,7-5 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,USA,25.6,0,0,0,R,185.0,UNK,23.5,0,75.0,0,104.0,0
+2026-santiago-16,santiago,Clay,Luciano Darderi,Mariano Navone,6-3 3-6 6-4,Round of 16 ,100,0,0,0,0,0,0,0,R,183.0,ITA,25.7,0,0,0,R,178.0,ARG,26.6,0,21.0,0,79.0,0
+2026-santiago-16,santiago,Clay,Yannick Hanfmann,Camilo Ugo Carabelli,6-4 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,193.0,GER,35.8,0,0,0,R,185.0,ARG,28.1,0,65.0,0,67.0,0
+2026-santiago-16,santiago,Clay,Andrea Pellegrino,Francisco Comesana,7-6 6-3 2-7 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,185.0,ITA,30.3,0,0,0,R,178.0,ARG,26.8,0,125.0,0,82.0,0
+2026-santiago-16,santiago,Clay,Vilius Gaubas,Dino Prizmic,5-7 7-5 6-3,Round of 16 ,100,0,0,0,0,0,0,0,R,178.0,LTU,22.6,0,0,0,R,188.0,CRO,21.5,0,101.0,0,119.0,0
+2026-santiago-16,santiago,Clay,Emilio Nava,Matteo Berrettini,6-3 6-4,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,USA,25.6,0,0,0,R,196.0,ITA,31.6,0,75.0,0,66.0,0
+2026-santiago-16,santiago,Clay,Alejandro Tabilo,Tomas Barrios Vera,7-5 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,CHI,30.4,0,0,0,R,191.0,CHI,29.7,0,40.0,0,115.0,0
+2026-santiago-16,santiago,Clay,Cristian Garin,Juan Manuel Cerundolo,3-6 6-3 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,CHI,31.2,0,0,0,R,183.0,ARG,25.2,0,90.0,0,70.0,0
+2026-santiago-16,santiago,Clay,Vilius Gaubas,Matias Soto,6-2 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,LTU,22.6,0,0,0,R,185.0,UNK,23.5,0,101.0,0,318.0,0
+2026-santiago-16,santiago,Clay,Elmer Moller,Roman Andres Burruchaga,7-6 0-4 6-6,Round of 32 ,100,0,0,0,0,0,0,0,R,183.0,DEN,24.1,0,0,0,R,183.0,ARG,25.3,0,121.0,0,98.0,0
+2026-santiago-16,santiago,Clay,Mariano Navone,Vit Kopriva,3-6 6-0 3-1,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,ARG,26.6,0,0,0,R,178.0,CZE,30.1,0,79.0,0,62.0,0
+2026-santiago-16,santiago,Clay,Thiago Agustin Tirante,Ignacio Buse,2-6 7-6 7-0,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,ARG,26.5,0,0,0,R,185.0,PER,23.4,0,74.0,0,63.0,0
+2026-santiago-16,santiago,Clay,Adolfo Daniel Vallejo,Francesco Passaro,6-3 3-3,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,180.0,ITA,26.3,0,104.0,0,140.0,0
+2026-santiago-16,santiago,Clay,Francisco Comesana,Pedro Martinez,6-4 2-6 7-6,Round of 32 ,100,0,0,0,0,0,0,0,R,178.0,ARG,26.8,0,0,0,R,185.0,ESP,30.5,0,82.0,0,106.0,0
+2026-santiago-16,santiago,Clay,Yannick Hanfmann,Dusan Lajovic,6-0 6-3,Round of 32 ,100,0,0,0,0,0,0,0,R,193.0,GER,35.8,0,0,0,R,183.0,SRB,37.3,0,65.0,0,120.0,0
+2026-santiago-16,santiago,Clay,Andrea Pellegrino,Alex Barrena,6-2 2-6 6-1,Round of 32 ,100,0,0,0,0,0,0,0,R,185.0,ITA,30.3,0,0,0,R,185.0,UNK,23.5,0,125.0,0,179.0,0
+2026-santiago-16,santiago,Clay,Dino Prizmic,Nicolas Jarry,6-3 5-7 6-2,Round of 32 ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,201.0,CHI,32.0,0,119.0,0,154.0,0
+2026-santiago-16,santiago,Clay,Adolfo Daniel Vallejo,Henrique Rocha,6-4 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,180.0,POR,23.4,0,104.0,0,169.0,0
+2026-santiago-16,santiago,Clay,Dino Prizmic,Hugo Dellien,6-3 3-6 6-2,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,180.0,BOL,34.2,0,119.0,0,164.0,0
+2026-santiago-16,santiago,Clay,Alex Barrena,Vilius Gaubas,6-3 6-1,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,178.0,LTU,22.6,0,179.0,0,101.0,0
+2026-santiago-16,santiago,Clay,Andrea Pellegrino,Daniel Elahi Galan,6-7 2-6 7-7 6-4,2nd Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ITA,30.3,0,0,0,R,191.0,COL,31.1,0,125.0,0,182.0,0
+2026-santiago-16,santiago,Clay,Adolfo Daniel Vallejo,Thiago Monteiro,6-7 3-4 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,183.0,BRA,33.4,0,104.0,0,232.0,0
+2026-santiago-16,santiago,Clay,Dino Prizmic,Gustavo Heide,6-2 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,191.0,BRA,25.3,0,119.0,0,301.0,0
+2026-santiago-16,santiago,Clay,Vilius Gaubas,Joao Lucas Reis Da Silva,6-2 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,LTU,22.6,0,0,0,R,185.0,UNK,23.5,0,101.0,0,205.0,0
+2026-santiago-16,santiago,Clay,Andrea Pellegrino,Nicolas Villalon,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ITA,30.3,0,0,0,R,185.0,UNK,23.5,0,125.0,0,150.0,0
+2026-santiago-16,santiago,Clay,Hugo Dellien,Benjamin Torrealba,6-1 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,BOL,34.2,0,0,0,R,185.0,UNK,23.5,0,164.0,0,150.0,0
+2026-santiago-16,santiago,Clay,Henrique Rocha,Orlando Luz,6-3 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,POR,23.4,0,0,0,R,180.0,BRA,26.5,0,169.0,0,278.0,0
+2026-santiago-16,santiago,Clay,Alex Barrena,Daniel Antonio Nunez,6-0 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,UNK,23.5,0,179.0,0,150.0,0
+2026-santiago-16,santiago,Clay,Daniel Elahi Galan,Facundo Mena,7-6 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,COL,31.1,0,0,0,R,183.0,ARG,32.9,0,182.0,0,336.0,0
+2026-indian-wells-17,indian-wells,Hard,Vit Kopriva,Rei Sakamoto,6-4 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,CZE,30.1,0,0,0,R,185.0,UNK,23.5,0,62.0,0,159.0,0
+2026-indian-wells-17,indian-wells,Hard,Ignacio Buse,Liam Draxl,6-4 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,PER,23.4,0,0,0,R,185.0,UNK,23.5,0,63.0,0,147.0,0
+2026-indian-wells-17,indian-wells,Hard,Thiago Agustin Tirante,Izyan Ahmad,6-1 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,ARG,26.5,0,0,0,R,185.0,UNK,22.0,0,74.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,Aleksandar Vukic,Stefano Travaglia,7-6 7-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,AUS,31.5,0,0,0,R,185.0,ITA,34.6,0,89.0,0,166.0,0
+2026-indian-wells-17,indian-wells,Hard,Martin Landaluce,Alexander Blockx,6-0 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,ESP,21.2,0,0,0,R,191.0,BEL,22.5,0,155.0,0,97.0,0
+2026-indian-wells-17,indian-wells,Hard,Roman Andres Burruchaga,Moez Echargui,7-6 4-4 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,ARG,25.3,0,0,0,R,178.0,TUN,34.5,0,98.0,0,138.0,0
+2026-indian-wells-17,indian-wells,Hard,Alexis Galarneau,Luca Van Assche,7-6 6-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,CAN,27.5,0,0,0,R,178.0,FRA,23.5,0,219.0,0,105.0,0
+2026-indian-wells-17,indian-wells,Hard,Daniel Merida,Patrick Kypson,3-6 6-3 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,USA,27.4,0,139.0,0,95.0,0
+2026-indian-wells-17,indian-wells,Hard,Benjamin Bonzi,Jack Pinnington Jones,6-3 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,FRA,31.4,0,0,0,R,185.0,UNK,23.5,0,111.0,0,134.0,0
+2026-indian-wells-17,indian-wells,Hard,Christopher O'Connell,Billy Harris,6-4 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,193.0,GBR,32.6,0,127.0,0,151.0,0
+2026-indian-wells-17,indian-wells,Hard,Tristan Schoolkate,Alex Bolt,3-6 7-6 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,183.0,AUS,26.4,0,0,0,R,183.0,AUS,34.5,0,118.0,0,167.0,0
+2026-indian-wells-17,indian-wells,Hard,Trevor Svajda,Luca Nardi,4-6 7-6 6-2,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,185.0,ITA,24.1,0,396.0,0,135.0,0
+2026-indian-wells-17,indian-wells,Hard,Francesco Maestrelli,Nicolas Jarry,6-4 4-6 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,196.0,ITA,22.8,0,0,0,R,201.0,CHI,32.0,0,114.0,0,154.0,0
+2026-indian-wells-17,indian-wells,Hard,Tomas Barrios Vera,Jagger Leach,6-3 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,191.0,CHI,29.7,0,0,0,R,185.0,UNK,22.0,0,115.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,Rinky Hijikata,Leandro Riedi,7-5 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,AUS,26.6,0,0,0,R,191.0,SUI,25.4,0,117.0,0,172.0,0
+2026-indian-wells-17,indian-wells,Hard,Shintaro Mochizuki,Federico Agustin Gomez,6-4 4-6 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,175.0,JPN,24.3,0,0,0,R,191.0,ARG,29.3,0,130.0,0,185.0,0
+2026-indian-wells-17,indian-wells,Hard,Mackenzie McDonald,Vitaliy Sachko,6-2 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,188.0,UKR,30.1,0,150.0,0,188.0,0
+2026-indian-wells-17,indian-wells,Hard,Dino Prizmic,Darwin Blanch,7-6 6-3,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,188.0,CRO,21.5,0,0,0,R,185.0,USA,18.0,0,119.0,0,287.0,0
+2026-indian-wells-17,indian-wells,Hard,Dalibor Svrcina,Mitchell Krueger,7-6 6-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,178.0,CZE,24.3,0,0,0,R,188.0,USA,33.6,0,109.0,0,255.0,0
+2026-indian-wells-17,indian-wells,Hard,Elias Ymer,Coleman Wong,6-3 3-6 7-6,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,SWE,31.5,0,0,0,R,191.0,HKG,23.3,0,174.0,0,123.0,0
+2026-indian-wells-17,indian-wells,Hard,Chun-Hsin Tseng,David Goffin,6-4 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,UNK,23.5,0,0,0,R,180.0,BEL,35.3,0,150.0,0,143.0,0
+2026-indian-wells-17,indian-wells,Hard,Sho Shimabukuro,Colton Smith,7-6 7-5,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,180.0,JPN,29.2,0,0,0,R,185.0,UNK,23.5,0,113.0,0,136.0,0
+2026-indian-wells-17,indian-wells,Hard,Dane Sweeny,Andrew Johnson,6-2 6-1,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,170.0,AUS,25.9,0,0,0,R,185.0,UNK,22.0,0,131.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,Nikoloz Basilashvili,Nicolas Mejia,0-6 6-2 6-4,1st Round Qualifying ,100,0,0,0,0,0,0,0,R,185.0,GEO,34.0,0,0,0,R,183.0,COL,27.5,0,133.0,0,181.0,0
