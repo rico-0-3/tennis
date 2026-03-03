@@ -1,7 +1,2 @@
 Modello,Accuracy,Log Loss,Note,Acc. %
-ANN Globale (23 feat),0.7293519695044473,0.5341883516653736,Tutte le superfici,72.94
-XGBoost,0.7236480653009968,,modello classico,72.36
-Random Forest,0.7227847107762342,,modello classico,72.28
-ANN Hard,0.7166276346604216,0.5704380080491979,"arch=[256, 128, 64]",71.66
-ANN Clay,0.710172744721689,0.5530968221598631,"arch=[256, 256]",71.02
-Regresión Logística (Campeón),0.6937446040342202,,modello classico,69.37
+ANN v3 Globale (28 feat),0.7329059829059829,0.5111001328172439,Wide&Deep + Residual + TemporalCV,73.29

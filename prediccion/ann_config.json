@@ -1,15 +1,16 @@
 {
   "hidden_layers": [
     512,
-    256,
-    128
+    256
   ],
-  "dropout": 0.30000000000000004,
-  "lr": 0.00011240768803005555,
-  "batch_size": 256,
-  "epochs": 120,
-  "lambda_decay": 0.001,
-  "input_dim": 25,
+  "dropout": 0.1,
+  "lr": 0.0028527972927565805,
+  "batch_size": 512,
+  "epochs": 100,
+  "lambda_decay": 0.0001,
+  "label_smoothing": 0.1,
+  "model_version": "v3",
+  "input_dim": 28,
   "features": [
     "diff_rank",
     "diff_rank_points",
@@ -34,8 +35,58 @@
     "diff_1st_won",
     "diff_2nd_won",
     "diff_bp_saved",
+    "diff_return_pct",
+    "diff_bp_conv",
+    "diff_return_1st",
     "court_ace_pct",
     "court_speed"
   ],
-  "scaler_file": "scaler_ann.pkl"
+  "n_interactions": 10,
+  "interaction_pairs": [
+    [
+      5,
+      12
+    ],
+    [
+      0,
+      15
+    ],
+    [
+      5,
+      15
+    ],
+    [
+      12,
+      14
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      5,
+      16
+    ],
+    [
+      12,
+      16
+    ],
+    [
+      6,
+      15
+    ],
+    [
+      14,
+      15
+    ],
+    [
+      1,
+      12
+    ]
+  ],
+  "scaler_file": "scaler_ann.pkl",
+  "calibrator_file": "calibrator_ann.pkl",
+  "elo_surface_file": "elo_surface.pkl",
+  "streak_file": "streak_players.pkl",
+  "momentum_file": "momentum_surface.pkl"
 }
