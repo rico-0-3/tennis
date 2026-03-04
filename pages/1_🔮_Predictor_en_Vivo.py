@@ -29,12 +29,22 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 st.markdown("""
-Questa applicazione utilizza modelli di **Intelligenza Artificiale** addestrati con dati storici (2000-2024) e aggiornati con il **Ranking 2026**.
-Il sistema analizza:
-* 📊 **Gerarchia Attuale:** Ranking 2026, Età e Altezza.
-* ⚔️ **Storico:** Scontri diretti precedenti (H2H).
-* 🧠 **Momento:** Striscia recente e fatica.
-* 🎯 **Tecnica:** Statistiche di servizio e resa su superficie.
+Questa applicazione utilizza un **Ensemble Stacking** di 3 modelli di Intelligenza Artificiale, combinati da un meta-modello:
+
+| Modello | Tipo | Descrizione |
+|---------|------|-------------|
+| 🧠 **ANN** | Rete Neurale (Wide & Deep) | Cattura relazioni non-lineari complesse tra le 29 feature |
+| 🌲 **LightGBM** | Gradient Boosting ad Albero | Alberi decisionali in sequenza, ognuno corregge gli errori del precedente — veloce e robusto |
+| 🌳 **XGBoost** | Gradient Boosting ad Albero | Simile a LightGBM con regolarizzazione diversa — eccelle su dati tabulari |
+| 🎯 **Meta-LR** | Regressione Logistica (Stacking) | Combina le probabilità dei 3 modelli con pesi ottimali appresi su dati di validazione |
+
+**Come funziona:** Ogni modello produce una probabilità indipendente → il Meta-LR impara i pesi migliori per combinarle in un'unica predizione finale.
+
+Il sistema analizza **29 feature** tra cui:
+* 📊 **Gerarchia:** Ranking, Punti, Elo (globale e per superficie).
+* ⚔️ **Storico:** Scontri diretti (H2H), forma recente.
+* 🧠 **Momento:** Striscia, momentum, fatica.
+* 🎯 **Tecnica:** Ace, servizio, break point, resa al ritorno.
 """)
 
 st.write("---")
@@ -173,6 +183,21 @@ def cargar_todo():
         try: ann_calibrator = joblib.load(cal_path)
         except: pass
 
+    # Modelli ensemble: LGB, XGB, Meta-LR
+    lgb_model = None; xgb_model = None; meta_model = None
+    lgb_path  = pp('modelo_lgb.pkl')
+    xgb_path  = pp('modelo_xgb.pkl')
+    meta_path = pp('modelo_meta_lr.pkl')
+    if os.path.exists(lgb_path):
+        try: lgb_model = joblib.load(lgb_path)
+        except: pass
+    if os.path.exists(xgb_path):
+        try: xgb_model = joblib.load(xgb_path)
+        except: pass
+    if os.path.exists(meta_path):
+        try: meta_model = joblib.load(meta_path)
+        except: pass
+
     # Elo + streak + momentum + elo_overall + recent_form
     elo_path    = pp('elo_surface.pkl')
     streak_path = pp('streak_players.pkl')
@@ -202,12 +227,14 @@ def cargar_todo():
 
     return (stats_dict, perfiles, df_history, ranking_dict,
             ann_global, ann_scaler, ann_calibrator, elo_surface, streak_players,
-            momentum_surface, elo_overall, recent_form)
+            momentum_surface, elo_overall, recent_form,
+            lgb_model, xgb_model, meta_model)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
  ann_global, ann_scaler, ann_calibrator, elo_surface, streak_players,
- momentum_surface, elo_overall, recent_form) = cargar_todo()
+ momentum_surface, elo_overall, recent_form,
+ lgb_model, xgb_model, meta_model) = cargar_todo()
 
 if ann_global is None:
     st.error("❌ Modello ANN non trovato. Assicurati che `modelo_ann.pth`, `ann_config.json` e `scaler_ann.pkl` siano nella cartella `prediccion/`.")
@@ -534,11 +561,24 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
     with torch.no_grad():
         logit = ann_global(input_t).item()
 
-    # Calibrazione Platt scaling
-    if ann_calibrator is not None:
-        prob_j1 = ann_calibrator.predict_proba(np.array([[logit]]))[0, 1]
+    # Probabilità ANN (sigmoid semplice, come nel training per il meta model)
+    ann_prob = 1 / (1 + np.exp(-logit))
+
+    # ─── Ensemble Stacking (ANN + LGB + XGB → Meta-LR) ──────────────────────
+    use_ensemble = (lgb_model is not None and xgb_model is not None and meta_model is not None)
+    if use_ensemble:
+        lgb_prob = lgb_model.predict_proba(input_sc)[:, 1][0]
+        xgb_prob = xgb_model.predict_proba(input_sc)[:, 1][0]
+        meta_input = np.array([[ann_prob, lgb_prob, xgb_prob]])
+        prob_j1 = meta_model.predict_proba(meta_input)[0, 1]
+        modello_usato = "Ensemble Stacking"
     else:
-        prob_j1 = 1 / (1 + np.exp(-logit))
+        # Fallback: ANN-only con Platt scaling
+        if ann_calibrator is not None:
+            prob_j1 = ann_calibrator.predict_proba(np.array([[logit]]))[0, 1]
+        else:
+            prob_j1 = ann_prob
+        modello_usato = "ANN v3"
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()
@@ -551,10 +591,10 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
     with col_res_der:
         if prob_j1 > 0.5:
             st.success(f"🏆 Vincitore: **{nombre1}**")
-            st.metric("Confidenza", f"{prob_j1:.1%}", delta="Modello: ANN v3")
+            st.metric("Confidenza", f"{prob_j1:.1%}", delta=f"Modello: {modello_usato}")
         else:
             st.error(f"🏆 Vincitore: **{nombre2}**")
-            st.metric("Confidenza", f"{(1-prob_j1):.1%}", delta="Modello: ANN")
+            st.metric("Confidenza", f"{(1-prob_j1):.1%}", delta=f"Modello: {modello_usato}")
 
         # Barra probabilità
         prob_display = prob_j1 if prob_j1 > 0.5 else 1 - prob_j1
@@ -574,3 +614,17 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
             margin=dict(l=0, r=0, t=10, b=10), showlegend=False
         )
         st.plotly_chart(fig_bar, use_container_width=True)
+
+    # ─── Dettaglio modelli individuali ────────────────────────────────────────
+    if use_ensemble:
+        with st.expander("🔍 Dettaglio predizioni per modello"):
+            col_a, col_l, col_x, col_m = st.columns(4)
+            with col_a:
+                st.metric("🧠 ANN", f"{ann_prob:.1%}", delta="Rete Neurale")
+            with col_l:
+                st.metric("🌲 LightGBM", f"{lgb_prob:.1%}", delta="Gradient Boosting")
+            with col_x:
+                st.metric("🌳 XGBoost", f"{xgb_prob:.1%}", delta="Gradient Boosting")
+            with col_m:
+                st.metric("🎯 Meta-LR", f"{prob_j1:.1%}", delta="Stacking finale")
+            st.caption("Il Meta-LR combina le 3 probabilità con pesi appresi in fase di addestramento per produrre la predizione finale.")
