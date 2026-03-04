@@ -66,7 +66,6 @@ chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64
 driver = webdriver.Chrome(options=chrome_options)
 print("   ✅ Browser Chrome avviato in modalità headless")
 
-all_data = []
 failed_years = []
 
 for year in years_to_scrape:

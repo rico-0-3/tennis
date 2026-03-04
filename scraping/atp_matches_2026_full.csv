@@ -1,54 +1,54 @@
 tourney_id,tourney_name,surface,tourney_date,winner_name,loser_name,score,round,minutes,scraping_date,draw_size,tourney_level,match_num,winner_id,winner_seed,winner_entry,winner_hand,winner_ht,winner_ioc,winner_age,loser_id,loser_seed,loser_entry,loser_hand,loser_ht,loser_ioc,loser_age,best_of,winner_rank,winner_rank_points,loser_rank,loser_rank_points,court_ace_pct,court_speed
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Iga Swiatek,3-6 6-0 6-3,Final ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Hubert Hurkacz,Stan Wawrinka,6-3 3-6 6-3,Final ,100,2026-03-04,0,0,0,0,0,0,R,196.0,POL,32.2,0,0,0,R,183.0,SUI,44.1,0,71.0,0,92.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Coco Gauff,Iga Swiatek,6-4 6-2,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Hubert Hurkacz,Taylor Fritz,7-6 7-1,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,196.0,POL,32.2,0,0,0,R,196.0,USA,31.5,0,71.0,0,7.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Elise Mertens,6-3 4-6 7-6,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Zizou Bergs,Stan Wawrinka,6-3 6-7 4-3,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,BEL,29.9,0,0,0,R,183.0,SUI,44.1,0,47.0,0,92.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Alex de Minaur,Hubert Hurkacz,6-4 4-6 6-4,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,196.0,POL,32.2,0,150.0,0,71.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Iga Swiatek,Maya Joint,6-1 6-1,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Zizou Bergs,Jakub Mensik,6-2 7-6,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,BEL,29.9,0,0,0,R,193.0,CZE,23.7,0,47.0,0,12.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Elise Mertens,Barbora Krejcikova,5-7 6-1 7-5,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Coco Gauff,Maria Sakkari,6-3 6-2,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Stefanos Tsitsipas,Taylor Fritz,6-4 7-5,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,193.0,GRE,30.7,0,0,0,R,196.0,USA,31.5,0,43.0,0,7.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Sebastian Baez,Stan Wawrinka,7-5 6-4,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,170.0,ARG,28.3,0,0,0,R,183.0,SUI,44.1,0,53.0,0,92.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Solana Sierra,6-2 6-2,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Hubert Hurkacz,Tallon Griekspoor,6-3 7-6,Round Robin Day 6 ,100,2026-03-04,0,0,0,0,0,0,R,196.0,POL,32.2,0,0,0,R,188.0,NED,32.8,0,71.0,0,25.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Iga Swiatek,Suzan Lamens,6-3 6-2,Round Robin Day 6 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Zizou Bergs,Felix Auger-Aliassime,6-4 6-2,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,BEL,29.9,0,0,0,R,185.0,UNK,25.0,0,47.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Elise Mertens,Victoria Mboko,6-3 3-6 6-3,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Jasmine Paolini,Leolia Jeanjean,6-2 6-3,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Arthur Rinderknech,Flavio Cobolli,6-7 4-6 7-5 7-5,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,196.0,FRA,33.7,0,0,0,R,183.0,ITA,26.9,0,28.0,0,15.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Alex de Minaur,Jakub Mensik,6-4 6-1,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,193.0,CZE,23.7,0,150.0,0,12.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Barbora Krejcikova,Maya Joint,6-4 6-1,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Jessica Bouzas Maneiro,Coco Gauff,6-1 6-7 3-0,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Taylor Fritz,Jaume Munar,7-6 3-4 7-6,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,196.0,USA,31.5,0,0,0,R,183.0,ESP,31.9,0,7.0,0,36.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Maria Sakkari,Emma Raducanu,6-3 3-6 6-1,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Stefanos Tsitsipas,Billy Harris,4-6 6-1 7-6,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,193.0,GRE,30.7,0,0,0,R,193.0,GBR,34.1,0,43.0,0,151.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Hubert Hurkacz,Alexander Zverev,6-3 6-4,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,196.0,POL,32.2,0,0,0,R,198.0,GER,32.0,0,71.0,0,4.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Iga Swiatek,Eva Lys,3-6 6-3 6-4,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Barbora Krejcikova,Malene Helgo,6-4 6-3,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Jakub Mensik,Casper Ruud,7-5 7-6,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,193.0,CZE,23.7,0,0,0,R,183.0,NOR,30.3,0,12.0,0,13.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Felix Auger-Aliassime,Zhizhen Zhang,6-4 6-4,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,193.0,CHN,32.5,0,150.0,0,262.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Victoria Mboko,Lin Zhu,2-6 6-2 6-0,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Jasmine Paolini,6-4 6-3,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Flavio Cobolli,Stan Wawrinka,6-4 6-7 2-6 7-4,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,183.0,ITA,26.9,0,0,0,R,183.0,SUI,44.1,0,15.0,0,92.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Billy Harris,Shintaro Mochizuki,7-6 6-4,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,193.0,GBR,34.1,0,0,0,R,175.0,JPN,25.8,0,151.0,0,130.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Naomi Osaka,Katie Swan,7-6 6-4,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Eva Lys,Suzan Lamens,6-2 6-2,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Alexander Zverev,Tallon Griekspoor,7-5 6-0,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,198.0,GER,32.0,0,0,0,R,188.0,NED,32.8,0,4.0,0,25.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Sebastian Baez,Taylor Fritz,4-6 7-5 6-4,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,170.0,ARG,28.3,0,0,0,R,196.0,USA,31.5,0,53.0,0,7.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Coco Gauff,Solana Sierra,6-1 6-1,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Storm Hunter,Malene Helgo,6-2 7-6,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Casper Ruud,Alex de Minaur,6-3 6-3,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,183.0,NOR,30.3,0,0,0,R,185.0,UNK,25.0,0,13.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Elise Mertens,Lin Zhu,6-2 6-2,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Zhizhen Zhang,Zizou Bergs,6-7 2-6 7-3 7-5,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,193.0,CHN,32.5,0,0,0,R,185.0,BEL,29.9,0,262.0,0,47.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Leolia Jeanjean,6-2 6-4,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Stan Wawrinka,Arthur Rinderknech,5-7 7-6 7-5,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,183.0,SUI,44.1,0,0,0,R,196.0,FRA,33.7,0,92.0,0,28.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Sebastian Baez,Jaume Munar,6-4 6-4,Round Robin ,100,2026-03-04,0,0,0,0,0,0,R,170.0,ARG,28.3,0,0,0,R,183.0,ESP,31.9,0,53.0,0,36.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Solana Sierra,Jessica Bouzas Maneiro,6-4 5-7 6-0,Round Robin ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Maria Sakkari,Naomi Osaka,6-4 6-2,Round Robin ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,11.5,1.1
-2026-perth-sydney-0,perth-sydney,Hard,20260102,Stefanos Tsitsipas,Shintaro Mochizuki,6-3 6-4,Round Robin ,100,2026-03-04,0,0,0,0,0,0,R,193.0,GRE,30.7,0,0,0,R,175.0,JPN,25.8,0,43.0,0,130.0,0,11.5,1.1
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Iga Swiatek,3-6 6-0 6-3,Final ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Hubert Hurkacz,Stan Wawrinka,6-3 3-6 6-3,Final ,100,2026-03-04,0,0,0,0,0,0,R,196.0,POL,32.2,0,0,0,R,183.0,SUI,44.1,0,71.0,0,92.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Coco Gauff,Iga Swiatek,6-4 6-2,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Hubert Hurkacz,Taylor Fritz,7-6 7-1,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,196.0,POL,32.2,0,0,0,R,196.0,USA,31.5,0,71.0,0,7.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Elise Mertens,6-3 4-6 7-6,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Zizou Bergs,Stan Wawrinka,6-3 6-7 4-3,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,BEL,29.9,0,0,0,R,183.0,SUI,44.1,0,47.0,0,92.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Alex de Minaur,Hubert Hurkacz,6-4 4-6 6-4,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,196.0,POL,32.2,0,150.0,0,71.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Iga Swiatek,Maya Joint,6-1 6-1,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Zizou Bergs,Jakub Mensik,6-2 7-6,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,BEL,29.9,0,0,0,R,193.0,CZE,23.7,0,47.0,0,12.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Elise Mertens,Barbora Krejcikova,5-7 6-1 7-5,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Coco Gauff,Maria Sakkari,6-3 6-2,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Stefanos Tsitsipas,Taylor Fritz,6-4 7-5,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,193.0,GRE,30.7,0,0,0,R,196.0,USA,31.5,0,43.0,0,7.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Sebastian Baez,Stan Wawrinka,7-5 6-4,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,170.0,ARG,28.3,0,0,0,R,183.0,SUI,44.1,0,53.0,0,92.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Solana Sierra,6-2 6-2,Quarterfinals ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Hubert Hurkacz,Tallon Griekspoor,6-3 7-6,Round Robin Day 6 ,100,2026-03-04,0,0,0,0,0,0,R,196.0,POL,32.2,0,0,0,R,188.0,NED,32.8,0,71.0,0,25.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Iga Swiatek,Suzan Lamens,6-3 6-2,Round Robin Day 6 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Zizou Bergs,Felix Auger-Aliassime,6-4 6-2,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,BEL,29.9,0,0,0,R,185.0,UNK,25.0,0,47.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Elise Mertens,Victoria Mboko,6-3 3-6 6-3,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Jasmine Paolini,Leolia Jeanjean,6-2 6-3,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Arthur Rinderknech,Flavio Cobolli,6-7 4-6 7-5 7-5,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,196.0,FRA,33.7,0,0,0,R,183.0,ITA,26.9,0,28.0,0,15.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Alex de Minaur,Jakub Mensik,6-4 6-1,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,193.0,CZE,23.7,0,150.0,0,12.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Barbora Krejcikova,Maya Joint,6-4 6-1,Round Robin Day 5 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Jessica Bouzas Maneiro,Coco Gauff,6-1 6-7 3-0,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Taylor Fritz,Jaume Munar,7-6 3-4 7-6,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,196.0,USA,31.5,0,0,0,R,183.0,ESP,31.9,0,7.0,0,36.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Maria Sakkari,Emma Raducanu,6-3 3-6 6-1,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Stefanos Tsitsipas,Billy Harris,4-6 6-1 7-6,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,193.0,GRE,30.7,0,0,0,R,193.0,GBR,34.1,0,43.0,0,151.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Hubert Hurkacz,Alexander Zverev,6-3 6-4,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,196.0,POL,32.2,0,0,0,R,198.0,GER,32.0,0,71.0,0,4.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Iga Swiatek,Eva Lys,3-6 6-3 6-4,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Barbora Krejcikova,Malene Helgo,6-4 6-3,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Jakub Mensik,Casper Ruud,7-5 7-6,Round Robin Day 4 ,100,2026-03-04,0,0,0,0,0,0,R,193.0,CZE,23.7,0,0,0,R,183.0,NOR,30.3,0,12.0,0,13.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Felix Auger-Aliassime,Zhizhen Zhang,6-4 6-4,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,193.0,CHN,32.5,0,150.0,0,262.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Victoria Mboko,Lin Zhu,2-6 6-2 6-0,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Jasmine Paolini,6-4 6-3,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Flavio Cobolli,Stan Wawrinka,6-4 6-7 2-6 7-4,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,183.0,ITA,26.9,0,0,0,R,183.0,SUI,44.1,0,15.0,0,92.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Billy Harris,Shintaro Mochizuki,7-6 6-4,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,193.0,GBR,34.1,0,0,0,R,175.0,JPN,25.8,0,151.0,0,130.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Naomi Osaka,Katie Swan,7-6 6-4,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Eva Lys,Suzan Lamens,6-2 6-2,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Alexander Zverev,Tallon Griekspoor,7-5 6-0,Round Robin Day 3 ,100,2026-03-04,0,0,0,0,0,0,R,198.0,GER,32.0,0,0,0,R,188.0,NED,32.8,0,4.0,0,25.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Sebastian Baez,Taylor Fritz,4-6 7-5 6-4,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,170.0,ARG,28.3,0,0,0,R,196.0,USA,31.5,0,53.0,0,7.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Coco Gauff,Solana Sierra,6-1 6-1,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Storm Hunter,Malene Helgo,6-2 7-6,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Casper Ruud,Alex de Minaur,6-3 6-3,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,183.0,NOR,30.3,0,0,0,R,185.0,UNK,25.0,0,13.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Elise Mertens,Lin Zhu,6-2 6-2,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Zhizhen Zhang,Zizou Bergs,6-7 2-6 7-3 7-5,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,193.0,CHN,32.5,0,0,0,R,185.0,BEL,29.9,0,262.0,0,47.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Belinda Bencic,Leolia Jeanjean,6-2 6-4,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Stan Wawrinka,Arthur Rinderknech,5-7 7-6 7-5,Round Robin Day 2 ,100,2026-03-04,0,0,0,0,0,0,R,183.0,SUI,44.1,0,0,0,R,196.0,FRA,33.7,0,92.0,0,28.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Sebastian Baez,Jaume Munar,6-4 6-4,Round Robin ,100,2026-03-04,0,0,0,0,0,0,R,170.0,ARG,28.3,0,0,0,R,183.0,ESP,31.9,0,53.0,0,36.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Solana Sierra,Jessica Bouzas Maneiro,6-4 5-7 6-0,Round Robin ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Maria Sakkari,Naomi Osaka,6-4 6-2,Round Robin ,100,2026-03-04,0,0,0,0,0,0,R,185.0,UNK,25.0,0,0,0,R,185.0,UNK,25.0,0,150.0,0,150.0,0,9.9,1.13
+2026-perth-sydney-0,perth-sydney,Hard,20260102,Stefanos Tsitsipas,Shintaro Mochizuki,6-3 6-4,Round Robin ,100,2026-03-04,0,0,0,0,0,0,R,193.0,GRE,30.7,0,0,0,R,175.0,JPN,25.8,0,43.0,0,130.0,0,9.9,1.13
 2026-brisbane-1,brisbane,Hard,20260104,Daniil Medvedev,Brandon Nakashima,6-2 7-6,Final ,100,2026-03-04,0,0,0,0,0,0,R,198.0,RUS,33.2,0,0,0,R,188.0,USA,27.7,0,11.0,0,30.0,0,14.9,1.2
 2026-brisbane-1,brisbane,Hard,20260104,Daniil Medvedev,Alex Michelsen,6-4 6-2,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,198.0,RUS,33.2,0,0,0,R,193.0,USA,24.8,0,11.0,0,44.0,0,14.9,1.2
 2026-brisbane-1,brisbane,Hard,20260104,Brandon Nakashima,Aleksandar Kovacevic,7-6 6-4,Semifinals ,100,2026-03-04,0,0,0,0,0,0,R,188.0,USA,27.7,0,0,0,R,183.0,USA,30.6,0,30.0,0,72.0,0,14.9,1.2

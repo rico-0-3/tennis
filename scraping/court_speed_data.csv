@@ -1,4 +1,2446 @@
 year,tournament,surface,ace_pct,speed
+1991,Hilversum,Clay,5.9,1.62
+1991,San Francisco,Carpet,6.8,1.5
+1991,Basel,Hard,10.3,1.48
+1991,Brussels,Carpet,10.6,1.44
+1991,Tour Finals,Carpet,15.7,1.37
+1991,Birmingham,Carpet,8.9,1.3
+1991,Vienna,Carpet,7.0,1.28
+1991,Sao Paulo,Hard,5.3,1.27
+1991,Newport,Grass,13.4,1.25
+1991,Tokyo Indoor,Carpet,10.8,1.24
+1991,Wimbledon,Grass,9.2,1.23
+1991,Copenhagen,Carpet,7.7,1.21
+1991,Paris Masters,Carpet,9.7,1.2
+1991,Tel Aviv,Hard,13.8,1.2
+1991,Lyon,Carpet,8.1,1.18
+1991,Guaruja,Hard,5.5,1.17
+1991,Stockholm Masters,Carpet,9.9,1.17
+1991,Manchester,Grass,8.1,1.16
+1991,Singapore,Hard,4.7,1.15
+1991,Athens,Clay,3.0,1.15
+1991,Cincinnati Masters,Hard,9.5,1.15
+1991,Queen's Club,Grass,6.5,1.14
+1991,Stuttgart Indoor,Carpet,7.5,1.14
+1991,Brisbane,Hard,5.0,1.13
+1991,Berlin,Carpet,5.8,1.12
+1991,Rotterdam,Carpet,8.4,1.11
+1991,US Open,Hard,7.4,1.11
+1991,Indian Wells Masters,Hard,6.9,1.11
+1991,New Haven,Hard,7.5,1.1
+1991,Adelaide,Hard,6.5,1.1
+1991,Memphis,Hard,7.7,1.08
+1991,Moscow,Carpet,7.3,1.08
+1991,Guaruja,Hard,6.7,1.08
+1991,Orlando,Hard,9.4,1.07
+1991,Gstaad,Clay,7.7,1.06
+1991,Kitzbuhel,Clay,5.3,1.06
+1991,Tokyo Outdoor,Hard,6.9,1.04
+1991,Philadelphia,Carpet,7.0,1.02
+1991,Geneva,Clay,3.7,1.0
+1991,Toulouse,Hard,8.3,1.0
+1991,Brasilia,Carpet,5.7,1.0
+1991,Auckland,Hard,5.7,1.0
+1991,Washington,Hard,5.8,1.0
+1991,Stuttgart Outdoor,Clay,5.8,0.99
+1991,Sydney Outdoor,Hard,6.6,0.99
+1991,Canada Masters,Hard,6.9,0.98
+1991,Chicago,Carpet,6.4,0.98
+1991,Los Angeles,Hard,8.4,0.98
+1991,Miami Masters,Hard,6.4,0.97
+1991,Indianapolis,Hard,7.1,0.96
+1991,Sydney Indoor,Hard,8.9,0.96
+1991,Palermo,Clay,4.5,0.96
+1991,Milan,Carpet,7.5,0.95
+1991,Rosmalen,Grass,9.0,0.93
+1991,Bordeaux,Hard,6.4,0.93
+1991,Buzios,Hard,4.0,0.9
+1991,Wellington,Hard,5.2,0.89
+1991,Florence,Clay,3.5,0.89
+1991,Australian Open,Hard,5.8,0.88
+1991,Schenectady,Hard,6.4,0.85
+1991,Hong Kong,Hard,6.4,0.84
+1991,Tampa,Clay,5.4,0.83
+1991,Barcelona,Clay,3.8,0.83
+1991,Charlotte,Clay,5.6,0.82
+1991,Genova,Clay,2.9,0.8
+1991,Munich,Clay,4.0,0.78
+1991,Long Island,Hard,5.5,0.76
+1991,San Marino,Clay,2.3,0.75
+1991,Roland Garros,Clay,4.8,0.68
+1991,Madrid,Clay,4.4,0.67
+1991,Bologna,Clay,4.1,0.65
+1991,Bastad,Clay,3.0,0.61
+1991,Seoul,Hard,3.1,0.61
+1991,Hamburg Masters,Clay,3.5,0.61
+1991,Rome Masters,Clay,3.3,0.61
+1991,Umag,Clay,3.4,0.6
+1991,Prague,Clay,2.9,0.59
+1991,Nice,Clay,2.9,0.59
+1991,Estoril,Clay,3.0,0.57
+1991,Monte Carlo Masters,Clay,3.1,0.52
+1992,Taipei,Carpet,11.4,1.48
+1992,Lyon,Carpet,13.8,1.47
+1992,Paris Masters,Carpet,13.2,1.41
+1992,Antwerp,Carpet,9.1,1.39
+1992,Bolzano,Carpet,10.8,1.38
+1992,Tokyo Indoor,Carpet,11.2,1.36
+1992,Vienna,Carpet,7.5,1.35
+1992,Palermo,Clay,6.3,1.34
+1992,Maceio,Clay,5.8,1.33
+1992,Basel,Hard,11.2,1.32
+1992,Athens,Clay,5.3,1.31
+1992,Manchester,Grass,12.6,1.31
+1992,Tel Aviv,Hard,6.4,1.31
+1992,Stockholm Masters,Carpet,12.0,1.3
+1992,Gstaad,Clay,8.5,1.3
+1992,Guaruja,Hard,5.9,1.26
+1992,Memphis,Hard,9.0,1.24
+1992,Sao Paulo,Hard,6.7,1.23
+1992,Tour Finals,Carpet,12.6,1.22
+1992,Milan,Carpet,9.6,1.22
+1992,Philadelphia,Carpet,9.0,1.21
+1992,Moscow,Carpet,10.9,1.21
+1992,Canada Masters,Hard,10.3,1.18
+1992,Copenhagen,Carpet,8.0,1.17
+1992,Singapore,Hard,7.3,1.17
+1992,Buzios,Hard,6.0,1.17
+1992,Kitzbuhel,Clay,6.7,1.16
+1992,Newport,Grass,11.7,1.15
+1992,Tampa,Clay,6.1,1.14
+1992,Sydney Indoor,Hard,10.0,1.12
+1992,Stuttgart Indoor,Carpet,10.4,1.11
+1992,Barcelona,Clay,5.6,1.09
+1992,Johannesburg,Hard,6.9,1.08
+1992,Toulouse,Hard,8.5,1.08
+1992,Hilversum,Clay,5.9,1.07
+1992,San Francisco,Hard,7.7,1.07
+1992,Bordeaux,Clay,5.9,1.06
+1992,Cincinnati Masters,Hard,9.3,1.05
+1992,Rosmalen,Grass,8.6,1.04
+1992,Los Angeles,Hard,8.4,0.99
+1992,Wimbledon,Grass,9.1,0.99
+1992,Auckland,Hard,5.9,0.98
+1992,Brussels,Carpet,9.1,0.98
+1992,New Haven,Hard,8.7,0.97
+1992,Tokyo Outdoor,Hard,7.2,0.97
+1992,Queen's Club,Grass,8.4,0.96
+1992,Sydney Outdoor,Hard,7.4,0.91
+1992,Stuttgart Outdoor,Clay,6.5,0.91
+1992,Australian Open,Hard,6.9,0.9
+1992,Schenectady,Hard,5.3,0.89
+1992,Long Island,Hard,6.0,0.88
+1992,Scottsdale,Hard,5.6,0.85
+1992,Genova,Clay,4.7,0.85
+1992,Washington,Hard,6.6,0.85
+1992,Charlotte,Clay,6.0,0.84
+1992,Umag,Clay,3.9,0.84
+1992,Florence,Clay,3.3,0.83
+1992,Roland Garros,Clay,5.4,0.82
+1992,Indianapolis,Hard,6.8,0.81
+1992,Hong Kong,Hard,5.9,0.81
+1992,Cologne,Clay,5.0,0.79
+1992,Miami Masters,Hard,7.0,0.79
+1992,Atlanta,Clay,6.7,0.78
+1992,Bastad,Clay,4.6,0.78
+1992,US Open,Hard,6.5,0.77
+1992,Rotterdam,Carpet,6.8,0.77
+1992,Indian Wells Masters,Hard,5.3,0.76
+1992,Hamburg Masters,Clay,4.8,0.76
+1992,Munich,Clay,5.1,0.72
+1992,Rome Masters,Clay,4.9,0.7
+1992,Nice,Clay,3.8,0.69
+1992,Wellington,Hard,4.7,0.68
+1992,Bologna,Clay,3.2,0.67
+1992,Adelaide,Hard,7.3,0.67
+1992,San Marino,Clay,4.0,0.65
+1992,Madrid,Clay,3.8,0.63
+1992,Seoul,Hard,3.1,0.63
+1992,Casablanca,Clay,4.5,0.63
+1992,Prague,Clay,4.2,0.62
+1992,Monte Carlo Masters,Clay,4.2,0.62
+1992,Brisbane,Hard,4.2,0.6
+1992,Estoril,Clay,2.7,0.58
+1993,Bolzano,Carpet,13.5,1.59
+1993,Stuttgart Indoor,Carpet,13.1,1.5
+1993,Copenhagen,Carpet,13.3,1.46
+1993,Newport,Grass,11.4,1.45
+1993,Vienna,Carpet,13.9,1.43
+1993,Tokyo Indoor,Carpet,12.5,1.39
+1993,Lyon,Carpet,11.9,1.38
+1993,Paris Masters,Carpet,12.1,1.36
+1993,Queen's Club,Grass,11.6,1.33
+1993,Marseille,Carpet,12.3,1.32
+1993,Antwerp,Carpet,12.1,1.32
+1993,Santiago,Clay,6.1,1.31
+1993,Stockholm Masters,Carpet,11.0,1.31
+1993,Seoul,Hard,6.3,1.27
+1993,Umag,Clay,3.9,1.27
+1993,Memphis,Hard,8.1,1.23
+1993,New Haven,Hard,10.5,1.21
+1993,Washington,Hard,9.9,1.18
+1993,Beijing,Carpet,8.4,1.18
+1993,Basel,Hard,11.4,1.17
+1993,Rotterdam,Carpet,9.8,1.16
+1993,Cincinnati Masters,Hard,10.4,1.15
+1993,Halle,Grass,9.8,1.15
+1993,Moscow,Carpet,11.9,1.14
+1993,Sydney Indoor,Hard,9.8,1.12
+1993,Stuttgart Outdoor,Clay,6.8,1.12
+1993,Gstaad,Clay,10.5,1.12
+1993,Sydney Outdoor,Hard,10.6,1.11
+1993,Mexico City,Clay,7.7,1.11
+1993,Tour Finals,Carpet,11.8,1.11
+1993,Zaragoza,Carpet,9.0,1.1
+1993,Toulouse,Hard,8.4,1.09
+1993,Osaka,Hard,9.5,1.09
+1993,Milan,Carpet,9.5,1.08
+1993,Wimbledon,Grass,8.8,1.07
+1993,Philadelphia,Carpet,8.6,1.06
+1993,Schenectady,Hard,9.6,1.04
+1993,Hong Kong,Hard,10.3,1.04
+1993,Adelaide,Hard,9.1,1.03
+1993,Indian Wells Masters,Hard,6.6,1.02
+1993,Kuala Lumpur-1,Hard,7.0,1.01
+1993,Indianapolis,Hard,8.5,1.0
+1993,US Open,Hard,7.7,0.99
+1993,Jakarta,Hard,6.7,0.98
+1993,Tel Aviv,Hard,6.4,0.98
+1993,Athens,Clay,3.5,0.95
+1993,Kuala Lumpur-2,Hard,7.5,0.94
+1993,San Marino,Clay,4.5,0.93
+1993,Durban,Hard,9.4,0.93
+1993,Atlanta,Clay,9.4,0.92
+1993,Auckland,Hard,7.8,0.91
+1993,Tampa,Clay,7.1,0.89
+1993,Sao Paulo,Clay,4.2,0.89
+1993,Tokyo Outdoor,Hard,8.9,0.89
+1993,Bucharest,Clay,5.0,0.88
+1993,Charlotte,Clay,5.1,0.88
+1993,Long Island,Hard,7.6,0.87
+1993,Australian Open,Hard,7.1,0.87
+1993,Florence,Clay,5.1,0.87
+1993,Kitzbuhel,Clay,5.5,0.86
+1993,Bologna,Clay,6.3,0.86
+1993,Doha,Hard,8.5,0.85
+1993,Miami Masters,Hard,6.6,0.85
+1993,Rosmalen,Grass,6.4,0.85
+1993,Canada Masters,Hard,7.2,0.85
+1993,Buenos Aires,Clay,3.7,0.84
+1993,Bordeaux,Hard,6.1,0.82
+1993,San Francisco,Hard,7.0,0.81
+1993,Manchester,Grass,8.0,0.81
+1993,Scottsdale,Hard,5.0,0.81
+1993,Dubai,Hard,4.5,0.81
+1993,Hilversum,Clay,5.0,0.81
+1993,Prague,Clay,4.0,0.79
+1993,Roland Garros,Clay,5.4,0.79
+1993,Palermo,Clay,5.1,0.79
+1993,Coral Springs,Clay,5.8,0.78
+1993,Munich,Clay,5.6,0.78
+1993,Los Angeles,Hard,7.5,0.78
+1993,Genova,Clay,2.8,0.71
+1993,Rome Masters,Clay,5.8,0.7
+1993,Casablanca,Clay,3.8,0.69
+1993,Barcelona,Clay,4.4,0.64
+1993,Madrid,Clay,3.5,0.62
+1993,Bastad,Clay,4.1,0.61
+1993,Nice,Clay,4.4,0.61
+1993,Estoril,Clay,4.0,0.61
+1993,Monte Carlo Masters,Clay,4.5,0.57
+1993,Hamburg Masters,Clay,4.2,0.53
+1994,Copenhagen,Carpet,12.3,1.57
+1994,Antwerp,Carpet,13.6,1.54
+1994,Stuttgart Indoor,Carpet,11.9,1.47
+1994,Bogota,Clay,13.0,1.45
+1994,Tokyo Indoor,Carpet,15.9,1.43
+1994,Kuala Lumpur,Carpet,15.0,1.41
+1994,Vienna,Carpet,12.9,1.41
+1994,Sun City,Hard,10.7,1.36
+1994,Halle,Grass,12.7,1.33
+1994,Basel,Hard,11.9,1.31
+1994,Santiago,Clay,6.5,1.3
+1994,Paris Masters,Carpet,12.6,1.29
+1994,Rotterdam,Carpet,13.1,1.29
+1994,Zaragoza,Carpet,12.0,1.28
+1994,Florence,Clay,8.9,1.26
+1994,Athens,Clay,4.6,1.26
+1994,Stockholm Masters,Carpet,12.8,1.25
+1994,Sydney Indoor,Hard,13.5,1.23
+1994,Tour Finals,Carpet,12.6,1.22
+1994,Marseille,Carpet,10.5,1.21
+1994,Queen's Club,Grass,11.2,1.18
+1994,Newport,Grass,10.9,1.18
+1994,Gstaad,Clay,8.6,1.17
+1994,Schenectady,Hard,10.8,1.17
+1994,Washington,Hard,8.9,1.15
+1994,Hilversum,Clay,7.6,1.13
+1994,Palermo,Clay,4.6,1.11
+1994,Auckland,Hard,8.3,1.11
+1994,New Haven,Hard,10.9,1.1
+1994,Milan,Carpet,10.1,1.1
+1994,Coral Springs,Clay,10.5,1.09
+1994,Seoul,Hard,11.8,1.09
+1994,Toulouse,Hard,9.2,1.08
+1994,Memphis,Hard,10.5,1.06
+1994,Indian Wells Masters,Hard,9.3,1.05
+1994,Beijing,Carpet,10.1,1.05
+1994,Cincinnati Masters,Hard,8.4,1.03
+1994,Stuttgart Outdoor,Clay,7.8,1.03
+1994,Lyon,Carpet,8.1,1.03
+1994,Manchester,Grass,10.1,1.02
+1994,Ostrava,Carpet,9.3,1.01
+1994,Philadelphia,Carpet,8.5,1.0
+1994,Tel Aviv,Hard,8.2,0.99
+1994,Wimbledon,Grass,9.9,0.98
+1994,Moscow,Carpet,9.7,0.97
+1994,Scottsdale,Hard,8.3,0.96
+1994,Oahu,Hard,6.4,0.95
+1994,San Marino,Clay,5.6,0.95
+1994,Tokyo Outdoor,Hard,9.8,0.95
+1994,Birmingham,Clay,8.0,0.95
+1994,Buenos Aires,Clay,6.1,0.94
+1994,US Open,Hard,8.0,0.94
+1994,Hong Kong,Hard,10.0,0.93
+1994,Mexico City,Clay,4.4,0.92
+1994,Kitzbuhel,Clay,5.9,0.9
+1994,Bologna,Clay,6.3,0.89
+1994,Osaka,Hard,9.8,0.88
+1994,Doha,Hard,8.0,0.88
+1994,Adelaide,Hard,8.0,0.87
+1994,Indianapolis,Hard,6.5,0.87
+1994,Atlanta,Clay,8.1,0.87
+1994,St. Poelten,Clay,3.6,0.86
+1994,Long Island,Hard,7.0,0.86
+1994,Sydney Outdoor,Hard,9.7,0.85
+1994,Bucharest,Clay,5.0,0.84
+1994,Australian Open,Hard,7.1,0.83
+1994,Dubai,Hard,6.2,0.83
+1994,Rosmalen,Grass,11.4,0.83
+1994,Bastad,Clay,5.7,0.83
+1994,Jakarta,Hard,4.9,0.82
+1994,San Jose,Hard,6.2,0.81
+1994,Rome Masters,Clay,8.1,0.8
+1994,Pinehurst,Clay,6.0,0.8
+1994,Miami Masters,Hard,7.0,0.79
+1994,Los Angeles,Hard,8.0,0.78
+1994,Madrid,Clay,4.8,0.78
+1994,Montevideo,Clay,4.5,0.75
+1994,Canada Masters,Hard,7.1,0.75
+1994,Barcelona,Clay,5.0,0.72
+1994,Prague,Clay,4.6,0.69
+1994,Hamburg Masters,Clay,5.2,0.68
+1994,Bordeaux,Hard,5.9,0.67
+1994,Casablanca,Clay,3.0,0.63
+1994,Munich,Clay,4.3,0.62
+1994,Estoril,Clay,3.5,0.61
+1994,Roland Garros,Clay,5.1,0.61
+1994,Umag,Clay,3.2,0.54
+1994,Nice,Clay,3.7,0.52
+1994,Monte Carlo Masters,Clay,3.8,0.5
+1995,Marseille,Carpet,15.6,1.62
+1995,Newport,Grass,12.6,1.6
+1995,Copenhagen,Carpet,14.8,1.53
+1995,Milan,Carpet,14.2,1.49
+1995,Stuttgart Indoor,Carpet,15.1,1.47
+1995,Rotterdam,Carpet,15.5,1.45
+1995,Nottingham,Grass,10.3,1.4
+1995,Tour Finals,Carpet,17.6,1.37
+1995,Basel,Hard,11.4,1.36
+1995,Ostrava,Carpet,11.3,1.31
+1995,Johannesburg,Hard,12.1,1.29
+1995,San Jose,Hard,13.5,1.29
+1995,Toulouse,Hard,9.9,1.22
+1995,Jakarta,Hard,9.0,1.2
+1995,Lyon,Carpet,12.3,1.2
+1995,Gstaad,Clay,8.4,1.17
+1995,St. Petersburg,Carpet,11.5,1.17
+1995,Kuala Lumpur,Carpet,14.9,1.17
+1995,Vienna,Carpet,8.6,1.16
+1995,Indianapolis,Hard,11.6,1.15
+1995,Amsterdam,Clay,7.0,1.14
+1995,Bogota,Clay,7.5,1.14
+1995,Tel Aviv,Hard,7.6,1.13
+1995,Washington,Hard,9.4,1.11
+1995,St. Poelten,Clay,7.0,1.1
+1995,Cincinnati Masters,Hard,10.3,1.1
+1995,Santiago,Clay,6.3,1.1
+1995,Tokyo Indoor,Carpet,14.5,1.09
+1995,Essen Masters,Carpet,11.2,1.09
+1995,Paris Masters,Carpet,12.2,1.09
+1995,Memphis,Hard,12.8,1.08
+1995,New Haven,Hard,11.1,1.08
+1995,Halle,Grass,11.0,1.06
+1995,Philadelphia,Carpet,10.2,1.06
+1995,Stockholm,Hard,10.0,1.06
+1995,Queen's Club,Grass,12.9,1.05
+1995,Scottsdale,Hard,8.9,1.02
+1995,Indian Wells Masters,Hard,8.6,1.02
+1995,Hong Kong,Hard,10.0,0.99
+1995,Seoul,Hard,8.1,0.99
+1995,Tokyo Outdoor,Hard,9.5,0.99
+1995,Valencia,Clay,5.7,0.98
+1995,Beijing,Carpet,9.3,0.96
+1995,Auckland,Hard,9.0,0.96
+1995,Wimbledon,Grass,9.8,0.95
+1995,Estoril,Clay,4.7,0.95
+1995,Canada Masters,Hard,9.9,0.95
+1995,Sydney Outdoor,Hard,9.1,0.94
+1995,Kitzbuhel,Clay,5.3,0.94
+1995,San Marino,Clay,6.7,0.93
+1995,Miami Masters,Hard,8.1,0.93
+1995,Stuttgart Outdoor,Clay,6.5,0.92
+1995,US Open,Hard,8.6,0.92
+1995,Bordeaux,Hard,8.5,0.9
+1995,Montevideo,Clay,4.9,0.9
+1995,Bermuda,Clay,6.5,0.89
+1995,Los Angeles,Hard,11.3,0.89
+1995,Rosmalen,Grass,9.0,0.88
+1995,Oporto,Clay,4.5,0.87
+1995,Coral Springs,Clay,7.7,0.87
+1995,Palermo,Clay,6.4,0.86
+1995,Pinehurst,Clay,8.1,0.85
+1995,Doha,Hard,6.6,0.85
+1995,Barcelona,Clay,6.8,0.85
+1995,Australian Open,Hard,7.9,0.85
+1995,Long Island,Hard,6.7,0.84
+1995,Adelaide,Hard,7.6,0.83
+1995,Atlanta,Clay,6.7,0.82
+1995,Bucharest,Clay,5.0,0.8
+1995,Dusseldorf,Clay,8.1,0.8
+1995,Umag,Clay,3.6,0.75
+1995,Rome Masters,Clay,6.4,0.75
+1995,Buenos Aires,Clay,3.6,0.73
+1995,Bologna,Clay,5.9,0.73
+1995,Dubai,Hard,4.7,0.71
+1995,Mexico City,Clay,4.9,0.7
+1995,Hamburg Masters,Clay,6.1,0.69
+1995,Roland Garros,Clay,5.2,0.66
+1995,Bastad,Clay,4.8,0.63
+1995,Monte Carlo Masters,Clay,5.7,0.6
+1995,Prague,Clay,4.0,0.57
+1995,Munich,Clay,3.9,0.51
+1995,Nice,Clay,4.4,0.47
+1995,Casablanca,Clay,3.4,0.47
+1996,Santiago,Clay,7.0,1.73
+1996,Ostrava,Carpet,13.6,1.65
+1996,Shanghai,Carpet,10.6,1.59
+1996,Tel Aviv,Hard,8.2,1.49
+1996,Vienna,Carpet,15.6,1.42
+1996,Washington,Hard,10.9,1.41
+1996,Antwerp,Carpet,15.2,1.4
+1996,Zagreb,Carpet,16.5,1.39
+1996,Rotterdam,Carpet,19.5,1.39
+1996,Copenhagen,Carpet,12.6,1.33
+1996,Tour Finals,Carpet,23.9,1.33
+1996,Halle,Grass,13.2,1.3
+1996,Moscow,Carpet,13.9,1.3
+1996,Paris Masters,Carpet,12.7,1.3
+1996,New Delhi,Hard,11.1,1.29
+1996,Singapore,Carpet,13.9,1.26
+1996,Memphis,Hard,13.0,1.24
+1996,Long Island,Hard,10.0,1.23
+1996,Milan,Carpet,14.0,1.23
+1996,Stockholm,Hard,12.7,1.21
+1996,Scottsdale,Hard,8.8,1.19
+1996,Beijing,Carpet,12.4,1.19
+1996,Cincinnati Masters,Hard,13.0,1.18
+1996,Lyon,Carpet,9.6,1.16
+1996,Marseille,Hard,10.6,1.15
+1996,Newport,Grass,10.2,1.12
+1996,Canada Masters,Hard,10.0,1.1
+1996,Stuttgart Masters,Carpet,11.8,1.09
+1996,Basel,Hard,11.9,1.09
+1996,St. Petersburg,Carpet,10.7,1.09
+1996,Nottingham,Grass,9.9,1.07
+1996,Bogota,Clay,6.3,1.07
+1996,Toulouse,Hard,11.1,1.07
+1996,New Haven,Hard,10.7,1.07
+1996,Doha,Hard,10.3,1.06
+1996,Gstaad,Clay,8.2,1.06
+1996,San Jose,Hard,10.7,1.06
+1996,Jakarta,Hard,7.3,1.04
+1996,Hong Kong,Hard,11.0,1.03
+1996,Philadelphia,Carpet,8.4,1.0
+1996,Wimbledon,Grass,9.5,0.99
+1996,US Open,Hard,9.1,0.99
+1996,Tokyo,Hard,12.3,0.98
+1996,Atlanta,Clay,9.9,0.97
+1996,Queen's Club,Grass,9.1,0.96
+1996,Los Angeles,Hard,10.0,0.96
+1996,Coral Springs,Clay,8.3,0.94
+1996,Adelaide,Hard,8.4,0.94
+1996,Barcelona,Clay,6.6,0.93
+1996,Mexico City,Clay,5.4,0.92
+1996,San Marino,Clay,4.7,0.9
+1996,Bournemouth,Clay,9.6,0.9
+1996,Indian Wells Masters,Hard,8.0,0.9
+1996,Bermuda,Clay,6.1,0.89
+1996,Stuttgart Outdoor,Clay,7.0,0.88
+1996,Miami Masters,Hard,8.4,0.88
+1996,Pinehurst,Clay,6.9,0.86
+1996,Umag,Clay,4.0,0.86
+1996,Amsterdam,Clay,5.6,0.85
+1996,Auckland,Hard,6.6,0.84
+1996,Oporto,Clay,5.4,0.84
+1996,Indianapolis,Hard,9.3,0.82
+1996,Sydney Outdoor,Hard,9.6,0.81
+1996,Rosmalen,Grass,5.7,0.78
+1996,Kitzbuhel,Clay,5.6,0.78
+1996,Australian Open,Hard,6.6,0.74
+1996,Bastad,Clay,5.1,0.72
+1996,Roland Garros,Clay,7.1,0.7
+1996,Marbella,Clay,5.7,0.69
+1996,Dubai,Hard,6.7,0.69
+1996,Estoril,Clay,4.4,0.68
+1996,Palermo,Clay,4.1,0.68
+1996,Rome Masters,Clay,6.4,0.67
+1996,Bologna,Clay,4.1,0.66
+1996,Hamburg Masters,Clay,6.4,0.66
+1996,Prague,Clay,4.7,0.64
+1996,Munich,Clay,6.5,0.62
+1996,St. Poelten,Clay,4.8,0.56
+1996,Dusseldorf,Clay,6.5,0.56
+1996,Monte Carlo Masters,Clay,4.4,0.55
+1996,Seoul,Hard,5.5,0.55
+1996,Bucharest,Clay,3.0,0.46
+1996,Casablanca,Clay,2.8,0.37
+1997,Rotterdam,Carpet,17.8,1.53
+1997,Zagreb,Carpet,17.1,1.49
+1997,Milan,Carpet,14.9,1.44
+1997,Copenhagen,Carpet,14.8,1.39
+1997,Moscow,Carpet,12.5,1.37
+1997,Halle,Grass,14.9,1.35
+1997,Singapore,Carpet,12.8,1.35
+1997,Marseille,Hard,12.3,1.34
+1997,Newport,Grass,12.2,1.33
+1997,Shanghai,Carpet,8.5,1.3
+1997,Stockholm,Hard,13.1,1.3
+1997,Ostrava,Carpet,12.4,1.27
+1997,Memphis,Hard,11.4,1.27
+1997,Indian Wells Masters,Hard,11.8,1.25
+1997,Vienna,Carpet,16.4,1.23
+1997,Tour Finals,Hard,11.3,1.22
+1997,Paris Masters,Carpet,12.8,1.22
+1997,Lyon,Carpet,12.1,1.21
+1997,Washington,Hard,9.0,1.2
+1997,Toulouse,Hard,12.9,1.19
+1997,Indianapolis,Hard,9.3,1.17
+1997,Nottingham,Grass,12.1,1.16
+1997,Stuttgart Masters,Carpet,11.5,1.12
+1997,New Haven,Hard,10.3,1.11
+1997,Boston,Hard,8.7,1.11
+1997,Long Island,Hard,10.4,1.11
+1997,Cincinnati Masters,Hard,10.4,1.08
+1997,Chennai,Hard,10.3,1.08
+1997,Gstaad,Clay,8.6,1.08
+1997,Basel,Carpet,12.2,1.08
+1997,Tashkent,Hard,9.5,1.06
+1997,Santiago,Clay,7.4,1.06
+1997,St. Petersburg,Carpet,10.6,1.04
+1997,Antwerp,Hard,9.8,1.02
+1997,Beijing,Hard,9.8,1.02
+1997,Canada Masters,Hard,10.6,1.01
+1997,Mexico City,Clay,5.7,1.01
+1997,Doha,Hard,8.3,1.0
+1997,Dubai,Hard,9.9,0.98
+1997,Atlanta,Clay,8.3,0.97
+1997,US Open,Hard,8.7,0.97
+1997,Bastad,Clay,6.9,0.95
+1997,Coral Springs,Clay,7.2,0.95
+1997,Stuttgart Outdoor,Clay,7.3,0.95
+1997,Amsterdam,Clay,6.8,0.94
+1997,Bogota,Clay,6.6,0.94
+1997,Scottsdale,Hard,9.0,0.94
+1997,Miami Masters,Hard,8.5,0.93
+1997,San Marino,Clay,6.0,0.93
+1997,Queen's Club,Grass,11.5,0.93
+1997,Wimbledon,Grass,9.4,0.93
+1997,Philadelphia,Hard,9.2,0.92
+1997,Los Angeles,Hard,10.4,0.91
+1997,Adelaide,Hard,8.0,0.9
+1997,San Jose,Hard,11.0,0.89
+1997,Marbella,Clay,6.7,0.89
+1997,Rosmalen,Grass,10.0,0.89
+1997,Hong Kong,Hard,7.8,0.87
+1997,Auckland,Hard,7.5,0.86
+1997,Bournemouth,Clay,4.8,0.84
+1997,Australian Open,Hard,7.4,0.82
+1997,Orlando,Clay,6.5,0.8
+1997,Bologna,Clay,6.2,0.79
+1997,Palermo,Clay,4.6,0.78
+1997,Rome Masters,Clay,8.0,0.78
+1997,Kitzbuhel,Clay,5.8,0.77
+1997,Umag,Clay,5.1,0.77
+1997,St. Poelten,Clay,6.5,0.77
+1997,Munich,Clay,8.1,0.77
+1997,Barcelona,Clay,5.4,0.76
+1997,Sydney Outdoor,Hard,7.0,0.75
+1997,Tokyo,Hard,7.9,0.75
+1997,Hamburg Masters,Clay,5.8,0.74
+1997,Roland Garros,Clay,6.4,0.72
+1997,Bucharest,Clay,4.7,0.66
+1997,Dusseldorf,Clay,6.5,0.62
+1997,Prague,Clay,4.5,0.57
+1997,Monte Carlo Masters,Clay,4.9,0.56
+1997,Estoril,Clay,2.9,0.54
+1997,Casablanca,Clay,3.9,0.44
+1998,Bogota,Clay,10.9,1.45
+1998,Copenhagen,Carpet,12.6,1.41
+1998,Vienna,Carpet,14.9,1.4
+1998,Rotterdam,Carpet,16.1,1.4
+1998,Toulouse,Hard,15.1,1.37
+1998,Split,Carpet,17.7,1.35
+1998,Washington,Hard,10.5,1.35
+1998,Nottingham,Grass,10.0,1.35
+1998,Memphis,Hard,13.7,1.34
+1998,Cincinnati Masters,Hard,13.8,1.3
+1998,Moscow,Carpet,13.5,1.3
+1998,Basel,Hard,13.5,1.28
+1998,Tashkent,Hard,14.7,1.25
+1998,Lyon,Carpet,10.0,1.24
+1998,Long Island,Hard,12.1,1.23
+1998,Hong Kong,Hard,10.9,1.23
+1998,London,Carpet,12.8,1.23
+1998,Adelaide,Hard,8.6,1.22
+1998,St. Petersburg,Carpet,15.9,1.21
+1998,Indian Wells Masters,Hard,11.8,1.19
+1998,San Jose,Hard,11.6,1.16
+1998,Marseille,Hard,13.3,1.15
+1998,Ostrava,Carpet,13.0,1.13
+1998,Newport,Grass,6.7,1.13
+1998,Los Angeles,Hard,11.2,1.13
+1998,Gstaad,Clay,8.6,1.13
+1998,Paris Masters,Carpet,12.1,1.12
+1998,Mexico City,Clay,9.4,1.12
+1998,Tour Finals,Hard,10.9,1.1
+1998,Stuttgart Masters,Hard,12.7,1.09
+1998,Auckland,Hard,8.7,1.08
+1998,Halle,Grass,12.3,1.07
+1998,Sydney Outdoor,Hard,9.0,1.04
+1998,s Hertogenbosch,Grass,9.1,1.04
+1998,Philadelphia,Hard,11.4,1.03
+1998,Canada Masters,Hard,11.1,1.02
+1998,Stockholm,Hard,11.2,1.02
+1998,Shanghai,Carpet,9.3,1.0
+1998,Dubai,Hard,8.4,1.0
+1998,Boston,Hard,6.8,0.99
+1998,Wimbledon,Grass,10.0,0.99
+1998,Santiago,Clay,6.9,0.99
+1998,Rome Masters,Clay,8.5,0.97
+1998,Indianapolis,Hard,9.3,0.95
+1998,Palermo,Clay,6.4,0.95
+1998,Scottsdale,Hard,7.8,0.94
+1998,Kitzbuhel,Clay,6.3,0.93
+1998,US Open,Hard,8.9,0.92
+1998,Miami Masters,Hard,8.5,0.92
+1998,Singapore,Carpet,7.3,0.91
+1998,Australian Open,Hard,7.2,0.91
+1998,San Marino,Clay,7.7,0.88
+1998,Queen's Club,Grass,8.8,0.87
+1998,Stuttgart Outdoor,Clay,7.6,0.87
+1998,Bournemouth,Clay,8.2,0.87
+1998,Coral Springs,Clay,7.6,0.86
+1998,Antwerp,Hard,9.5,0.86
+1998,New Haven,Hard,8.2,0.85
+1998,Mallorca,Clay,5.1,0.83
+1998,Tokyo,Hard,8.8,0.83
+1998,Chennai,Hard,4.3,0.8
+1998,Munich,Clay,8.8,0.8
+1998,Barcelona,Clay,5.8,0.78
+1998,St. Poelten,Clay,5.7,0.78
+1998,Orlando,Clay,6.1,0.78
+1998,Roland Garros,Clay,6.2,0.77
+1998,Bastad,Clay,6.5,0.76
+1998,Dusseldorf,Clay,6.5,0.76
+1998,Doha,Hard,7.5,0.75
+1998,Amsterdam,Clay,7.3,0.74
+1998,Casablanca,Clay,5.2,0.69
+1998,Hamburg Masters,Clay,5.9,0.68
+1998,Bucharest,Clay,4.3,0.65
+1998,Bologna,Clay,4.0,0.63
+1998,Umag,Clay,5.9,0.63
+1998,Monte Carlo Masters,Clay,5.5,0.62
+1998,Estoril,Clay,3.3,0.59
+1998,Atlanta,Clay,6.5,0.56
+1998,Prague,Clay,3.7,0.48
+1999,Memphis,Hard,14.8,1.51
+1999,Moscow,Carpet,14.1,1.5
+1999,Toulouse,Hard,14.3,1.5
+1999,Rotterdam,Carpet,14.6,1.4
+1999,Halle,Grass,12.7,1.36
+1999,Adelaide,Hard,11.2,1.35
+1999,St. Petersburg,Carpet,13.6,1.33
+1999,Basel,Carpet,13.4,1.33
+1999,Cincinnati Masters,Hard,12.2,1.32
+1999,London,Carpet,15.4,1.31
+1999,s Hertogenbosch,Grass,11.0,1.29
+1999,Paris Masters,Carpet,11.1,1.27
+1999,Stuttgart Masters,Hard,12.7,1.21
+1999,Vienna,Hard,12.9,1.21
+1999,Nottingham,Grass,10.7,1.19
+1999,Stockholm,Hard,11.7,1.16
+1999,Canada Masters,Hard,11.2,1.15
+1999,Boston,Hard,9.0,1.14
+1999,Long Island,Hard,11.6,1.14
+1999,Auckland,Hard,8.1,1.12
+1999,Los Angeles,Hard,12.2,1.12
+1999,US Open,Hard,10.2,1.1
+1999,Lyon,Carpet,10.1,1.09
+1999,Marseille,Hard,9.2,1.09
+1999,Scottsdale,Hard,10.0,1.07
+1999,Merano,Clay,6.7,1.04
+1999,Tashkent,Hard,7.2,1.04
+1999,Washington,Hard,9.7,1.03
+1999,San Jose,Hard,9.4,1.03
+1999,Indian Wells Masters,Hard,10.5,1.02
+1999,Indianapolis,Hard,8.7,1.02
+1999,Singapore,Hard,8.4,1.02
+1999,Queen's Club,Grass,10.2,1.01
+1999,Wimbledon,Grass,9.2,1.0
+1999,Hong Kong,Hard,9.1,0.99
+1999,Tokyo,Hard,9.2,0.97
+1999,Sydney,Hard,9.8,0.97
+1999,Mallorca,Clay,6.2,0.96
+1999,Copenhagen,Carpet,7.9,0.96
+1999,Stuttgart Outdoor,Clay,7.1,0.96
+1999,Australian Open,Hard,8.0,0.94
+1999,Miami Masters,Hard,9.1,0.94
+1999,Doha,Hard,7.3,0.94
+1999,Dubai,Hard,8.5,0.94
+1999,Tour Finals,Hard,13.9,0.93
+1999,Munich,Clay,6.8,0.92
+1999,Delray Beach,Clay,5.6,0.92
+1999,Orlando,Clay,6.2,0.91
+1999,Amsterdam,Clay,6.1,0.87
+1999,Gstaad,Clay,7.0,0.86
+1999,Prague,Clay,5.9,0.85
+1999,Atlanta,Clay,5.5,0.84
+1999,Roland Garros,Clay,6.8,0.82
+1999,Kitzbuhel,Clay,5.6,0.82
+1999,Barcelona,Clay,5.5,0.82
+1999,Shanghai,Hard,6.0,0.8
+1999,Chennai,Hard,5.1,0.79
+1999,Rome Masters,Clay,7.1,0.79
+1999,Newport,Grass,9.2,0.78
+1999,St. Poelten,Clay,5.2,0.77
+1999,San Marino,Clay,5.2,0.77
+1999,Umag,Clay,5.3,0.73
+1999,Bastad,Clay,5.1,0.73
+1999,Estoril,Clay,5.6,0.7
+1999,Monte Carlo Masters,Clay,6.0,0.69
+1999,Bucharest,Clay,4.7,0.69
+1999,Casablanca,Clay,3.8,0.68
+1999,Palermo,Clay,3.9,0.64
+1999,Hamburg Masters,Clay,5.0,0.63
+1999,Dusseldorf,Clay,7.0,0.62
+1999,Bournemouth,Clay,5.9,0.61
+2000,Toulouse,Hard,13.9,1.69
+2000,Nottingham,Grass,12.0,1.37
+2000,Memphis,Hard,10.4,1.36
+2000,Tashkent,Hard,13.4,1.26
+2000,Rotterdam,Hard,12.6,1.25
+2000,Cincinnati Masters,Hard,12.1,1.24
+2000,Halle,Grass,13.5,1.24
+2000,Moscow,Carpet,12.1,1.23
+2000,Canada Masters,Hard,12.1,1.23
+2000,St. Petersburg,Hard,12.6,1.22
+2000,Paris Masters,Carpet,12.4,1.2
+2000,Wimbledon,Grass,11.4,1.19
+2000,US Open,Hard,12.0,1.17
+2000,Indianapolis,Hard,10.6,1.16
+2000,Kitzbuhel,Clay,8.7,1.16
+2000,Basel,Carpet,12.3,1.16
+2000,Long Island,Hard,10.3,1.11
+2000,Lyon,Carpet,11.2,1.1
+2000,Australian Open,Hard,11.0,1.1
+2000,Marseille,Hard,12.5,1.09
+2000,Newport,Grass,9.2,1.09
+2000,Stuttgart Masters,Hard,10.8,1.09
+2000,Tokyo,Hard,9.8,1.07
+2000,Stockholm,Hard,10.7,1.07
+2000,Sydney,Hard,9.2,1.06
+2000,Queen's Club,Grass,12.8,1.06
+2000,Brighton,Hard,11.3,1.05
+2000,London,Hard,12.2,1.05
+2000,Palermo,Clay,6.1,1.04
+2000,Chennai,Hard,10.9,1.04
+2000,Los Angeles,Hard,12.6,1.04
+2000,Vienna,Hard,9.8,1.04
+2000,Hong Kong,Hard,10.3,1.03
+2000,Santiago,Clay,9.8,1.01
+2000,San Jose,Hard,9.6,1.01
+2000,Indian Wells Masters,Hard,10.4,1.01
+2000,Auckland,Hard,8.7,1.01
+2000,Gstaad,Clay,7.6,1.01
+2000,s Hertogenbosch,Grass,10.0,1.01
+2000,Washington,Hard,11.8,0.99
+2000,Stuttgart Outdoor,Clay,7.7,0.98
+2000,Mallorca,Clay,7.5,0.96
+2000,Rome Masters,Clay,8.8,0.96
+2000,Munich,Clay,8.1,0.94
+2000,Delray Beach,Hard,7.7,0.93
+2000,San Marino,Clay,7.7,0.91
+2000,Orlando,Clay,8.2,0.91
+2000,Adelaide,Hard,8.8,0.89
+2000,Masters Cup,Hard,11.7,0.89
+2000,Miami Masters,Hard,9.2,0.89
+2000,Mexico City,Clay,6.5,0.87
+2000,Bogota,Clay,8.0,0.87
+2000,Atlanta,Clay,7.0,0.87
+2000,Bucharest,Clay,7.4,0.87
+2000,Amsterdam,Clay,7.9,0.87
+2000,Shanghai,Hard,7.9,0.86
+2000,Doha,Hard,6.6,0.85
+2000,Barcelona,Clay,7.0,0.85
+2000,Hamburg Masters,Clay,8.0,0.84
+2000,Scottsdale,Hard,6.3,0.77
+2000,Copenhagen,Hard,8.4,0.77
+2000,Monte Carlo Masters,Clay,6.7,0.76
+2000,Roland Garros,Clay,7.2,0.76
+2000,Dusseldorf,Clay,7.0,0.72
+2000,Bastad,Clay,6.3,0.71
+2000,St. Poelten,Clay,6.5,0.71
+2000,Casablanca,Clay,5.3,0.69
+2000,Dubai,Hard,5.3,0.65
+2000,Umag,Clay,5.5,0.64
+2000,Estoril,Clay,4.0,0.49
+2001,Bogota,Clay,9.0,1.52
+2001,Hong Kong,Hard,10.0,1.42
+2001,Stockholm,Hard,10.7,1.38
+2001,Tokyo,Hard,8.3,1.38
+2001,Paris Masters,Carpet,12.7,1.36
+2001,Halle,Grass,11.3,1.32
+2001,Basel,Carpet,12.3,1.29
+2001,Memphis,Hard,14.3,1.29
+2001,Queen's Club,Grass,12.7,1.28
+2001,Indianapolis,Hard,11.4,1.27
+2001,Stuttgart Masters,Hard,12.8,1.23
+2001,Cincinnati Masters,Hard,12.0,1.22
+2001,Marseille,Hard,11.9,1.21
+2001,Tashkent,Hard,11.1,1.21
+2001,US Open,Hard,11.4,1.2
+2001,Acapulco,Clay,11.0,1.2
+2001,Rotterdam,Hard,11.1,1.2
+2001,Wimbledon,Grass,10.6,1.2
+2001,Costa Do Sauipe,Hard,9.1,1.19
+2001,Milan,Carpet,12.2,1.18
+2001,San Jose,Hard,13.1,1.18
+2001,Nottingham,Grass,12.2,1.17
+2001,Gstaad,Clay,10.6,1.15
+2001,Washington,Hard,12.2,1.15
+2001,Lyon,Carpet,11.0,1.15
+2001,Long Island,Hard,12.0,1.1
+2001,Doha,Hard,8.4,1.07
+2001,Auckland,Hard,9.1,1.06
+2001,Chennai,Hard,9.0,1.06
+2001,Stuttgart,Clay,8.6,1.06
+2001,Shanghai,Hard,6.4,1.04
+2001,Indian Wells Masters,Hard,9.6,1.01
+2001,Australian Open,Hard,8.9,1.01
+2001,Masters Cup,Hard,9.3,1.0
+2001,Los Angeles,Hard,12.3,1.0
+2001,Moscow,Carpet,10.9,1.0
+2001,Buenos Aires,Clay,7.0,0.98
+2001,Canada Masters,Hard,10.3,0.97
+2001,Adelaide,Hard,9.1,0.96
+2001,Delray Beach,Hard,10.4,0.95
+2001,St. Petersburg,Hard,8.2,0.95
+2001,Sydney,Hard,8.0,0.95
+2001,Scottsdale,Hard,6.3,0.94
+2001,Houston,Clay,8.5,0.94
+2001,Vina del Mar,Clay,6.0,0.94
+2001,Copenhagen,Hard,5.5,0.91
+2001,Munich,Clay,7.5,0.9
+2001,Amsterdam,Clay,6.7,0.86
+2001,Vienna,Hard,7.4,0.85
+2001,Miami Masters,Hard,8.6,0.85
+2001,s Hertogenbosch,Grass,7.0,0.84
+2001,Dubai,Hard,7.8,0.82
+2001,Casablanca,Clay,6.4,0.81
+2001,Umag,Clay,7.5,0.81
+2001,Palermo,Clay,6.7,0.81
+2001,St. Poelten,Clay,6.4,0.8
+2001,Mallorca,Clay,5.2,0.79
+2001,Roland Garros,Clay,7.3,0.77
+2001,Kitzbuhel,Clay,5.7,0.77
+2001,Atlanta,Clay,7.3,0.76
+2001,Barcelona,Clay,6.2,0.75
+2001,Bucharest,Clay,6.6,0.7
+2001,Dusseldorf,Clay,7.8,0.65
+2001,Estoril,Clay,5.0,0.65
+2001,Bastad,Clay,4.6,0.65
+2001,Monte Carlo Masters,Clay,5.2,0.63
+2001,Sopot,Clay,4.5,0.61
+2001,Rome Masters,Clay,5.9,0.59
+2001,Hamburg Masters,Clay,5.2,0.58
+2001,Newport,Grass,2.1,0.47
+2002,Acapulco,Clay,10.3,1.61
+2002,Marseille,Hard,17.2,1.6
+2002,Milan,Carpet,13.6,1.6
+2002,Rotterdam,Hard,13.1,1.44
+2002,Lyon,Carpet,16.7,1.37
+2002,Tokyo,Hard,13.5,1.36
+2002,Canada Masters,Hard,12.6,1.33
+2002,Paris Masters,Carpet,12.6,1.32
+2002,Memphis,Hard,14.0,1.31
+2002,Gstaad,Clay,10.1,1.19
+2002,Doha,Hard,9.1,1.19
+2002,Costa Do Sauipe,Hard,9.7,1.17
+2002,Madrid Masters,Hard,10.8,1.17
+2002,Newport,Grass,13.1,1.17
+2002,Washington,Hard,10.3,1.16
+2002,San Jose,Hard,13.9,1.15
+2002,St. Petersburg,Hard,9.0,1.15
+2002,Wimbledon,Grass,10.5,1.14
+2002,Hong Kong,Hard,10.6,1.14
+2002,Tashkent,Hard,12.5,1.14
+2002,Basel,Carpet,11.3,1.13
+2002,Stockholm,Hard,9.4,1.12
+2002,Cincinnati Masters,Hard,11.4,1.12
+2002,Auckland,Hard,6.8,1.12
+2002,Vienna,Hard,8.0,1.1
+2002,Scottsdale,Hard,9.4,1.1
+2002,Indianapolis,Hard,9.6,1.08
+2002,Bucharest,Clay,5.5,1.01
+2002,US Open,Hard,10.3,1.0
+2002,Moscow,Carpet,9.5,1.0
+2002,Queen's Club,Grass,10.8,0.99
+2002,Miami Masters,Hard,9.0,0.99
+2002,Halle,Grass,10.3,0.98
+2002,Long Island,Hard,8.5,0.97
+2002,Dubai,Hard,8.9,0.97
+2002,Houston,Clay,11.6,0.96
+2002,Masters Cup,Hard,9.4,0.96
+2002,Bastad,Clay,6.8,0.95
+2002,Buenos Aires,Clay,6.6,0.94
+2002,Chennai,Hard,8.5,0.93
+2002,Delray Beach,Hard,10.4,0.93
+2002,Sydney,Hard,9.1,0.92
+2002,Palermo,Clay,6.9,0.92
+2002,Los Angeles,Hard,12.2,0.9
+2002,Mallorca,Clay,6.9,0.9
+2002,Australian Open,Hard,8.9,0.89
+2002,St. Poelten,Clay,7.2,0.86
+2002,s Hertogenbosch,Grass,5.8,0.85
+2002,Indian Wells Masters,Hard,8.2,0.84
+2002,Stuttgart,Clay,5.4,0.83
+2002,Nottingham,Grass,9.2,0.83
+2002,Barcelona,Clay,6.6,0.82
+2002,Vina del Mar,Clay,6.6,0.81
+2002,Adelaide,Hard,9.7,0.8
+2002,Copenhagen,Hard,6.6,0.79
+2002,Casablanca,Clay,6.7,0.75
+2002,Kitzbuhel,Clay,6.4,0.75
+2002,Estoril,Clay,4.9,0.7
+2002,Munich,Clay,6.2,0.69
+2002,Roland Garros,Clay,6.1,0.69
+2002,Hamburg Masters,Clay,6.5,0.68
+2002,Rome Masters,Clay,6.6,0.67
+2002,Monte Carlo Masters,Clay,5.6,0.66
+2002,Umag,Clay,5.1,0.66
+2002,Amersfoort,Clay,5.1,0.6
+2002,Sopot,Clay,4.4,0.59
+2002,Dusseldorf,Clay,6.6,0.55
+2003,Newport,Grass,8.9,1.58
+2003,Memphis,Hard,14.1,1.55
+2003,Rotterdam,Hard,12.6,1.4
+2003,Metz,Hard,10.9,1.38
+2003,Gstaad,Clay,10.8,1.37
+2003,Milan,Carpet,16.5,1.36
+2003,Paris Masters,Carpet,12.9,1.36
+2003,Stockholm,Hard,13.9,1.35
+2003,Cincinnati Masters,Hard,12.3,1.28
+2003,Marseille,Hard,12.2,1.28
+2003,Washington,Hard,12.3,1.26
+2003,Shanghai,Hard,14.9,1.24
+2003,Basel,Carpet,11.2,1.21
+2003,Acapulco,Clay,9.0,1.18
+2003,San Jose,Hard,10.5,1.17
+2003,Tokyo,Hard,11.6,1.15
+2003,St. Petersburg,Hard,8.9,1.14
+2003,Costa Do Sauipe,Hard,10.2,1.14
+2003,Copenhagen,Hard,11.6,1.14
+2003,Los Angeles,Hard,12.2,1.13
+2003,Delray Beach,Hard,9.9,1.12
+2003,Indianapolis,Hard,13.9,1.12
+2003,Wimbledon,Grass,10.0,1.1
+2003,Canada Masters,Hard,9.8,1.08
+2003,Valencia,Clay,7.3,1.08
+2003,Auckland,Hard,9.4,1.07
+2003,Long Island,Hard,9.5,1.07
+2003,US Open,Hard,10.0,1.03
+2003,Stuttgart,Clay,7.2,1.02
+2003,Lyon,Carpet,8.6,1.02
+2003,Miami Masters,Hard,10.0,0.99
+2003,Halle,Grass,8.7,0.98
+2003,Vienna,Hard,8.2,0.97
+2003,Doha,Hard,8.5,0.97
+2003,Sopot,Clay,5.2,0.96
+2003,Bangkok,Hard,9.5,0.95
+2003,Amersfoort,Clay,7.9,0.94
+2003,Masters Cup,Hard,9.7,0.94
+2003,Vina del Mar,Clay,6.7,0.93
+2003,Australian Open,Hard,8.3,0.92
+2003,Scottsdale,Hard,9.0,0.92
+2003,Indian Wells Masters,Hard,8.0,0.91
+2003,Chennai,Hard,5.7,0.9
+2003,Moscow,Carpet,8.0,0.9
+2003,Dubai,Hard,8.2,0.9
+2003,Queen's Club,Grass,10.4,0.9
+2003,Kitzbuhel,Clay,6.9,0.89
+2003,Adelaide,Hard,9.3,0.89
+2003,Sydney,Hard,8.2,0.87
+2003,Umag,Clay,5.4,0.86
+2003,Rome Masters,Clay,7.1,0.85
+2003,Nottingham,Grass,9.8,0.84
+2003,s Hertogenbosch,Grass,7.3,0.82
+2003,Bastad,Clay,4.7,0.81
+2003,Barcelona,Clay,6.2,0.8
+2003,Bucharest,Clay,5.0,0.79
+2003,Houston,Clay,7.6,0.78
+2003,Munich,Clay,5.9,0.74
+2003,Roland Garros,Clay,6.9,0.73
+2003,Buenos Aires,Clay,5.8,0.73
+2003,Casablanca,Clay,6.5,0.72
+2003,Hamburg Masters,Clay,5.7,0.65
+2003,Palermo,Clay,5.3,0.6
+2003,Estoril,Clay,5.3,0.59
+2003,St. Poelten,Clay,5.5,0.59
+2003,Monte Carlo Masters,Clay,4.7,0.58
+2003,Dusseldorf,Clay,5.9,0.52
+2004,Milan,Carpet,15.0,1.49
+2004,Cincinnati Masters,Hard,14.1,1.44
+2004,Marseille,Hard,14.6,1.42
+2004,Tokyo,Hard,12.6,1.39
+2004,Lyon,Carpet,11.7,1.36
+2004,Madrid Masters,Hard,13.1,1.36
+2004,Shanghai,Hard,11.1,1.34
+2004,St. Petersburg,Carpet,11.5,1.31
+2004,Basel,Carpet,10.0,1.3
+2004,Memphis,Hard,16.0,1.24
+2004,Beijing,Hard,8.4,1.23
+2004,Masters Cup,Hard,12.0,1.2
+2004,Indianapolis,Hard,13.5,1.2
+2004,Halle,Grass,11.2,1.19
+2004,Bangkok,Hard,14.5,1.19
+2004,Metz,Hard,12.6,1.17
+2004,Vienna,Hard,9.3,1.16
+2004,Acapulco,Clay,7.6,1.16
+2004,Washington,Hard,12.6,1.15
+2004,Wimbledon,Grass,11.1,1.15
+2004,Rotterdam,Hard,10.3,1.14
+2004,Amersfoort,Clay,8.9,1.13
+2004,Chennai,Hard,7.7,1.13
+2004,US Open,Hard,10.5,1.13
+2004,San Jose,Hard,15.4,1.1
+2004,Paris Masters,Carpet,11.4,1.09
+2004,Long Island,Hard,9.6,1.09
+2004,Queen's Club,Grass,12.5,1.09
+2004,Stockholm,Hard,15.2,1.08
+2004,Canada Masters,Hard,11.8,1.08
+2004,Sydney,Hard,12.0,1.06
+2004,Indian Wells Masters,Hard,9.7,1.05
+2004,Delray Beach,Hard,10.2,1.05
+2004,Los Angeles,Hard,13.1,1.04
+2004,s Hertogenbosch,Grass,8.7,1.04
+2004,Gstaad,Clay,8.3,1.01
+2004,Adelaide,Hard,8.8,0.99
+2004,Doha,Hard,9.9,0.98
+2004,Australian Open,Hard,9.3,0.98
+2004,Auckland,Hard,7.2,0.97
+2004,Stuttgart,Clay,6.0,0.97
+2004,Sopot,Clay,5.1,0.92
+2004,Miami Masters,Hard,8.3,0.92
+2004,Nottingham,Grass,8.6,0.9
+2004,Costa Do Sauipe,Clay,7.2,0.88
+2004,Newport,Grass,8.8,0.87
+2004,Munich,Clay,8.0,0.85
+2004,Vina del Mar,Clay,5.8,0.84
+2004,Dubai,Hard,6.8,0.83
+2004,Scottsdale,Hard,10.1,0.83
+2004,Moscow,Carpet,8.1,0.81
+2004,Kitzbuhel,Clay,5.9,0.79
+2004,Barcelona,Clay,6.9,0.79
+2004,Valencia,Clay,6.3,0.74
+2004,Bucharest,Clay,4.6,0.73
+2004,Rome Masters,Clay,6.3,0.73
+2004,St. Poelten,Clay,5.5,0.71
+2004,Estoril,Clay,5.9,0.7
+2004,Buenos Aires,Clay,5.2,0.7
+2004,Bastad,Clay,5.0,0.7
+2004,Houston,Clay,8.0,0.69
+2004,Palermo,Clay,3.9,0.69
+2004,Dusseldorf,Clay,7.7,0.68
+2004,Roland Garros,Clay,6.0,0.67
+2004,Hamburg Masters,Clay,5.6,0.64
+2004,Casablanca,Clay,4.6,0.63
+2004,Umag,Clay,4.6,0.6
+2004,Monte Carlo Masters,Clay,4.4,0.52
+2005,Milan,Carpet,15.2,1.57
+2005,Lyon,Carpet,12.4,1.51
+2005,Metz,Hard,13.9,1.51
+2005,Indianapolis,Hard,13.7,1.49
+2005,Paris Masters,Carpet,14.5,1.49
+2005,Rotterdam,Hard,13.2,1.42
+2005,s Hertogenbosch,Grass,12.5,1.37
+2005,Washington,Hard,17.4,1.36
+2005,Chennai,Hard,10.8,1.31
+2005,Cincinnati Masters,Hard,11.3,1.31
+2005,Ho Chi Minh City,Carpet,15.2,1.31
+2005,Memphis,Hard,17.0,1.3
+2005,Halle,Grass,10.8,1.25
+2005,Acapulco,Clay,8.9,1.25
+2005,Wimbledon,Grass,11.6,1.25
+2005,Basel,Carpet,11.3,1.25
+2005,Beijing,Hard,8.9,1.24
+2005,St. Petersburg,Carpet,10.5,1.22
+2005,Bangkok,Hard,12.9,1.19
+2005,New Haven,Hard,9.4,1.17
+2005,Madrid Masters,Hard,11.7,1.17
+2005,Canada Masters,Hard,10.3,1.16
+2005,US Open,Hard,10.0,1.11
+2005,Tokyo,Hard,10.8,1.1
+2005,Dubai,Hard,9.0,1.09
+2005,Nottingham,Grass,12.4,1.07
+2005,Miami Masters,Hard,8.7,1.07
+2005,Los Angeles,Hard,10.6,1.07
+2005,Delray Beach,Hard,8.5,1.05
+2005,Marseille,Hard,13.5,1.04
+2005,Stockholm,Hard,9.5,1.04
+2005,Queen's Club,Grass,11.6,1.01
+2005,Palermo,Clay,6.9,0.99
+2005,Australian Open,Hard,8.8,0.98
+2005,Scottsdale,Hard,10.0,0.97
+2005,Sydney,Hard,10.2,0.96
+2005,Indian Wells Masters,Hard,8.8,0.96
+2005,Moscow,Carpet,7.9,0.95
+2005,Costa Do Sauipe,Clay,7.2,0.95
+2005,Vienna,Hard,8.3,0.93
+2005,Houston,Clay,10.9,0.93
+2005,Vina del Mar,Clay,6.9,0.91
+2005,Auckland,Hard,6.5,0.9
+2005,Gstaad,Clay,8.5,0.9
+2005,San Jose,Hard,11.1,0.86
+2005,Kitzbuhel,Clay,7.4,0.84
+2005,Amersfoort,Clay,8.8,0.83
+2005,Munich,Clay,8.2,0.83
+2005,Adelaide,Hard,8.2,0.82
+2005,Buenos Aires,Clay,6.4,0.81
+2005,Masters Cup,Carpet,6.9,0.81
+2005,Barcelona,Clay,6.4,0.8
+2005,Doha,Hard,5.4,0.79
+2005,Newport,Grass,10.7,0.76
+2005,Stuttgart,Clay,6.1,0.75
+2005,St. Poelten,Clay,5.7,0.73
+2005,Roland Garros,Clay,6.0,0.73
+2005,Sopot,Clay,5.0,0.7
+2005,Dusseldorf,Clay,5.4,0.7
+2005,Bucharest,Clay,5.5,0.65
+2005,Rome Masters,Clay,5.4,0.64
+2005,Bastad,Clay,4.9,0.57
+2005,Estoril,Clay,4.8,0.57
+2005,Casablanca,Clay,5.5,0.57
+2005,Valencia,Clay,3.5,0.57
+2005,Hamburg Masters,Clay,4.7,0.55
+2005,Monte Carlo Masters,Clay,4.4,0.55
+2005,Umag,Clay,3.6,0.5
+2006,Memphis,Hard,13.2,1.42
+2006,Lyon,Carpet,12.7,1.38
+2006,Los Angeles,Hard,11.8,1.35
+2006,Marseille,Hard,11.3,1.34
+2006,Tokyo,Hard,7.9,1.32
+2006,Madrid Masters,Hard,11.4,1.32
+2006,Moscow,Carpet,12.0,1.3
+2006,Masters Cup,Hard,11.0,1.28
+2006,Basel,Carpet,11.6,1.28
+2006,Paris Masters,Carpet,10.8,1.28
+2006,San Jose,Hard,10.3,1.27
+2006,Halle,Grass,10.7,1.26
+2006,Cincinnati Masters,Hard,11.1,1.26
+2006,Mumbai,Hard,9.4,1.25
+2006,Queen's Club,Grass,12.8,1.25
+2006,Wimbledon,Grass,10.9,1.24
+2006,Rotterdam,Hard,10.6,1.22
+2006,Zagreb,Carpet,11.3,1.22
+2006,Indianapolis,Hard,12.0,1.19
+2006,s Hertogenbosch,Grass,9.6,1.19
+2006,Metz,Hard,10.7,1.17
+2006,Washington,Hard,11.2,1.17
+2006,Kitzbuhel,Clay,9.3,1.17
+2006,Bangkok,Hard,10.5,1.16
+2006,New Haven,Hard,10.4,1.16
+2006,Beijing,Hard,11.4,1.15
+2006,Nottingham,Grass,11.7,1.13
+2006,US Open,Hard,9.8,1.12
+2006,Dubai,Hard,7.9,1.11
+2006,Chennai,Hard,12.0,1.1
+2006,St. Petersburg,Carpet,10.6,1.09
+2006,Gstaad,Clay,10.1,1.07
+2006,Vienna,Hard,11.6,1.06
+2006,Newport,Grass,9.6,1.06
+2006,Delray Beach,Hard,9.4,1.05
+2006,Acapulco,Clay,7.9,1.05
+2006,Adelaide,Hard,8.4,1.0
+2006,Miami Masters,Hard,9.0,0.98
+2006,Australian Open,Hard,8.3,0.96
+2006,Poertschach,Clay,6.9,0.96
+2006,Auckland,Hard,8.1,0.95
+2006,Stockholm,Hard,8.7,0.94
+2006,Amersfoort,Clay,7.6,0.91
+2006,Sydney,Hard,7.1,0.89
+2006,Munich,Clay,8.0,0.88
+2006,Canada Masters,Hard,7.6,0.87
+2006,Costa Do Sauipe,Clay,6.6,0.84
+2006,Barcelona,Clay,6.8,0.83
+2006,Doha,Hard,6.2,0.81
+2006,Sopot,Clay,5.7,0.8
+2006,Umag,Clay,5.3,0.79
+2006,Casablanca,Clay,7.5,0.76
+2006,Indian Wells Masters,Hard,7.0,0.76
+2006,Stuttgart,Clay,5.7,0.73
+2006,Estoril,Clay,6.8,0.72
+2006,Palermo,Clay,4.9,0.71
+2006,Buenos Aires,Clay,4.2,0.7
+2006,Roland Garros,Clay,6.0,0.69
+2006,Las Vegas,Hard,5.6,0.68
+2006,Vina del Mar,Clay,6.4,0.68
+2006,Valencia,Clay,4.6,0.63
+2006,Dusseldorf,Clay,5.3,0.61
+2006,Houston,Clay,5.6,0.6
+2006,Bucharest,Clay,4.8,0.6
+2006,Bastad,Clay,5.2,0.57
+2006,Rome Masters,Clay,4.8,0.57
+2006,Hamburg Masters,Clay,4.7,0.56
+2006,Monte Carlo Masters,Clay,4.3,0.56
+2007,Lyon,Carpet,16.3,1.66
+2007,Basel,Hard,13.7,1.44
+2007,s Hertogenbosch,Grass,14.5,1.4
+2007,Rotterdam,Hard,12.2,1.4
+2007,Tokyo,Hard,14.5,1.4
+2007,Memphis,Hard,18.3,1.36
+2007,Metz,Hard,10.5,1.34
+2007,Indianapolis,Hard,16.0,1.33
+2007,Washington,Hard,16.4,1.32
+2007,San Jose,Hard,18.8,1.31
+2007,Queen's Club,Grass,15.5,1.3
+2007,Halle,Grass,12.1,1.29
+2007,Delray Beach,Hard,12.2,1.27
+2007,Zagreb,Carpet,15.0,1.25
+2007,Mumbai,Hard,8.9,1.19
+2007,Cincinnati Masters,Hard,11.6,1.18
+2007,Marseille,Hard,10.6,1.16
+2007,Bangkok,Hard,15.7,1.15
+2007,US Open,Hard,10.3,1.15
+2007,Australian Open,Hard,10.6,1.14
+2007,Nottingham,Grass,11.9,1.14
+2007,Dubai,Hard,9.1,1.14
+2007,New Haven,Hard,11.3,1.13
+2007,Moscow,Hard,9.1,1.13
+2007,Wimbledon,Grass,10.6,1.12
+2007,Gstaad,Clay,10.0,1.12
+2007,Canada Masters,Hard,10.3,1.12
+2007,Paris Masters,Hard,9.3,1.09
+2007,Madrid Masters,Hard,10.9,1.07
+2007,Indian Wells Masters,Hard,9.7,1.06
+2007,Acapulco,Clay,7.9,1.05
+2007,Chennai,Hard,11.2,1.03
+2007,Amersfoort,Clay,7.6,1.03
+2007,St. Petersburg,Carpet,9.0,1.02
+2007,Adelaide,Hard,10.4,1.01
+2007,Vienna,Hard,9.1,1.0
+2007,Stuttgart,Clay,8.8,0.99
+2007,Stockholm,Hard,15.6,0.96
+2007,Miami Masters,Hard,9.0,0.93
+2007,Casablanca,Clay,7.8,0.93
+2007,Los Angeles,Hard,9.6,0.92
+2007,Poertschach,Clay,7.9,0.89
+2007,Masters Cup,Hard,7.5,0.88
+2007,Costa Do Sauipe,Clay,5.8,0.86
+2007,Munich,Clay,9.1,0.86
+2007,Auckland,Hard,5.9,0.83
+2007,Las Vegas,Hard,8.7,0.83
+2007,Kitzbuhel,Clay,6.2,0.82
+2007,Sydney,Hard,7.3,0.82
+2007,Barcelona,Clay,6.0,0.77
+2007,Buenos Aires,Clay,5.1,0.74
+2007,Beijing,Hard,6.1,0.74
+2007,Houston,Clay,8.3,0.72
+2007,Newport,Grass,4.0,0.71
+2007,Roland Garros,Clay,6.0,0.71
+2007,Rome Masters,Clay,5.6,0.7
+2007,Bastad,Clay,5.6,0.69
+2007,Valencia,Clay,6.5,0.68
+2007,Umag,Clay,4.5,0.66
+2007,Sopot,Clay,4.2,0.65
+2007,Dusseldorf,Clay,6.1,0.64
+2007,Doha,Hard,5.7,0.62
+2007,Hamburg Masters,Clay,5.1,0.57
+2007,Bucharest,Clay,4.7,0.54
+2007,Monte Carlo Masters,Clay,4.8,0.53
+2007,Estoril,Clay,4.2,0.49
+2008,Lyon,Carpet,16.0,1.42
+2008,Marseille,Hard,15.9,1.42
+2008,Tokyo,Hard,12.9,1.41
+2008,Memphis,Hard,16.6,1.37
+2008,Stockholm,Hard,13.2,1.35
+2008,Zagreb,Hard,13.9,1.28
+2008,San Jose,Hard,15.1,1.28
+2008,Indianapolis,Hard,10.7,1.27
+2008,Queen's Club,Grass,13.6,1.25
+2008,Cincinnati Masters,Hard,13.6,1.25
+2008,Chennai,Hard,10.0,1.23
+2008,Metz,Hard,14.2,1.23
+2008,Basel,Hard,14.5,1.23
+2008,Nottingham,Grass,12.6,1.22
+2008,Paris Masters,Hard,13.1,1.22
+2008,Bangkok,Hard,12.1,1.19
+2008,Madrid Masters,Hard,12.1,1.18
+2008,Gstaad,Clay,10.4,1.17
+2008,Washington,Hard,11.1,1.15
+2008,s Hertogenbosch,Grass,10.8,1.15
+2008,Wimbledon,Grass,11.5,1.15
+2008,Halle,Grass,13.7,1.15
+2008,St. Petersburg,Hard,9.8,1.14
+2008,Adelaide,Hard,11.1,1.13
+2008,Beijing,Hard,7.4,1.12
+2008,US Open,Hard,10.9,1.09
+2008,Miami Masters,Hard,10.9,1.09
+2008,Vienna,Hard,9.7,1.08
+2008,Poertschach,Clay,8.2,1.07
+2008,Dubai,Hard,11.6,1.06
+2008,Australian Open,Hard,9.8,1.04
+2008,Rotterdam,Hard,11.9,1.03
+2008,Costa Do Sauipe,Clay,7.7,1.03
+2008,Masters Cup,Hard,8.4,1.02
+2008,Moscow,Hard,7.2,1.0
+2008,Acapulco,Clay,8.1,0.99
+2008,Stuttgart,Clay,8.9,0.99
+2008,Vina del Mar,Clay,6.5,0.99
+2008,Beijing Olympics,Hard,9.3,0.98
+2008,Las Vegas,Hard,9.5,0.96
+2008,New Haven,Hard,9.0,0.95
+2008,Casablanca,Clay,8.4,0.94
+2008,Doha,Hard,8.0,0.91
+2008,Delray Beach,Hard,9.6,0.9
+2008,Auckland,Hard,7.5,0.89
+2008,Canada Masters,Hard,9.0,0.89
+2008,Los Angeles,Hard,10.4,0.89
+2008,Munich,Clay,8.2,0.87
+2008,Sydney,Hard,8.3,0.86
+2008,Warsaw,Clay,5.2,0.85
+2008,Dusseldorf,Clay,8.3,0.83
+2008,Indian Wells Masters,Hard,7.7,0.81
+2008,Kitzbuhel,Clay,6.1,0.8
+2008,Bucharest,Clay,6.2,0.79
+2008,Amersfoort,Clay,6.6,0.79
+2008,Bastad,Clay,6.9,0.78
+2008,Roland Garros,Clay,7.1,0.75
+2008,Barcelona,Clay,5.9,0.73
+2008,Newport,Grass,4.9,0.72
+2008,Buenos Aires,Clay,5.1,0.67
+2008,Hamburg Masters,Clay,6.6,0.66
+2008,Rome Masters,Clay,6.5,0.65
+2008,Houston,Clay,5.4,0.63
+2008,Valencia,Clay,4.5,0.54
+2008,Monte Carlo Masters,Clay,5.3,0.53
+2008,Estoril,Clay,4.7,0.52
+2008,Umag,Clay,3.6,0.51
+2009,Marseille,Hard,13.5,1.47
+2009,Basel,Hard,14.9,1.44
+2009,Tokyo,Hard,12.7,1.42
+2009,Moscow,Hard,10.2,1.42
+2009,Paris Masters,Hard,13.3,1.41
+2009,s Hertogenbosch,Grass,9.4,1.34
+2009,Lyon,Hard,14.0,1.3
+2009,Metz,Hard,14.5,1.3
+2009,Wimbledon,Grass,12.9,1.3
+2009,Rotterdam,Hard,11.6,1.29
+2009,Newport,Grass,8.8,1.27
+2009,Memphis,Hard,14.0,1.27
+2009,Cincinnati Masters,Hard,12.2,1.2
+2009,Vienna,Hard,13.0,1.2
+2009,Bangkok,Hard,11.7,1.18
+2009,Tour Finals,Hard,10.7,1.18
+2009,Johannesburg,Hard,10.2,1.17
+2009,Dubai,Hard,8.4,1.17
+2009,Queen's Club,Grass,14.0,1.15
+2009,Indianapolis,Hard,13.9,1.15
+2009,Canada Masters,Hard,10.9,1.13
+2009,San Jose,Hard,17.6,1.11
+2009,Eastbourne,Grass,10.1,1.09
+2009,Halle,Grass,10.0,1.09
+2009,New Haven,Hard,9.9,1.05
+2009,Stockholm,Hard,10.0,1.05
+2009,Shanghai Masters,Hard,10.5,1.05
+2009,Washington,Hard,12.7,1.02
+2009,Auckland,Hard,11.7,1.01
+2009,Beijing,Hard,10.4,1.01
+2009,Kitzbuhel,Clay,5.8,1.01
+2009,Australian Open,Hard,9.5,1.01
+2009,Chennai,Hard,7.9,0.98
+2009,US Open,Hard,10.2,0.98
+2009,Zagreb,Hard,11.0,0.97
+2009,Miami Masters,Hard,9.1,0.95
+2009,Indian Wells Masters,Hard,9.9,0.95
+2009,Sydney,Hard,10.6,0.95
+2009,Kuala Lumpur,Hard,8.8,0.95
+2009,Gstaad,Clay,9.0,0.94
+2009,Acapulco,Clay,7.0,0.92
+2009,Valencia,Hard,7.3,0.91
+2009,Stuttgart,Clay,7.7,0.91
+2009,Casablanca,Clay,6.5,0.9
+2009,Brisbane,Hard,10.6,0.89
+2009,Bucharest,Clay,4.8,0.86
+2009,St. Petersburg,Hard,8.6,0.85
+2009,Doha,Hard,8.6,0.84
+2009,Barcelona,Clay,5.7,0.84
+2009,Roland Garros,Clay,7.9,0.83
+2009,Delray Beach,Hard,9.7,0.83
+2009,Los Angeles,Hard,8.6,0.79
+2009,Costa Do Sauipe,Clay,6.1,0.78
+2009,Umag,Clay,5.6,0.76
+2009,Madrid Masters,Clay,8.0,0.75
+2009,Dusseldorf,Clay,5.7,0.75
+2009,Houston,Clay,7.7,0.75
+2009,Hamburg,Clay,6.4,0.73
+2009,Buenos Aires,Clay,3.6,0.73
+2009,Munich,Clay,7.7,0.69
+2009,Bastad,Clay,6.1,0.68
+2009,Estoril,Clay,5.2,0.67
+2009,Belgrade,Clay,7.3,0.64
+2009,Vina del Mar,Clay,4.2,0.64
+2009,Rome Masters,Clay,6.2,0.59
+2009,Monte Carlo Masters,Clay,5.1,0.54
+2010,Paris Masters,Hard,14.5,1.44
+2010,Newport,Grass,14.4,1.42
+2010,Tokyo,Hard,13.0,1.38
+2010,Wimbledon,Grass,13.1,1.36
+2010,Montpellier,Hard,12.7,1.36
+2010,Bangkok,Hard,11.2,1.33
+2010,Moscow,Hard,11.3,1.29
+2010,Vienna,Hard,10.3,1.28
+2010,Queen's Club,Grass,13.3,1.25
+2010,Metz,Hard,11.6,1.25
+2010,Marseille,Hard,14.9,1.25
+2010,Johannesburg,Hard,12.3,1.24
+2010,Zagreb,Hard,12.3,1.22
+2010,Halle,Grass,12.0,1.22
+2010,Dubai,Hard,10.8,1.22
+2010,San Jose,Hard,13.9,1.22
+2010,Tour Finals,Hard,12.4,1.15
+2010,Cincinnati Masters,Hard,12.2,1.15
+2010,Eastbourne,Grass,9.4,1.14
+2010,Basel,Hard,11.6,1.14
+2010,US Open,Hard,10.5,1.11
+2010,Brisbane,Hard,12.5,1.11
+2010,Memphis,Hard,15.8,1.1
+2010,Atlanta,Hard,15.1,1.1
+2010,s Hertogenbosch,Grass,10.3,1.09
+2010,Delray Beach,Hard,13.7,1.09
+2010,Costa Do Sauipe,Clay,7.1,1.08
+2010,Sydney,Hard,12.0,1.07
+2010,Beijing,Hard,11.4,1.07
+2010,Stockholm,Hard,9.9,1.05
+2010,Canada Masters,Hard,10.2,1.05
+2010,St. Petersburg,Hard,7.9,1.0
+2010,Australian Open,Hard,9.9,1.0
+2010,Kuala Lumpur,Hard,8.5,0.99
+2010,Shanghai Masters,Hard,9.3,0.99
+2010,Washington,Hard,10.0,0.97
+2010,Indian Wells Masters,Hard,10.5,0.97
+2010,Auckland,Hard,10.2,0.97
+2010,Rotterdam,Hard,9.7,0.95
+2010,Miami Masters,Hard,9.9,0.94
+2010,Stuttgart,Clay,7.7,0.94
+2010,Hamburg,Clay,6.9,0.93
+2010,New Haven,Hard,8.1,0.93
+2010,Doha,Hard,9.3,0.92
+2010,Valencia,Hard,7.7,0.92
+2010,Santiago,Clay,6.7,0.92
+2010,Nice,Clay,6.6,0.88
+2010,Roland Garros,Clay,8.3,0.82
+2010,Bastad,Clay,6.5,0.82
+2010,Los Angeles,Hard,9.0,0.82
+2010,Chennai,Hard,6.7,0.81
+2010,Gstaad,Clay,8.7,0.8
+2010,Acapulco,Clay,6.5,0.79
+2010,Rome Masters,Clay,7.7,0.78
+2010,Munich,Clay,7.4,0.76
+2010,Madrid Masters,Clay,8.3,0.75
+2010,Casablanca,Clay,5.7,0.74
+2010,Houston,Clay,6.7,0.73
+2010,Barcelona,Clay,7.2,0.72
+2010,Buenos Aires,Clay,4.4,0.69
+2010,Belgrade,Clay,9.3,0.69
+2010,Dusseldorf,Clay,7.5,0.64
+2010,Monte Carlo Masters,Clay,5.4,0.62
+2010,Bucharest,Clay,3.4,0.55
+2010,Estoril,Clay,3.5,0.51
+2010,Umag,Clay,3.3,0.5
+2011,Doha,Hard,12.6,1.54
+2011,Halle,Grass,12.5,1.44
+2011,Marseille,Hard,13.5,1.35
+2011,San Jose,Hard,15.4,1.32
+2011,Memphis,Hard,15.7,1.31
+2011,Bangkok,Hard,9.4,1.28
+2011,Queen's Club,Grass,12.4,1.26
+2011,Rotterdam,Hard,14.0,1.26
+2011,Wimbledon,Grass,11.8,1.26
+2011,Johannesburg,Hard,15.3,1.25
+2011,Zagreb,Hard,12.2,1.24
+2011,Vienna,Hard,14.1,1.24
+2011,Brisbane,Hard,13.2,1.21
+2011,Winston-Salem,Hard,9.7,1.19
+2011,Moscow,Hard,11.0,1.19
+2011,Delray Beach,Hard,10.8,1.17
+2011,Basel,Hard,9.0,1.15
+2011,Australian Open,Hard,9.7,1.14
+2011,Valencia,Hard,8.1,1.13
+2011,Cincinnati Masters,Hard,11.4,1.11
+2011,Sydney,Hard,9.8,1.11
+2011,Tokyo,Hard,8.9,1.1
+2011,Dubai,Hard,9.6,1.09
+2011,Auckland,Hard,8.1,1.07
+2011,Shanghai Masters,Hard,9.4,1.07
+2011,s Hertogenbosch,Grass,8.3,1.07
+2011,Newport,Grass,13.7,1.07
+2011,Metz,Hard,11.8,1.06
+2011,Washington,Hard,9.9,1.05
+2011,Eastbourne,Grass,7.8,1.05
+2011,Kuala Lumpur,Hard,7.5,1.04
+2011,Santiago,Clay,4.9,1.04
+2011,Miami Masters,Hard,9.1,1.04
+2011,Canada Masters,Hard,10.6,1.01
+2011,Gstaad,Clay,8.4,1.01
+2011,Paris Masters,Hard,10.2,1.0
+2011,Stuttgart,Clay,6.7,1.0
+2011,Atlanta,Hard,11.3,1.0
+2011,Tour Finals,Hard,9.3,1.0
+2011,Beijing,Hard,11.3,0.99
+2011,Costa Do Sauipe,Clay,6.2,0.98
+2011,Stockholm,Hard,9.3,0.98
+2011,US Open,Hard,8.5,0.95
+2011,Indian Wells Masters,Hard,8.8,0.94
+2011,Kitzbuhel,Clay,6.9,0.93
+2011,Chennai,Hard,8.0,0.91
+2011,Madrid Masters,Clay,8.1,0.87
+2011,Munich,Clay,6.5,0.86
+2011,Buenos Aires,Clay,4.5,0.84
+2011,Roland Garros,Clay,6.8,0.83
+2011,Hamburg,Clay,6.3,0.81
+2011,Nice,Clay,7.0,0.78
+2011,Acapulco,Clay,5.7,0.78
+2011,Los Angeles,Hard,8.6,0.78
+2011,Casablanca,Clay,4.7,0.77
+2011,St. Petersburg,Hard,6.8,0.75
+2011,Bucharest,Clay,4.0,0.73
+2011,Estoril,Clay,5.6,0.67
+2011,Rome Masters,Clay,5.9,0.67
+2011,Houston,Clay,6.3,0.66
+2011,Belgrade,Clay,4.8,0.65
+2011,Barcelona,Clay,4.9,0.63
+2011,Bastad,Clay,6.6,0.63
+2011,Umag,Clay,5.0,0.61
+2011,Monte Carlo Masters,Clay,5.1,0.61
+2011,Dusseldorf,Clay,3.9,0.47
+2012,Marseille,Hard,14.9,1.57
+2012,Montpellier,Hard,15.5,1.56
+2012,Washington,Hard,13.5,1.5
+2012,Atlanta,Hard,15.5,1.35
+2012,London Olympics,Grass,12.7,1.34
+2012,Newport,Grass,12.6,1.33
+2012,Sao Paulo,Clay,8.3,1.31
+2012,Zagreb,Hard,12.1,1.3
+2012,Wimbledon,Grass,11.5,1.27
+2012,Chennai,Hard,11.7,1.26
+2012,Stockholm,Hard,12.4,1.26
+2012,Tokyo,Hard,10.7,1.21
+2012,Basel,Hard,11.7,1.21
+2012,Brisbane,Hard,10.7,1.2
+2012,Winston-Salem,Hard,12.3,1.2
+2012,Madrid Masters,Clay,10.6,1.19
+2012,Cincinnati Masters,Hard,11.1,1.18
+2012,Halle,Grass,10.6,1.18
+2012,Paris Masters,Hard,11.6,1.17
+2012,Dubai,Hard,12.8,1.17
+2012,s Hertogenbosch,Grass,9.3,1.15
+2012,Valencia,Hard,10.0,1.13
+2012,Shanghai Masters,Hard,10.9,1.13
+2012,Metz,Hard,12.4,1.12
+2012,Queen's Club,Grass,11.3,1.11
+2012,Beijing,Hard,10.2,1.09
+2012,San Jose,Hard,12.5,1.08
+2012,US Open,Hard,10.8,1.07
+2012,Sydney,Hard,9.6,1.05
+2012,Delray Beach,Hard,10.9,1.04
+2012,Memphis,Hard,13.3,1.02
+2012,Canada Masters,Hard,10.4,1.02
+2012,Auckland,Hard,8.0,1.01
+2012,Vienna,Hard,13.2,1.0
+2012,Acapulco,Clay,6.0,1.0
+2012,Los Angeles,Hard,6.9,0.96
+2012,Eastbourne,Grass,7.1,0.96
+2012,Doha,Hard,7.6,0.96
+2012,Munich,Clay,9.0,0.95
+2012,Stuttgart,Clay,7.3,0.94
+2012,Miami Masters,Hard,8.2,0.91
+2012,Tour Finals,Hard,9.3,0.91
+2012,Indian Wells Masters,Hard,8.5,0.89
+2012,Australian Open,Hard,8.1,0.89
+2012,Barcelona,Clay,6.9,0.88
+2012,Moscow,Hard,10.6,0.85
+2012,Rotterdam,Hard,8.5,0.84
+2012,Gstaad,Clay,9.0,0.83
+2012,Belgrade,Clay,7.0,0.81
+2012,Bangkok,Hard,7.4,0.81
+2012,Roland Garros,Clay,7.1,0.8
+2012,St. Petersburg,Hard,4.2,0.78
+2012,Nice,Clay,7.0,0.77
+2012,Kuala Lumpur,Hard,5.0,0.75
+2012,Estoril,Clay,6.6,0.75
+2012,Buenos Aires,Clay,4.6,0.74
+2012,Casablanca,Clay,4.1,0.73
+2012,Hamburg,Clay,5.4,0.71
+2012,Houston,Clay,7.7,0.71
+2012,Monte Carlo Masters,Clay,5.8,0.69
+2012,Dusseldorf,Clay,7.0,0.67
+2012,Santiago,Clay,3.4,0.65
+2012,Kitzbuhel,Clay,5.7,0.65
+2012,Bastad,Clay,5.1,0.64
+2012,Rome Masters,Clay,5.2,0.62
+2012,Umag,Clay,4.7,0.6
+2012,Bucharest,Clay,5.5,0.59
+2013,Atlanta,Hard,17.4,1.47
+2013,Sao Paulo,Clay,9.7,1.44
+2013,Brisbane,Hard,11.0,1.41
+2013,Tokyo,Hard,14.5,1.36
+2013,Marseille,Hard,13.5,1.36
+2013,Shanghai Masters,Hard,13.1,1.34
+2013,Wimbledon,Grass,12.9,1.29
+2013,Gstaad,Clay,9.8,1.27
+2013,Halle,Grass,10.4,1.26
+2013,Rotterdam,Hard,11.0,1.19
+2013,Queen's Club,Grass,13.3,1.19
+2013,Tour Finals,Hard,9.6,1.18
+2013,Sydney,Hard,11.4,1.18
+2013,Vienna,Hard,11.9,1.18
+2013,Washington,Hard,13.2,1.18
+2013,Cincinnati Masters,Hard,11.9,1.18
+2013,Paris Masters,Hard,12.2,1.18
+2013,Chennai,Hard,8.7,1.16
+2013,Winston-Salem,Hard,10.8,1.14
+2013,Bangkok,Hard,13.3,1.13
+2013,Santiago,Clay,6.8,1.12
+2013,Valencia,Hard,10.1,1.12
+2013,Eastbourne,Grass,10.8,1.11
+2013,Australian Open,Hard,10.1,1.1
+2013,Zagreb,Hard,9.7,1.09
+2013,Montpellier,Hard,8.3,1.09
+2013,s Hertogenbosch,Grass,8.8,1.09
+2013,Auckland,Hard,11.3,1.08
+2013,Basel,Hard,11.8,1.08
+2013,St. Petersburg,Hard,8.1,1.07
+2013,Memphis,Hard,12.3,1.05
+2013,US Open,Hard,9.6,1.03
+2013,San Jose,Hard,13.6,1.02
+2013,Munich,Clay,9.8,0.99
+2013,Stockholm,Hard,9.8,0.99
+2013,Canada Masters,Hard,9.3,0.98
+2013,Dubai,Hard,9.1,0.96
+2013,Beijing,Hard,8.5,0.93
+2013,Newport,Grass,14.5,0.92
+2013,Stuttgart,Clay,7.1,0.92
+2013,Miami Masters,Hard,8.8,0.91
+2013,Kuala Lumpur,Hard,7.0,0.91
+2013,Moscow,Hard,7.8,0.88
+2013,Umag,Clay,6.7,0.88
+2013,Metz,Hard,8.7,0.87
+2013,Madrid Masters,Clay,7.3,0.87
+2013,Delray Beach,Hard,10.5,0.86
+2013,Kitzbuhel,Clay,6.9,0.84
+2013,Bogota,Hard,8.1,0.83
+2013,Indian Wells Masters,Hard,8.0,0.82
+2013,Dusseldorf,Clay,7.1,0.82
+2013,Rome Masters,Clay,7.7,0.81
+2013,Doha,Hard,7.4,0.81
+2013,Hamburg,Clay,6.6,0.76
+2013,Roland Garros,Clay,6.8,0.76
+2013,Acapulco,Clay,6.2,0.75
+2013,Barcelona,Clay,6.8,0.72
+2013,Bucharest,Clay,5.2,0.69
+2013,Estoril,Clay,4.6,0.66
+2013,Houston,Clay,9.8,0.65
+2013,Monte Carlo Masters,Clay,5.9,0.64
+2013,Casablanca,Clay,5.9,0.62
+2013,Buenos Aires,Clay,5.2,0.62
+2013,Bastad,Clay,5.2,0.61
+2013,Nice,Clay,5.1,0.6
+2014,Shenzhen,Hard,10.9,1.49
+2014,Metz,Hard,12.5,1.37
+2014,Bogota,Hard,15.2,1.37
+2014,Wimbledon,Grass,13.2,1.35
+2014,Shanghai Masters,Hard,13.0,1.34
+2014,Halle,Grass,13.4,1.31
+2014,Montpellier,Hard,12.4,1.29
+2014,Eastbourne,Grass,12.9,1.29
+2014,Sydney,Hard,11.5,1.27
+2014,Marseille,Hard,14.6,1.26
+2014,Queen's Club,Grass,14.2,1.26
+2014,Vienna,Hard,12.5,1.26
+2014,Washington,Hard,15.0,1.25
+2014,Brisbane,Hard,14.4,1.23
+2014,Newport,Grass,11.0,1.23
+2014,Basel,Hard,14.6,1.2
+2014,Sao Paulo,Clay,9.9,1.2
+2014,Cincinnati Masters,Hard,11.0,1.17
+2014,Stockholm,Hard,11.0,1.15
+2014,Australian Open,Hard,10.5,1.12
+2014,Moscow,Hard,9.3,1.12
+2014,US Open,Hard,10.9,1.1
+2014,Winston-Salem,Hard,11.8,1.1
+2014,Rotterdam,Hard,12.0,1.08
+2014,Bastad,Clay,6.6,1.07
+2014,Zagreb,Hard,10.1,1.07
+2014,Tokyo,Hard,11.5,1.06
+2014,Valencia,Hard,8.4,1.05
+2014,s Hertogenbosch,Grass,9.3,1.05
+2014,Kuala Lumpur,Hard,9.3,1.04
+2014,Vina del Mar,Clay,7.7,1.04
+2014,Miami Masters,Hard,10.2,1.04
+2014,Paris Masters,Hard,10.9,1.03
+2014,Auckland,Hard,9.9,1.01
+2014,Canada Masters,Hard,11.6,1.0
+2014,Acapulco,Hard,11.3,0.98
+2014,Memphis,Hard,11.2,0.94
+2014,Madrid Masters,Clay,8.8,0.94
+2014,Delray Beach,Hard,12.8,0.93
+2014,Atlanta,Hard,12.1,0.9
+2014,Indian Wells Masters,Hard,9.2,0.9
+2014,Tour Finals,Hard,8.7,0.89
+2014,Stuttgart,Clay,7.8,0.89
+2014,Munich,Clay,7.4,0.87
+2014,Doha,Hard,8.5,0.83
+2014,Dubai,Hard,8.5,0.81
+2014,Kitzbuhel,Clay,6.9,0.81
+2014,Beijing,Hard,8.7,0.81
+2014,Hamburg,Clay,5.9,0.79
+2014,Dusseldorf,Clay,7.9,0.78
+2014,Rio de Janeiro,Clay,5.6,0.77
+2014,Gstaad,Clay,5.7,0.77
+2014,Umag,Clay,7.2,0.76
+2014,Nice,Clay,7.2,0.74
+2014,Rome Masters,Clay,7.4,0.74
+2014,Barcelona,Clay,6.5,0.72
+2014,Roland Garros,Clay,7.1,0.71
+2014,Houston,Clay,7.3,0.7
+2014,Casablanca,Clay,5.0,0.68
+2014,Chennai,Hard,5.7,0.65
+2014,Buenos Aires,Clay,4.2,0.64
+2014,Monte Carlo Masters,Clay,5.8,0.64
+2014,Estoril,Clay,5.4,0.62
+2014,Bucharest,Clay,5.4,0.51
+2015,Vienna,Hard,15.7,1.39
+2015,Atlanta,Hard,17.7,1.35
+2015,Winston-Salem,Hard,14.0,1.33
+2015,Stuttgart,Grass,14.0,1.32
+2015,Sydney,Hard,15.2,1.32
+2015,Montpellier,Hard,11.4,1.29
+2015,Metz,Hard,13.9,1.28
+2015,Marseille,Hard,11.3,1.28
+2015,Queen's Club,Grass,16.5,1.27
+2015,Newport,Grass,22.8,1.26
+2015,Nottingham,Grass,11.5,1.21
+2015,Auckland,Hard,11.4,1.21
+2015,Brisbane,Hard,14.8,1.2
+2015,Shenzhen,Hard,11.9,1.2
+2015,Wimbledon,Grass,13.0,1.2
+2015,Memphis,Hard,17.3,1.19
+2015,Australian Open,Hard,12.5,1.19
+2015,Rotterdam,Hard,12.0,1.19
+2015,Bogota,Hard,17.1,1.18
+2015,Halle,Grass,12.4,1.13
+2015,Stockholm,Hard,11.8,1.13
+2015,Washington,Hard,15.7,1.12
+2015,US Open,Hard,11.4,1.1
+2015,Canada Masters,Hard,12.2,1.08
+2015,Moscow,Hard,8.9,1.08
+2015,Zagreb,Hard,10.1,1.08
+2015,s Hertogenbosch,Grass,10.6,1.06
+2015,Doha,Hard,10.0,1.06
+2015,Beijing,Hard,10.7,1.05
+2015,Shanghai Masters,Hard,12.7,1.05
+2015,Cincinnati Masters,Hard,12.2,1.05
+2015,Sao Paulo,Clay,8.8,1.03
+2015,Paris Masters,Hard,10.5,1.03
+2015,Basel,Hard,12.2,1.02
+2015,Munich,Clay,8.8,1.01
+2015,Tokyo,Hard,11.1,1.0
+2015,Indian Wells Masters,Hard,10.5,0.99
+2015,St. Petersburg,Hard,9.9,0.98
+2015,Tour Finals,Hard,8.0,0.96
+2015,Kuala Lumpur,Hard,11.1,0.95
+2015,Valencia,Hard,10.3,0.95
+2015,Rome Masters,Clay,9.3,0.94
+2015,Dubai,Hard,9.7,0.93
+2015,Chennai,Hard,9.6,0.91
+2015,Quito,Clay,8.9,0.89
+2015,Delray Beach,Hard,12.9,0.88
+2015,Miami Masters,Hard,8.4,0.86
+2015,Kitzbuhel,Clay,8.2,0.85
+2015,Madrid Masters,Clay,9.2,0.85
+2015,Gstaad,Clay,7.5,0.84
+2015,Casablanca,Clay,7.7,0.83
+2015,Istanbul,Clay,6.6,0.83
+2015,Rio de Janeiro,Clay,5.3,0.8
+2015,Buenos Aires,Clay,5.1,0.78
+2015,Geneva,Clay,5.8,0.78
+2015,Houston,Clay,10.3,0.76
+2015,Roland Garros,Clay,7.0,0.72
+2015,Barcelona,Clay,5.2,0.7
+2015,Acapulco,Hard,8.6,0.67
+2015,Umag,Clay,5.0,0.67
+2015,Bastad,Clay,6.3,0.64
+2015,Nice,Clay,7.4,0.64
+2015,Estoril,Clay,7.1,0.63
+2015,Monte Carlo Masters,Clay,6.2,0.63
+2015,Hamburg,Clay,5.4,0.62
+2015,Bucharest,Clay,6.1,0.59
+2016,Quito,Clay,12.4,1.54
+2016,Shenzhen,Hard,12.9,1.5
+2016,Marseille,Hard,16.8,1.41
+2016,Stuttgart,Grass,13.5,1.39
+2016,Metz,Hard,12.6,1.38
+2016,Chengdu,Hard,11.5,1.27
+2016,Washington,Hard,19.3,1.26
+2016,Australian Open,Hard,12.0,1.26
+2016,Cincinnati Masters,Hard,14.0,1.2
+2016,Paris Masters,Hard,13.7,1.19
+2016,Queen's Club,Grass,14.5,1.19
+2016,Doha,Hard,9.2,1.17
+2016,Sydney,Hard,10.6,1.17
+2016,Auckland,Hard,12.9,1.16
+2016,Canada Masters,Hard,12.6,1.16
+2016,Halle,Grass,12.2,1.16
+2016,Nottingham,Grass,11.9,1.15
+2016,Basel,Hard,10.6,1.14
+2016,Montpellier,Hard,9.9,1.14
+2016,Tokyo,Hard,11.5,1.13
+2016,Tour Finals,Hard,10.3,1.11
+2016,Shanghai Masters,Hard,10.7,1.11
+2016,Newport,Grass,10.9,1.1
+2016,Chennai,Hard,10.3,1.08
+2016,Brisbane,Hard,12.0,1.08
+2016,s Hertogenbosch,Grass,13.9,1.08
+2016,Rotterdam,Hard,9.8,1.07
+2016,Atlanta,Hard,17.2,1.06
+2016,Winston-Salem,Hard,10.5,1.06
+2016,Gstaad,Clay,11.3,1.05
+2016,Wimbledon,Grass,11.8,1.05
+2016,Beijing,Hard,9.6,1.03
+2016,Vienna,Hard,12.8,1.02
+2016,Miami Masters,Hard,10.0,1.01
+2016,St. Petersburg,Hard,8.5,1.0
+2016,Moscow,Hard,7.0,0.98
+2016,Kitzbuhel,Clay,6.7,0.98
+2016,Antwerp,Hard,8.3,0.96
+2016,Rio Olympics,Hard,7.1,0.94
+2016,Marrakech,Clay,8.7,0.93
+2016,Memphis,Hard,9.0,0.93
+2016,Delray Beach,Hard,9.2,0.93
+2016,US Open,Hard,9.0,0.9
+2016,Dubai,Hard,9.9,0.88
+2016,Madrid Masters,Clay,8.6,0.87
+2016,Buenos Aires,Clay,7.0,0.87
+2016,Sofia,Hard,8.1,0.87
+2016,Houston,Clay,10.6,0.86
+2016,Los Cabos,Hard,12.2,0.86
+2016,Sao Paulo,Clay,6.6,0.83
+2016,Acapulco,Hard,10.5,0.83
+2016,Indian Wells Masters,Hard,8.2,0.81
+2016,Rio de Janeiro,Clay,7.4,0.8
+2016,Nice,Clay,6.3,0.78
+2016,Geneva,Clay,8.3,0.78
+2016,Rome Masters,Clay,7.2,0.77
+2016,Roland Garros,Clay,7.5,0.77
+2016,Stockholm,Hard,8.6,0.77
+2016,Bucharest,Clay,6.7,0.76
+2016,Estoril,Clay,7.4,0.76
+2016,Umag,Clay,5.4,0.75
+2016,Munich,Clay,6.4,0.71
+2016,Monte Carlo Masters,Clay,6.0,0.7
+2016,Istanbul,Clay,5.7,0.67
+2016,Bastad,Clay,5.4,0.66
+2016,Barcelona,Clay,5.6,0.65
+2016,Hamburg,Clay,5.6,0.59
+2017,Antalya,Grass,11.6,1.74
+2017,Quito,Clay,13.9,1.58
+2017,Shanghai Masters,Hard,15.2,1.55
+2017,Moscow,Hard,10.5,1.45
+2017,Metz,Hard,13.0,1.34
+2017,Marseille,Hard,14.0,1.34
+2017,Sofia,Hard,10.7,1.33
+2017,Los Cabos,Hard,9.7,1.28
+2017,Stuttgart,Grass,16.6,1.27
+2017,Shenzhen,Hard,13.9,1.25
+2017,Cincinnati Masters,Hard,14.7,1.23
+2017,Queen's Club,Grass,18.0,1.2
+2017,Halle,Grass,11.3,1.19
+2017,Tokyo,Hard,12.5,1.18
+2017,Chengdu,Hard,10.8,1.17
+2017,Australian Open,Hard,11.1,1.15
+2017,Washington,Hard,12.8,1.12
+2017,Montpellier,Hard,11.9,1.12
+2017,Auckland,Hard,12.5,1.11
+2017,Sydney,Hard,10.3,1.1
+2017,Rotterdam,Hard,11.1,1.09
+2017,Winston-Salem,Hard,9.6,1.08
+2017,Antwerp,Hard,10.3,1.07
+2017,Stockholm,Hard,11.8,1.06
+2017,Paris Masters,Hard,11.0,1.04
+2017,Memphis,Hard,8.8,1.04
+2017,Indian Wells Masters,Hard,9.9,1.03
+2017,Wimbledon,Grass,11.3,1.03
+2017,Doha,Hard,11.7,1.02
+2017,Kitzbuhel,Clay,9.0,1.02
+2017,Hamburg,Clay,7.0,1.02
+2017,Munich,Clay,8.7,1.01
+2017,Eastbourne,Grass,10.7,1.0
+2017,Chennai,Hard,7.7,0.99
+2017,Brisbane,Hard,9.8,0.99
+2017,Vienna,Hard,10.4,0.98
+2017,Canada Masters,Hard,10.5,0.98
+2017,US Open,Hard,10.3,0.97
+2017,Delray Beach,Hard,11.5,0.97
+2017,Houston,Clay,11.7,0.95
+2017,Gstaad,Clay,7.6,0.92
+2017,Beijing,Hard,10.4,0.92
+2017,Acapulco,Hard,11.8,0.92
+2017,Sao Paulo,Clay,6.1,0.92
+2017,Dubai,Hard,8.4,0.91
+2017,Madrid Masters,Clay,9.5,0.9
+2017,s Hertogenbosch,Grass,14.5,0.89
+2017,Bastad,Clay,7.7,0.88
+2017,Buenos Aires,Clay,6.6,0.88
+2017,Atlanta,Hard,15.2,0.86
+2017,Lyon,Clay,8.5,0.86
+2017,Geneva,Clay,8.2,0.85
+2017,Rome Masters,Clay,9.4,0.85
+2017,Miami Masters,Hard,8.7,0.84
+2017,NextGen Finals,Hard,8.2,0.84
+2017,St. Petersburg,Hard,7.2,0.8
+2017,Basel,Hard,8.7,0.77
+2017,Marrakech,Clay,7.6,0.77
+2017,Roland Garros,Clay,7.7,0.76
+2017,Newport,Grass,14.5,0.76
+2017,Tour Finals,Hard,7.6,0.75
+2017,Rio de Janeiro,Clay,5.3,0.68
+2017,Istanbul,Clay,6.8,0.65
+2017,Umag,Clay,4.5,0.62
+2017,Budapest,Clay,6.1,0.59
+2017,Barcelona,Clay,5.3,0.56
+2017,Estoril,Clay,5.3,0.53
+2017,Monte Carlo Masters,Clay,5.2,0.5
+2018,Metz,Hard,10.6,1.53
+2018,Stuttgart,Grass,17.0,1.42
+2018,NextGen Finals,Hard,12.1,1.38
+2018,Tokyo,Hard,13.6,1.37
+2018,Brisbane,Hard,14.0,1.33
+2018,Queen's Club,Grass,14.7,1.28
+2018,Antalya,Grass,9.9,1.28
+2018,Antwerp,Hard,14.8,1.26
+2018,Sydney,Hard,11.6,1.25
+2018,Moscow,Hard,10.9,1.24
+2018,Marseille,Hard,12.5,1.23
+2018,Gstaad,Clay,9.5,1.2
+2018,Canada Masters,Hard,12.7,1.2
+2018,Shanghai Masters,Hard,12.3,1.19
+2018,Vienna,Hard,11.9,1.18
+2018,Australian Open,Hard,11.7,1.16
+2018,Halle,Grass,11.6,1.16
+2018,Wimbledon,Grass,12.9,1.15
+2018,Sofia,Hard,13.1,1.15
+2018,Tour Finals,Hard,15.2,1.15
+2018,Rotterdam,Hard,12.1,1.14
+2018,Auckland,Hard,11.6,1.14
+2018,Montpellier,Hard,10.9,1.14
+2018,St. Petersburg,Hard,10.0,1.12
+2018,Paris Masters,Hard,11.1,1.08
+2018,New York,Hard,15.7,1.08
+2018,Chengdu,Hard,13.1,1.08
+2018,Shenzhen,Hard,8.3,1.07
+2018,Dubai,Hard,9.8,1.06
+2018,Atlanta,Hard,14.4,1.05
+2018,Basel,Hard,12.4,1.05
+2018,Acapulco,Hard,13.5,1.05
+2018,Beijing,Hard,9.6,1.04
+2018,Geneva,Clay,11.1,1.03
+2018,Winston-Salem,Hard,10.6,1.03
+2018,Quito,Clay,12.8,1.03
+2018,Stockholm,Hard,9.0,1.03
+2018,s Hertogenbosch,Grass,11.0,1.02
+2018,US Open,Hard,10.8,1.0
+2018,Cincinnati Masters,Hard,11.4,1.0
+2018,Pune,Hard,9.4,0.99
+2018,Delray Beach,Hard,14.2,0.98
+2018,Washington,Hard,10.4,0.98
+2018,Eastbourne,Grass,8.2,0.94
+2018,Lyon,Clay,8.0,0.92
+2018,Sao Paulo,Clay,7.9,0.89
+2018,Doha,Hard,9.7,0.88
+2018,Indian Wells Masters,Hard,10.1,0.86
+2018,Madrid Masters,Clay,8.8,0.84
+2018,Kitzbuhel,Clay,7.1,0.84
+2018,Los Cabos,Hard,6.9,0.84
+2018,Newport,Grass,13.3,0.84
+2018,Miami Masters,Hard,9.5,0.79
+2018,Umag,Clay,7.1,0.79
+2018,Houston,Clay,11.1,0.78
+2018,Roland Garros,Clay,7.8,0.74
+2018,Bastad,Clay,5.6,0.73
+2018,Munich,Clay,7.2,0.73
+2018,Rio de Janeiro,Clay,6.5,0.73
+2018,Rome Masters,Clay,7.0,0.71
+2018,Hamburg,Clay,6.0,0.68
+2018,Buenos Aires,Clay,6.3,0.67
+2018,Budapest,Clay,5.8,0.64
+2018,Marrakech,Clay,5.7,0.63
+2018,Istanbul,Clay,4.2,0.6
+2018,Monte Carlo Masters,Clay,5.9,0.57
+2018,Barcelona,Clay,5.3,0.56
+2018,Estoril,Clay,5.1,0.53
+2019,Chengdu,Hard,14.8,1.56
+2019,Antalya,Grass,14.6,1.48
+2019,Tour Finals,Hard,11.7,1.3
+2019,Marseille,Hard,11.7,1.29
+2019,NextGen Finals,Hard,9.5,1.27
+2019,Newport,Grass,12.7,1.26
+2019,Australian Open,Hard,12.9,1.26
+2019,Brisbane,Hard,13.3,1.26
+2019,Atlanta,Hard,14.3,1.24
+2019,Shanghai Masters,Hard,13.0,1.24
+2019,Stuttgart,Grass,14.5,1.23
+2019,Halle,Grass,12.8,1.23
+2019,Sao Paulo,Clay,9.8,1.22
+2019,Sofia,Hard,11.1,1.21
+2019,Metz,Hard,13.5,1.2
+2019,Antwerp,Hard,11.2,1.19
+2019,Paris Masters,Hard,11.9,1.19
+2019,Montpellier,Hard,13.4,1.17
+2019,New York,Hard,17.0,1.15
+2019,Vienna,Hard,11.4,1.15
+2019,Winston-Salem,Hard,12.1,1.15
+2019,Basel,Hard,14.2,1.13
+2019,Beijing,Hard,11.6,1.11
+2019,Washington,Hard,15.5,1.11
+2019,Moscow,Hard,13.5,1.11
+2019,Delray Beach,Hard,13.9,1.1
+2019,Doha,Hard,10.0,1.1
+2019,Tokyo,Hard,11.6,1.08
+2019,Queen's Club,Grass,12.8,1.07
+2019,St. Petersburg,Hard,8.4,1.07
+2019,Auckland,Hard,10.7,1.06
+2019,Stockholm,Hard,11.2,1.06
+2019,Pune,Hard,14.8,1.05
+2019,Cincinnati Masters,Hard,11.6,1.04
+2019,Canada Masters,Hard,10.8,1.03
+2019,Dubai,Hard,8.4,1.02
+2019,Eastbourne,Grass,13.2,0.99
+2019,Wimbledon,Grass,10.5,0.99
+2019,Sydney,Hard,9.3,0.98
+2019,Zhuhai,Hard,6.9,0.97
+2019,s Hertogenbosch,Grass,10.1,0.97
+2019,US Open,Hard,10.2,0.96
+2019,Marrakech,Clay,8.3,0.96
+2019,Cordoba,Clay,6.9,0.94
+2019,Rotterdam,Hard,8.0,0.9
+2019,Lyon,Clay,9.9,0.9
+2019,Gstaad,Clay,5.6,0.88
+2019,Acapulco,Hard,11.1,0.86
+2019,Miami Masters,Hard,9.5,0.85
+2019,Los Cabos,Hard,6.5,0.85
+2019,Geneva,Clay,6.6,0.8
+2019,Bastad,Clay,6.9,0.8
+2019,Kitzbuhel,Clay,6.3,0.76
+2019,Indian Wells Masters,Hard,7.6,0.76
+2019,Hamburg,Clay,7.5,0.74
+2019,Houston,Clay,9.2,0.73
+2019,Madrid Masters,Clay,7.0,0.71
+2019,Roland Garros,Clay,7.0,0.7
+2019,Rome Masters,Clay,7.0,0.68
+2019,Munich,Clay,7.0,0.67
+2019,Umag,Clay,5.6,0.65
+2019,Rio de Janeiro,Clay,5.9,0.62
+2019,Budapest,Clay,7.0,0.62
+2019,Barcelona,Clay,5.6,0.59
+2019,Estoril,Clay,4.7,0.58
+2019,Buenos Aires,Clay,3.9,0.52
+2019,Monte Carlo Masters,Clay,4.7,0.5
+2020,Montpellier,Hard,13.0,1.46
+2020,Marseille,Hard,12.3,1.36
+2020,Rotterdam,Hard,11.0,1.33
+2020,Paris Masters,Hard,11.7,1.31
+2020,Vienna,Hard,12.5,1.29
+2020,Cordoba,Clay,6.8,1.29
+2020,Adelaide,Hard,11.2,1.27
+2020,Pune,Hard,18.4,1.22
+2020,Australian Open,Hard,9.6,1.17
+2020,Auckland,Hard,12.1,1.15
+2020,Tour Finals,Hard,11.2,1.14
+2020,Sofia,Hard,8.1,1.14
+2020,Cincinnati Masters,Hard,8.7,1.13
+2020,Atp Cup,Hard,10.4,1.12
+2020,St Petersburg,Hard,13.3,1.11
+2020,Antwerp,Hard,8.1,1.1
+2020,US Open,Hard,9.9,1.05
+2020,Acapulco,Hard,8.2,0.98
+2020,Doha,Hard,9.0,0.97
+2020,Buenos Aires,Clay,6.9,0.93
+2020,Delray Beach,Hard,7.8,0.92
+2020,Dubai,Hard,8.9,0.88
+2020,Kitzbuhel,Clay,7.9,0.85
+2020,ATP Rio de Janeiro,Clay,5.1,0.79
+2020,Cologne 2,Hard,7.3,0.78
+2020,Santiago,Clay,6.0,0.77
+2020,Nur-Sultan,Hard,8.1,0.76
+2020,Rome Masters,Clay,6.7,0.76
+2020,New York,Hard,6.1,0.67
+2020,Cologne 1,Hard,6.4,0.66
+2020,Roland Garros,Clay,4.9,0.58
+2020,Sardinia,Clay,3.6,0.54
+2020,Hamburg,Clay,5.8,0.52
+2021,NextGen Finals,Hard,6.7,1.56
+2021,Tour Finals,Hard,15.9,1.51
+2021,Mallorca,Grass,12.6,1.35
+2021,Atlanta,Hard,17.7,1.34
+2021,Winston-Salem,Hard,10.7,1.33
+2021,Dubai,Hard,11.9,1.33
+2021,Montpellier,Hard,10.1,1.32
+2021,Santiago,Clay,7.9,1.29
+2021,Cincinnati Masters,Hard,12.5,1.29
+2021,US Open,Hard,12.5,1.27
+2021,Antwerp,Hard,9.7,1.27
+2021,Canada Masters,Hard,14.1,1.26
+2021,Newport,Grass,17.5,1.25
+2021,Queen's Club,Grass,13.0,1.23
+2021,Marseille,Hard,12.0,1.23
+2021,Halle,Grass,11.9,1.22
+2021,Vienna,Hard,10.9,1.22
+2021,Murray River Open,Hard,9.6,1.21
+2021,Stuttgart,Grass,14.3,1.19
+2021,Metz,Hard,9.5,1.19
+2021,Los Cabos,Hard,15.5,1.17
+2021,Australian Open,Hard,11.0,1.16
+2021,Sofia,Hard,9.4,1.14
+2021,Paris Masters,Hard,10.4,1.14
+2021,Gstaad,Clay,8.5,1.12
+2021,Great Ocean Road Open,Hard,10.1,1.12
+2021,Atp Cup,Hard,9.9,1.11
+2021,Washington,Hard,10.1,1.08
+2021,Wimbledon,Grass,10.2,1.07
+2021,Delray Beach,Hard,9.8,1.05
+2021,Stockholm,Hard,9.0,1.05
+2021,Doha,Hard,9.9,1.05
+2021,St. Petersburg,Hard,10.5,1.0
+2021,San Diego,Hard,8.4,0.99
+2021,Eastbourne,Grass,8.8,0.98
+2021,Cordoba,Clay,4.5,0.97
+2021,Singapore,Hard,12.3,0.97
+2021,Miami Masters,Hard,9.2,0.95
+2021,Rotterdam,Hard,8.6,0.94
+2021,Moscow,Hard,9.1,0.94
+2021,Lyon,Clay,6.7,0.89
+2021,Antalya,Hard,8.2,0.85
+2021,Madrid Masters,Clay,8.6,0.82
+2021,Parma,Clay,6.5,0.81
+2021,Nur-Sultan,Hard,8.1,0.79
+2021,Kitzbuhel,Clay,6.5,0.78
+2021,Buenos Aires,Clay,5.0,0.77
+2021,Roland Garros,Clay,7.2,0.77
+2021,Marbella,Clay,6.0,0.76
+2021,Munich,Clay,6.8,0.75
+2021,Geneva,Clay,7.0,0.75
+2021,Hamburg,Clay,6.0,0.74
+2021,Rome Masters,Clay,7.5,0.72
+2021,Indian Wells Masters,Hard,7.1,0.71
+2021,Acapulco,Hard,7.3,0.71
+2021,Bastad,Clay,5.7,0.7
+2021,Estoril,Clay,6.0,0.65
+2021,Barcelona,Clay,4.8,0.63
+2021,Belgrade,Clay,6.0,0.62
+2021,Umag,Clay,4.0,0.6
+2021,Monte Carlo Masters,Clay,4.7,0.54
+2021,Belgrade 2,Clay,3.7,0.48
+2021,Cagliari,Clay,3.2,0.35
+2022,Tour Finals,Hard,16.7,1.5
+2022,Tel Aviv,Hard,12.5,1.43
+2022,Montpellier,Hard,11.8,1.36
+2022,NextGen Finals,Hard,13.4,1.34
+2022,Mallorca,Grass,10.3,1.32
+2022,Dubai,Hard,12.2,1.28
+2022,Seoul,Hard,9.6,1.27
+2022,Pune,Hard,9.6,1.27
+2022,Marseille,Hard,11.2,1.26
+2022,Florence,Hard,10.1,1.26
+2022,Atlanta,Hard,11.0,1.22
+2022,Stuttgart,Grass,14.4,1.21
+2022,Dallas,Hard,17.8,1.2
+2022,Antwerp,Hard,10.5,1.2
+2022,Vienna,Hard,12.3,1.2
+2022,Queen's Club,Grass,11.6,1.2
+2022,Adelaide 2,Hard,12.9,1.17
+2022,Kitzbuhel,Clay,7.3,1.17
+2022,Cincinnati Masters,Hard,11.8,1.16
+2022,Basel,Hard,10.8,1.15
+2022,Australian Open,Hard,10.2,1.15
+2022,Paris Masters,Hard,10.6,1.14
+2022,Sydney,Hard,9.9,1.13
+2022,Sofia,Hard,10.7,1.12
+2022,Halle,Grass,13.7,1.11
+2022,Cordoba,Clay,6.2,1.1
+2022,Atp Cup,Hard,10.0,1.1
+2022,Adelaide 1,Hard,10.3,1.09
+2022,Naples,Hard,8.0,1.09
+2022,US Open,Hard,10.2,1.06
+2022,San Diego,Hard,9.8,1.05
+2022,Winston-Salem,Hard,10.2,1.05
+2022,Wimbledon,Grass,9.7,1.03
+2022,Tokyo,Hard,11.5,1.03
+2022,Gstaad,Clay,8.3,1.03
+2022,Canada Masters,Hard,10.3,1.01
+2022,Eastbourne,Grass,11.6,1.0
+2022,Doha,Hard,8.7,1.0
+2022,Melbourne,Hard,9.2,1.0
+2022,Metz,Hard,8.6,1.0
+2022,Washington,Hard,12.5,0.99
+2022,Rotterdam,Hard,9.0,0.99
+2022,Madrid Masters,Clay,9.0,0.97
+2022,Miami Masters,Hard,9.4,0.96
+2022,Acapulco,Hard,9.5,0.92
+2022,Stockholm,Hard,8.1,0.91
+2022,s Hertogenbosch,Grass,8.1,0.9
+2022,Newport,Grass,23.2,0.89
+2022,Geneva,Clay,8.9,0.88
+2022,Los Cabos,Hard,11.6,0.86
+2022,Indian Wells Masters,Hard,9.2,0.85
+2022,Rio de Janeiro,Clay,4.5,0.81
+2022,Lyon,Clay,6.1,0.81
+2022,Gijon,Hard,7.8,0.77
+2022,Astana,Hard,9.2,0.76
+2022,Santiago,Clay,5.1,0.74
+2022,Estoril,Clay,5.6,0.74
+2022,Bastad,Clay,5.2,0.74
+2022,Houston,Clay,14.6,0.73
+2022,Delray Beach,Hard,9.4,0.72
+2022,Marrakech,Clay,4.7,0.72
+2022,Barcelona,Clay,5.0,0.72
+2022,Rome Masters,Clay,6.4,0.7
+2022,Hamburg,Clay,5.0,0.7
+2022,Roland Garros,Clay,6.1,0.68
+2022,Munich,Clay,5.8,0.64
+2022,Umag,Clay,3.6,0.63
+2022,Buenos Aires,Clay,3.8,0.61
+2022,Monte Carlo Masters,Clay,5.2,0.61
+2022,Belgrade,Clay,5.5,0.56
+2023,Tour Finals,Hard,14.8,1.76
+2023,Stuttgart,Grass,16.5,1.45
+2023,NextGen Finals,Hard,12.1,1.3
+2023,Dallas,Hard,13.1,1.29
+2023,Halle,Grass,14.0,1.28
+2023,Adelaide 2,Hard,13.1,1.25
+2023,Antwerp,Hard,12.2,1.25
+2023,Miami Masters,Hard,11.1,1.24
+2023,s Hertogenbosch,Grass,12.3,1.22
+2023,United Cup,Hard,13.1,1.2
+2023,Atlanta,Hard,12.7,1.2
+2023,Pune,Hard,11.5,1.19
+2023,Sofia,Hard,10.6,1.19
+2023,Vienna,Hard,10.7,1.16
+2023,Dubai,Hard,12.6,1.15
+2023,Cordoba,Clay,5.5,1.15
+2023,Auckland,Hard,12.5,1.15
+2023,Winston-Salem,Hard,10.9,1.15
+2023,Adelaide 1,Hard,13.4,1.14
+2023,Zhuhai,Hard,11.9,1.14
+2023,Delray Beach,Hard,9.8,1.12
+2023,Tokyo,Hard,10.6,1.12
+2023,Marseille,Hard,13.7,1.12
+2023,Mallorca,Grass,10.3,1.12
+2023,Basel,Hard,11.4,1.11
+2023,Paris Masters,Hard,11.4,1.1
+2023,Wimbledon,Grass,10.5,1.1
+2023,Eastbourne,Grass,8.8,1.1
+2023,Queen's Club,Grass,9.7,1.1
+2023,Metz,Hard,9.6,1.08
+2023,Shanghai Masters,Hard,10.3,1.07
+2023,Canada Masters,Hard,9.4,1.07
+2023,Doha,Hard,9.4,1.06
+2023,Australian Open,Hard,10.8,1.03
+2023,Astana,Hard,10.3,1.03
+2023,Montpellier,Hard,11.8,1.02
+2023,US Open,Hard,9.9,1.01
+2023,Chengdu,Hard,10.1,1.0
+2023,Washington,Hard,10.4,1.0
+2023,Rotterdam,Hard,10.5,0.96
+2023,Stockholm,Hard,7.8,0.95
+2023,Kitzbuhel,Clay,8.4,0.95
+2023,Beijing,Hard,8.0,0.93
+2023,Houston,Clay,10.3,0.93
+2023,Madrid Masters,Clay,8.8,0.92
+2023,Los Cabos,Hard,8.3,0.92
+2023,Indian Wells Masters,Hard,8.1,0.89
+2023,Santiago,Clay,7.4,0.88
+2023,Geneva,Clay,9.7,0.88
+2023,Rio De Janeiro,Clay,5.7,0.87
+2023,Bastad,Clay,5.8,0.86
+2023,Cincinnati Masters,Hard,8.3,0.8
+2023,Hamburg,Clay,7.0,0.8
+2023,Gstaad,Clay,7.8,0.78
+2023,Estoril,Clay,6.2,0.7
+2023,Lyon,Clay,6.1,0.7
+2023,Buenos Aires,Clay,4.3,0.7
+2023,Rome Masters,Clay,6.1,0.69
+2023,Acapulco,Hard,6.3,0.68
+2023,Umag,Clay,5.1,0.67
+2023,Munich,Clay,6.0,0.63
+2023,Roland Garros,Clay,5.7,0.62
+2023,Newport,Grass,6.7,0.62
+2023,Monte Carlo Masters,Clay,6.3,0.61
+2023,Marrakech,Clay,5.2,0.59
+2023,Barcelona,Clay,4.3,0.51
+2023,Banja Luka,Clay,4.3,0.48
+2024,Basel,Hard,16.0,1.48
+2024,Chengdu,Hard,13.6,1.45
+2024,Next Gen Finals,Hard,13.2,1.39
+2024,Antwerp,Hard,11.5,1.38
+2024,Tour Finals,Hard,13.4,1.37
+2024,Halle,Grass,15.5,1.35
+2024,Brisbane,Hard,12.1,1.3
+2024,Marseille,Hard,14.1,1.29
+2024,Belgrade,Hard,12.5,1.28
+2024,Stuttgart,Grass,17.1,1.27
+2024,Atlanta,Hard,13.9,1.26
+2024,Eastbourne,Grass,13.1,1.26
+2024,Mallorca,Grass,12.3,1.26
+2024,Rotterdam,Hard,12.6,1.25
+2024,Paris Masters,Hard,13.0,1.24
+2024,Queen's Club,Grass,11.9,1.24
+2024,Washington,Hard,15.3,1.21
+2024,Santiago,Clay,7.2,1.19
+2024,Wimbledon,Grass,12.1,1.19
+2024,Tokyo,Hard,11.8,1.17
+2024,Shanghai Masters,Hard,11.0,1.16
+2024,Vienna,Hard,12.1,1.15
+2024,Australian Open,Hard,11.1,1.14
+2024,Dubai,Hard,12.2,1.13
+2024,Dallas,Hard,10.7,1.12
+2024,Miami Masters,Hard,10.8,1.11
+2024,Hangzhou,Hard,8.5,1.11
+2024,Cincinnati Masters,Hard,12.0,1.1
+2024,Adelaide,Hard,10.4,1.09
+2024,Stockholm,Hard,11.9,1.08
+2024,Hong Kong,Hard,10.7,1.08
+2024,Almaty,Hard,12.0,1.06
+2024,Auckland,Hard,9.8,1.05
+2024,US Open,Hard,10.9,1.04
+2024,Metz,Hard,8.7,1.03
+2024,United Cup,Hard,11.3,1.02
+2024,Winston-Salem,Hard,8.8,1.02
+2024,Montpellier,Hard,11.1,1.0
+2024,Delray Beach,Hard,10.3,0.97
+2024,s Hertogenbosch,Grass,9.3,0.92
+2024,Newport,Grass,11.8,0.91
+2024,Marrakech,Clay,6.0,0.9
+2024,Beijing,Hard,8.4,0.89
+2024,Hamburg,Clay,7.2,0.89
+2024,Paris Olympics,Clay,7.3,0.88
+2024,Acapulco,Hard,9.0,0.88
+2024,Indian Wells Masters,Hard,8.5,0.84
+2024,Canada Masters,Hard,9.7,0.83
+2024,Kitzbuhel,Clay,6.7,0.83
+2024,Lyon,Clay,9.0,0.82
+2024,Houston,Clay,9.0,0.8
+2024,Gstaad,Clay,10.1,0.79
+2024,Doha,Hard,8.4,0.77
+2024,Laver Cup,Hard,8.6,0.77
+2024,Los Cabos,Hard,7.8,0.74
+2024,Cordoba,Clay,4.7,0.73
+2024,Madrid Masters,Clay,7.3,0.71
+2024,Rome Masters,Clay,7.5,0.7
+2024,Geneva,Clay,6.6,0.69
+2024,Buenos Aires,Clay,4.6,0.67
+2024,Rio De Janeiro,Clay,3.9,0.67
+2024,Roland Garros,Clay,6.7,0.67
+2024,Munich,Clay,7.7,0.64
+2024,Barcelona,Clay,4.9,0.62
+2024,Monte Carlo Masters,Clay,6.1,0.61
+2024,Bastad,Clay,5.0,0.61
+2024,Estoril,Clay,5.2,0.58
+2024,Umag,Clay,5.6,0.55
+2024,Bucharest,Clay,4.6,0.54
+2025,Athens,Hard,14.6,1.45
+2025,Basel,Hard,14.8,1.44
+2025,Tour Finals,Hard,12.0,1.4
+2025,Hangzhou,Hard,13.2,1.38
+2025,Stuttgart,Grass,15.8,1.38
+2025,Queen's Club,Grass,14.9,1.35
+2025,Brussels,Hard,13.8,1.34
+2025,Metz,Hard,13.1,1.34
+2025,Hong Kong,Hard,9.6,1.31
+2025,Brisbane,Hard,15.8,1.27
+2025,Vienna,Hard,12.1,1.25
+2025,Halle,Grass,13.3,1.24
+2025,Dallas,Hard,11.3,1.2
+2025,Cincinnati Masters,Hard,12.3,1.19
+2025,Tokyo,Hard,11.6,1.18
+2025,Chengdu,Hard,13.4,1.18
+2025,Washington,Hard,12.5,1.17
+2025,United Cup,Hard,14.4,1.17
+2025,Miami Masters,Hard,12.5,1.17
+2025,Almaty,Hard,10.2,1.16
+2025,Winston-Salem,Hard,11.4,1.1
+2025,Adelaide,Hard,12.3,1.1
+2025,Delray Beach,Hard,11.5,1.09
+2025,Montpellier,Hard,14.7,1.09
+2025,Wimbledon,Grass,11.6,1.09
+2025,Shanghai Masters,Hard,11.2,1.08
+2025,Mallorca,Grass,10.2,1.07
+2025,Doha,Hard,12.4,1.07
+2025,Australian Open,Hard,10.7,1.07
+2025,Gstaad,Clay,13.9,1.06
+2025,Beijing,Hard,9.5,1.05
+2025,Marseille,Hard,12.3,1.05
+2025,Canada Masters,Hard,11.2,1.02
+2025,Los Cabos,Hard,11.5,1.01
+2025,Dubai,Hard,10.7,1.0
+2025,Paris Masters,Hard,10.5,0.99
+2025,s Hertogenbosch,Grass,13.2,0.99
+2025,Us Open,Hard,10.6,0.96
+2025,Auckland,Hard,8.3,0.93
+2025,Rio de Janeiro,Clay,6.0,0.91
+2025,Stockholm,Hard,9.1,0.9
+2025,Buenos Aires,Clay,6.3,0.9
+2025,Bastad,Clay,6.9,0.85
+2025,Next Gen Finals,Hard,10.2,0.81
+2025,Acapulco,Hard,8.1,0.81
+2025,Kitzbuhel,Clay,10.0,0.8
+2025,Umag,Clay,7.3,0.8
+2025,Madrid Masters,Clay,8.5,0.78
+2025,Marrakech,Clay,7.6,0.78
+2025,Rotterdam,Hard,8.7,0.77
+2025,Houston,Clay,7.1,0.76
+2025,Eastbourne,Grass,8.3,0.75
+2025,Indian Wells Masters,Hard,7.1,0.73
+2025,Santiago,Clay,6.0,0.71
+2025,Geneva,Clay,8.6,0.71
+2025,nd Garros,Clay,7.3,0.68
+2025,Munich,Clay,7.2,0.64
+2025,Rome Masters,Clay,6.1,0.6
+2025,Barcelona,Clay,4.7,0.57
+2025,Hamburg,Clay,6.6,0.57
+2025,Monte Carlo Masters,Clay,5.4,0.55
+2025,Laver Cup,Hard,5.8,0.55
+2025,Bucharest,Clay,3.2,0.43
 2026,Dallas,Hard,17.1,1.49
 2026,Montpellier,Hard,18.1,1.44
 2026,Delray Beach,Hard,13.7,1.36
@@ -15,7 +2457,147 @@ year,tournament,surface,ace_pct,speed
 2026,Doha,Hard,9.2,0.9
 2026,Santiago,Clay,6.3,0.68
 2026,Buenos Aires,Clay,4.4,0.54
-2026,DEFAULT_Hard,Hard,13.3,1.17
-2026,DEFAULT_Clay,Clay,6.4,0.74
-2026,DEFAULT_Grass,Grass,12.5,1.15
-2026,DEFAULT_Carpet,Carpet,13.0,1.25
+1991,DEFAULT_Hard,Hard,10.4,1.08
+1991,DEFAULT_Clay,Clay,6.3,0.8
+1991,DEFAULT_Grass,Grass,11.4,1.13
+1991,DEFAULT_Carpet,Carpet,11.9,1.25
+1992,DEFAULT_Hard,Hard,10.4,1.08
+1992,DEFAULT_Clay,Clay,6.3,0.8
+1992,DEFAULT_Grass,Grass,11.4,1.13
+1992,DEFAULT_Carpet,Carpet,11.9,1.25
+1993,DEFAULT_Hard,Hard,10.4,1.08
+1993,DEFAULT_Clay,Clay,6.3,0.8
+1993,DEFAULT_Grass,Grass,11.4,1.13
+1993,DEFAULT_Carpet,Carpet,11.9,1.25
+1994,DEFAULT_Hard,Hard,10.4,1.08
+1994,DEFAULT_Clay,Clay,6.3,0.8
+1994,DEFAULT_Grass,Grass,11.4,1.13
+1994,DEFAULT_Carpet,Carpet,11.9,1.25
+1995,DEFAULT_Hard,Hard,10.4,1.08
+1995,DEFAULT_Clay,Clay,6.3,0.8
+1995,DEFAULT_Grass,Grass,11.4,1.13
+1995,DEFAULT_Carpet,Carpet,11.9,1.25
+1996,DEFAULT_Hard,Hard,10.4,1.08
+1996,DEFAULT_Clay,Clay,6.3,0.8
+1996,DEFAULT_Grass,Grass,11.4,1.13
+1996,DEFAULT_Carpet,Carpet,11.9,1.25
+1997,DEFAULT_Hard,Hard,10.4,1.08
+1997,DEFAULT_Clay,Clay,6.3,0.8
+1997,DEFAULT_Grass,Grass,11.4,1.13
+1997,DEFAULT_Carpet,Carpet,11.9,1.25
+1998,DEFAULT_Hard,Hard,10.4,1.08
+1998,DEFAULT_Clay,Clay,6.3,0.8
+1998,DEFAULT_Grass,Grass,11.4,1.13
+1998,DEFAULT_Carpet,Carpet,11.9,1.25
+1999,DEFAULT_Hard,Hard,10.4,1.08
+1999,DEFAULT_Clay,Clay,6.3,0.8
+1999,DEFAULT_Grass,Grass,11.4,1.13
+1999,DEFAULT_Carpet,Carpet,11.9,1.25
+2000,DEFAULT_Hard,Hard,10.4,1.08
+2000,DEFAULT_Clay,Clay,6.3,0.8
+2000,DEFAULT_Grass,Grass,11.4,1.13
+2000,DEFAULT_Carpet,Carpet,11.9,1.25
+2001,DEFAULT_Hard,Hard,10.4,1.08
+2001,DEFAULT_Clay,Clay,6.3,0.8
+2001,DEFAULT_Grass,Grass,11.4,1.13
+2001,DEFAULT_Carpet,Carpet,11.9,1.25
+2002,DEFAULT_Hard,Hard,10.4,1.08
+2002,DEFAULT_Clay,Clay,6.3,0.8
+2002,DEFAULT_Grass,Grass,11.4,1.13
+2002,DEFAULT_Carpet,Carpet,11.9,1.25
+2003,DEFAULT_Hard,Hard,10.4,1.08
+2003,DEFAULT_Clay,Clay,6.3,0.8
+2003,DEFAULT_Grass,Grass,11.4,1.13
+2003,DEFAULT_Carpet,Carpet,11.9,1.25
+2004,DEFAULT_Hard,Hard,10.4,1.08
+2004,DEFAULT_Clay,Clay,6.3,0.8
+2004,DEFAULT_Grass,Grass,11.4,1.13
+2004,DEFAULT_Carpet,Carpet,11.9,1.25
+2005,DEFAULT_Hard,Hard,10.4,1.08
+2005,DEFAULT_Clay,Clay,6.3,0.8
+2005,DEFAULT_Grass,Grass,11.4,1.13
+2005,DEFAULT_Carpet,Carpet,11.9,1.25
+2006,DEFAULT_Hard,Hard,10.4,1.08
+2006,DEFAULT_Clay,Clay,6.3,0.8
+2006,DEFAULT_Grass,Grass,11.4,1.13
+2006,DEFAULT_Carpet,Carpet,11.9,1.25
+2007,DEFAULT_Hard,Hard,10.4,1.08
+2007,DEFAULT_Clay,Clay,6.3,0.8
+2007,DEFAULT_Grass,Grass,11.4,1.13
+2007,DEFAULT_Carpet,Carpet,11.9,1.25
+2008,DEFAULT_Hard,Hard,10.4,1.08
+2008,DEFAULT_Clay,Clay,6.3,0.8
+2008,DEFAULT_Grass,Grass,11.4,1.13
+2008,DEFAULT_Carpet,Carpet,11.9,1.25
+2009,DEFAULT_Hard,Hard,10.4,1.08
+2009,DEFAULT_Clay,Clay,6.3,0.8
+2009,DEFAULT_Grass,Grass,11.4,1.13
+2009,DEFAULT_Carpet,Carpet,11.9,1.25
+2010,DEFAULT_Hard,Hard,10.4,1.08
+2010,DEFAULT_Clay,Clay,6.3,0.8
+2010,DEFAULT_Grass,Grass,11.4,1.13
+2010,DEFAULT_Carpet,Carpet,11.9,1.25
+2011,DEFAULT_Hard,Hard,10.4,1.08
+2011,DEFAULT_Clay,Clay,6.3,0.8
+2011,DEFAULT_Grass,Grass,11.4,1.13
+2011,DEFAULT_Carpet,Carpet,11.9,1.25
+2012,DEFAULT_Hard,Hard,10.4,1.08
+2012,DEFAULT_Clay,Clay,6.3,0.8
+2012,DEFAULT_Grass,Grass,11.4,1.13
+2012,DEFAULT_Carpet,Carpet,11.9,1.25
+2013,DEFAULT_Hard,Hard,10.4,1.08
+2013,DEFAULT_Clay,Clay,6.3,0.8
+2013,DEFAULT_Grass,Grass,11.4,1.13
+2013,DEFAULT_Carpet,Carpet,11.9,1.25
+2014,DEFAULT_Hard,Hard,10.4,1.08
+2014,DEFAULT_Clay,Clay,6.3,0.8
+2014,DEFAULT_Grass,Grass,11.4,1.13
+2014,DEFAULT_Carpet,Carpet,11.9,1.25
+2015,DEFAULT_Hard,Hard,10.4,1.08
+2015,DEFAULT_Clay,Clay,6.3,0.8
+2015,DEFAULT_Grass,Grass,11.4,1.13
+2015,DEFAULT_Carpet,Carpet,11.9,1.25
+2016,DEFAULT_Hard,Hard,10.4,1.08
+2016,DEFAULT_Clay,Clay,6.3,0.8
+2016,DEFAULT_Grass,Grass,11.4,1.13
+2016,DEFAULT_Carpet,Carpet,11.9,1.25
+2017,DEFAULT_Hard,Hard,10.4,1.08
+2017,DEFAULT_Clay,Clay,6.3,0.8
+2017,DEFAULT_Grass,Grass,11.4,1.13
+2017,DEFAULT_Carpet,Carpet,11.9,1.25
+2018,DEFAULT_Hard,Hard,10.4,1.08
+2018,DEFAULT_Clay,Clay,6.3,0.8
+2018,DEFAULT_Grass,Grass,11.4,1.13
+2018,DEFAULT_Carpet,Carpet,11.9,1.25
+2019,DEFAULT_Hard,Hard,10.4,1.08
+2019,DEFAULT_Clay,Clay,6.3,0.8
+2019,DEFAULT_Grass,Grass,11.4,1.13
+2019,DEFAULT_Carpet,Carpet,11.9,1.25
+2020,DEFAULT_Hard,Hard,10.4,1.08
+2020,DEFAULT_Clay,Clay,6.3,0.8
+2020,DEFAULT_Grass,Grass,11.4,1.13
+2020,DEFAULT_Carpet,Carpet,11.9,1.25
+2021,DEFAULT_Hard,Hard,10.4,1.08
+2021,DEFAULT_Clay,Clay,6.3,0.8
+2021,DEFAULT_Grass,Grass,11.4,1.13
+2021,DEFAULT_Carpet,Carpet,11.9,1.25
+2022,DEFAULT_Hard,Hard,10.4,1.08
+2022,DEFAULT_Clay,Clay,6.3,0.8
+2022,DEFAULT_Grass,Grass,11.4,1.13
+2022,DEFAULT_Carpet,Carpet,11.9,1.25
+2023,DEFAULT_Hard,Hard,10.4,1.08
+2023,DEFAULT_Clay,Clay,6.3,0.8
+2023,DEFAULT_Grass,Grass,11.4,1.13
+2023,DEFAULT_Carpet,Carpet,11.9,1.25
+2024,DEFAULT_Hard,Hard,10.4,1.08
+2024,DEFAULT_Clay,Clay,6.3,0.8
+2024,DEFAULT_Grass,Grass,11.4,1.13
+2024,DEFAULT_Carpet,Carpet,11.9,1.25
+2025,DEFAULT_Hard,Hard,10.4,1.08
+2025,DEFAULT_Clay,Clay,6.3,0.8
+2025,DEFAULT_Grass,Grass,11.4,1.13
+2025,DEFAULT_Carpet,Carpet,11.9,1.25
+2026,DEFAULT_Hard,Hard,10.4,1.08
+2026,DEFAULT_Clay,Clay,6.3,0.8
+2026,DEFAULT_Grass,Grass,11.4,1.13
+2026,DEFAULT_Carpet,Carpet,11.9,1.25
