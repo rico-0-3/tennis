@@ -150,20 +150,9 @@ def carica_e_prepara(csv_path: str):
             court_speed_cache[cache_key] = get_court_stats(tname, tsurf, tyear)
     print(f"   → Court speed cache: {len(court_speed_cache)} entries")
 
-    # ── Win-rate superficie ───────────────────────────────────────────────────
-    wins   = df.groupby(['winner_name', 'surface']).size().reset_index(name='wins')
-    losses = df.groupby(['loser_name',  'surface']).size().reset_index(name='losses')
-    wins.columns = ['player','surface','wins']
-    losses.columns = ['player','surface','losses']
-    stats = pd.merge(wins, losses, on=['player','surface'], how='outer').fillna(0)
-    stats['total'] = stats['wins'] + stats['losses']
-    stats = stats[stats['total'] >= 5]
-    stats['win_rate'] = stats['wins'] / stats['total']
-    stats_dict = stats.set_index(['player','surface'])['win_rate'].to_dict()
-    joblib.dump(stats_dict, 'stats_superficie_v2.pkl')
-    def get_skill(p, s): return stats_dict.get((p, s), 0.5)
-
     # ── Loop cronologico (no data leakage) ───────────────────────────────────
+    # NOTE: surface win-rate is now computed incrementally inside the loop
+    # to avoid data leakage from future matches.
     fatiga_t  = {}
     racha_t   = {}
     h2h_t     = {}
@@ -173,6 +162,9 @@ def carica_e_prepara(csv_path: str):
     streak_t  = {}
     player_wins_total = {}
     player_losses_total = {}
+    # Per-surface win/loss tracking (incremental, no leakage)
+    surf_wins_t  = {}   # {(player, surface): int}
+    surf_losses_t = {}  # {(player, surface): int}
 
     ELO_DEFAULT = 1500.0
     K_ELO       = 32.0
@@ -306,7 +298,19 @@ def carica_e_prepara(csv_path: str):
 
         rd = row; upd_serve(w, rd, 'w'); upd_return(w, rd, 'l')
 
-        sk_w = get_skill(w, surf); sk_l = get_skill(l, surf)
+        # --- Surface win rate (incremental, no leakage) ---
+        sw_w = surf_wins_t.get((w, surf), 0)
+        sl_w = surf_losses_t.get((w, surf), 0)
+        sw_l = surf_wins_t.get((l, surf), 0)
+        sl_l = surf_losses_t.get((l, surf), 0)
+        stot_w = sw_w + sl_w
+        stot_l = sw_l + sl_l
+        sk_w = sw_w / stot_w if stot_w >= 5 else 0.5
+        sk_l = sw_l / stot_l if stot_l >= 5 else 0.5
+        # Update AFTER reading (no leakage from current match)
+        surf_wins_t[(w, surf)] = sw_w + 1
+        surf_losses_t[(l, surf)] = sl_l + 1
+
         home_w = 1 if row['winner_ioc'] == row['tourney_ioc'] else 0
         home_l = 1 if row['loser_ioc']  == row['tourney_ioc'] else 0
         pts_w = float(row['winner_rank_points']) if pd.notna(row.get('winner_rank_points')) else 0
@@ -372,10 +376,9 @@ def carica_e_prepara(csv_path: str):
         diffs['court_ace_pct'] = court_ace
         diffs['court_speed']   = court_spd
 
-        # Interaction features
-        diffs['elo_x_skill']      = (elo_w - elo_l) * (sk_w - sk_l)
-        diffs['elo_x_momentum']   = (elo_w - elo_l) * (mw - ml)
-        diffs['rank_x_momentum']  = log_rank_ratio * (mw - ml)
+        # Interaction features removed: products of same-sign diff features
+        # create structural bias (always positive for winner perspective),
+        # inflating accuracy from ~65% to ~85-95% without genuine prediction power.
 
         # Randomly assign perspective to avoid leakage from mirrored pairs.
         # 50% chance: features are winner-loser (target=1)
@@ -395,6 +398,19 @@ def carica_e_prepara(csv_path: str):
 
     df_out = pd.DataFrame(rows)
     print(f"   → Dataset: {len(df_out):,} righe | {df_out.shape[1]} colonne")
+
+    # Build final stats_dict from accumulated incremental data (for predictor)
+    stats_dict = {}
+    all_keys = set(list(surf_wins_t.keys()) + list(surf_losses_t.keys()))
+    for key in all_keys:
+        player, surface = key
+        w_count = surf_wins_t.get((player, surface), 0)
+        l_count = surf_losses_t.get((player, surface), 0)
+        total = w_count + l_count
+        if total >= 5:
+            stats_dict[(player, surface)] = w_count / total
+    joblib.dump(stats_dict, 'stats_superficie_v2.pkl')
+    print(f"   → stats_superficie_v2.pkl salvato ({len(stats_dict)} entries)")
 
     joblib.dump(elo_surf, 'elo_surface.pkl')
     print("   → elo_surface.pkl salvato")
@@ -418,7 +434,6 @@ FEATURES = [
     'diff_serve_dom', 'diff_game_score',
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',
     'court_ace_pct', 'court_speed',
-    'elo_x_skill', 'elo_x_momentum', 'rank_x_momentum',
 ]
 
 
