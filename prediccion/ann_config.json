@@ -1,15 +1,15 @@
 {
   "hidden_layers": [
-    128,
-    64,
-    32
+    512,
+    256,
+    128
   ],
-  "dropout": 0.25,
-  "lr": 0.0024314161515309506,
-  "batch_size": 512,
-  "epochs": 60,
+  "dropout": 0.2,
+  "lr": 0.00013894757514253106,
+  "batch_size": 1024,
+  "epochs": 120,
   "lambda_decay": 0.0001,
-  "label_smoothing": 0.02,
+  "label_smoothing": 0.06,
   "interaction_set": "minimal",
   "interaction_pairs": [
     [
