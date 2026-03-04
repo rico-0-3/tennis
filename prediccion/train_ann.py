@@ -83,9 +83,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configuration ────────────────────────────────────────────────────────────
-TRIALS_GBM = 20
-TRIALS_ANN = 10
-ANN_EPOCHS = 40
+TRIALS_GBM = 20   # Reduced from 30 for faster iteration; sufficient for reasonable search
+TRIALS_ANN = 10   # Reduced from 20; ANN is secondary to GBM models
+ANN_EPOCHS = 40   # Reduced from 60; early stopping prevents overtraining
 
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
               'D': 1.0, 'C': 0.8, 'S': 0.7, 'E': 0.5, '0': 0.8, 'O': 0.5}
@@ -131,13 +131,14 @@ def carica_e_prepara(csv_path: str):
             if ms in tname: return 'M'
         for a5 in atp500_names:
             if a5 in tname: return 'A'
-        return 'A'  # Default ATP 250 for unknown '0' events
+        return 'A'  # Default: most '0' events are ATP main tour
 
     mask_zero = df['tourney_level'].astype(str) == '0'
     fixed_count = mask_zero.sum()
     if fixed_count > 0:
         df.loc[mask_zero, 'tourney_level'] = df[mask_zero].apply(fix_level, axis=1)
-        print(f"   → Fixed {fixed_count:,} tourney_level='0' entries")
+        level_dist = df.loc[mask_zero, 'tourney_level'].value_counts().to_dict()
+        print(f"   → Fixed {fixed_count:,} tourney_level='0' entries → {level_dist}")
 
     df = df.sort_values(by=['tourney_date', 'match_num']).reset_index(drop=True)
     df['minutes'] = df['minutes'].fillna(90)
@@ -212,10 +213,14 @@ def carica_e_prepara(csv_path: str):
         return elo_overall.get(p, ELO_DEFAULT)
 
     def elo_init_from_rank(rank_val, pts_val):
-        """Initialize Elo from ranking/points for first-time players."""
+        """Initialize Elo from ranking/points for first-time players.
+        Formula: base 1200 + up to 800 bonus based on log-scaled ranking points.
+        Reference: top players (~10000 pts) get ~2000 Elo, unranked get 1500.
+        """
         if pts_val and pts_val > 0:
             return 1200 + 800 * min(1.0, np.log1p(pts_val) / np.log1p(10000))
         if rank_val and rank_val > 0:
+            # Linear decay: rank 1 → ~2100, rank 667 → ~1100 (floor)
             return max(1100, 2100 - 1.5 * rank_val)
         return ELO_DEFAULT
 
@@ -514,7 +519,7 @@ def carica_e_prepara(csv_path: str):
 
     # Build final stats_dict from accumulated incremental data (for predictor)
     stats_dict = {}
-    all_keys = set(list(surf_wins_t.keys()) + list(surf_losses_t.keys()))
+    all_keys = surf_wins_t.keys() | surf_losses_t.keys()
     for key in all_keys:
         player, surface = key
         w_count = surf_wins_t.get((player, surface), 0)
