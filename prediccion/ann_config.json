@@ -1,16 +1,16 @@
 {
   "hidden_layers": [
-    256,
     128,
-    64
+    64,
+    32
   ],
-  "dropout": 0.35,
-  "lr": 0.00036127895848106674,
-  "batch_size": 256,
+  "dropout": 0.25,
+  "lr": 0.0024314161515309506,
+  "batch_size": 512,
   "epochs": 60,
   "lambda_decay": 0.0001,
-  "label_smoothing": 0.06,
-  "interaction_set": "context",
+  "label_smoothing": 0.02,
+  "interaction_set": "minimal",
   "interaction_pairs": [
     [
       5,
@@ -22,38 +22,18 @@
     ],
     [
       5,
-      7
-    ],
-    [
-      12,
-      7
-    ],
-    [
-      15,
-      7
-    ],
-    [
-      5,
-      8
-    ],
-    [
-      0,
-      1
+      15
     ],
     [
       5,
       16
     ],
     [
-      6,
-      15
-    ],
-    [
-      12,
-      15
+      0,
+      1
     ]
   ],
-  "n_interactions": 10,
+  "n_interactions": 5,
   "model_version": "v3",
   "input_dim": 25,
   "features": [

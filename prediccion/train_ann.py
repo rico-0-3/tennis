@@ -70,7 +70,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 150       # numero trial Optuna (circa 2 ore con T4 su colab)
+TRIALS = 100       # numero trial Optuna (circa 2 ore con T4 su colab)
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,

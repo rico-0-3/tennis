@@ -1,2 +1,2 @@
 Modello,Accuracy,Log Loss,Note,Acc. %
-ANN v3 Globale (28 feat),0.7353479853479854,0.5040075686232263,Wide&Deep + Residual + TemporalCV,73.53
+ANN v3 Globale (28 feat),0.7295214922952149,0.5284919065873789,Wide&Deep + Residual + TemporalCV,72.95
