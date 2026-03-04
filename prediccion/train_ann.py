@@ -857,17 +857,19 @@ def get_ann_probs(model, X_sc):
 
 def confronto_finale(results_list):
     """results_list: list of {'Modello': str, 'Accuracy': float, 'Log Loss': float, 'Note': str}"""
-    df_final = pd.DataFrame(results_list).sort_values('Accuracy', ascending=False).reset_index(drop=True)
+    df_final = pd.DataFrame(results_list)
     df_final['Acc. %'] = (df_final['Accuracy'] * 100).round(2)
+    df_final['Score'] = (df_final['Accuracy'] - df_final['Log Loss']).round(4)
+    df_final = df_final.sort_values('Score', ascending=False).reset_index(drop=True)
     df_final.to_csv('resultados_comparacion_finale.csv', index=False)
 
-    print("\n" + "="*70)
-    print("  🏆  CLASSIFICA FINALE — TUTTI I MODELLI")
-    print("="*70)
-    print(df_final[['Modello','Acc. %','Log Loss','Note']].to_string(index=False))
-    print("="*70)
+    print("\n" + "="*80)
+    print("  🏆  CLASSIFICA FINALE — TUTTI I MODELLI  (Score = Accuracy − Log Loss)")
+    print("="*80)
+    print(df_final[['Modello','Acc. %','Log Loss','Score','Note']].to_string(index=False))
+    print("="*80)
     vincitore = df_final.iloc[0]
-    print(f"\n  🥇  Miglior modello: {vincitore['Modello']}  →  {vincitore['Acc. %']:.2f}%\n")
+    print(f"\n  🥇  Miglior modello: {vincitore['Modello']}  →  Acc {vincitore['Acc. %']:.2f}%  |  Score {vincitore['Score']:.4f}\n")
     return df_final
 
 
@@ -1004,24 +1006,41 @@ if __name__ == '__main__':
     # ── 3d. Results table ─────────────────────────────────────────────────────
     results_list = [
         {'Modello': 'ANN Best', 'Accuracy': acc_test, 'Log Loss': ll_test,
-         'Note': f'Optuna best, arch={best["hidden_layers"]}'},
+         'Note': f'Optuna best, arch={best["hidden_layers"]}',
+         '_strategy': 'ann_best'},
         {'Modello': 'ANN Top-5 Avg', 'Accuracy': top5_ann_acc, 'Log Loss': top5_ann_ll,
-         'Note': 'Average of top 5 ANN trials'},
+         'Note': 'Average of top 5 ANN trials',
+         '_strategy': 'ann_top5'},
     ]
     if lgb_model is not None:
         results_list.append({'Modello': 'LightGBM', 'Accuracy': lgb_acc,
-                            'Log Loss': lgb_ll, 'Note': f'Optuna {TRIALS_GBM} trials'})
+                            'Log Loss': lgb_ll, 'Note': f'Optuna {TRIALS_GBM} trials',
+                            '_strategy': 'lgb'})
     if xgb_model is not None:
         results_list.append({'Modello': 'XGBoost', 'Accuracy': xgb_acc,
-                            'Log Loss': xgb_ll, 'Note': f'Optuna {TRIALS_GBM} trials'})
+                            'Log Loss': xgb_ll, 'Note': f'Optuna {TRIALS_GBM} trials',
+                            '_strategy': 'xgb'})
     results_list.append({'Modello': 'Ensemble Avg', 'Accuracy': avg_acc,
-                        'Log Loss': avg_ll, 'Note': 'ANN+LGB+XGB average'})
+                        'Log Loss': avg_ll, 'Note': 'ANN+LGB+XGB average',
+                        '_strategy': 'ensemble_avg'})
     results_list.append({'Modello': 'Ensemble Avg Top5', 'Accuracy': avg_acc_top5,
-                        'Log Loss': avg_ll_top5, 'Note': 'ANN5+LGB+XGB average'})
+                        'Log Loss': avg_ll_top5, 'Note': 'ANN5+LGB+XGB average',
+                        '_strategy': 'ensemble_avg_top5'})
     results_list.append({'Modello': 'Ensemble Stacking', 'Accuracy': stack_acc,
-                        'Log Loss': stack_ll, 'Note': 'Meta-LR on ANN+LGB+XGB'})
+                        'Log Loss': stack_ll, 'Note': 'Meta-LR on ANN+LGB+XGB',
+                        '_strategy': 'ensemble_stacking'})
 
-    # ── 4. Re-training finale su TUTTI i dati con migliori HP ─────────────────
+    # ── 4. Selezione automatica e re-training su TUTTI i dati ─────────────────
+    # Determina la strategia vincente (Score = Accuracy − Log Loss)
+    for r in results_list:
+        r['_score'] = r['Accuracy'] - r['Log Loss']
+    winner = max(results_list, key=lambda r: r['_score'])
+    best_strategy = winner['_strategy']
+    best_model_name = winner['Modello']
+    best_accuracy = winner['Accuracy']
+    best_score = winner['_score']
+    print(f"\n🏆 Strategia vincente: {best_model_name} (acc={best_accuracy:.2%}, score={best_score:.4f}) → strategia: {best_strategy}")
+
     print(f"\n🚀 Re-training modello finale su TUTTI i dati...")
 
     # Scaler finale (fit su tutti i dati per il predictor)
@@ -1072,97 +1091,117 @@ if __name__ == '__main__':
     model_final, _ = train_model(model_final, ldr_tr, ldr_val, epochs=ep, lr=lr,
                                   smoothing=sm)
 
-    # Re-train top 5 ANN models on all data
-    top5_state_dicts = [model_final.state_dict()]   # best is already trained
+    # Re-train modelli aggiuntivi solo se la strategia vincente li richiede
+    needs_top5 = best_strategy in ('ann_top5', 'ensemble_avg_top5')
+    needs_gbm  = best_strategy in ('lgb', 'xgb', 'ensemble_avg', 'ensemble_avg_top5', 'ensemble_stacking')
+
+    top5_state_dicts = [model_final.state_dict()]
     top5_configs     = [best_hp]
-    for idx in range(1, min(5, len(risultati))):
-        hp_i = risultati[idx]['_config']
-        hl_i  = hp_i['hidden_layers']
-        dr_i  = hp_i['dropout']
-        lr_i  = hp_i['lr']
-        bs_i  = hp_i['batch_size']
-        ep_i  = hp_i['epochs']
-        sm_i  = hp_i.get('label_smoothing', 0.05)
-        iset_i   = hp_i.get('interaction_set', 'core')
-        ipairs_i = hp_i.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
-        ninter_i = hp_i.get('n_interactions', len(ipairs_i))
+    if needs_top5:
+        for idx in range(1, min(5, len(risultati))):
+            hp_i = risultati[idx]['_config']
+            hl_i  = hp_i['hidden_layers']
+            dr_i  = hp_i['dropout']
+            lr_i  = hp_i['lr']
+            bs_i  = hp_i['batch_size']
+            ep_i  = hp_i['epochs']
+            sm_i  = hp_i.get('label_smoothing', 0.05)
+            ipairs_i = hp_i.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
+            ninter_i = hp_i.get('n_interactions', len(ipairs_i))
 
-        print(f"   Re-training ANN #{idx+1} (arch={hl_i})...")
-        bs_eff_i = bs_i * 2 if USE_CUDA and bs_i < 2048 else bs_i
-        w_i = torch.tensor(w_combined)
-        sampler_i = WeightedRandomSampler(w_i, len(w_i), replacement=True)
-        ldr_tr_i = DataLoader(TensorDataset(X_tr_t, y_tr_t), batch_size=bs_eff_i,
-                              sampler=sampler_i, pin_memory=PIN_MEM, num_workers=N_WORK)
-        model_i = TennisANNv3(len(FEATURES), hl_i, dr_i, ninter_i, ipairs_i)
-        model_i, _ = train_model(model_i, ldr_tr_i, ldr_val, epochs=ep_i, lr=lr_i,
-                                  smoothing=sm_i)
-        top5_state_dicts.append(model_i.state_dict())
-        top5_configs.append(hp_i)
+            print(f"   Re-training ANN #{idx+1} (arch={hl_i})...")
+            bs_eff_i = bs_i * 2 if USE_CUDA and bs_i < 2048 else bs_i
+            w_i = torch.tensor(w_combined)
+            sampler_i = WeightedRandomSampler(w_i, len(w_i), replacement=True)
+            ldr_tr_i = DataLoader(TensorDataset(X_tr_t, y_tr_t), batch_size=bs_eff_i,
+                                  sampler=sampler_i, pin_memory=PIN_MEM, num_workers=N_WORK)
+            model_i = TennisANNv3(len(FEATURES), hl_i, dr_i, ninter_i, ipairs_i)
+            model_i, _ = train_model(model_i, ldr_tr_i, ldr_val, epochs=ep_i, lr=lr_i,
+                                      smoothing=sm_i)
+            top5_state_dicts.append(model_i.state_dict())
+            top5_configs.append(hp_i)
 
-    joblib.dump({'state_dicts': top5_state_dicts, 'configs': top5_configs},
-                'modelo_ann_top5.pkl')
-    print(f"   → modelo_ann_top5.pkl salvato ({len(top5_state_dicts)} modelli)")
-
-    # Re-train GBM on all data
+    # Re-train GBM on all data (se necessario)
     y_all_np = y.values if hasattr(y, 'values') else np.array(y)
     all_weights = calcola_pesi_combinati(dates, level_w, 0.003)
+    lgb_final = None; xgb_final = None
 
-    if lgb_model is not None:
+    if needs_gbm and lgb_model is not None:
         print("   Re-training LightGBM on all data...")
         lgb_final = lgb.LGBMClassifier(**lgb_model.get_params())
         lgb_final.fit(scaler.transform(X), y_all_np, sample_weight=all_weights)
-        joblib.dump(lgb_final, 'modelo_lgb.pkl')
 
-    if xgb_model is not None:
+    if needs_gbm and xgb_model is not None:
         print("   Re-training XGBoost on all data...")
         xgb_final = xgb_lib.XGBClassifier(**xgb_model.get_params())
         xgb_final.set_params(early_stopping_rounds=None)
         xgb_final.fit(scaler.transform(X), y_all_np, sample_weight=all_weights)
-        joblib.dump(xgb_final, 'modelo_xgb.pkl')
 
-    # ── 5. Calibrazione (Platt scaling) ───────────────────────────────────────
-    from sklearn.linear_model import LogisticRegression as LR_Cal
+    # ── 5. Costruzione modelo_finale.pkl ──────────────────────────────────────
+    modelo_finale = {
+        'strategy': best_strategy,
+        'model_name': best_model_name,
+        'accuracy': best_accuracy,
+        'score': best_score,
+        'features': FEATURES,
+        'scaler': scaler,
+    }
 
-    model_final.eval()
-    y_val_fin_np = y_val_fin.values if hasattr(y_val_fin, 'values') else np.array(y_val_fin)
-    with torch.no_grad():
-        logits_val = model_final(torch.tensor(X_val_fin_sc.astype(np.float32)).to(device)).cpu().numpy()
+    if best_strategy == 'ann_best':
+        modelo_finale['ann'] = {
+            'state_dict': model_final.state_dict(),
+            'config': best_hp,
+        }
 
-    calibrator = LR_Cal()
-    calibrator.fit(logits_val.reshape(-1, 1), y_val_fin_np)
-    joblib.dump(calibrator, 'calibrator_ann.pkl')
-    print("   → calibrator_ann.pkl salvato (Platt scaling)")
+    elif best_strategy == 'ann_top5':
+        modelo_finale['ann_top5'] = [
+            {'state_dict': sd, 'config': c}
+            for sd, c in zip(top5_state_dicts, top5_configs)
+        ]
 
-    # Accuracy dopo calibrazione
-    probs_cal = calibrator.predict_proba(logits_val.reshape(-1, 1))[:, 1]
-    acc_cal = accuracy_score(y_val_fin_np, (probs_cal >= 0.5).astype(int))
-    ll_cal  = log_loss(y_val_fin_np, probs_cal)
-    print(f"   Post-calibrazione: acc={acc_cal:.2%} | log_loss={ll_cal:.4f}")
+    elif best_strategy == 'lgb':
+        modelo_finale['lgb_model'] = lgb_final
 
-    # ── 6. Salvataggio ────────────────────────────────────────────────────────
-    torch.save(model_final.state_dict(), 'modelo_ann.pth')
-    cfg = best_hp.copy()
-    cfg['model_version'] = 'v3.1'
-    cfg['input_dim'] = len(FEATURES)
-    cfg['features'] = FEATURES
-    cfg['n_interactions'] = best_ninter
-    cfg['interaction_pairs'] = best_ipairs
-    cfg['scaler_file'] = 'scaler_ann.pkl'
-    cfg['calibrator_file'] = 'calibrator_ann.pkl'
-    cfg['elo_surface_file'] = 'elo_surface.pkl'
-    cfg['streak_file'] = 'streak_players.pkl'
-    cfg['momentum_file'] = 'momentum_surface.pkl'
-    with open('ann_config.json', 'w') as f:
-        json.dump(cfg, f, indent=2)
+    elif best_strategy == 'xgb':
+        modelo_finale['xgb_model'] = xgb_final
 
-    # ── 7. Confronto finale ───────────────────────────────────────────────────
-    df_confronto = confronto_finale(results_list)
+    elif best_strategy == 'ensemble_avg':
+        modelo_finale['ann'] = {
+            'state_dict': model_final.state_dict(),
+            'config': best_hp,
+        }
+        modelo_finale['lgb_model'] = lgb_final
+        modelo_finale['xgb_model'] = xgb_final
+
+    elif best_strategy == 'ensemble_avg_top5':
+        modelo_finale['ann_top5'] = [
+            {'state_dict': sd, 'config': c}
+            for sd, c in zip(top5_state_dicts, top5_configs)
+        ]
+        modelo_finale['lgb_model'] = lgb_final
+        modelo_finale['xgb_model'] = xgb_final
+
+    elif best_strategy == 'ensemble_stacking':
+        modelo_finale['ann'] = {
+            'state_dict': model_final.state_dict(),
+            'config': best_hp,
+        }
+        modelo_finale['lgb_model'] = lgb_final
+        modelo_finale['xgb_model'] = xgb_final
+        modelo_finale['meta_model'] = meta_model
+
+    joblib.dump(modelo_finale, 'modelo_finale.pkl')
+    print(f"\n   → modelo_finale.pkl salvato (strategia: {best_strategy})")
+
+    # ── 6. Confronto finale ───────────────────────────────────────────────────
+    # Strip internal keys before printing
+    results_clean = [{k: v for k, v in r.items() if not k.startswith('_')} for r in results_list]
+    df_confronto = confronto_finale(results_clean)
 
     print("\n✅ File salvati:")
-    for f in ['modelo_ann.pth', 'modelo_ann_top5.pkl', 'scaler_ann.pkl', 'ann_config.json',
+    for f in ['modelo_finale.pkl', 'scaler_ann.pkl',
               'elo_surface.pkl', 'elo_overall.pkl', 'streak_players.pkl',
               'momentum_surface.pkl', 'recent_form.pkl',
-              'calibrator_ann.pkl', 'resultados_comparacion_finale.csv',
-              'modelo_lgb.pkl', 'modelo_xgb.pkl', 'modelo_meta_lr.pkl']:
+              'resultados_comparacion_finale.csv']:
         stato = "✅" if os.path.exists(f) else "—"
         print(f"  {stato}  {f}")

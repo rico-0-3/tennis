@@ -29,20 +29,17 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 st.markdown("""
-Questa applicazione utilizza un **ANN Top-5 Average** — media delle probabilità di 5 reti neurali con architetture diverse selezionate da Optuna:
+Questa applicazione utilizza un modello di **Intelligenza Artificiale** selezionato automaticamente
+in fase di addestramento come il **migliore** tra diverse strategie:
 
-| Modello | Tipo | Ruolo |
-|---------|------|-------|
-| 🧠 **ANN ×5** | Reti Neurali (Wide & Deep) | 5 architetture diverse, ciascuna cattura pattern diversi nei dati |
-| 🌲 **LightGBM** | Gradient Boosting ad Albero | Alberi decisionali in sequenza — usato come confronto |
-| 🌳 **XGBoost** | Gradient Boosting ad Albero | Simile a LightGBM con regolarizzazione diversa — usato come confronto |
-
-**Come funziona:**
-1. **Optuna** testa centinaia di architetture neurali diverse (strati, neuroni, dropout, learning rate...)
-2. Le **5 migliori** vengono selezionate e ri-addestrate su tutti i dati
-3. In fase di predizione, ognuna produce una probabilità → la **media** delle 5 è il risultato finale
-
-Perché la media? Ogni rete ha punti di forza diversi; mediando si riduce l'errore individuale (**ensemble diversity**).
+| Strategia | Tipo | Come funziona |
+|-----------|------|---------------|
+| 🧠 **ANN Best** | Rete Neurale (Wide & Deep) | Singola rete neurale con la migliore architettura |
+| 🧠×5 **ANN Top-5 Avg** | Media di 5 Reti Neurali | Media delle probabilità di 5 architetture diverse — riduce l'errore individuale |
+| 🌲 **LightGBM** | Gradient Boosting ad Albero | Alberi decisionali in sequenza, ognuno corregge gli errori del precedente |
+| 🌳 **XGBoost** | Gradient Boosting ad Albero | Simile a LightGBM con regolarizzazione diversa |
+| 📊 **Ensemble Avg** | Media ANN+LGB+XGB | Media semplice delle probabilità dei 3 modelli |
+| 🎯 **Ensemble Stacking** | Meta-Learner | Regressione logistica che combina i 3 modelli con pesi ottimali |
 
 Il sistema analizza **29 feature** tra cui:
 * 📊 **Gerarchia:** Ranking, Punti, Elo (globale e per superficie).
@@ -158,69 +155,19 @@ def cargar_todo():
         st.error(f"Mancano file fondamentali. Errore: {e}")
         st.stop()
 
-    # ANN globale v3
-    ann_global = None; ann_scaler = None; ann_calibrator = None
-    ann_top5_models = []   # lista di modelli ANN per Top-5 averaging
+    # ── Modello finale (selezionato automaticamente in training) ─────────────
+    modelo_finale = None
+    finale_path = pp('modelo_finale.pkl')
+    if os.path.exists(finale_path):
+        try:
+            modelo_finale = joblib.load(finale_path)
+        except Exception as e:
+            st.warning(f"modelo_finale.pkl non caricato: {e}")
+
+    # Elo + streak + momentum + elo_overall + recent_form
     elo_surface = {}     # {(player, surface): elo_float}
     streak_players = {}
     momentum_surface = {}  # {(player, surface): [last 10 results]}
-
-    ann_base = pp('modelo_ann.pth')
-    cfg_base = pp('ann_config.json')
-    sca_base = pp('scaler_ann.pkl')
-
-    if os.path.exists(ann_base) and os.path.exists(cfg_base) and os.path.exists(sca_base):
-        try:
-            with open(cfg_base) as f: cfg = json.load(f)
-            n_inter = cfg.get('n_interactions', N_INTERACTIONS)
-            i_pairs = cfg.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
-            ann_global = TennisANNv3(cfg['input_dim'], cfg['hidden_layers'],
-                                     cfg['dropout'], n_inter, i_pairs)
-            ann_global.load_state_dict(torch.load(ann_base, map_location='cpu'))
-            ann_global.eval()
-            ann_scaler = joblib.load(sca_base)
-        except Exception as e:
-            st.warning(f"ANN globale non caricata: {e}")
-
-    # Top-5 ANN models
-    top5_path = pp('modelo_ann_top5.pkl')
-    if os.path.exists(top5_path) and ann_scaler is not None:
-        try:
-            top5_data = joblib.load(top5_path)
-            for sd, hp_i in zip(top5_data['state_dicts'], top5_data['configs']):
-                hl_i  = hp_i['hidden_layers']
-                dr_i  = hp_i['dropout']
-                ipairs_i = hp_i.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
-                ninter_i = hp_i.get('n_interactions', len(ipairs_i))
-                m = TennisANNv3(len(ANN_FEATURES), hl_i, dr_i, ninter_i, ipairs_i)
-                m.load_state_dict(sd)
-                m.eval()
-                ann_top5_models.append(m)
-        except Exception as e:
-            st.warning(f"Top-5 ANN non caricati: {e}")
-
-    # Calibratore (Platt scaling)
-    cal_path = pp('calibrator_ann.pkl')
-    if os.path.exists(cal_path):
-        try: ann_calibrator = joblib.load(cal_path)
-        except: pass
-
-    # Modelli ensemble: LGB, XGB, Meta-LR
-    lgb_model = None; xgb_model = None; meta_model = None
-    lgb_path  = pp('modelo_lgb.pkl')
-    xgb_path  = pp('modelo_xgb.pkl')
-    meta_path = pp('modelo_meta_lr.pkl')
-    if os.path.exists(lgb_path):
-        try: lgb_model = joblib.load(lgb_path)
-        except: pass
-    if os.path.exists(xgb_path):
-        try: xgb_model = joblib.load(xgb_path)
-        except: pass
-    if os.path.exists(meta_path):
-        try: meta_model = joblib.load(meta_path)
-        except: pass
-
-    # Elo + streak + momentum + elo_overall + recent_form
     elo_path    = pp('elo_surface.pkl')
     streak_path = pp('streak_players.pkl')
     mom_path    = pp('momentum_surface.pkl')
@@ -248,24 +195,93 @@ def cargar_todo():
         ranking_dict = {}
 
     return (stats_dict, perfiles, df_history, ranking_dict,
-            ann_global, ann_scaler, ann_calibrator, ann_top5_models,
+            modelo_finale,
             elo_surface, streak_players,
-            momentum_surface, elo_overall, recent_form,
-            lgb_model, xgb_model, meta_model)
+            momentum_surface, elo_overall, recent_form)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
- ann_global, ann_scaler, ann_calibrator, ann_top5_models,
+ modelo_finale,
  elo_surface, streak_players,
- momentum_surface, elo_overall, recent_form,
- lgb_model, xgb_model, meta_model) = cargar_todo()
+ momentum_surface, elo_overall, recent_form) = cargar_todo()
 
-if ann_global is None:
-    st.error("❌ Modello ANN non trovato. Assicurati che `modelo_ann.pth`, `ann_config.json` e `scaler_ann.pkl` siano nella cartella `prediccion/`.")
+if modelo_finale is None:
+    st.error("❌ Modello non trovato. Assicurati che `modelo_finale.pkl` sia nella cartella `prediccion/`.")
     st.stop()
+
+# Estrai componenti dal modello finale
+finale_strategy = modelo_finale['strategy']
+finale_scaler   = modelo_finale['scaler']
+finale_name     = modelo_finale['model_name']
+finale_accuracy = modelo_finale.get('accuracy', 0)
+finale_score    = modelo_finale.get('score', 0)
+
+st.sidebar.success(f"🎯 Modello attivo: **{finale_name}**\n\nAcc: {finale_accuracy:.1%} · Score: {finale_score:.4f}")
 
 
 def get_skill(p, s): return stats_dict.get((p, s), 0.5)
+
+def _build_ann(cfg):
+    """Costruisce un modello ANN da un dict {'state_dict': ..., 'config': ...}."""
+    hp = cfg['config']
+    hl  = hp['hidden_layers']
+    dr  = hp['dropout']
+    ipairs = hp.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
+    ninter = hp.get('n_interactions', len(ipairs))
+    m = TennisANNv3(len(ANN_FEATURES), hl, dr, ninter, ipairs)
+    m.load_state_dict(cfg['state_dict'])
+    m.eval()
+    return m
+
+def _ann_prob(model, input_t):
+    """Probabilità sigmoid da un modello ANN."""
+    model.eval()
+    with torch.no_grad():
+        logit = model(input_t).item()
+    return 1 / (1 + np.exp(-logit))
+
+def predici(input_sc, input_t):
+    """Produce probabilità J1 usando la strategia in modelo_finale."""
+    s = finale_strategy
+
+    if s == 'ann_best':
+        ann = _build_ann(modelo_finale['ann'])
+        return _ann_prob(ann, input_t), finale_name
+
+    elif s == 'ann_top5':
+        probs = [_ann_prob(_build_ann(c), input_t) for c in modelo_finale['ann_top5']]
+        return float(np.mean(probs)), finale_name
+
+    elif s == 'lgb':
+        return modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0], finale_name
+
+    elif s == 'xgb':
+        return modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0], finale_name
+
+    elif s == 'ensemble_avg':
+        ann = _build_ann(modelo_finale['ann'])
+        p_ann = _ann_prob(ann, input_t)
+        p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
+        p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
+        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name
+
+    elif s == 'ensemble_avg_top5':
+        probs_ann = [_ann_prob(_build_ann(c), input_t) for c in modelo_finale['ann_top5']]
+        p_ann = float(np.mean(probs_ann))
+        p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
+        p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
+        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name
+
+    elif s == 'ensemble_stacking':
+        ann = _build_ann(modelo_finale['ann'])
+        p_ann = _ann_prob(ann, input_t)
+        p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
+        p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
+        meta_input = np.array([[p_ann, p_lgb, p_xgb]])
+        return modelo_finale['meta_model'].predict_proba(meta_input)[0, 1], finale_name
+
+    else:
+        raise ValueError(f"Strategia sconosciuta: {s}")
 
 def mostrar_historial_detallado(lista_partidos):
     if not lista_partidos:
@@ -579,40 +595,11 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         'diff_recent_form':  form1 - form2,
     }])
 
-    input_sc = ann_scaler.transform(ann_input[ANN_FEATURES])
+    input_sc = finale_scaler.transform(ann_input[ANN_FEATURES])
     input_t  = torch.tensor(input_sc.astype(np.float32))
 
-    # ─── ANN Top-5 Average (miglior metodo in training) ──────────────────────
-    use_top5 = len(ann_top5_models) >= 2
-    if use_top5:
-        top5_probs = []
-        for m in ann_top5_models:
-            m.eval()
-            with torch.no_grad():
-                logit_i = m(input_t).item()
-            top5_probs.append(1 / (1 + np.exp(-logit_i)))
-        prob_j1 = float(np.mean(top5_probs))
-        modello_usato = f"ANN Top-{len(ann_top5_models)} Avg"
-    else:
-        # Fallback: ANN singola con Platt scaling
-        ann_global.eval()
-        with torch.no_grad():
-            logit = ann_global(input_t).item()
-        if ann_calibrator is not None:
-            prob_j1 = ann_calibrator.predict_proba(np.array([[logit]]))[0, 1]
-        else:
-            prob_j1 = 1 / (1 + np.exp(-logit))
-        modello_usato = "ANN v3"
-
-    # Probabilità modelli individuali (per dettaglio)
-    ann_global.eval()
-    with torch.no_grad():
-        ann_logit = ann_global(input_t).item()
-    ann_prob = 1 / (1 + np.exp(-ann_logit))
-
-    has_gbm = (lgb_model is not None and xgb_model is not None)
-    lgb_prob = lgb_model.predict_proba(input_sc)[:, 1][0] if lgb_model is not None else None
-    xgb_prob = xgb_model.predict_proba(input_sc)[:, 1][0] if xgb_model is not None else None
+    # ─── Predizione con modello finale (strategia auto-selezionata) ──────────
+    prob_j1, modello_usato = predici(input_sc, input_t)
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()
@@ -648,24 +635,3 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
             margin=dict(l=0, r=0, t=10, b=10), showlegend=False
         )
         st.plotly_chart(fig_bar, use_container_width=True)
-
-    # ─── Dettaglio modelli individuali ────────────────────────────────────────
-    with st.expander("🔍 Dettaglio predizioni per modello"):
-        if use_top5:
-            st.markdown(f"**Strategia:** Media delle probabilità di **{len(ann_top5_models)} reti neurali** con architetture diverse (Top-5 da Optuna).")
-            cols = st.columns(len(ann_top5_models))
-            for idx, (col, p) in enumerate(zip(cols, top5_probs)):
-                with col:
-                    st.metric(f"ANN #{idx+1}", f"{p:.1%}")
-            st.caption(f"**Risultato Top-{len(ann_top5_models)} Avg = {prob_j1:.1%}** — media aritmetica delle {len(ann_top5_models)} probabilità.")
-        else:
-            st.metric("🧠 ANN Best", f"{ann_prob:.1%}", delta="Rete Neurale singola")
-
-        if has_gbm:
-            st.divider()
-            st.markdown("**Modelli ad albero (informativi):**")
-            col_l, col_x = st.columns(2)
-            with col_l:
-                st.metric("🌲 LightGBM", f"{lgb_prob:.1%}", delta="Gradient Boosting")
-            with col_x:
-                st.metric("🌳 XGBoost", f"{xgb_prob:.1%}", delta="Gradient Boosting")
