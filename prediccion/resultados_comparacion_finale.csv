@@ -1,6 +1,6 @@
 Modello,Accuracy,Log Loss,Note,Acc. %
-Average Ensemble,0.6432464280453675,0.6145938149937141,Simple average of all model probabilities,64.32
-XGBoost (Optuna),0.6423626454558845,0.6222779566553954,"Temporal split, 37 features",64.24
-LightGBM (Optuna),0.641920754161143,0.6193432962839913,"Temporal split, 37 features",64.19
-Stacking Ensemble,0.6358815731330093,0.6181697006274267,LGB+XGB+ANN meta-learner,63.59
-ANN v4 (Wide&Deep),0.624834290764472,0.6176448014858187,"Temporal split, arch=[256, 128]",62.48
+Stacking Ensemble,0.6508515815085159,0.6076090602413425,LGB+XGB+ANN meta-learner,65.09
+ANN v4 (Wide&Deep),0.6502433090024331,0.6057045136385732,"Temporal split, arch=[512, 256, 128, 64]",65.02
+Average Ensemble,0.6429440389294404,0.6114601542201055,Simple average of all model probabilities,64.29
+LightGBM (Optuna),0.6423357664233577,0.6214696777753234,"Temporal split, 37 features",64.23
+XGBoost (Optuna),0.6256082725060828,0.6327986160680045,"Temporal split, 37 features",62.56

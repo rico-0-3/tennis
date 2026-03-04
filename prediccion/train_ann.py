@@ -44,7 +44,7 @@ except ImportError:
     def get_court_stats(name, surface='Hard', year=2025):
         return 0.0, 0.0
 
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader, TensorDataset, WeightedRandomSampler
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, log_loss
 from sklearn.linear_model import LogisticRegression
@@ -83,9 +83,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configuration ────────────────────────────────────────────────────────────
-TRIALS_GBM = 20   # Reduced from 30 for faster iteration; sufficient for reasonable search
-TRIALS_ANN = 10   # Reduced from 20; ANN is secondary to GBM models
-ANN_EPOCHS = 40   # Reduced from 60; early stopping prevents overtraining
+TRIALS_GBM = 40
+TRIALS_ANN = 40
+ANN_EPOCHS = 100
 
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
               'D': 1.0, 'C': 0.8, 'S': 0.7, 'E': 0.5, '0': 0.8, 'O': 0.5}
@@ -558,19 +558,31 @@ FEATURES = [
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 2.  TEMPORAL SPLIT
+# 2.  CHRONOLOGICAL SPLIT  (75% train / 15% val / 10% test)
 # ══════════════════════════════════════════════════════════════════════════════
 
-def temporal_split(df_ml, train_end_date=20230101, val_end_date=20240601):
-    dates = df_ml['tourney_date']
-    mask_train = dates < train_end_date
-    mask_val   = (dates >= train_end_date) & (dates < val_end_date)
-    mask_test  = dates >= val_end_date
+def chronological_split(df_ml, train_frac=0.75, val_frac=0.15):
+    """Simple chronological split — data is already sorted by date."""
+    n = len(df_ml)
+    n_train = int(n * train_frac)
+    n_val   = int(n * val_frac)
+    if n_train % 2 != 0: n_train += 1  # keep pairs together
 
-    print(f"\n📊 Temporal split:")
-    print(f"   Train: {mask_train.sum():,} rows (before {train_end_date})")
-    print(f"   Val:   {mask_val.sum():,} rows ({train_end_date}-{val_end_date})")
-    print(f"   Test:  {mask_test.sum():,} rows (after {val_end_date})")
+    mask_train = pd.Series(False, index=df_ml.index)
+    mask_val   = pd.Series(False, index=df_ml.index)
+    mask_test  = pd.Series(False, index=df_ml.index)
+
+    mask_train.iloc[:n_train] = True
+    mask_val.iloc[n_train:n_train + n_val] = True
+    mask_test.iloc[n_train + n_val:] = True
+
+    dates = df_ml['tourney_date']
+    print(f"\n📊 Chronological split:")
+    print(f"   Train: {mask_train.sum():,} rows (oldest)")
+    print(f"   Val:   {mask_val.sum():,} rows")
+    print(f"   Test:  {mask_test.sum():,} rows (newest)")
+    if mask_test.sum() > 0:
+        print(f"   Test date range: {dates[mask_test].min():.0f} — {dates[mask_test].max():.0f}")
 
     return mask_train, mask_val, mask_test
 
@@ -832,7 +844,8 @@ def valuta(model, Xsc, y_np):
 
 
 def train_ann_optuna(X_tr_sc, y_tr, X_val_sc, y_val, X_test_sc, y_test,
-                     n_trials=TRIALS_ANN, input_dim=None):
+                     n_trials=TRIALS_ANN, input_dim=None,
+                     sample_weights_tr=None):
     if input_dim is None:
         input_dim = X_tr_sc.shape[1]
 
@@ -850,6 +863,12 @@ def train_ann_optuna(X_tr_sc, y_tr, X_val_sc, y_val, X_test_sc, y_test,
     dataset_tr  = TensorDataset(X_tr_t, y_tr_t)
     dataset_val = TensorDataset(X_val_t, y_val_t)
 
+    # Prepare sampler weights for WeightedRandomSampler
+    if sample_weights_tr is not None:
+        w_t = torch.tensor(sample_weights_tr.astype(np.float32))
+    else:
+        w_t = None
+
     ARCH_OPTIONS = {
         '2L_s':    [128, 64],
         '2L_m':    [256, 128],
@@ -857,6 +876,7 @@ def train_ann_optuna(X_tr_sc, y_tr, X_val_sc, y_val, X_test_sc, y_test,
         '3L_l':    [512, 256, 128],
         '2L_eq_m': [256, 256],
         '2L_l':    [512, 256],
+        '4L':      [512, 256, 128, 64],
     }
 
     best_model = [None]
@@ -866,13 +886,17 @@ def train_ann_optuna(X_tr_sc, y_tr, X_val_sc, y_val, X_test_sc, y_test,
     def objective(trial):
         arch_name = trial.suggest_categorical('arch', list(ARCH_OPTIONS.keys()))
         hl  = ARCH_OPTIONS[arch_name]
-        dr  = trial.suggest_float('dropout', 0.15, 0.45, step=0.05)
-        lr  = trial.suggest_float('lr', 5e-5, 3e-3, log=True)
-        bs  = trial.suggest_categorical('batch_size', [256, 512, 1024])
-        ep  = trial.suggest_categorical('epochs', [60, 80, 100])
-        sm  = trial.suggest_float('smoothing', 0.0, 0.08, step=0.01)
+        dr  = trial.suggest_float('dropout', 0.1, 0.5, step=0.05)
+        lr  = trial.suggest_float('lr', 1e-4, 3e-3, log=True)
+        bs  = trial.suggest_categorical('batch_size', [256, 512, 1024, 2048])
+        ep  = trial.suggest_categorical('epochs', [60, 80, 100, 120])
+        sm  = trial.suggest_float('smoothing', 0.0, 0.1, step=0.01)
 
-        ldr_tr  = DataLoader(dataset_tr,  batch_size=bs, shuffle=True)
+        if w_t is not None:
+            sampler = WeightedRandomSampler(w_t, len(w_t), replacement=True)
+            ldr_tr = DataLoader(dataset_tr, batch_size=bs, sampler=sampler)
+        else:
+            ldr_tr = DataLoader(dataset_tr, batch_size=bs, shuffle=True)
         ldr_val = DataLoader(dataset_val, batch_size=4096, shuffle=False)
 
         model = TennisANNv3(input_dim, hl, dr, n_interactions=0)
@@ -899,7 +923,11 @@ def train_ann_optuna(X_tr_sc, y_tr, X_val_sc, y_val, X_test_sc, y_test,
         dr = 0.3
         lr = 1e-3
         bs = 512
-        ldr_tr  = DataLoader(dataset_tr,  batch_size=bs, shuffle=True)
+        if w_t is not None:
+            sampler = WeightedRandomSampler(w_t, len(w_t), replacement=True)
+            ldr_tr = DataLoader(dataset_tr, batch_size=bs, sampler=sampler)
+        else:
+            ldr_tr = DataLoader(dataset_tr, batch_size=bs, shuffle=True)
         ldr_val = DataLoader(dataset_val, batch_size=4096, shuffle=False)
         model = TennisANNv3(input_dim, hl, dr, n_interactions=0)
         model, _ = train_model(model, ldr_tr, ldr_val, epochs=ANN_EPOCHS, lr=lr)
@@ -980,10 +1008,8 @@ if __name__ == '__main__':
     dates = df_ml['tourney_date']
     level_w = df_ml['level_weight'].values
 
-    # ── 2. Temporal split ─────────────────────────────────────────────────────
-    mask_train, mask_val, mask_test = temporal_split(df_ml,
-                                                     train_end_date=20230101,
-                                                     val_end_date=20240601)
+    # ── 2. Chronological split (75/15/10) ────────────────────────────────────
+    mask_train, mask_val, mask_test = chronological_split(df_ml)
 
     X_tr, y_tr = X[mask_train], y[mask_train]
     X_val, y_val = X[mask_val], y[mask_val]
@@ -1036,7 +1062,8 @@ if __name__ == '__main__':
     # ── 6. ANN ───────────────────────────────────────────────────────────────
     ann_model, ann_acc, ann_ll, ann_hp = train_ann_optuna(
         X_tr_sc, y_tr, X_val_sc, y_val, X_te_sc, y_test,
-        n_trials=TRIALS_ANN, input_dim=len(FEATURES))
+        n_trials=TRIALS_ANN, input_dim=len(FEATURES),
+        sample_weights_tr=combined_weights)
 
     results_list.append({
         'Modello': 'ANN v4 (Wide&Deep)',
