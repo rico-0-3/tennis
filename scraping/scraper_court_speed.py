@@ -9,13 +9,52 @@ import re
 import time
 import random
 
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import pandas as pd
+import joblib
+import re
+import time
+import random
+from datetime import date
+import os
+
 print("🎾 Scraping multi-anno (Selenium) dei dati di velocità campo ATP...")
 
 # Range di anni da scrapare (dal 1991 al 2026 - tutto lo storico disponibile)
 START_YEAR = 1991
 END_YEAR = 2026
+ANNO_CORRENTE = date.today().year
+CSV_PATH = 'court_speed_data.csv'
+PKL_PATH = 'court_speed_dict.pkl'
 
-# Setup Selenium con Chrome headless
+# ── Logica incrementale: carica dati esistenti e salta gli anni già presenti ──
+all_data = []
+years_to_scrape = list(range(START_YEAR, END_YEAR + 1))
+
+if os.path.exists(CSV_PATH):
+    try:
+        df_esistente = pd.read_csv(CSV_PATH)
+        # Rimuovi le righe DEFAULT_ dell'anno corrente e tutti i dati dell'anno corrente
+        # (l'anno corrente va sempre ri-scrapato, gli altri anni sono stabili)
+        df_old = df_esistente[
+            (df_esistente['year'] != ANNO_CORRENTE) &
+            (~df_esistente['tournament'].str.startswith('DEFAULT_', na=False))
+        ].copy()
+        anni_presenti = set(df_old['year'].unique())
+        # Anni da scrapare = mancanti + anno corrente
+        years_to_scrape = [y for y in range(START_YEAR, END_YEAR + 1)
+                           if y not in anni_presenti or y == ANNO_CORRENTE]
+        all_data = df_old.to_dict('records')
+        print(f"   📂 CSV esistente: {len(df_old)} record, {len(anni_presenti)} anni già presenti")
+        print(f"   ➡️  Da scrapare: {years_to_scrape}")
+    except Exception as e:
+        print(f"   ⚠️  Impossibile leggere il CSV ({e}) — riscarico tutto")
+else:
+    print(f"   📂 Nessun CSV precedente — scarico tutto ({START_YEAR}–{END_YEAR})")
 chrome_options = Options()
 chrome_options.add_argument("--headless=new")
 chrome_options.add_argument("--no-sandbox")
@@ -30,7 +69,7 @@ print("   ✅ Browser Chrome avviato in modalità headless")
 all_data = []
 failed_years = []
 
-for year in range(START_YEAR, END_YEAR + 1):
+for year in years_to_scrape:
     url = f"https://www.tennisabstract.com/cgi-bin/surface-speed.cgi?year={year}"
     print(f"   -> Scaricando {year}...", end=" ", flush=True)
     
@@ -186,16 +225,18 @@ if all_data:
     for surface, vals in default_values.items():
         print(f"   {surface:8s}: Ace={vals['ace_pct']:5.1f}%  Speed={vals['speed']:5.2f}")
     
-    # Aggiungi i default per tutti gli anni
+    # Aggiungi i default per tutti gli anni (sovrascrive quelli già esistenti)
+    anni_nel_csv = set(r['year'] for r in all_data)
     for year in range(START_YEAR, END_YEAR + 1):
-        for surface, vals in default_values.items():
-            all_data.append({
-                'year': year,
-                'tournament': f'DEFAULT_{surface}',
-                'surface': surface,
-                'ace_pct': vals['ace_pct'],
-                'speed': vals['speed']
-            })
+        if year in anni_nel_csv:
+            for surface, vals in default_values.items():
+                all_data.append({
+                    'year': year,
+                    'tournament': f'DEFAULT_{surface}',
+                    'surface': surface,
+                    'ace_pct': vals['ace_pct'],
+                    'speed': vals['speed']
+                })
 else:
     # Se non ci sono dati scaricati, usa valori fissi ragionevoli
     print("\n⚠️ Nessun dato scaricato, uso valori di default fissi")

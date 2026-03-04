@@ -6,7 +6,7 @@ print("👤 GENERANDO PERFILES (V5.0 - SOLUCIÓN TOTAL)...")
 
 try:
     # 1. Cargar CSV
-    df = pd.read_csv("historialTenis.csv")
+    df = pd.read_csv("historialTenis.csv", low_memory=False)
     
     # --- A. LIMPIEZA Y FORMATO ---
     df['tourney_id'] = df['tourney_id'].astype(str)
