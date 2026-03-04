@@ -83,9 +83,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configuration ────────────────────────────────────────────────────────────
-TRIALS_GBM = 60
-TRIALS_ANN = 40
-ANN_EPOCHS = 80
+TRIALS_GBM = 30
+TRIALS_ANN = 20
+ANN_EPOCHS = 60
 
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
               'D': 1.0, 'C': 0.8, 'S': 0.7, 'E': 0.5, '0': 0.8, 'O': 0.5}
@@ -138,6 +138,18 @@ def carica_e_prepara(csv_path: str):
         return 'NEUTRAL'
     df['tourney_ioc'] = df['tourney_name'].apply(detect_country)
 
+    # ── Pre-compute court speed for all unique (tourney_name, surface, year) ──
+    court_speed_cache = {}
+    unique_tourneys = df[['tourney_name', 'surface', 'tourney_date']].drop_duplicates()
+    for _, tr in unique_tourneys.iterrows():
+        tname = tr['tourney_name']
+        tsurf = tr['surface'] if isinstance(tr['surface'], str) else 'Hard'
+        tyear = int(str(int(tr['tourney_date']))[:4]) if pd.notna(tr['tourney_date']) else 2025
+        cache_key = (tname, tsurf, tyear)
+        if cache_key not in court_speed_cache:
+            court_speed_cache[cache_key] = get_court_stats(tname, tsurf, tyear)
+    print(f"   → Court speed cache: {len(court_speed_cache)} entries")
+
     # ── Win-rate superficie ───────────────────────────────────────────────────
     wins   = df.groupby(['winner_name', 'surface']).size().reset_index(name='wins')
     losses = df.groupby(['loser_name',  'surface']).size().reset_index(name='losses')
@@ -169,7 +181,11 @@ def carica_e_prepara(csv_path: str):
         return elo_surf.get((p, s), ELO_DEFAULT)
 
     rows = []
-    for idx, row in df.iterrows():
+    df_records = df.to_dict('records')  # Pre-convert once for speed
+    print(f"   → Starting feature engineering loop ({len(df_records):,} records)...")
+    for row_idx, row in enumerate(df_records):
+        if row_idx % 5000 == 0 and row_idx > 0:
+            print(f"     ... {row_idx:,}/{len(df_records):,} processed", flush=True)
         tid  = row['tourney_id']
         w, l = row['winner_name'], row['loser_name']
         dur  = row['minutes']
@@ -288,7 +304,7 @@ def carica_e_prepara(csv_path: str):
                     lst.append(float(v))
                     if len(lst) > 10: lst.pop(0)
 
-        rd = row.to_dict(); upd_serve(w, rd, 'w'); upd_return(w, rd, 'l')
+        rd = row; upd_serve(w, rd, 'w'); upd_return(w, rd, 'l')
 
         sk_w = get_skill(w, surf); sk_l = get_skill(l, surf)
         home_w = 1 if row['winner_ioc'] == row['tourney_ioc'] else 0
@@ -348,11 +364,11 @@ def carica_e_prepara(csv_path: str):
             'level_weight':      lev_w,
         }
 
-        # ── Court speed ──
-        tourney_year = int(str(row['tourney_date'])[:4]) if pd.notna(row.get('tourney_date')) else 2025
+        # ── Court speed (from cache) ──
+        tourney_year = int(str(int(row['tourney_date']))[:4]) if pd.notna(row.get('tourney_date')) else 2025
         surf_safe = surf if isinstance(surf, str) else 'Hard'
-        court_ace, court_spd = get_court_stats(
-            row.get('tourney_name', ''), surf_safe, tourney_year)
+        cache_key = (row.get('tourney_name', ''), surf_safe, tourney_year)
+        court_ace, court_spd = court_speed_cache.get(cache_key, (0.0, 0.0))
         diffs['court_ace_pct'] = court_ace
         diffs['court_speed']   = court_spd
 
