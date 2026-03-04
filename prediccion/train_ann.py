@@ -374,6 +374,11 @@ def carica_e_prepara(csv_path: str):
     # Salva momentum per superficie {(player, surface): [last 10 results]}
     joblib.dump(racha_t, 'momentum_surface.pkl')
     print("   → momentum_surface.pkl salvato")
+    # Salva Elo overall e recent form (usati dal predictor per le 4 nuove feature)
+    joblib.dump(elo_overall, 'elo_overall.pkl')
+    print("   → elo_overall.pkl salvato")
+    joblib.dump(recent_form_t, 'recent_form.pkl')
+    print("   → recent_form.pkl salvato")
 
     return df_out, stats_dict, elo_surf, streak_t
 
@@ -1121,7 +1126,8 @@ if __name__ == '__main__':
 
     print("\n✅ File salvati:")
     for f in ['modelo_ann.pth', 'scaler_ann.pkl', 'ann_config.json',
-              'elo_surface.pkl', 'streak_players.pkl', 'momentum_surface.pkl',
+              'elo_surface.pkl', 'elo_overall.pkl', 'streak_players.pkl',
+              'momentum_surface.pkl', 'recent_form.pkl',
               'calibrator_ann.pkl', 'resultados_comparacion_finale.csv',
               'modelo_lgb.pkl', 'modelo_xgb.pkl', 'modelo_meta_lr.pkl']:
         stato = "✅" if os.path.exists(f) else "—"

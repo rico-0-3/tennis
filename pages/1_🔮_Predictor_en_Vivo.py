@@ -117,7 +117,9 @@ ANN_FEATURES = [
     'diff_ace', 'diff_1st_won', 'diff_bp_saved',
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',
     'court_ace_pct', 'court_speed',
-]  # 25 feature (pruned: rimossi diff_df, diff_1st_pct, diff_2nd_won)
+    'log_rank_ratio', 'log_pts_ratio',
+    'diff_elo_overall', 'diff_recent_form',
+]  # 29 feature (v3.1)
 
 SURFACE_MAP   = {'Hard': 0, 'Clay': 1, 'Grass': 2}
 LEVEL_MAP     = {'G': 5, 'M': 4, 'A': 3, 'F': 4, 'C': 2, 'S': 1, 'E': 0}
@@ -171,13 +173,20 @@ def cargar_todo():
         try: ann_calibrator = joblib.load(cal_path)
         except: pass
 
-    # Elo + streak + momentum
+    # Elo + streak + momentum + elo_overall + recent_form
     elo_path    = pp('elo_surface.pkl')
     streak_path = pp('streak_players.pkl')
     mom_path    = pp('momentum_surface.pkl')
+    elo_ov_path = pp('elo_overall.pkl')
+    rf_path     = pp('recent_form.pkl')
     if os.path.exists(elo_path):    elo_surface      = joblib.load(elo_path)
     if os.path.exists(streak_path): streak_players   = joblib.load(streak_path)
     if os.path.exists(mom_path):    momentum_surface = joblib.load(mom_path)
+
+    elo_overall = {}     # {player: elo_float}
+    recent_form = {}     # {player: [last 10 results]}
+    if os.path.exists(elo_ov_path): elo_overall  = joblib.load(elo_ov_path)
+    if os.path.exists(rf_path):     recent_form  = joblib.load(rf_path)
 
     # Storico e Ranking
     try:
@@ -193,12 +202,12 @@ def cargar_todo():
 
     return (stats_dict, perfiles, df_history, ranking_dict,
             ann_global, ann_scaler, ann_calibrator, elo_surface, streak_players,
-            momentum_surface)
+            momentum_surface, elo_overall, recent_form)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
  ann_global, ann_scaler, ann_calibrator, elo_surface, streak_players,
- momentum_surface) = cargar_todo()
+ momentum_surface, elo_overall, recent_form) = cargar_todo()
 
 if ann_global is None:
     st.error("❌ Modello ANN non trovato. Assicurati che `modelo_ann.pth`, `ann_config.json` e `scaler_ann.pkl` siano nella cartella `prediccion/`.")
@@ -293,7 +302,7 @@ with st.sidebar:
     st.header("⚙️ Configurazione")
 
     st.subheader("🧠 Cervello dell'IA")
-    st.info("Usando: **ANN v3** — Wide&Deep + Residual (PyTorch, 25 feature, calibrato) 🔥")
+    st.info("Usando: **ANN v3.1** — Wide&Deep + Residual + GBM Ensemble (29 feature, calibrato) 🔥")
 
     st.divider()
 
@@ -446,6 +455,16 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
     elo1 = elo_surface.get((nombre1, superficie), ELO_DEFAULT)
     elo2 = elo_surface.get((nombre2, superficie), ELO_DEFAULT)
 
+    # Elo overall (all surfaces)
+    elo_ov1 = elo_overall.get(nombre1, ELO_DEFAULT)
+    elo_ov2 = elo_overall.get(nombre2, ELO_DEFAULT)
+
+    # Recent form (all surfaces, last 10 matches)
+    rf1 = recent_form.get(nombre1, [])
+    rf2 = recent_form.get(nombre2, [])
+    form1 = np.mean(rf1) if rf1 else 0.5
+    form2 = np.mean(rf2) if rf2 else 0.5
+
     # Striscia attiva (dal pkl, oppure calcolata da last_5)
     def calc_streak_from_last5(last5):
         s = 0
@@ -503,6 +522,10 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         'diff_return_1st':  rtn_1st1 - rtn_1st2,
         'court_ace_pct':    court_ace,
         'court_speed':      court_spd,
+        'log_rank_ratio':   np.log1p(r2) - np.log1p(r1),
+        'log_pts_ratio':    np.log1p(pts1) - np.log1p(pts2),
+        'diff_elo_overall':  elo_ov1 - elo_ov2,
+        'diff_recent_form':  form1 - form2,
     }])
 
     input_sc = ann_scaler.transform(ann_input[ANN_FEATURES])
