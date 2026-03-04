@@ -1072,6 +1072,37 @@ if __name__ == '__main__':
     model_final, _ = train_model(model_final, ldr_tr, ldr_val, epochs=ep, lr=lr,
                                   smoothing=sm)
 
+    # Re-train top 5 ANN models on all data
+    top5_state_dicts = [model_final.state_dict()]   # best is already trained
+    top5_configs     = [best_hp]
+    for idx in range(1, min(5, len(risultati))):
+        hp_i = risultati[idx]['_config']
+        hl_i  = hp_i['hidden_layers']
+        dr_i  = hp_i['dropout']
+        lr_i  = hp_i['lr']
+        bs_i  = hp_i['batch_size']
+        ep_i  = hp_i['epochs']
+        sm_i  = hp_i.get('label_smoothing', 0.05)
+        iset_i   = hp_i.get('interaction_set', 'core')
+        ipairs_i = hp_i.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
+        ninter_i = hp_i.get('n_interactions', len(ipairs_i))
+
+        print(f"   Re-training ANN #{idx+1} (arch={hl_i})...")
+        bs_eff_i = bs_i * 2 if USE_CUDA and bs_i < 2048 else bs_i
+        w_i = torch.tensor(w_combined)
+        sampler_i = WeightedRandomSampler(w_i, len(w_i), replacement=True)
+        ldr_tr_i = DataLoader(TensorDataset(X_tr_t, y_tr_t), batch_size=bs_eff_i,
+                              sampler=sampler_i, pin_memory=PIN_MEM, num_workers=N_WORK)
+        model_i = TennisANNv3(len(FEATURES), hl_i, dr_i, ninter_i, ipairs_i)
+        model_i, _ = train_model(model_i, ldr_tr_i, ldr_val, epochs=ep_i, lr=lr_i,
+                                  smoothing=sm_i)
+        top5_state_dicts.append(model_i.state_dict())
+        top5_configs.append(hp_i)
+
+    joblib.dump({'state_dicts': top5_state_dicts, 'configs': top5_configs},
+                'modelo_ann_top5.pkl')
+    print(f"   → modelo_ann_top5.pkl salvato ({len(top5_state_dicts)} modelli)")
+
     # Re-train GBM on all data
     y_all_np = y.values if hasattr(y, 'values') else np.array(y)
     all_weights = calcola_pesi_combinati(dates, level_w, 0.003)
@@ -1128,7 +1159,7 @@ if __name__ == '__main__':
     df_confronto = confronto_finale(results_list)
 
     print("\n✅ File salvati:")
-    for f in ['modelo_ann.pth', 'scaler_ann.pkl', 'ann_config.json',
+    for f in ['modelo_ann.pth', 'modelo_ann_top5.pkl', 'scaler_ann.pkl', 'ann_config.json',
               'elo_surface.pkl', 'elo_overall.pkl', 'streak_players.pkl',
               'momentum_surface.pkl', 'recent_form.pkl',
               'calibrator_ann.pkl', 'resultados_comparacion_finale.csv',

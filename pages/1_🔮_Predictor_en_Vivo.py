@@ -29,16 +29,20 @@ hide_st_style = """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
 st.markdown("""
-Questa applicazione utilizza un **Ensemble Stacking** di 3 modelli di Intelligenza Artificiale, combinati da un meta-modello:
+Questa applicazione utilizza un **ANN Top-5 Average** — media delle probabilità di 5 reti neurali con architetture diverse selezionate da Optuna:
 
-| Modello | Tipo | Descrizione |
-|---------|------|-------------|
-| 🧠 **ANN** | Rete Neurale (Wide & Deep) | Cattura relazioni non-lineari complesse tra le 29 feature |
-| 🌲 **LightGBM** | Gradient Boosting ad Albero | Alberi decisionali in sequenza, ognuno corregge gli errori del precedente — veloce e robusto |
-| 🌳 **XGBoost** | Gradient Boosting ad Albero | Simile a LightGBM con regolarizzazione diversa — eccelle su dati tabulari |
-| 🎯 **Meta-LR** | Regressione Logistica (Stacking) | Combina le probabilità dei 3 modelli con pesi ottimali appresi su dati di validazione |
+| Modello | Tipo | Ruolo |
+|---------|------|-------|
+| 🧠 **ANN ×5** | Reti Neurali (Wide & Deep) | 5 architetture diverse, ciascuna cattura pattern diversi nei dati |
+| 🌲 **LightGBM** | Gradient Boosting ad Albero | Alberi decisionali in sequenza — usato come confronto |
+| 🌳 **XGBoost** | Gradient Boosting ad Albero | Simile a LightGBM con regolarizzazione diversa — usato come confronto |
 
-**Come funziona:** Ogni modello produce una probabilità indipendente → il Meta-LR impara i pesi migliori per combinarle in un'unica predizione finale.
+**Come funziona:**
+1. **Optuna** testa centinaia di architetture neurali diverse (strati, neuroni, dropout, learning rate...)
+2. Le **5 migliori** vengono selezionate e ri-addestrate su tutti i dati
+3. In fase di predizione, ognuna produce una probabilità → la **media** delle 5 è il risultato finale
+
+Perché la media? Ogni rete ha punti di forza diversi; mediando si riduce l'errore individuale (**ensemble diversity**).
 
 Il sistema analizza **29 feature** tra cui:
 * 📊 **Gerarchia:** Ranking, Punti, Elo (globale e per superficie).
@@ -156,6 +160,7 @@ def cargar_todo():
 
     # ANN globale v3
     ann_global = None; ann_scaler = None; ann_calibrator = None
+    ann_top5_models = []   # lista di modelli ANN per Top-5 averaging
     elo_surface = {}     # {(player, surface): elo_float}
     streak_players = {}
     momentum_surface = {}  # {(player, surface): [last 10 results]}
@@ -176,6 +181,23 @@ def cargar_todo():
             ann_scaler = joblib.load(sca_base)
         except Exception as e:
             st.warning(f"ANN globale non caricata: {e}")
+
+    # Top-5 ANN models
+    top5_path = pp('modelo_ann_top5.pkl')
+    if os.path.exists(top5_path) and ann_scaler is not None:
+        try:
+            top5_data = joblib.load(top5_path)
+            for sd, hp_i in zip(top5_data['state_dicts'], top5_data['configs']):
+                hl_i  = hp_i['hidden_layers']
+                dr_i  = hp_i['dropout']
+                ipairs_i = hp_i.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
+                ninter_i = hp_i.get('n_interactions', len(ipairs_i))
+                m = TennisANNv3(len(ANN_FEATURES), hl_i, dr_i, ninter_i, ipairs_i)
+                m.load_state_dict(sd)
+                m.eval()
+                ann_top5_models.append(m)
+        except Exception as e:
+            st.warning(f"Top-5 ANN non caricati: {e}")
 
     # Calibratore (Platt scaling)
     cal_path = pp('calibrator_ann.pkl')
@@ -226,13 +248,15 @@ def cargar_todo():
         ranking_dict = {}
 
     return (stats_dict, perfiles, df_history, ranking_dict,
-            ann_global, ann_scaler, ann_calibrator, elo_surface, streak_players,
+            ann_global, ann_scaler, ann_calibrator, ann_top5_models,
+            elo_surface, streak_players,
             momentum_surface, elo_overall, recent_form,
             lgb_model, xgb_model, meta_model)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
- ann_global, ann_scaler, ann_calibrator, elo_surface, streak_players,
+ ann_global, ann_scaler, ann_calibrator, ann_top5_models,
+ elo_surface, streak_players,
  momentum_surface, elo_overall, recent_form,
  lgb_model, xgb_model, meta_model) = cargar_todo()
 
@@ -557,28 +581,38 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
 
     input_sc = ann_scaler.transform(ann_input[ANN_FEATURES])
     input_t  = torch.tensor(input_sc.astype(np.float32))
-    ann_global.eval()
-    with torch.no_grad():
-        logit = ann_global(input_t).item()
 
-    # Probabilità ANN (sigmoid semplice, come nel training per il meta model)
-    ann_prob = 1 / (1 + np.exp(-logit))
-
-    # ─── Ensemble Stacking (ANN + LGB + XGB → Meta-LR) ──────────────────────
-    use_ensemble = (lgb_model is not None and xgb_model is not None and meta_model is not None)
-    if use_ensemble:
-        lgb_prob = lgb_model.predict_proba(input_sc)[:, 1][0]
-        xgb_prob = xgb_model.predict_proba(input_sc)[:, 1][0]
-        meta_input = np.array([[ann_prob, lgb_prob, xgb_prob]])
-        prob_j1 = meta_model.predict_proba(meta_input)[0, 1]
-        modello_usato = "Ensemble Stacking"
+    # ─── ANN Top-5 Average (miglior metodo in training) ──────────────────────
+    use_top5 = len(ann_top5_models) >= 2
+    if use_top5:
+        top5_probs = []
+        for m in ann_top5_models:
+            m.eval()
+            with torch.no_grad():
+                logit_i = m(input_t).item()
+            top5_probs.append(1 / (1 + np.exp(-logit_i)))
+        prob_j1 = float(np.mean(top5_probs))
+        modello_usato = f"ANN Top-{len(ann_top5_models)} Avg"
     else:
-        # Fallback: ANN-only con Platt scaling
+        # Fallback: ANN singola con Platt scaling
+        ann_global.eval()
+        with torch.no_grad():
+            logit = ann_global(input_t).item()
         if ann_calibrator is not None:
             prob_j1 = ann_calibrator.predict_proba(np.array([[logit]]))[0, 1]
         else:
-            prob_j1 = ann_prob
+            prob_j1 = 1 / (1 + np.exp(-logit))
         modello_usato = "ANN v3"
+
+    # Probabilità modelli individuali (per dettaglio)
+    ann_global.eval()
+    with torch.no_grad():
+        ann_logit = ann_global(input_t).item()
+    ann_prob = 1 / (1 + np.exp(-ann_logit))
+
+    has_gbm = (lgb_model is not None and xgb_model is not None)
+    lgb_prob = lgb_model.predict_proba(input_sc)[:, 1][0] if lgb_model is not None else None
+    xgb_prob = xgb_model.predict_proba(input_sc)[:, 1][0] if xgb_model is not None else None
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()
@@ -616,15 +650,22 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         st.plotly_chart(fig_bar, use_container_width=True)
 
     # ─── Dettaglio modelli individuali ────────────────────────────────────────
-    if use_ensemble:
-        with st.expander("🔍 Dettaglio predizioni per modello"):
-            col_a, col_l, col_x, col_m = st.columns(4)
-            with col_a:
-                st.metric("🧠 ANN", f"{ann_prob:.1%}", delta="Rete Neurale")
+    with st.expander("🔍 Dettaglio predizioni per modello"):
+        if use_top5:
+            st.markdown(f"**Strategia:** Media delle probabilità di **{len(ann_top5_models)} reti neurali** con architetture diverse (Top-5 da Optuna).")
+            cols = st.columns(len(ann_top5_models))
+            for idx, (col, p) in enumerate(zip(cols, top5_probs)):
+                with col:
+                    st.metric(f"ANN #{idx+1}", f"{p:.1%}")
+            st.caption(f"**Risultato Top-{len(ann_top5_models)} Avg = {prob_j1:.1%}** — media aritmetica delle {len(ann_top5_models)} probabilità.")
+        else:
+            st.metric("🧠 ANN Best", f"{ann_prob:.1%}", delta="Rete Neurale singola")
+
+        if has_gbm:
+            st.divider()
+            st.markdown("**Modelli ad albero (informativi):**")
+            col_l, col_x = st.columns(2)
             with col_l:
                 st.metric("🌲 LightGBM", f"{lgb_prob:.1%}", delta="Gradient Boosting")
             with col_x:
                 st.metric("🌳 XGBoost", f"{xgb_prob:.1%}", delta="Gradient Boosting")
-            with col_m:
-                st.metric("🎯 Meta-LR", f"{prob_j1:.1%}", delta="Stacking finale")
-            st.caption("Il Meta-LR combina le 3 probabilità con pesi appresi in fase di addestramento per produrre la predizione finale.")
