@@ -127,25 +127,27 @@ elif os.path.exists(ARCHIVO_SALIDA):
     try:
         df_letto = pd.read_csv(ARCHIVO_SALIDA)
 
-        if 'scraping_date' not in df_letto.columns:
-            print("   ⚠️  Colonna 'scraping_date' assente — forzo re-scraping completo")
-            tornei_in_corso = set(df_letto['tourney_id'].unique())
-        else:
-            for tid in df_letto['tourney_id'].unique():
-                righe = df_letto[df_letto['tourney_id'] == tid]
-                try:
-                    data_str = righe['scraping_date'].max()
-                    data_scr = datetime.strptime(str(data_str)[:10], '%Y-%m-%d').date()
-                except Exception:
-                    data_scr = date(2000, 1, 1)
+        for tid in df_letto['tourney_id'].unique():
+            righe = df_letto[df_letto['tourney_id'] == tid]
 
-                giorni_fa = (OGGI - data_scr).days
-                if giorni_fa <= MAX_TORNEO_GG:
-                    tornei_in_corso.add(tid)
-                else:
-                    tornei_gia_scaricati.add(tid)
+            # Usa tourney_date (YYYYMMDD) per capire se il torneo è ancora in corso
+            try:
+                td_val = int(righe['tourney_date'].max())
+                anno = td_val // 10000
+                mese = (td_val % 10000) // 100
+                giorno = td_val % 100
+                data_torneo = date(anno, mese, giorno)
+            except Exception:
+                data_torneo = OGGI  # se non si riesce a leggere, trattalo come in corso
 
-            df_esistente = df_letto[~df_letto['tourney_id'].isin(tornei_in_corso)].copy()
+            # Se tourney_date + MAX_TORNEO_GG è ancora nel futuro → torneo in corso
+            fine_stimata = data_torneo + timedelta(days=MAX_TORNEO_GG)
+            if fine_stimata >= OGGI:
+                tornei_in_corso.add(tid)
+            else:
+                tornei_gia_scaricati.add(tid)
+
+        df_esistente = df_letto[~df_letto['tourney_id'].isin(tornei_in_corso)].copy()
 
         n_tot = len(tornei_gia_scaricati) + len(tornei_in_corso)
         print(f"📂 CSV trovato: {len(df_letto)} partite, {n_tot} tornei")
