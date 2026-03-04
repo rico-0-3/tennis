@@ -18,12 +18,14 @@ UTILIZZO:
     python train_ann.py
 
 OUTPUT:
-    modelo_ann.pth               ← modello globale v3
-    ann_config.json              ← config con v3 metadata
-    scaler_ann.pkl               ← StandardScaler 28 feature
+    modelo_ann.pth               ← modello globale v3.1
+    ann_config.json              ← config con v3.1 metadata
+    scaler_ann.pkl               ← StandardScaler 29 feature
     elo_surface.pkl              ← Elo corrente per superficie
+    elo_overall.pkl              ← Elo overall (tutte le superfici)
     streak_players.pkl           ← striscia attiva per giocatore
     momentum_surface.pkl         ← momentum per (giocatore, superficie)
+    recent_form.pkl              ← recent form per giocatore (ultimi 10)
     calibrator_ann.pkl           ← Platt scaling calibrator
     resultados_comparacion_finale.csv  ← confronto modelli
 """
@@ -439,12 +441,13 @@ ARCH_OPTIONS = {
     '4L_m':    [256, 128, 64, 32],
 }
 
-# Coppie di feature per interaction layer (indici aggiornati per 25 feature)
+# Coppie di feature per interaction layer (indici aggiornati per 29 feature)
 # 0=rank, 1=rank_pts, 2=seed, 3=age, 4=ht, 5=elo, 6=streak,
 # 7=surface, 8=level, 9=round, 10=draw, 11=hand,
 # 12=skill, 13=home, 14=fatigue, 15=momentum, 16=h2h,
 # 17=ace, 18=1st_won, 19=bp_saved, 20=return_pct, 21=bp_conv, 22=return_1st,
-# 23=court_ace, 24=court_speed
+# 23=court_ace, 24=court_speed, 25=log_rank_ratio, 26=log_pts_ratio,
+# 27=elo_overall, 28=recent_form
 
 INTERACTION_SETS = {
     'core': [                    # Coppie fondamentali (ranking × form)
