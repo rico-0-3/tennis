@@ -25,16 +25,142 @@ except:
         COURT_SPEED_DICT[('default clay', year)] = {'ace_pct': 6.5, 'speed': 0.65, 'surface': 'Clay'}
         COURT_SPEED_DICT[('default grass', year)] = {'ace_pct': 12.5, 'speed': 1.15, 'surface': 'Grass'}
 
+# Mappa alias: nomi ATP/slug → nomi tennisabstract
+# Chiave: nome normalizzato (senza trattini, lowercase)
+# Valore: nome come appare su tennisabstract (lowercase)
+_ALIAS = {
+    'montreal':              'canada masters',
+    'toronto':               'canada masters',
+    'canada':                'canada masters',
+    'madrid':                'madrid masters',
+    'rome':                  'rome masters',
+    'roma':                  'rome masters',
+    'monte carlo':           'monte carlo masters',
+    'indian wells':          'indian wells masters',
+    'paris':                 'paris masters',
+    'paris bercy':           'paris masters',
+    'cincinnati':            'cincinnati masters',
+    'shanghai':              'shanghai masters',
+    'miami':                 'miami masters',
+    'nitto atp finals':      'tour finals',
+    'atp finals':            'tour finals',
+    'barclays atp world tour finals': 'tour finals',
+    'nitto atp world tour finals':    'tour finals',
+    'us open':               'us open',
+    'roland garros':         'roland garros',
+    'wimbledon':             'wimbledon',
+    'australian open':       'australian open',
+    'queens club':           'queens club',
+    'hertogenbosch':         's hertogenbosch',
+    's hertogenbosch':       's hertogenbosch',
+    'bogota':                'bogota',
+    'bastad':                'bastad',
+    'gstaad':                'gstaad',
+    'kitzbuhel':             'kitzbuhel',
+    'umag':                  'umag',
+    'winston salem':         'winston-salem',
+    'new haven':             'new haven',
+    'beijing':               'beijing',
+    'tokyo':                 'tokyo',
+    'vienna':                'vienna',
+    'stockholm':             'stockholm',
+    'moscow':                'moscow',
+    'st petersburg':         'st petersburg',
+    'marrakech':             'marrakech',
+    'lyon':                  'lyon',
+    'estoril':               'estoril',
+    'bucharest':             'bucharest',
+    'munich':                'munich',
+    'geneva':                'geneva',
+    'hamburg':               'hamburg',
+    'eastbourne':            'eastbourne',
+    'nottingham':            'nottingham',
+    'newport':               'newport',
+    'los cabos':             'los cabos',
+    'washington':            'washington',
+    'atlanta':               'atlanta',
+    'metz':                  'metz',
+    'antwerp':               'antwerp',
+    'basel':                 'basel',
+    'barcelona':             'barcelona',
+    'halle':                 'halle',
+    'stuttgart':             'stuttgart',
+    'mallorca':              'mallorca',
+    'houston':               'houston',
+    'istanbul':              'istanbul',
+    'nice':                  'nice',
+    'florence':              'florence',
+    'naples':                'naples',
+    'gijon':                 'gijon',
+    'tel aviv':              'tel aviv',
+    'seoul':                 'seoul',
+    'nur sultan':            'nur-sultan',
+    'astana':                'nur-sultan',
+    'almaty':                'almaty',
+    'chengdu':               'chengdu',
+    'hangzhou':              'hangzhou',
+    'cordoba':               'cordoba',
+    'santiago':              'santiago',
+    'buenos aires':          'buenos aires',
+    'sao paulo':             'sao paulo',
+    'rio de janeiro':        'rio de janeiro',
+    'quito':                 'quito',
+    'acapulco':              'acapulco',
+    'delray beach':          'delray beach',
+    'dallas':                'dallas',
+    'memphis':               'memphis',
+    'las vegas':             'las vegas',
+    'doha':                  'doha',
+    'dubai':                 'dubai',
+    'rotterdam':             'rotterdam',
+    'montpellier':           'montpellier',
+    'marseille':             'marseille',
+    'sofia':                 'sofia',
+    'zagreb':                'zagreb',
+    'pune':                  'pune',
+    'auckland':              'auckland',
+    'brisbane':              'brisbane',
+    'adelaide':              'adelaide',
+    'hong kong':             'hong kong',
+    'kuala lumpur':          'kuala lumpur',
+    'shenzhen':              'shenzhen',
+    'united cup':            'united cup',
+    'laver cup':             'laver cup',
+    'next gen finals':       'next gen finals',
+    'nextgen finals':        'next gen finals',
+    'new york':              'new york',
+    'san diego':             'san diego',
+    'sydney':                'sydney',
+    'melbourne':             'melbourne',
+    'belgrade':              'belgrade',
+    'parma':                 'parma',
+    'marbella':              'marbella',
+    'sardinia':              'sardinia',
+    'nur-sultan':            'nur-sultan',
+    'singapore':             'singapore',
+    'valencia':              'valencia',
+    'paris olympics':        'paris olympics',
+    'rio olympics':          'rio olympics',
+    'tokyo olympics':        'tokyo olympics',
+    'great ocean road open': 'great ocean road open',
+    'murray river open':     'murray river open',
+}
+
 def normalizza_nome_torneo(nome):
     """Normalizza il nome del torneo per matching"""
     if not nome or str(nome) == 'nan':
         return ''
     
     nome = str(nome).lower().strip()
-    # Rimuovi caratteri speciali
+    # Tratta i trattini come spazi (i nomi ATP slug usano hyphens: 'hong-kong' → 'hong kong')
+    nome = nome.replace('-', ' ')
+    # Rimuovi caratteri speciali (apostrofi, virgole, ecc.)
     nome = re.sub(r'[^a-z0-9\s]', '', nome)
     # Rimuovi spazi multipli
-    nome = re.sub(r'\s+', ' ', nome)
+    nome = re.sub(r'\s+', ' ', nome).strip()
+    # Applica alias se presente
+    if nome in _ALIAS:
+        nome = _ALIAS[nome]
     return nome
 
 def get_court_stats(tournament_name, surface='Hard', year=2025):
