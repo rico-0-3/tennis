@@ -13,4 +13,4 @@ __pycache__/
 # Opcional: Si tus archivos .pkl o .csv pesan más de 100MB, GitHub los rechazará.
 # Si son livianos, puedes borrarlos de esta lista para subirlos.
 # *.pkl
-# *.csv
+# *.csvtrain_ann_backup.py
