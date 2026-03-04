@@ -1,2 +1,6 @@
 Modello,Accuracy,Log Loss,Note,Acc. %
-ANN v3 Globale (28 feat),0.7289132197891321,0.5294895211433924,Wide&Deep + Residual + TemporalCV,72.89
+XGBoost (Optuna),0.6429518338488732,0.6236282359171024,"Temporal split, 37 features",64.3
+LightGBM (Optuna),0.6411842686699072,0.620287150782531,"Temporal split, 37 features",64.12
+Average Ensemble,0.6408896744734128,0.6165478549042084,Simple average of all model probabilities,64.09
+Stacking Ensemble,0.6310207688908529,0.6224434205966294,LGB+XGB+ANN meta-learner,63.1
+ANN v4 (Wide&Deep),0.6106937693327441,0.6231818583253574,"Temporal split, arch=[256, 128]",61.07

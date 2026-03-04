@@ -83,9 +83,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configuration ────────────────────────────────────────────────────────────
-TRIALS_GBM = 30
-TRIALS_ANN = 20
-ANN_EPOCHS = 60
+TRIALS_GBM = 20
+TRIALS_ANN = 10
+ANN_EPOCHS = 40
 
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
               'D': 1.0, 'C': 0.8, 'S': 0.7, 'E': 0.5, '0': 0.8, 'O': 0.5}
@@ -165,12 +165,36 @@ def carica_e_prepara(csv_path: str):
     # Per-surface win/loss tracking (incremental, no leakage)
     surf_wins_t  = {}   # {(player, surface): int}
     surf_losses_t = {}  # {(player, surface): int}
+    # General recent form (last N matches, any surface)
+    recent_form_t = {}  # {player: [1/0, ...]}
+    # H2H per surface
+    h2h_surf_t = {}     # {(p1_sorted, p2_sorted, surface): [w1, w2]}
+    # Total matches played per player
+    matches_played_t = {}  # {player: int}
+    # Overall Elo (not surface-specific)
+    elo_overall = {}    # {player: float}
 
     ELO_DEFAULT = 1500.0
-    K_ELO       = 32.0
 
     def get_elo(p, s):
         return elo_surf.get((p, s), ELO_DEFAULT)
+
+    def get_elo_overall(p):
+        return elo_overall.get(p, ELO_DEFAULT)
+
+    def elo_init_from_rank(rank_val, pts_val):
+        """Initialize Elo from ranking/points for first-time players."""
+        if pts_val and pts_val > 0:
+            return 1200 + 800 * min(1.0, np.log1p(pts_val) / np.log1p(10000))
+        if rank_val and rank_val > 0:
+            return max(1100, 2100 - 1.5 * rank_val)
+        return ELO_DEFAULT
+
+    def get_k_elo(level_str):
+        """Dynamic K-factor: higher for important tournaments."""
+        k_map = {'G': 48, 'M': 40, 'F': 40, 'A': 32, 'D': 32,
+                 'C': 24, 'S': 20, 'E': 16, '0': 24, 'O': 16}
+        return float(k_map.get(str(level_str), 32))
 
     rows = []
     df_records = df.to_dict('records')  # Pre-convert once for speed
@@ -210,11 +234,31 @@ def carica_e_prepara(csv_path: str):
             h2h_w = rec[1]-rec[0]; h2h_l = rec[0]-rec[1]; rec[1] += 1
         h2h_t[key] = rec
 
-        # --- Elo per superficie ---
-        elo_w = get_elo(w, surf); elo_l = get_elo(l, surf)
+        # --- Elo per superficie (init from ranking if first match) ---
+        rank_w_val = float(row['winner_rank']) if pd.notna(row.get('winner_rank')) else 0
+        rank_l_val = float(row['loser_rank']) if pd.notna(row.get('loser_rank')) else 0
+        pts_w_raw = float(row['winner_rank_points']) if pd.notna(row.get('winner_rank_points')) else 0
+        pts_l_raw = float(row['loser_rank_points']) if pd.notna(row.get('loser_rank_points')) else 0
+
+        if (w, surf) not in elo_surf:
+            elo_surf[(w, surf)] = elo_init_from_rank(rank_w_val, pts_w_raw)
+        if (l, surf) not in elo_surf:
+            elo_surf[(l, surf)] = elo_init_from_rank(rank_l_val, pts_l_raw)
+        elo_w = elo_surf[(w, surf)]; elo_l = elo_surf[(l, surf)]
         expected_w = 1.0 / (1.0 + 10.0 ** ((elo_l - elo_w) / 400.0))
-        elo_surf[(w, surf)] = elo_w + K_ELO * (1.0 - expected_w)
-        elo_surf[(l, surf)] = elo_l + K_ELO * (0.0 - (1.0 - expected_w))
+        k_elo = get_k_elo(row.get('tourney_level', ''))
+        elo_surf[(w, surf)] = elo_w + k_elo * (1.0 - expected_w)
+        elo_surf[(l, surf)] = elo_l + k_elo * (0.0 - (1.0 - expected_w))
+
+        # --- Overall Elo (init from ranking if first match) ---
+        if w not in elo_overall:
+            elo_overall[w] = elo_init_from_rank(rank_w_val, pts_w_raw)
+        if l not in elo_overall:
+            elo_overall[l] = elo_init_from_rank(rank_l_val, pts_l_raw)
+        elo_ov_w = elo_overall[w]; elo_ov_l = elo_overall[l]
+        exp_ov_w = 1.0 / (1.0 + 10.0 ** ((elo_ov_l - elo_ov_w) / 400.0))
+        elo_overall[w] = elo_ov_w + k_elo * (1.0 - exp_ov_w)
+        elo_overall[l] = elo_ov_l + k_elo * (0.0 - (1.0 - exp_ov_w))
 
         # --- Striscia attiva ---
         str_w = streak_t.get(w, 0); str_l = streak_t.get(l, 0)
@@ -311,6 +355,36 @@ def carica_e_prepara(csv_path: str):
         surf_wins_t[(w, surf)] = sw_w + 1
         surf_losses_t[(l, surf)] = sl_l + 1
 
+        # --- Recent form (last 10 matches, any surface) ---
+        rf_w = recent_form_t.get(w, [])
+        rf_l = recent_form_t.get(l, [])
+        recent_wr_w = np.mean(rf_w) if len(rf_w) >= 3 else 0.5
+        recent_wr_l = np.mean(rf_l) if len(rf_l) >= 3 else 0.5
+        rf_w_new = rf_w + [1]; rf_l_new = rf_l + [0]
+        if len(rf_w_new) > 10: rf_w_new.pop(0)
+        if len(rf_l_new) > 10: rf_l_new.pop(0)
+        recent_form_t[w] = rf_w_new
+        recent_form_t[l] = rf_l_new
+
+        # --- H2H on surface ---
+        h2h_s_key = (p1k, p2k, surf)
+        h2h_s_rec = h2h_surf_t.get(h2h_s_key, [0, 0])
+        if w == p1k:
+            h2h_s_w = h2h_s_rec[0] - h2h_s_rec[1]
+            h2h_s_l = h2h_s_rec[1] - h2h_s_rec[0]
+            h2h_s_rec[0] += 1
+        else:
+            h2h_s_w = h2h_s_rec[1] - h2h_s_rec[0]
+            h2h_s_l = h2h_s_rec[0] - h2h_s_rec[1]
+            h2h_s_rec[1] += 1
+        h2h_surf_t[h2h_s_key] = h2h_s_rec
+
+        # --- Matches played (experience) ---
+        mp_w = matches_played_t.get(w, 0)
+        mp_l = matches_played_t.get(l, 0)
+        matches_played_t[w] = mp_w + 1
+        matches_played_t[l] = mp_l + 1
+
         home_w = 1 if row['winner_ioc'] == row['tourney_ioc'] else 0
         home_l = 1 if row['loser_ioc']  == row['tourney_ioc'] else 0
         pts_w = float(row['winner_rank_points']) if pd.notna(row.get('winner_rank_points')) else 0
@@ -343,19 +417,25 @@ def carica_e_prepara(csv_path: str):
             'diff_ht':           (row['winner_ht']-row['loser_ht'])
                                  if pd.notna(row.get('winner_ht')) and pd.notna(row.get('loser_ht')) else 0,
             'diff_elo':          elo_w - elo_l,
+            'diff_elo_overall':  elo_ov_w - elo_ov_l,
             'diff_streak':       float(str_w - str_l),
             'diff_overall_wr':   overall_wr_w - overall_wr_l,
+            'diff_recent_form':  recent_wr_w - recent_wr_l,
             'surface_enc':       float(row['surface_enc']),
             'tourney_level':     float(row['tourney_level_enc']),
             'round_enc':         float(row['round_enc']),
             'draw_size':         float(row['draw_size']) if pd.notna(row.get('draw_size')) else 32,
+            'best_of':           float(row['best_of']) if pd.notna(row.get('best_of')) else 3.0,
             'diff_hand':         row['w_hand_enc'] - row['l_hand_enc'],
             'diff_skill':        sk_w - sk_l,
             'diff_home':         home_w - home_l,
             'diff_fatigue':      f_w - f_l,
             'diff_momentum':     mw - ml,
             'diff_h2h':          h2h_w - h2h_l,
+            'diff_h2h_surface':  float(h2h_s_w - h2h_s_l),
             'diff_ace':          sa_w['ace']     - sa_l['ace'],
+            'diff_df':           sa_w['df']      - sa_l['df'],
+            'diff_1st_pct':      sa_w['1st_pct'] - sa_l['1st_pct'],
             'diff_1st_won':      sa_w['1st_won'] - sa_l['1st_won'],
             'diff_2nd_won':      sa_w['2nd_won'] - sa_l['2nd_won'],
             'diff_bp_saved':     sa_w['bp_saved']- sa_l['bp_saved'],
@@ -364,6 +444,7 @@ def carica_e_prepara(csv_path: str):
             'diff_return_pct':   ra_w['return_pct'] - ra_l['return_pct'],
             'diff_bp_conv':      ra_w['bp_conv']    - ra_l['bp_conv'],
             'diff_return_1st':   ra_w['return_1st'] - ra_l['return_1st'],
+            'diff_matches_exp':  np.log1p(mp_w) - np.log1p(mp_l),
             'tourney_date':      float(row['tourney_date']) if pd.notna(row['tourney_date']) else 20200101,
             'level_weight':      lev_w,
         }
@@ -380,16 +461,19 @@ def carica_e_prepara(csv_path: str):
         # create structural bias (always positive for winner perspective),
         # inflating accuracy from ~65% to ~85-95% without genuine prediction power.
 
-        # Randomly assign perspective to avoid leakage from mirrored pairs.
-        # 50% chance: features are winner-loser (target=1)
-        # 50% chance: features are loser-winner (target=0)
+        # Fixed alphabetical perspective: features = alphabetically_first - second
+        # Target = 1 if alphabetically first player won, 0 otherwise.
+        # This eliminates artificial correlation between feature sign and target.
         contextual_keys = {'surface_enc','tourney_level','round_enc',
                           'draw_size','tourney_date','level_weight',
-                          'court_ace_pct','court_speed'}
-        if random.random() < 0.5:
+                          'court_ace_pct','court_speed','best_of'}
+        p1_alpha, _ = sorted([w, l])
+        if w == p1_alpha:
+            # Winner is alphabetically first → features are already w-l, target=1
             sample = diffs.copy()
             sample['target'] = 1
         else:
+            # Winner is alphabetically second → flip to l-w perspective, target=0
             sample = {k: -v if k not in contextual_keys else v
                       for k, v in diffs.items()}
             sample['target'] = 0
@@ -425,14 +509,16 @@ def carica_e_prepara(csv_path: str):
 FEATURES = [
     'diff_rank', 'log_rank_ratio', 'diff_rank_points', 'log_pts_ratio',
     'diff_seed', 'diff_age', 'diff_ht',
-    'diff_elo', 'diff_streak', 'diff_overall_wr',
-    'surface_enc', 'tourney_level', 'round_enc', 'draw_size',
+    'diff_elo', 'diff_elo_overall', 'diff_streak', 'diff_overall_wr', 'diff_recent_form',
+    'surface_enc', 'tourney_level', 'round_enc', 'draw_size', 'best_of',
     'diff_hand',
     'diff_skill', 'diff_home',
-    'diff_fatigue', 'diff_momentum', 'diff_h2h',
-    'diff_ace', 'diff_1st_won', 'diff_2nd_won', 'diff_bp_saved',
+    'diff_momentum', 'diff_h2h', 'diff_h2h_surface',
+    'diff_ace', 'diff_df', 'diff_1st_pct',
+    'diff_1st_won', 'diff_2nd_won', 'diff_bp_saved',
     'diff_serve_dom', 'diff_game_score',
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',
+    'diff_matches_exp',
     'court_ace_pct', 'court_speed',
 ]
 
@@ -1101,3 +1187,29 @@ if __name__ == '__main__':
     print(f"   Best model: {best_name}")
     print(f"   Test Accuracy: {best_result['Accuracy']:.4f} ({best_result['Accuracy']*100:.2f}%)")
     print(f"   Log Loss: {best_result['Log Loss']:.4f}")
+
+    # ── 15. Level-specific accuracy (with best model probs) ──────────────────
+    print(f"\n📊 Accuracy per livello torneo:")
+    level_names = {5.0: 'Grand Slam', 4.0: 'Masters/Finals', 3.0: 'ATP 250/Davis',
+                   2.0: 'Challenger/ITF', 1.0: 'Satellite/Other', 0.0: 'Exhibition'}
+    test_levels = df_ml.loc[mask_test, 'tourney_level'].values
+
+    # Use best model for test predictions
+    if 'LightGBM' in best_name and lgb_model is not None:
+        best_probs = lgb_model.predict_proba(X_te_sc)[:, 1]
+    elif 'XGBoost' in best_name and xgb_model is not None:
+        best_probs = xgb_model.predict_proba(X_te_sc)[:, 1]
+    elif 'Stacking' in best_name and meta_lr is not None:
+        test_meta = np.column_stack([test_probs[name] for name in test_probs])
+        best_probs = meta_lr.predict_proba(test_meta)[:, 1]
+    else:
+        best_probs = test_probs.get('ann', np.array([0.5]*len(y_test_np)))
+
+    best_preds = (best_probs >= 0.5).astype(int)
+    for level in sorted(set(test_levels)):
+        mask_l = test_levels == level
+        if mask_l.sum() > 10:
+            acc_l = accuracy_score(y_test_np[mask_l], best_preds[mask_l])
+            ll_l = log_loss(y_test_np[mask_l], best_probs[mask_l])
+            lname = level_names.get(level, f'Level {level}')
+            print(f"   {lname:20s}: {acc_l*100:5.1f}%  (n={mask_l.sum():5d}, log_loss={ll_l:.4f})")
