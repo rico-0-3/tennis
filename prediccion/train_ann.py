@@ -87,7 +87,7 @@ print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
 TRIALS = 100       # numero trial Optuna ANN
-TRIALS_GBM = 30    # trial per LightGBM e XGBoost
+TRIALS_GBM = 50    # trial per LightGBM e XGBoost
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
@@ -993,7 +993,7 @@ if __name__ == '__main__':
     if len(val_probs) >= 2:
         val_meta = np.column_stack(list(val_probs.values()))
         test_meta = np.column_stack(list(test_probs.values()))
-        meta_model = LogisticRegression(C=1.0, random_state=SEED, max_iter=1000)
+        meta_model = LogisticRegression(C=1.0, random_state=SEED, max_iter=2000)
         meta_model.fit(val_meta, y_val_np)
         stack_probs = meta_model.predict_proba(test_meta)[:, 1]
         stack_acc = accuracy_score(y_test_np, (stack_probs >= 0.5).astype(int))
