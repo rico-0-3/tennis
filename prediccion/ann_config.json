@@ -57,7 +57,7 @@
   "elo_surface_file": "elo_surface.pkl",
   "streak_file": "streak_players.pkl",
   "momentum_file": "momentum_surface.pkl",
-  "best_model_type": "XGBoost (Optuna)",
-  "best_accuracy": 0.6429518338488732,
-  "best_log_loss": 0.6236282359171024
+  "best_model_type": "Average Ensemble",
+  "best_accuracy": 0.6432464280453675,
+  "best_log_loss": 0.6145938149937141
 }

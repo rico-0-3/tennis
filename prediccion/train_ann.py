@@ -110,6 +110,35 @@ def carica_e_prepara(csv_path: str):
             df.loc[idx, 'tourney_date'] = 20260101
     df = df[df['tourney_date'] > 20000000].copy()
 
+    # ── Fix tourney_level '0' → infer from tourney_name ──────────────────────
+    grand_slam_names = ['australian-open', 'roland-garros', 'wimbledon', 'us-open']
+    masters_names = ['indian-wells', 'miami', 'monte-carlo', 'madrid', 'rome',
+                     'canada', 'cincinnati', 'shanghai', 'paris', 'montreal',
+                     'toronto', 'hamburg', 'atp-finals', 'nitto-atp-finals']
+    atp500_names  = ['rotterdam', 'dubai', 'acapulco', 'barcelona', 'queen',
+                     'halle', 'washington', 'beijing', 'tokyo', 'vienna',
+                     'basel', 'rio-de-janeiro', 'hamburg', 'astana', 's-hertogenbosch',
+                     'los-cabos']
+
+    def fix_level(row):
+        level = str(row['tourney_level'])
+        if level != '0':
+            return level
+        tname = str(row.get('tourney_name', '')).lower()
+        for gs in grand_slam_names:
+            if gs in tname: return 'G'
+        for ms in masters_names:
+            if ms in tname: return 'M'
+        for a5 in atp500_names:
+            if a5 in tname: return 'A'
+        return 'A'  # Default ATP 250 for unknown '0' events
+
+    mask_zero = df['tourney_level'].astype(str) == '0'
+    fixed_count = mask_zero.sum()
+    if fixed_count > 0:
+        df.loc[mask_zero, 'tourney_level'] = df[mask_zero].apply(fix_level, axis=1)
+        print(f"   → Fixed {fixed_count:,} tourney_level='0' entries")
+
     df = df.sort_values(by=['tourney_date', 'match_num']).reset_index(drop=True)
     df['minutes'] = df['minutes'].fillna(90)
     print(f"   → {len(df):,} partite caricate")
