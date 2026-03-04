@@ -1,18 +1,61 @@
 {
   "hidden_layers": [
-    512,
     256,
     128,
     64
   ],
-  "dropout": 0.5,
-  "lr": 0.0003636817400938816,
+  "dropout": 0.35,
+  "lr": 0.00036127895848106674,
   "batch_size": 256,
   "epochs": 60,
-  "lambda_decay": 0.001,
+  "lambda_decay": 0.0001,
   "label_smoothing": 0.06,
+  "interaction_set": "context",
+  "interaction_pairs": [
+    [
+      5,
+      12
+    ],
+    [
+      0,
+      15
+    ],
+    [
+      5,
+      7
+    ],
+    [
+      12,
+      7
+    ],
+    [
+      15,
+      7
+    ],
+    [
+      5,
+      8
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      5,
+      16
+    ],
+    [
+      6,
+      15
+    ],
+    [
+      12,
+      15
+    ]
+  ],
+  "n_interactions": 10,
   "model_version": "v3",
-  "input_dim": 28,
+  "input_dim": 25,
   "features": [
     "diff_rank",
     "diff_rank_points",
@@ -32,59 +75,13 @@
     "diff_momentum",
     "diff_h2h",
     "diff_ace",
-    "diff_df",
-    "diff_1st_pct",
     "diff_1st_won",
-    "diff_2nd_won",
     "diff_bp_saved",
     "diff_return_pct",
     "diff_bp_conv",
     "diff_return_1st",
     "court_ace_pct",
     "court_speed"
-  ],
-  "n_interactions": 10,
-  "interaction_pairs": [
-    [
-      5,
-      12
-    ],
-    [
-      0,
-      15
-    ],
-    [
-      5,
-      15
-    ],
-    [
-      12,
-      14
-    ],
-    [
-      0,
-      1
-    ],
-    [
-      5,
-      16
-    ],
-    [
-      12,
-      16
-    ],
-    [
-      6,
-      15
-    ],
-    [
-      14,
-      15
-    ],
-    [
-      1,
-      12
-    ]
   ],
   "scaler_file": "scaler_ann.pkl",
   "calibrator_file": "calibrator_ann.pkl",

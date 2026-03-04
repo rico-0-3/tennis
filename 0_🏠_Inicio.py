@@ -24,8 +24,8 @@ st.write("---")
 
 # Metriche
 col1, col2, col3 = st.columns(3)
-col1.metric("Precisione Modello", "72.36%", "+1.2%")
-col2.metric("Partite Analizzate", "+30.000", "2000-2026")
+col1.metric("Precisione Modello", "73.53%", "+1.2%")
+col2.metric("Partite Analizzate", "+30.000", "2015-2026")
 col3.metric("Ranking Aggiornato", "2026", "Live")
 
 st.write("---")

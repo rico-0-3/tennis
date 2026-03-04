@@ -109,16 +109,15 @@ class TennisANNv3(nn.Module):
 
 ANN_FEATURES = [
     'diff_rank', 'diff_rank_points', 'diff_seed', 'diff_age', 'diff_ht',
-    'diff_elo', 'diff_streak',                         # Elo per superficie + striscia attiva
+    'diff_elo', 'diff_streak',
     'surface_enc', 'tourney_level', 'round_enc', 'draw_size',
     'diff_hand',
     'diff_skill', 'diff_home',
     'diff_fatigue', 'diff_momentum', 'diff_h2h',
-    'diff_ace', 'diff_df', 'diff_1st_pct', 'diff_1st_won',
-    'diff_2nd_won', 'diff_bp_saved',
-    'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',  # Ritorno
-    'court_ace_pct', 'court_speed',                         # Court speed
-]  # 28 feature
+    'diff_ace', 'diff_1st_won', 'diff_bp_saved',
+    'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',
+    'court_ace_pct', 'court_speed',
+]  # 25 feature (pruned: rimossi diff_df, diff_1st_pct, diff_2nd_won)
 
 SURFACE_MAP   = {'Hard': 0, 'Clay': 1, 'Grass': 2}
 LEVEL_MAP     = {'G': 5, 'M': 4, 'A': 3, 'F': 4, 'C': 2, 'S': 1, 'E': 0}
@@ -292,7 +291,7 @@ with st.sidebar:
     st.header("⚙️ Configurazione")
 
     st.subheader("🧠 Cervello dell'IA")
-    st.info("Usando: **ANN v3** — Wide&Deep + Residual (PyTorch, 28 feature, calibrato) 🔥")
+    st.info("Usando: **ANN v3** — Wide&Deep + Residual (PyTorch, 25 feature, calibrato) 🔥")
 
     st.divider()
 
@@ -495,10 +494,7 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         'diff_momentum':    mom1_val - mom2_val,
         'diff_h2h':         diff_h2h,
         'diff_ace':         sa1.get('aces', 0) - sa2.get('aces', 0),
-        'diff_df':          0.0,
-        'diff_1st_pct':     0.0,
         'diff_1st_won':     (sa1.get('serve_win', 65) - sa2.get('serve_win', 65)) / 100,
-        'diff_2nd_won':     0.0,
         'diff_bp_saved':    (sa1.get('bp_saved', 60) - sa2.get('bp_saved', 60)) / 100,
         'diff_return_pct':  rtn_pct1 - rtn_pct2,
         'diff_bp_conv':     bp_conv1 - bp_conv2,

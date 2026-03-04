@@ -70,7 +70,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 60        # numero trial Optuna per ogni fold temporale
+TRIALS = 150       # numero trial Optuna (circa 2 ore con T4 su colab)
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
@@ -334,19 +334,18 @@ def carica_e_prepara(csv_path: str):
     return df_out, stats_dict, elo_surf, streak_t
 
 
-# ── Lista feature (28)────────────────────────────────────────────────────────
+# ── Lista feature (25) — pruned: rimossi diff_df, diff_1st_pct, diff_2nd_won
 FEATURES = [
-    'diff_rank', 'diff_rank_points', 'diff_seed', 'diff_age', 'diff_ht',
-    'diff_elo', 'diff_streak',                          # Elo per superficie + striscia
-    'surface_enc', 'tourney_level', 'round_enc', 'draw_size',
-    'diff_hand',
-    'diff_skill', 'diff_home',
-    'diff_fatigue', 'diff_momentum', 'diff_h2h',
-    'diff_ace', 'diff_df', 'diff_1st_pct', 'diff_1st_won',
-    'diff_2nd_won', 'diff_bp_saved',
-    'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',  # ← Ritorno
-    'court_ace_pct', 'court_speed',                         # ← Court speed
-]  # totale: 28 feature
+    'diff_rank', 'diff_rank_points', 'diff_seed', 'diff_age', 'diff_ht',  # 0-4
+    'diff_elo', 'diff_streak',                          # 5-6
+    'surface_enc', 'tourney_level', 'round_enc', 'draw_size',  # 7-10
+    'diff_hand',                                         # 11
+    'diff_skill', 'diff_home',                           # 12-13
+    'diff_fatigue', 'diff_momentum', 'diff_h2h',         # 14-15-16
+    'diff_ace', 'diff_1st_won', 'diff_bp_saved',         # 17-18-19
+    'diff_return_pct', 'diff_bp_conv', 'diff_return_1st', # 20-21-22
+    'court_ace_pct', 'court_speed',                       # 23-24
+]  # totale: 25 feature (pruned)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -389,13 +388,31 @@ ARCH_OPTIONS = {
     '4L_m':    [256, 128, 64, 32],
 }
 
-# Coppie di feature per interaction layer (indici in FEATURES)
-# 5=diff_elo, 12=diff_skill, 0=diff_rank, 15=diff_momentum, 1=diff_rank_points,
-# 14=diff_fatigue, 6=diff_streak, 16=diff_h2h, 23=diff_return_pct, 24=diff_bp_conv
-DEFAULT_INTERACTION_PAIRS = [
-    (5, 12), (0, 15), (5, 15), (12, 14), (0, 1),
-    (5, 16), (12, 16), (6, 15), (14, 15), (1, 12),
-]
+# Coppie di feature per interaction layer (indici aggiornati per 25 feature)
+# 0=rank, 1=rank_pts, 2=seed, 3=age, 4=ht, 5=elo, 6=streak,
+# 7=surface, 8=level, 9=round, 10=draw, 11=hand,
+# 12=skill, 13=home, 14=fatigue, 15=momentum, 16=h2h,
+# 17=ace, 18=1st_won, 19=bp_saved, 20=return_pct, 21=bp_conv, 22=return_1st,
+# 23=court_ace, 24=court_speed
+
+INTERACTION_SETS = {
+    'core': [                    # Coppie fondamentali (ranking × form)
+        (5, 12), (0, 15), (5, 15), (12, 15), (0, 1),
+        (5, 16), (6, 15), (12, 14), (14, 15), (1, 12),
+    ],
+    'serve_return': [            # Coppie servizio × ritorno
+        (5, 12), (0, 15), (5, 15), (17, 20), (18, 22),
+        (19, 21), (5, 16), (12, 15), (6, 15), (0, 1),
+    ],
+    'context': [                 # Coppie con contesto (superficie, livello torneo)
+        (5, 12), (0, 15), (5, 7), (12, 7), (15, 7),
+        (5, 8), (0, 1), (5, 16), (6, 15), (12, 15),
+    ],
+    'minimal': [                 # Solo le 5 più importanti
+        (5, 12), (0, 15), (5, 15), (5, 16), (0, 1),
+    ],
+}
+DEFAULT_INTERACTION_PAIRS = INTERACTION_SETS['core']
 N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
 
 
@@ -548,9 +565,12 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             ep  = trial.suggest_categorical('epochs', [60, 80, 100, 120])
             lam = trial.suggest_categorical('lambda_decay', [0.0001, 0.001, 0.003, 0.007, 0.015])
             sm  = trial.suggest_float('smoothing', 0.0, 0.1, step=0.01)
+            iset = trial.suggest_categorical('interaction_set', list(INTERACTION_SETS.keys()))
+            i_pairs = INTERACTION_SETS[iset]
+            n_inter = len(i_pairs)
 
             # Stampa PRIMA di addestrare — aggiornamento immediato in console
-            print(f"  [{trial.number+1:3d}/{n_trials}] arch={arch_name:12s} dr={dr:.2f} lr={lr:.0e} λ={lam:.4f} sm={sm:.2f}  ▶ training...", flush=True)
+            print(f"  [{trial.number+1:3d}/{n_trials}] arch={arch_name:12s} dr={dr:.2f} lr={lr:.0e} λ={lam:.4f} sm={sm:.2f} int={iset:14s}  ▶ training...", flush=True)
 
             # Se GPU, usa batch più grandi per tenerla satura
             bs_eff = bs * 2 if USE_CUDA and bs < 2048 else bs
@@ -562,7 +582,7 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             ldr_val = DataLoader(dataset_val, batch_size=4096, shuffle=False,
                                  pin_memory=PIN_MEM, num_workers=N_WORKERS)
 
-            model = TennisANNv3(input_dim, hl, dr)
+            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs)
             model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
             acc_v, _ = valuta(model, X_val_sc, y_val_np)
 
@@ -571,7 +591,10 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             trial.set_user_attr('lam', lam)
             trial.set_user_attr('hp', {'hidden_layers': hl, 'dropout': dr, 'lr': lr,
                                        'batch_size': bs, 'epochs': ep, 'lambda_decay': lam,
-                                       'label_smoothing': sm})
+                                       'label_smoothing': sm,
+                                       'interaction_set': iset,
+                                       'interaction_pairs': i_pairs,
+                                       'n_interactions': n_inter})
             return acc_v
 
         study = optuna.create_study(direction='maximize',
@@ -596,6 +619,7 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
                 'epochs':       t.params.get('epochs'),
                 'lambda_decay': t.params.get('lambda_decay'),
                 'smoothing':    t.params.get('smoothing'),
+                'interaction_set': t.params.get('interaction_set'),
                 'val_acc':      t.value,
                 'test_acc':     acc_t,
                 'log_loss':     ll,
@@ -616,15 +640,19 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             ep  = random.choice([60, 80, 100])
             lam = random.choice([0.0001, 0.001, 0.003, 0.007, 0.015])
             sm  = random.choice([0.0, 0.02, 0.05, 0.08, 0.1])
+            iset = random.choice(list(INTERACTION_SETS.keys()))
+            i_pairs = INTERACTION_SETS[iset]
+            n_inter = len(i_pairs)
             hp  = {'hidden_layers': hl, 'dropout': dr, 'lr': lr,
-                   'batch_size': bs, 'epochs': ep, 'lambda_decay': lam, 'label_smoothing': sm}
-            print(f"  [{i+1:3d}/{n_trials}] {str(hl):22s} drop={dr} lr={lr:.0e} λ={lam:.4f} sm={sm:.2f}  ▶ avvio...", flush=True)
+                   'batch_size': bs, 'epochs': ep, 'lambda_decay': lam, 'label_smoothing': sm,
+                   'interaction_set': iset, 'interaction_pairs': i_pairs, 'n_interactions': n_inter}
+            print(f"  [{i+1:3d}/{n_trials}] {str(hl):22s} drop={dr} lr={lr:.0e} λ={lam:.4f} sm={sm:.2f} int={iset}  ▶ avvio...", flush=True)
             w_combined = calcola_pesi_combinati(dates_tr, level_w_tr, lam)
             w_t = torch.tensor(w_combined)
             sampler = WeightedRandomSampler(w_t, len(w_t), replacement=True)
             ldr_tr  = DataLoader(dataset_tr,  batch_size=bs, sampler=sampler)
             ldr_val = DataLoader(dataset_val, batch_size=2048, shuffle=False)
-            model = TennisANNv3(input_dim, hl, dr)
+            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs)
             model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
             acc_v, _ = valuta(model, X_val_sc, y_val_np)
             acc_t, ll = valuta(model, X_te_sc, y_test_np)
@@ -632,6 +660,7 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             risultati.append({'trial': i+1, 'hidden_layers': str(hl),
                                'dropout': dr, 'lr': lr, 'batch_size': bs,
                                'epochs': ep, 'lambda_decay': lam, 'smoothing': sm,
+                               'interaction_set': iset,
                                'val_acc': acc_v, 'test_acc': acc_t,
                                'log_loss': ll, '_model': model, '_config': hp})
 
@@ -727,10 +756,12 @@ if __name__ == '__main__':
 
     print(f"\n🏆 Modello migliore (Optuna):")
     print(f"   Architettura:  {best['hidden_layers']}")
-    print(f"   Hyperparams:   dropout={best['dropout']} | lr={best['lr']:.0e} | bs={best['batch_size']} | λ={best['lambda_decay']} | sm={best.get('smoothing', '?')}")
+    print(f"   Hyperparams:   dropout={best['dropout']} | lr={best['lr']:.0e} | bs={best['batch_size']} | λ={best['lambda_decay']} | sm={best.get('smoothing', '?')} | int={best.get('interaction_set', '?')}")
     print(f"   Test Accuracy: {acc_test:.2%}")
     print(f"   Log Loss:      {ll_test:.4f}")
-    print(f"   Top 5 trial:\n{df_ris[['hidden_layers','dropout','lr','lambda_decay','smoothing','val_acc','test_acc']].head(5).to_string(index=False)}")
+    top5_cols = ['hidden_layers','dropout','lr','lambda_decay','smoothing','interaction_set','val_acc','test_acc']
+    top5_cols = [c for c in top5_cols if c in df_ris.columns]
+    print(f"   Top 5 trial:\n{df_ris[top5_cols].head(5).to_string(index=False)}")
 
     # ── 4. Re-training finale su TUTTI i dati con migliori HP ─────────────────
     print(f"\n🚀 Re-training modello finale su TUTTI i dati...")
@@ -754,6 +785,9 @@ if __name__ == '__main__':
     ep  = best_hp['epochs']
     lam = best_hp['lambda_decay']
     sm  = best_hp.get('label_smoothing', 0.05)
+    best_iset   = best_hp.get('interaction_set', 'core')
+    best_ipairs = best_hp.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
+    best_ninter = best_hp.get('n_interactions', len(best_ipairs))
 
     X_tr_t = torch.tensor(X_tr_fin_sc.astype(np.float32))
     y_tr_t = torch.tensor(y_tr_fin.values.astype(np.float32) if hasattr(y_tr_fin, 'values')
@@ -776,7 +810,7 @@ if __name__ == '__main__':
     ldr_val = DataLoader(TensorDataset(X_val_t, y_val_t), batch_size=4096,
                          shuffle=False, pin_memory=PIN_MEM, num_workers=N_WORK)
 
-    model_final = TennisANNv3(len(FEATURES), hl, dr)
+    model_final = TennisANNv3(len(FEATURES), hl, dr, best_ninter, best_ipairs)
     model_final, _ = train_model(model_final, ldr_tr, ldr_val, epochs=ep, lr=lr,
                                   smoothing=sm)
 
@@ -786,7 +820,7 @@ if __name__ == '__main__':
 
     print(f"\n🏆 Modello finale v3 (re-trained su tutti i dati):")
     print(f"   Architettura:  {hl}")
-    print(f"   Hyperparams:   dropout={dr} | lr={lr:.0e} | bs={bs} | λ={lam} | smoothing={sm}")
+    print(f"   Hyperparams:   dropout={dr} | lr={lr:.0e} | bs={bs} | λ={lam} | sm={sm} | int={best_iset}")
     print(f"   Optuna test:   {acc_test:.2%} (sul 15% test set)")
     print(f"   Finale val:    {acc_global:.2%} (sul 15% early-stop set)")
 
@@ -814,8 +848,8 @@ if __name__ == '__main__':
     cfg['model_version'] = 'v3'
     cfg['input_dim'] = len(FEATURES)
     cfg['features'] = FEATURES
-    cfg['n_interactions'] = N_INTERACTIONS
-    cfg['interaction_pairs'] = DEFAULT_INTERACTION_PAIRS
+    cfg['n_interactions'] = best_ninter
+    cfg['interaction_pairs'] = best_ipairs
     cfg['scaler_file'] = 'scaler_ann.pkl'
     cfg['calibrator_file'] = 'calibrator_ann.pkl'
     cfg['elo_surface_file'] = 'elo_surface.pkl'
