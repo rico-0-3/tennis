@@ -25,7 +25,7 @@
 
 ```python
 # Cella 1 — Installa dipendenze
-!pip install optuna torch pandas scikit-learn joblib
+!pip install optuna torch pandas scikit-learn joblib xgboost
 
 # Cella 2 — Crea cartelle e carica file
 import os
