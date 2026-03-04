@@ -52,6 +52,20 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, log_loss
 warnings.filterwarnings("ignore")
 
+try:
+    import lightgbm as lgb
+    HAS_LGB = True
+    print("   ✅ LightGBM disponibile")
+except ImportError:
+    HAS_LGB = False
+
+try:
+    import xgboost as xgb_lib
+    HAS_XGB = True
+    print("   ✅ XGBoost disponibile")
+except ImportError:
+    HAS_XGB = False
+
 # ── Optuna (opzionale — fallback a random search se non installato) ───────────
 try:
     import optuna
@@ -70,7 +84,8 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 100       # numero trial Optuna (circa 2 ore con T4 su colab)
+TRIALS = 100       # numero trial Optuna ANN
+TRIALS_GBM = 30    # trial per LightGBM e XGBoost
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
@@ -131,10 +146,14 @@ def carica_e_prepara(csv_path: str):
     serve_t   = {}
     return_t  = {}   # {player: {return_pct: [...], bp_conv: [...], return_1st: [...]}}
     elo_surf  = {}   # {(player, surface): float}  — ELO per superficie
+    elo_overall = {} # {player: float}  — ELO overall (all surfaces)
     streak_t  = {}   # {player: int}  +N=N vittorie consecutive, -N=sconfitte
+    recent_form_t = {}  # {player: [last 10 results across all surfaces]}
 
     ELO_DEFAULT = 1500.0
-    K_ELO       = 32.0
+    K_BASE      = 32.0
+    K_LEVEL_ELO = {'G': 1.25, 'M': 1.15, 'F': 1.1, 'A': 1.0,
+                   'D': 0.95, 'C': 0.9, 'S': 0.85, 'E': 0.8}
 
     def get_elo(p, s):
         return elo_surf.get((p, s), ELO_DEFAULT)
@@ -174,11 +193,30 @@ def carica_e_prepara(csv_path: str):
             h2h_w = rec[1]-rec[0]; h2h_l = rec[0]-rec[1]; rec[1] += 1
         h2h_t[key] = rec
 
-        # --- Elo per superficie ---
+        # --- Elo per superficie (dynamic K by tournament level) ---
         elo_w = get_elo(w, surf); elo_l = get_elo(l, surf)
         expected_w = 1.0 / (1.0 + 10.0 ** ((elo_l - elo_w) / 400.0))
-        elo_surf[(w, surf)] = elo_w + K_ELO * (1.0 - expected_w)
-        elo_surf[(l, surf)] = elo_l + K_ELO * (0.0 - (1.0 - expected_w))
+        level_code = str(row.get('tourney_level', 'A'))
+        k_dynamic = K_BASE * K_LEVEL_ELO.get(level_code, 1.0)
+        elo_surf[(w, surf)] = elo_w + k_dynamic * (1.0 - expected_w)
+        elo_surf[(l, surf)] = elo_l + k_dynamic * (0.0 - (1.0 - expected_w))
+
+        # --- Elo overall ---
+        elo_ov_w = elo_overall.get(w, ELO_DEFAULT)
+        elo_ov_l = elo_overall.get(l, ELO_DEFAULT)
+        expected_ov = 1.0 / (1.0 + 10.0 ** ((elo_ov_l - elo_ov_w) / 400.0))
+        elo_overall[w] = elo_ov_w + k_dynamic * (1.0 - expected_ov)
+        elo_overall[l] = elo_ov_l + k_dynamic * (0.0 - (1.0 - expected_ov))
+
+        # --- Recent form (all surfaces, last 10 matches) ---
+        rf_w = recent_form_t.get(w, [])
+        rf_l = recent_form_t.get(l, [])
+        form_w = np.mean(rf_w) if rf_w else 0.5
+        form_l = np.mean(rf_l) if rf_l else 0.5
+        rf_w.append(1.0); rf_l.append(0.0)
+        if len(rf_w) > 10: rf_w.pop(0)
+        if len(rf_l) > 10: rf_l.pop(0)
+        recent_form_t[w] = rf_w; recent_form_t[l] = rf_l
 
         # --- Striscia attiva ---
         str_w = streak_t.get(w, 0); str_l = streak_t.get(l, 0)
@@ -261,6 +299,8 @@ def carica_e_prepara(csv_path: str):
         home_l = 1 if row['loser_ioc']  == row['tourney_ioc'] else 0
         pts_w = float(row['winner_rank_points']) if pd.notna(row.get('winner_rank_points')) else 0
         pts_l = float(row['loser_rank_points'])  if pd.notna(row.get('loser_rank_points'))  else 0
+        rk_w = float(row['winner_rank']) if pd.notna(row.get('winner_rank')) else 500
+        rk_l = float(row['loser_rank']) if pd.notna(row.get('loser_rank')) else 500
         seed_w = float(row['winner_seed']) if pd.notna(row.get('winner_seed')) else 33
         seed_l = float(row['loser_seed'])  if pd.notna(row.get('loser_seed'))  else 33
         lev_w  = LEVEL_MULT.get(str(row.get('tourney_level','')), 1.0)
@@ -269,6 +309,8 @@ def carica_e_prepara(csv_path: str):
             'diff_rank':         (row['loser_rank']-row['winner_rank'])
                                  if pd.notna(row.get('winner_rank')) and pd.notna(row.get('loser_rank')) else 0,
             'diff_rank_points':  pts_w - pts_l,
+            'log_rank_ratio':    np.log1p(rk_l) - np.log1p(rk_w),
+            'log_pts_ratio':     np.log1p(pts_w) - np.log1p(pts_l),
             'diff_seed':         seed_l - seed_w,
             'diff_age':          (row['winner_age']-row['loser_age'])
                                  if pd.notna(row.get('winner_age')) and pd.notna(row.get('loser_age')) else 0,
@@ -276,7 +318,9 @@ def carica_e_prepara(csv_path: str):
                                  if pd.notna(row.get('winner_ht')) and pd.notna(row.get('loser_ht')) else 0,
             # nuove feature
             'diff_elo':          elo_w - elo_l,             # Elo PRIMA dell'aggiornamento
+            'diff_elo_overall':  elo_ov_w - elo_ov_l,       # Elo overall (all surfaces)
             'diff_streak':       float(str_w - str_l),      # striscia attiva
+            'diff_recent_form':  form_w - form_l,           # recent 10-match form
             # contesto
             'surface_enc':       float(row['surface_enc']),
             'tourney_level':     float(row['tourney_level_enc']),
@@ -334,7 +378,7 @@ def carica_e_prepara(csv_path: str):
     return df_out, stats_dict, elo_surf, streak_t
 
 
-# ── Lista feature (25) — pruned: rimossi diff_df, diff_1st_pct, diff_2nd_won
+# ── Lista feature (29) — original 25 + log transforms + overall elo + recent form
 FEATURES = [
     'diff_rank', 'diff_rank_points', 'diff_seed', 'diff_age', 'diff_ht',  # 0-4
     'diff_elo', 'diff_streak',                          # 5-6
@@ -345,7 +389,9 @@ FEATURES = [
     'diff_ace', 'diff_1st_won', 'diff_bp_saved',         # 17-18-19
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st', # 20-21-22
     'court_ace_pct', 'court_speed',                       # 23-24
-]  # totale: 25 feature (pruned)
+    'log_rank_ratio', 'log_pts_ratio',                    # 25-26
+    'diff_elo_overall', 'diff_recent_form',               # 27-28
+]  # totale: 29 feature
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -668,29 +714,142 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# 4b.  LIGHTGBM + XGBOOST
+# ══════════════════════════════════════════════════════════════════════════════
+
+def train_lgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
+                     sample_weights_tr=None, n_trials=TRIALS_GBM):
+    if not HAS_LGB:
+        print("   ⚠️ LightGBM non disponibile, skip")
+        return None, 0.0, float('inf')
+
+    print(f"\n🌳 Training LightGBM (Optuna {n_trials} trials)...")
+    y_tr_np = y_tr.values if hasattr(y_tr, 'values') else np.array(y_tr)
+    y_val_np = y_val.values if hasattr(y_val, 'values') else np.array(y_val)
+    y_test_np = y_test.values if hasattr(y_test, 'values') else np.array(y_test)
+
+    best_model = [None]
+    best_acc = [0.0]
+
+    def objective(trial):
+        params = {
+            'objective': 'binary', 'metric': 'binary_logloss',
+            'boosting_type': 'gbdt', 'verbosity': -1, 'seed': SEED,
+            'n_estimators': trial.suggest_int('n_estimators', 200, 1500),
+            'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.15, log=True),
+            'max_depth': trial.suggest_int('max_depth', 3, 10),
+            'num_leaves': trial.suggest_int('num_leaves', 20, 150),
+            'min_child_samples': trial.suggest_int('min_child_samples', 5, 100),
+            'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
+            'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 10, log=True),
+            'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 10, log=True),
+        }
+        model = lgb.LGBMClassifier(**params)
+        model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr,
+                  eval_set=[(X_val, y_val_np)],
+                  callbacks=[lgb.early_stopping(50, verbose=False),
+                            lgb.log_evaluation(period=0)])
+        y_pred = model.predict_proba(X_val)[:, 1]
+        acc = accuracy_score(y_val_np, (y_pred >= 0.5).astype(int))
+        if acc > best_acc[0]:
+            best_acc[0] = acc
+            best_model[0] = model
+        return acc
+
+    if HAS_OPTUNA:
+        study = optuna.create_study(direction='maximize',
+                                    sampler=optuna.samplers.TPESampler(seed=SEED))
+        study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
+        model = best_model[0]
+        print(f"   LightGBM best val: {best_acc[0]:.4f}")
+    else:
+        model = lgb.LGBMClassifier(n_estimators=500, learning_rate=0.05,
+                                   max_depth=6, num_leaves=31, seed=SEED)
+        model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr,
+                  eval_set=[(X_val, y_val_np)],
+                  callbacks=[lgb.early_stopping(50, verbose=False)])
+
+    y_pred_test = model.predict_proba(X_test)[:, 1]
+    acc = accuracy_score(y_test_np, (y_pred_test >= 0.5).astype(int))
+    ll = log_loss(y_test_np, y_pred_test)
+    print(f"   LightGBM test: acc={acc:.4f} | log_loss={ll:.4f}")
+    return model, acc, ll
+
+
+def train_xgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
+                     sample_weights_tr=None, n_trials=TRIALS_GBM):
+    if not HAS_XGB:
+        print("   ⚠️ XGBoost non disponibile, skip")
+        return None, 0.0, float('inf')
+
+    print(f"\n🌲 Training XGBoost (Optuna {n_trials} trials)...")
+    y_tr_np = y_tr.values if hasattr(y_tr, 'values') else np.array(y_tr)
+    y_val_np = y_val.values if hasattr(y_val, 'values') else np.array(y_val)
+    y_test_np = y_test.values if hasattr(y_test, 'values') else np.array(y_test)
+
+    best_model = [None]
+    best_acc = [0.0]
+
+    def objective(trial):
+        params = {
+            'objective': 'binary:logistic', 'eval_metric': 'logloss',
+            'seed': SEED, 'verbosity': 0,
+            'n_estimators': trial.suggest_int('n_estimators', 200, 1500),
+            'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.15, log=True),
+            'max_depth': trial.suggest_int('max_depth', 3, 10),
+            'min_child_weight': trial.suggest_int('min_child_weight', 1, 50),
+            'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
+            'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 10, log=True),
+            'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 10, log=True),
+            'gamma': trial.suggest_float('gamma', 0, 5),
+        }
+        model = xgb_lib.XGBClassifier(**params)
+        model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr,
+                  eval_set=[(X_val, y_val_np)],
+                  verbose=False)
+        y_pred = model.predict_proba(X_val)[:, 1]
+        acc = accuracy_score(y_val_np, (y_pred >= 0.5).astype(int))
+        if acc > best_acc[0]:
+            best_acc[0] = acc
+            best_model[0] = model
+        return acc
+
+    if HAS_OPTUNA:
+        study = optuna.create_study(direction='maximize',
+                                    sampler=optuna.samplers.TPESampler(seed=SEED))
+        study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
+        model = best_model[0]
+        print(f"   XGBoost best val: {best_acc[0]:.4f}")
+    else:
+        model = xgb_lib.XGBClassifier(n_estimators=500, learning_rate=0.05,
+                                      max_depth=6, seed=SEED)
+        model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr,
+                  eval_set=[(X_val, y_val_np)], verbose=False)
+
+    y_pred_test = model.predict_proba(X_test)[:, 1]
+    acc = accuracy_score(y_test_np, (y_pred_test >= 0.5).astype(int))
+    ll = log_loss(y_test_np, y_pred_test)
+    print(f"   XGBoost test: acc={acc:.4f} | log_loss={ll:.4f}")
+    return model, acc, ll
+
+
+def get_ann_probs(model, X_sc):
+    """Get ANN prediction probabilities."""
+    model.eval()
+    with torch.no_grad():
+        logits = model(torch.tensor(X_sc.astype(np.float32)).to(device)).cpu().numpy()
+    return 1 / (1 + np.exp(-logits))
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # 5.  CONFRONTO FINALE
 # ══════════════════════════════════════════════════════════════════════════════
 
-def confronto_finale(ann_global_acc, ann_global_ll, ann_surface_results):
-    rows = [{'Modello': 'ANN v3 Globale (28 feat)', 'Accuracy': ann_global_acc,
-              'Log Loss': ann_global_ll, 'Note': 'Wide&Deep + Residual + TemporalCV'}]
-
-    for r in ann_surface_results:
-        if r is None: continue
-        rows.append({'Modello': f"ANN {r['surface']}", 'Accuracy': r['test_acc'],
-                     'Log Loss': r['log_loss'], 'Note': f"arch={r['arch']}"})
-
-    # Carica risultati modelli classici se disponibili
-    path_class = '../resultados_comparacion.csv'
-    if os.path.exists(path_class):
-        df_c = pd.read_csv(path_class)
-        for _, row in df_c.iterrows():
-            rows.append({'Modello': row.get('Modelo', row.get('Model', '?')),
-                         'Accuracy': row.get('Accuracy', row.get('accuracy', 0)),
-                         'Log Loss': row.get('LogLoss', row.get('log_loss', float('nan'))),
-                         'Note': 'modello classico'})
-
-    df_final = pd.DataFrame(rows).sort_values('Accuracy', ascending=False).reset_index(drop=True)
+def confronto_finale(results_list):
+    """results_list: list of {'Modello': str, 'Accuracy': float, 'Log Loss': float, 'Note': str}"""
+    df_final = pd.DataFrame(results_list).sort_values('Accuracy', ascending=False).reset_index(drop=True)
     df_final['Acc. %'] = (df_final['Accuracy'] * 100).round(2)
     df_final.to_csv('resultados_comparacion_finale.csv', index=False)
 
@@ -763,6 +922,97 @@ if __name__ == '__main__':
     top5_cols = [c for c in top5_cols if c in df_ris.columns]
     print(f"   Top 5 trial:\n{df_ris[top5_cols].head(5).to_string(index=False)}")
 
+    # ── 3b. GBM models ──────────────────────────────────────────────────────
+    combined_weights = calcola_pesi_combinati(d_tr, lw_tr, 0.003)
+
+    lgb_model, lgb_acc, lgb_ll = train_lgb_optuna(
+        X_tr_sc, y_tr, X_val_sc, y_val, X_te_sc, y_test,
+        sample_weights_tr=combined_weights, n_trials=TRIALS_GBM)
+
+    xgb_model, xgb_acc, xgb_ll = train_xgb_optuna(
+        X_tr_sc, y_tr, X_val_sc, y_val, X_te_sc, y_test,
+        sample_weights_tr=combined_weights, n_trials=TRIALS_GBM)
+
+    # ── 3c. Ensemble ─────────────────────────────────────────────────────────
+    from sklearn.linear_model import LogisticRegression
+
+    y_val_np = y_val.values if hasattr(y_val, 'values') else np.array(y_val)
+    y_test_np = y_test.values if hasattr(y_test, 'values') else np.array(y_test)
+
+    best_ann = best['_model']
+    ann_probs_val = get_ann_probs(best_ann, X_val_sc)
+    ann_probs_test = get_ann_probs(best_ann, X_te_sc)
+
+    # Top-5 ANN ensemble
+    top5_ann_probs_val = np.mean([get_ann_probs(r['_model'], X_val_sc) for r in risultati[:5]], axis=0)
+    top5_ann_probs_test = np.mean([get_ann_probs(r['_model'], X_te_sc) for r in risultati[:5]], axis=0)
+    top5_ann_acc = accuracy_score(y_test_np, (top5_ann_probs_test >= 0.5).astype(int))
+    top5_ann_ll = log_loss(y_test_np, top5_ann_probs_test)
+    print(f"\n   ANN Top-5 ensemble: acc={top5_ann_acc:.4f} | log_loss={top5_ann_ll:.4f}")
+
+    val_probs = {'ANN': ann_probs_val}
+    test_probs = {'ANN': ann_probs_test}
+    val_probs_top5 = {'ANN5': top5_ann_probs_val}
+    test_probs_top5 = {'ANN5': top5_ann_probs_test}
+
+    if lgb_model is not None:
+        val_probs['LGB'] = lgb_model.predict_proba(X_val_sc)[:, 1]
+        test_probs['LGB'] = lgb_model.predict_proba(X_te_sc)[:, 1]
+        val_probs_top5['LGB'] = val_probs['LGB']
+        test_probs_top5['LGB'] = test_probs['LGB']
+
+    if xgb_model is not None:
+        val_probs['XGB'] = xgb_model.predict_proba(X_val_sc)[:, 1]
+        test_probs['XGB'] = xgb_model.predict_proba(X_te_sc)[:, 1]
+        val_probs_top5['XGB'] = val_probs['XGB']
+        test_probs_top5['XGB'] = test_probs['XGB']
+
+    # Simple average ensemble
+    avg_test = np.mean(list(test_probs.values()), axis=0)
+    avg_acc = accuracy_score(y_test_np, (avg_test >= 0.5).astype(int))
+    avg_ll = log_loss(y_test_np, avg_test)
+    print(f"   Average ensemble: acc={avg_acc:.4f} | log_loss={avg_ll:.4f}")
+
+    # Top-5 average ensemble
+    avg_test_top5 = np.mean(list(test_probs_top5.values()), axis=0)
+    avg_acc_top5 = accuracy_score(y_test_np, (avg_test_top5 >= 0.5).astype(int))
+    avg_ll_top5 = log_loss(y_test_np, avg_test_top5)
+    print(f"   Average ensemble (top5): acc={avg_acc_top5:.4f} | log_loss={avg_ll_top5:.4f}")
+
+    # Stacking ensemble
+    if len(val_probs) >= 2:
+        val_meta = np.column_stack(list(val_probs.values()))
+        test_meta = np.column_stack(list(test_probs.values()))
+        meta_model = LogisticRegression(C=1.0, random_state=SEED, max_iter=1000)
+        meta_model.fit(val_meta, y_val_np)
+        stack_probs = meta_model.predict_proba(test_meta)[:, 1]
+        stack_acc = accuracy_score(y_test_np, (stack_probs >= 0.5).astype(int))
+        stack_ll = log_loss(y_test_np, stack_probs)
+        print(f"   Stacking ensemble: acc={stack_acc:.4f} | log_loss={stack_ll:.4f}")
+        joblib.dump(meta_model, 'modelo_meta_lr.pkl')
+    else:
+        stack_acc, stack_ll = avg_acc, avg_ll
+
+    # ── 3d. Results table ─────────────────────────────────────────────────────
+    results_list = [
+        {'Modello': 'ANN Best', 'Accuracy': acc_test, 'Log Loss': ll_test,
+         'Note': f'Optuna best, arch={best["hidden_layers"]}'},
+        {'Modello': 'ANN Top-5 Avg', 'Accuracy': top5_ann_acc, 'Log Loss': top5_ann_ll,
+         'Note': 'Average of top 5 ANN trials'},
+    ]
+    if lgb_model is not None:
+        results_list.append({'Modello': 'LightGBM', 'Accuracy': lgb_acc,
+                            'Log Loss': lgb_ll, 'Note': f'Optuna {TRIALS_GBM} trials'})
+    if xgb_model is not None:
+        results_list.append({'Modello': 'XGBoost', 'Accuracy': xgb_acc,
+                            'Log Loss': xgb_ll, 'Note': f'Optuna {TRIALS_GBM} trials'})
+    results_list.append({'Modello': 'Ensemble Avg', 'Accuracy': avg_acc,
+                        'Log Loss': avg_ll, 'Note': 'ANN+LGB+XGB average'})
+    results_list.append({'Modello': 'Ensemble Avg Top5', 'Accuracy': avg_acc_top5,
+                        'Log Loss': avg_ll_top5, 'Note': 'ANN5+LGB+XGB average'})
+    results_list.append({'Modello': 'Ensemble Stacking', 'Accuracy': stack_acc,
+                        'Log Loss': stack_ll, 'Note': 'Meta-LR on ANN+LGB+XGB'})
+
     # ── 4. Re-training finale su TUTTI i dati con migliori HP ─────────────────
     print(f"\n🚀 Re-training modello finale su TUTTI i dati...")
 
@@ -814,38 +1064,46 @@ if __name__ == '__main__':
     model_final, _ = train_model(model_final, ldr_tr, ldr_val, epochs=ep, lr=lr,
                                   smoothing=sm)
 
-    # Valutazione finale
-    y_val_np = y_val_fin.values if hasattr(y_val_fin, 'values') else np.array(y_val_fin)
-    acc_global, ll_global = valuta(model_final, X_val_fin_sc, y_val_np)
+    # Re-train GBM on all data
+    y_all_np = y.values if hasattr(y, 'values') else np.array(y)
+    all_weights = calcola_pesi_combinati(dates, level_w, 0.003)
 
-    print(f"\n🏆 Modello finale v3 (re-trained su tutti i dati):")
-    print(f"   Architettura:  {hl}")
-    print(f"   Hyperparams:   dropout={dr} | lr={lr:.0e} | bs={bs} | λ={lam} | sm={sm} | int={best_iset}")
-    print(f"   Optuna test:   {acc_test:.2%} (sul 15% test set)")
-    print(f"   Finale val:    {acc_global:.2%} (sul 15% early-stop set)")
+    if lgb_model is not None:
+        print("   Re-training LightGBM on all data...")
+        lgb_final = lgb.LGBMClassifier(**lgb_model.get_params())
+        lgb_final.fit(scaler.transform(X), y_all_np, sample_weight=all_weights)
+        joblib.dump(lgb_final, 'modelo_lgb.pkl')
+
+    if xgb_model is not None:
+        print("   Re-training XGBoost on all data...")
+        xgb_final = xgb_lib.XGBClassifier(**xgb_model.get_params())
+        xgb_final.set_params(early_stopping_rounds=None)
+        xgb_final.fit(scaler.transform(X), y_all_np, sample_weight=all_weights)
+        joblib.dump(xgb_final, 'modelo_xgb.pkl')
 
     # ── 5. Calibrazione (Platt scaling) ───────────────────────────────────────
     from sklearn.linear_model import LogisticRegression as LR_Cal
 
     model_final.eval()
+    y_val_fin_np = y_val_fin.values if hasattr(y_val_fin, 'values') else np.array(y_val_fin)
     with torch.no_grad():
         logits_val = model_final(torch.tensor(X_val_fin_sc.astype(np.float32)).to(device)).cpu().numpy()
 
     calibrator = LR_Cal()
-    calibrator.fit(logits_val.reshape(-1, 1), y_val_np)
+    calibrator.fit(logits_val.reshape(-1, 1), y_val_fin_np)
     joblib.dump(calibrator, 'calibrator_ann.pkl')
     print("   → calibrator_ann.pkl salvato (Platt scaling)")
 
     # Accuracy dopo calibrazione
     probs_cal = calibrator.predict_proba(logits_val.reshape(-1, 1))[:, 1]
-    acc_cal = accuracy_score(y_val_np, (probs_cal >= 0.5).astype(int))
-    ll_cal  = log_loss(y_val_np, probs_cal)
+    acc_cal = accuracy_score(y_val_fin_np, (probs_cal >= 0.5).astype(int))
+    ll_cal  = log_loss(y_val_fin_np, probs_cal)
     print(f"   Post-calibrazione: acc={acc_cal:.2%} | log_loss={ll_cal:.4f}")
 
-    # ── 5. Salvataggio ────────────────────────────────────────────────────────
+    # ── 6. Salvataggio ────────────────────────────────────────────────────────
     torch.save(model_final.state_dict(), 'modelo_ann.pth')
     cfg = best_hp.copy()
-    cfg['model_version'] = 'v3'
+    cfg['model_version'] = 'v3.1'
     cfg['input_dim'] = len(FEATURES)
     cfg['features'] = FEATURES
     cfg['n_interactions'] = best_ninter
@@ -858,12 +1116,13 @@ if __name__ == '__main__':
     with open('ann_config.json', 'w') as f:
         json.dump(cfg, f, indent=2)
 
-    # ── 6. Confronto finale ───────────────────────────────────────────────────
-    df_confronto = confronto_finale(acc_global, ll_global, [])
+    # ── 7. Confronto finale ───────────────────────────────────────────────────
+    df_confronto = confronto_finale(results_list)
 
     print("\n✅ File salvati:")
     for f in ['modelo_ann.pth', 'scaler_ann.pkl', 'ann_config.json',
               'elo_surface.pkl', 'streak_players.pkl', 'momentum_surface.pkl',
-              'calibrator_ann.pkl', 'resultados_comparacion_finale.csv']:
+              'calibrator_ann.pkl', 'resultados_comparacion_finale.csv',
+              'modelo_lgb.pkl', 'modelo_xgb.pkl', 'modelo_meta_lr.pkl']:
         stato = "✅" if os.path.exists(f) else "—"
         print(f"  {stato}  {f}")

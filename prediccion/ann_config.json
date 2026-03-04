@@ -1,65 +1,74 @@
 {
   "hidden_layers": [
-    512,
-    256,
     128,
-    64
+    128
   ],
   "dropout": 0.5,
-  "lr": 0.0001991025933762736,
-  "batch_size": 2048,
-  "epochs": 100,
-  "label_smoothing": 0.09,
-  "arch": "4L",
-  "model_version": "v4",
-  "input_dim": 37,
+  "lr": 0.00025555776996286913,
+  "batch_size": 1024,
+  "epochs": 120,
+  "lambda_decay": 0.0001,
+  "label_smoothing": 0.06,
+  "interaction_set": "minimal",
+  "interaction_pairs": [
+    [
+      5,
+      12
+    ],
+    [
+      0,
+      15
+    ],
+    [
+      5,
+      15
+    ],
+    [
+      5,
+      16
+    ],
+    [
+      0,
+      1
+    ]
+  ],
+  "n_interactions": 5,
+  "model_version": "v3.1",
+  "input_dim": 29,
   "features": [
     "diff_rank",
-    "log_rank_ratio",
     "diff_rank_points",
-    "log_pts_ratio",
     "diff_seed",
     "diff_age",
     "diff_ht",
     "diff_elo",
-    "diff_elo_overall",
     "diff_streak",
-    "diff_overall_wr",
-    "diff_recent_form",
     "surface_enc",
     "tourney_level",
     "round_enc",
     "draw_size",
-    "best_of",
     "diff_hand",
     "diff_skill",
     "diff_home",
+    "diff_fatigue",
     "diff_momentum",
     "diff_h2h",
-    "diff_h2h_surface",
     "diff_ace",
-    "diff_df",
-    "diff_1st_pct",
     "diff_1st_won",
-    "diff_2nd_won",
     "diff_bp_saved",
-    "diff_serve_dom",
-    "diff_game_score",
     "diff_return_pct",
     "diff_bp_conv",
     "diff_return_1st",
-    "diff_matches_exp",
     "court_ace_pct",
-    "court_speed"
+    "court_speed",
+    "log_rank_ratio",
+    "log_pts_ratio",
+    "diff_elo_overall",
+    "diff_recent_form"
   ],
-  "n_interactions": 0,
-  "interaction_pairs": [],
   "scaler_file": "scaler_ann.pkl",
   "calibrator_file": "calibrator_ann.pkl",
   "elo_surface_file": "elo_surface.pkl",
   "streak_file": "streak_players.pkl",
-  "momentum_file": "momentum_surface.pkl",
-  "best_model_type": "Stacking Ensemble",
-  "best_accuracy": 0.6508515815085159,
-  "best_log_loss": 0.6076090602413425
+  "momentum_file": "momentum_surface.pkl"
 }
