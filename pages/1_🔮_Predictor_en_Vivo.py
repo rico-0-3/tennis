@@ -234,8 +234,10 @@ def grafico_radar(j1, j2, perfiles, stats_sup):
     clay1 = stats_sup.get((j1, 'Clay'), 0.5); clay2 = stats_sup.get((j2, 'Clay'), 0.5)
     grass1 = stats_sup.get((j1, 'Grass'), 0.5); grass2 = stats_sup.get((j2, 'Grass'), 0.5)
 
-    sc_a1 = min(1, aces1/1000); sc_a2 = min(1, aces2/1000)
-    sc_d1 = max(0, 1-(df1/400)); sc_d2 = max(0, 1-(df2/400))
+    # aces e df sono medie per partita (es. 5.6 ace/match, 2.1 df/match)
+    # scala: ace max ~20 (Isner), df max ~8
+    sc_a1 = min(1, aces1/20); sc_a2 = min(1, aces2/20)
+    sc_d1 = max(0, 1-(df1/8)); sc_d2 = max(0, 1-(df2/8))
     sc_s1 = max(0, min(1,(srv1-60)/25)); sc_s2 = max(0, min(1,(srv2-60)/25))
     sc_b1 = max(0, min(1,(bp1-50)/25)); sc_b2 = max(0, min(1,(bp2-50)/25))
     sc_h1 = max(0, min(1,(hold1-65)/25)); sc_h2 = max(0, min(1,(hold2-65)/25))
@@ -245,10 +247,10 @@ def grafico_radar(j1, j2, perfiles, stats_sup):
             'Hard', 'Terra Rossa', 'Erba', 'Ace']
     v1 = [sc_a1, sc_d1, sc_s1, sc_b1, sc_h1, hard1, clay1, grass1, sc_a1]
     v2 = [sc_a2, sc_d2, sc_s2, sc_b2, sc_h2, hard2, clay2, grass2, sc_a2]
-    hv1 = [f"{aces1} Ace", f"{df1} D. Falli", f"{srv1}%", f"{bp1}%", f"{hold1}%",
-           f"{hard1:.0%}", f"{clay1:.0%}", f"{grass1:.0%}", f"{aces1} Ace"]
-    hv2 = [f"{aces2} Ace", f"{df2} D. Falli", f"{srv2}%", f"{bp2}%", f"{hold2}%",
-           f"{hard2:.0%}", f"{clay2:.0%}", f"{grass2:.0%}", f"{aces2} Ace"]
+    hv1 = [f"{aces1:.1f} Ace/match", f"{df1:.1f} DF/match", f"{srv1}%", f"{bp1}%", f"{hold1}%",
+           f"{hard1:.0%}", f"{clay1:.0%}", f"{grass1:.0%}", f"{aces1:.1f} Ace/match"]
+    hv2 = [f"{aces2:.1f} Ace/match", f"{df2:.1f} DF/match", f"{srv2}%", f"{bp2}%", f"{hold2}%",
+           f"{hard2:.0%}", f"{clay2:.0%}", f"{grass2:.0%}", f"{aces2:.1f} Ace/match"]
 
     fig = go.Figure()
     fig.add_trace(go.Scatterpolar(r=v1, theta=cats, fill='toself', name=j1,
