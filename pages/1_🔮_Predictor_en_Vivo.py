@@ -160,7 +160,8 @@ def cargar_todo():
     finale_path = pp('modelo_finale.pkl')
     if os.path.exists(finale_path):
         try:
-            modelo_finale = joblib.load(finale_path)
+            # Use torch.load with CPU mapping to handle models saved on CUDA devices
+            modelo_finale = torch.load(finale_path, map_location=torch.device('cpu'))
         except Exception as e:
             st.warning(f"modelo_finale.pkl non caricato: {e}")
 
