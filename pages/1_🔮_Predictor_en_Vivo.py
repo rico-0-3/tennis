@@ -160,9 +160,31 @@ def cargar_todo():
     finale_path = pp('modelo_finale.pkl')
     if os.path.exists(finale_path):
         try:
-            # Use torch.load with CPU mapping to handle models saved on CUDA devices
-            # weights_only=False is needed because the file contains non-tensor objects (dicts, scalers, etc.)
-            modelo_finale = torch.load(finale_path, map_location=torch.device('cpu'), weights_only=False)
+            # Load with joblib (original serialization format)
+            modelo_finale = joblib.load(finale_path)
+            
+            # If the loaded model contains PyTorch state_dicts saved on CUDA, remap them to CPU
+            def remap_cuda_to_cpu(obj):
+                """Recursively remap CUDA tensors to CPU in nested structures."""
+                if isinstance(obj, dict):
+                    return {k: remap_cuda_to_cpu(v) for k, v in obj.items()}
+                elif isinstance(obj, list):
+                    return [remap_cuda_to_cpu(item) for item in obj]
+                elif isinstance(obj, torch.Tensor):
+                    return obj.cpu() if obj.is_cuda else obj
+                else:
+                    return obj
+            
+            # Remap any CUDA tensors in the loaded model to CPU
+            if modelo_finale is not None and isinstance(modelo_finale, dict):
+                for key in ['ann', 'ann_top5']:
+                    if key in modelo_finale:
+                        if isinstance(modelo_finale[key], list):
+                            for i, cfg in enumerate(modelo_finale[key]):
+                                if 'state_dict' in cfg:
+                                    cfg['state_dict'] = remap_cuda_to_cpu(cfg['state_dict'])
+                        elif isinstance(modelo_finale[key], dict) and 'state_dict' in modelo_finale[key]:
+                            modelo_finale[key]['state_dict'] = remap_cuda_to_cpu(modelo_finale[key]['state_dict'])
         except Exception as e:
             st.warning(f"modelo_finale.pkl non caricato: {e}")
 
