@@ -1,11 +1,10 @@
 {
   "hidden_layers": [
-    512,
-    256,
+    128,
     128
   ],
-  "dropout": 0.2,
-  "lr": 0.00013894757514253106,
+  "dropout": 0.5,
+  "lr": 0.00025555776996286913,
   "batch_size": 1024,
   "epochs": 120,
   "lambda_decay": 0.0001,
@@ -34,8 +33,8 @@
     ]
   ],
   "n_interactions": 5,
-  "model_version": "v3",
-  "input_dim": 25,
+  "model_version": "v3.1",
+  "input_dim": 29,
   "features": [
     "diff_rank",
     "diff_rank_points",
@@ -61,7 +60,11 @@
     "diff_bp_conv",
     "diff_return_1st",
     "court_ace_pct",
-    "court_speed"
+    "court_speed",
+    "log_rank_ratio",
+    "log_pts_ratio",
+    "diff_elo_overall",
+    "diff_recent_form"
   ],
   "scaler_file": "scaler_ann.pkl",
   "calibrator_file": "calibrator_ann.pkl",
