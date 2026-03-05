@@ -161,7 +161,8 @@ def cargar_todo():
     if os.path.exists(finale_path):
         try:
             # Use torch.load with CPU mapping to handle models saved on CUDA devices
-            modelo_finale = torch.load(finale_path, map_location=torch.device('cpu'))
+            # weights_only=False is needed because the file contains non-tensor objects (dicts, scalers, etc.)
+            modelo_finale = torch.load(finale_path, map_location=torch.device('cpu'), weights_only=False)
         except Exception as e:
             st.warning(f"modelo_finale.pkl non caricato: {e}")
 
