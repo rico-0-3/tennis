@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import re
 
 # --- CONFIGURACIÓN ---
 ARCHIVO_HISTORICO  = "historial_tenis.csv"          # Storico originale 2000-2024
@@ -61,8 +62,13 @@ try:
     
     # Rellenamos los datos faltantes (Stats de partido que no scrapeamos)
     # Ej: w_ace, w_df, minutes, etc.
-    df_new_aligned.fillna(0, inplace=True)
-    df_new_aligned = df_new_aligned.infer_objects(copy=False)
+    # Usa 0 per colonne numeriche e stringa vuota per colonne stringa
+    for col in df_new_aligned.columns:
+        if df_new_aligned[col].dtype == object:
+            df_new_aligned[col] = df_new_aligned[col].fillna('')
+        else:
+            df_new_aligned[col] = df_new_aligned[col].fillna(0)
+    df_new_aligned = df_new_aligned.infer_objects()
     
     # 3. UNIR (CONCATENAR)
     print("🔄 Uniendo archivos...")
@@ -72,10 +78,67 @@ try:
     print("⏳ Pulizia e ordinamento...")
     df_total['tourney_date'] = pd.to_numeric(df_total['tourney_date'], errors='coerce').fillna(0).astype(int)
 
-    # Avvisa se ci sono date nulle o sospette (aiuta il debug)
+    # ── Correggi tourney_date=0 usando le date storiche ──────────────────────
     date_zero = (df_total['tourney_date'] == 0).sum()
     if date_zero > 0:
-        print(f"   ⚠️  {date_zero} partite con tourney_date=0 (dati incompleti in scraping)")
+        print(f"   ⚠️  {date_zero} partite con tourney_date=0 — provo a correggere...")
+
+        def _normalize_name(name):
+            """Normalizza nome torneo: 'Australian Open' → 'australian-open'."""
+            if not isinstance(name, str):
+                return ""
+            s = name.strip().lower()
+            # Rimuovi suffissi numerici tipo "Adelaide 1" → "Adelaide"
+            s = re.sub(r'\s+\d+$', '', s)
+            # Mapping nomi speciali storico → slug scraping
+            special = {
+                'canada masters': 'montreal',
+                'cincinnati masters': 'cincinnati',
+                'shanghai masters': 'shanghai',
+                'nitto atp finals': 'nitto-atp-finals',
+                'united cup': 'perth-sydney',
+                'indian wells masters': 'indian-wells',
+                'miami masters': 'miami',
+                'monte carlo masters': 'monte-carlo',
+                'madrid masters': 'madrid',
+                'rome masters': 'rome',
+                'paris masters': 'paris',
+                "queen's club": 'london',
+                'tour finals': 'nitto-atp-finals',
+            }
+            if s in special:
+                s = special[s]
+            # Converti spazi e caratteri speciali in trattini
+            s = re.sub(r'[^a-z0-9]+', '-', s).strip('-')
+            return s
+
+        # Costruisci mappa: nome_normalizzato → data più recente (YYYYMMDD)
+        df_con_data = df_total[df_total['tourney_date'] > 0].copy()
+        date_map = {}
+        for _, row in df_con_data[['tourney_name', 'tourney_date']].drop_duplicates().iterrows():
+            norm = _normalize_name(row['tourney_name'])
+            if norm and int(row['tourney_date']) > date_map.get(norm, 0):
+                date_map[norm] = int(row['tourney_date'])
+
+        fixed = 0
+        for idx in df_total[df_total['tourney_date'] == 0].index:
+            tname = _normalize_name(df_total.at[idx, 'tourney_name'])
+            tid = str(df_total.at[idx, 'tourney_id'])
+
+            # Estrai anno dal tourney_id (es. "2025-brisbane-1" → 2025)
+            m = re.match(r'(\d{4})', tid)
+            anno_match = int(m.group(1)) if m else 0
+
+            if tname in date_map and anno_match > 0:
+                data_ref = date_map[tname]
+                # Sostituisci anno nella data storica con anno della partita
+                anno_ref = data_ref // 10000
+                data_nuova = data_ref - anno_ref * 10000 + anno_match * 10000
+                df_total.at[idx, 'tourney_date'] = data_nuova
+                fixed += 1
+
+        date_zero_after = (df_total['tourney_date'] == 0).sum()
+        print(f"   ✅ Corrette {fixed} partite | Rimaste con date=0: {date_zero_after}")
 
     df_total.sort_values(by=['tourney_date', 'match_num'], inplace=True)
 
