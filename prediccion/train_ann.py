@@ -92,7 +92,7 @@ print(f"🖥️  Device: {device}")
 # ─── Configurazione globale ───────────────────────────────────────────────────
 TRIALS = 1       # numero trial Optuna ANN  (100)
 TRIALS_GBM = 1    # trial per LightGBM e XGBoost (40)
-TRIALS_GBM_GAMES = 1   # trial per regressione total games (100)
+TRIALS_GBM_GAMES = 100   # trial per regressione total games (100)
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
