@@ -12,6 +12,21 @@ import re
 
 IS_CI = os.environ.get("CI", "").lower() == "true"
 
+def _get_chrome_version():
+    """Auto-detect della versione di Chrome installata."""
+    import subprocess as _sp
+    for cmd in ['google-chrome', 'google-chrome-stable', 'chromium-browser', 'chromium']:
+        try:
+            out = _sp.check_output([cmd, '--version'], text=True, stderr=_sp.DEVNULL)
+            ver = int(out.strip().split()[-1].split('.')[0])
+            print(f"   ℹ️  Chrome rilevato: {out.strip()} → version_main={ver}")
+            return ver
+        except Exception:
+            continue
+    return None
+
+CHROME_VERSION = _get_chrome_version()
+
 # --- CONFIGURACIÓN ---
 ARCHIVO_ENTRADA = "atp_torneos_2026_final.csv"
 ARCHIVO_SALIDA = "atp_matches_2026_indetectable.csv"
@@ -116,7 +131,7 @@ if IS_CI:
     options.add_argument("--disable-dev-shm-usage")
 
 print("🚀 Lanzando Chrome parcheado (puede tardar unos segundos)...")
-driver = uc.Chrome(options=options)
+driver = uc.Chrome(options=options, version_main=CHROME_VERSION)
 
 # ── CARICA DATI ESISTENTI (logica incrementale + date-aware) ─────────────────
 MAX_TORNEO_GG = 16
@@ -314,7 +329,7 @@ for i, url in enumerate(urls):
                 opts2.add_argument("--headless=new")
                 opts2.add_argument("--no-sandbox")
                 opts2.add_argument("--disable-dev-shm-usage")
-            driver = uc.Chrome(options=opts2)
+            driver = uc.Chrome(options=opts2, version_main=CHROME_VERSION)
             time.sleep(2)
 
 driver.quit()

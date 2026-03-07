@@ -16,6 +16,20 @@ MAX_INTENTOS = 3
 
 IS_CI = os.environ.get("CI", "").lower() == "true"
 
+def _get_chrome_version():
+    """Auto-detect della versione di Chrome installata."""
+    for cmd in ['google-chrome', 'google-chrome-stable', 'chromium-browser', 'chromium']:
+        try:
+            out = subprocess.check_output([cmd, '--version'], text=True, stderr=subprocess.DEVNULL)
+            ver = int(out.strip().split()[-1].split('.')[0])
+            print(f"   ℹ️  Chrome rilevato: {out.strip()} → version_main={ver}")
+            return ver
+        except Exception:
+            continue
+    return None
+
+CHROME_VERSION = _get_chrome_version()
+
 def crear_driver():
     """Crea un driver UC con retry sul patcher."""
     for intento in range(3):
@@ -27,7 +41,7 @@ def crear_driver():
             options.add_argument("--window-size=1920,1080")
             if IS_CI:
                 options.add_argument("--headless=new")
-            driver = uc.Chrome(options=options)
+            driver = uc.Chrome(options=options, version_main=CHROME_VERSION)
             return driver
         except Exception as e:
             print(f"   ⚠️  Intento {intento+1} di creare Chrome fallito: {e}")
