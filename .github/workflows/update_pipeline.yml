@@ -33,6 +33,11 @@ on:
         required: false
         type: boolean
         default: false
+      esegui_test_redeploy:
+        description: 'Test redeploy Streamlit (solo commit dummy)'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   aggiorna:
@@ -73,14 +78,14 @@ jobs:
             ${{ inputs.esegui_modelli == true && '--modelli' || '' }} \
             ${{ inputs.esegui_ann == true && '--ann' || '' }}
 
-      name: 📤 Commit & Push risultati
+      - name: 📤 Commit & Push risultati
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Touch per forzare Streamlit Cloud a rilevare la push
+
+          # Aggiorna sempre il file dummy per triggerare Streamlit Cloud
           echo "# last_update: $(date -u '+%Y-%m-%d %H:%M UTC')" > .streamlit_redeploy.py
-          
+
           git add -A scraping/ prediccion/ .streamlit_redeploy.py
           if git diff --cached --quiet; then
             echo "Nessuna modifica da committare."
