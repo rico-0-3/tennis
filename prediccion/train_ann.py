@@ -90,9 +90,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 1       # numero trial Optuna ANN 
-TRIALS_GBM = 4    # trial per LightGBM e XGBoost
-TRIALS_GBM_GAMES = 100   # trial per regressione total games
+TRIALS = 1       # numero trial Optuna ANN  (100)
+TRIALS_GBM = 4    # trial per LightGBM e XGBoost (40)
+TRIALS_GBM_GAMES = 100   # trial per regressione total games (100)
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
@@ -437,6 +437,17 @@ def carica_e_prepara(csv_path: str):
         diffs['g_avg_2nd_won']    = (sa_w['2nd_won'] + sa_l['2nd_won']) / 2
         diffs['g_avg_bp_saved']   = (sa_w['bp_saved'] + sa_l['bp_saved']) / 2
         diffs['g_avg_return_pct'] = (ra_w['return_pct'] + ra_l['return_pct']) / 2
+        
+        # Dominance ratio: misura l'equilibrio nei turni di servizio
+        serve_w = sa_w['1st_won'] + sa_w['2nd_won']  # totale punti vinti al servizio winner
+        serve_l = sa_l['1st_won'] + sa_l['2nd_won']  # totale punti vinti al servizio loser
+        if serve_l > 0.01:
+            dominance = serve_w / serve_l
+        else:
+            dominance = 2.0 if serve_w > 0.01 else 1.0
+        # Trasforma in gap simmetrico: 0 = equilibrio, valori alti = dominio
+        diffs['g_service_gap'] = abs(dominance - 1.0)
+        
         diffs['g_min_skill']      = min(sk_w, sk_l)
         diffs['g_max_skill']      = max(sk_w, sk_l)
         diffs['g_avg_ht']         = (ht_w + ht_l) / 2
@@ -452,6 +463,7 @@ def carica_e_prepara(csv_path: str):
                        'g_abs_diff_elo','g_avg_elo','g_abs_diff_rank',
                        'g_avg_ace','g_avg_1st_pct','g_avg_1st_won',
                        'g_avg_2nd_won','g_avg_bp_saved','g_avg_return_pct',
+                       'g_service_gap',
                        'g_min_skill','g_max_skill','g_avg_ht',
                        'g_abs_diff_form','g_avg_momentum',
                        'g_avg_games_p1','g_avg_games_p2','g_avg_games_both')
@@ -518,6 +530,7 @@ GAMES_FEATURES = [
     'g_avg_2nd_won',        # seconda di servizio media
     'g_avg_bp_saved',       # resistenza al break media
     'g_avg_return_pct',     # qualità risposta media
+    'g_service_gap',        # gap nei turni di servizio (dominance ratio)
     'g_min_skill',          # il più debole sulla superficie
     'g_max_skill',          # il più forte sulla superficie
     'g_avg_ht',             # altezza media → serve power
@@ -532,7 +545,7 @@ GAMES_FEATURES = [
     'is_best_of_5',         # formato (bo3 vs bo5)
     'court_ace_pct',        # caratteristiche campo
     'court_speed',          # velocità campo
-]  # totale: 23 feature base + match_balance (dal modello migliore) aggiunto dopo selezione
+]  # totale: 24 feature base + match_balance (dal modello migliore) aggiunto dopo selezione
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1179,16 +1192,22 @@ if __name__ == '__main__':
     df_ml, stats_dict, elo_surf, streak_t = carica_e_prepara(csv_path)
 
     X = df_ml[FEATURES].fillna(0)
-    X_games = df_ml[GAMES_FEATURES].fillna(0)
     y = df_ml['target']
     dates = df_ml['tourney_date']
     level_w = df_ml['level_weight'].values
 
-    # ── 1b. Preparazione target total games (regressione) ─────────────────────
-    games_raw_all = df_ml['total_games'].values.astype(np.float32)
+    # ── 1b. Preparazione dataset games (SOLO target=1 per evitare duplicazioni) ─
+    # Per i games regressors, le feature simmetriche sono identiche in d0 e d1
+    # → usiamo solo target=1 per risparmiare 50% del tempo di training
+    df_games_only = df_ml[df_ml['target'] == 1].copy()
+    X_games = df_games_only[GAMES_FEATURES].fillna(0)
+    games_raw_all = df_games_only['total_games'].values.astype(np.float32)
+    games_dates = df_games_only['tourney_date']
+    games_level_w = df_games_only['level_weight'].values
     games_valid_all = ~np.isnan(games_raw_all)
     n_valid = int(games_valid_all.sum())
-    print(f"   → Total games: {n_valid:,}/{len(games_raw_all):,} validi | media={np.nanmean(games_raw_all):.1f} | std={np.nanstd(games_raw_all):.1f}")
+    print(f"   → Total games (solo target=1): {n_valid:,}/{len(games_raw_all):,} validi | media={np.nanmean(games_raw_all):.1f} | std={np.nanstd(games_raw_all):.1f}")
+    print(f"   💡 Ottimizzazione: usato solo target=1 per games (feature simmetriche) → 50% più veloce")
 
     # ── 2. Split globale: 70 / 15 / 15 ───────────────────────────────────────
     X_tr, X_tmp, y_tr, y_tmp, d_tr, d_tmp, lw_tr, _, \
