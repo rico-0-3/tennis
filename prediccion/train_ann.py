@@ -90,9 +90,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 100       # numero trial Optuna ANN  (100)
-TRIALS_GBM = 40    # trial per LightGBM e XGBoost (40)
-TRIALS_GBM_GAMES = 100   # trial per regressione total games (100)
+TRIALS = 1       # numero trial Optuna ANN  (100)
+TRIALS_GBM = 1    # trial per LightGBM e XGBoost (40)
+TRIALS_GBM_GAMES = 1   # trial per regressione total games (100)
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
@@ -1095,8 +1095,8 @@ def get_model_probs(strategy, X_sc, ann_model=None, lgb_model=None, xgb_model=No
         return get_ann_probs(ann_model, X_sc)
     
     elif strategy == 'ann_top5' and top5_models is not None:
-        probs_list = [get_ann_probs(m, X_sc) for m in top5_models]
-        return np.mean(probs_list, axis=0)
+        probs_list = [get_ann_probs(m, X_sc).flatten() for m in top5_models]
+        return np.mean(probs_list, axis=0).reshape(-1, 1)
     
     elif strategy == 'lgb' and lgb_model is not None:
         return lgb_model.predict_proba(X_sc)[:, 1].reshape(-1, 1)
@@ -1107,23 +1107,23 @@ def get_model_probs(strategy, X_sc, ann_model=None, lgb_model=None, xgb_model=No
     elif strategy == 'ensemble_avg':
         probs = []
         if ann_model is not None:
-            probs.append(get_ann_probs(ann_model, X_sc))
+            probs.append(get_ann_probs(ann_model, X_sc).flatten())
         if lgb_model is not None:
-            probs.append(lgb_model.predict_proba(X_sc)[:, 1].reshape(-1, 1))
+            probs.append(lgb_model.predict_proba(X_sc)[:, 1])
         if xgb_model is not None:
-            probs.append(xgb_model.predict_proba(X_sc)[:, 1].reshape(-1, 1))
-        return np.mean(probs, axis=0) if probs else get_ann_probs(ann_model, X_sc)
+            probs.append(xgb_model.predict_proba(X_sc)[:, 1])
+        return np.mean(probs, axis=0).reshape(-1, 1) if probs else get_ann_probs(ann_model, X_sc)
     
     elif strategy == 'ensemble_avg_top5':
         probs = []
         if top5_models is not None:
-            probs_top5 = [get_ann_probs(m, X_sc) for m in top5_models]
+            probs_top5 = [get_ann_probs(m, X_sc).flatten() for m in top5_models]
             probs.append(np.mean(probs_top5, axis=0))
         if lgb_model is not None:
-            probs.append(lgb_model.predict_proba(X_sc)[:, 1].reshape(-1, 1))
+            probs.append(lgb_model.predict_proba(X_sc)[:, 1])
         if xgb_model is not None:
-            probs.append(xgb_model.predict_proba(X_sc)[:, 1].reshape(-1, 1))
-        return np.mean(probs, axis=0) if probs else get_ann_probs(top5_models[0], X_sc)
+            probs.append(xgb_model.predict_proba(X_sc)[:, 1])
+        return np.mean(probs, axis=0).reshape(-1, 1) if probs else get_ann_probs(top5_models[0], X_sc)
     
     elif strategy == 'ensemble_stacking' and meta_model is not None:
         # Stacking: usa il meta-modello
@@ -1196,27 +1196,47 @@ if __name__ == '__main__':
     dates = df_ml['tourney_date']
     level_w = df_ml['level_weight'].values
 
-    # ── 1b. Preparazione dataset games (SOLO target=1 per evitare duplicazioni) ─
-    # Per i games regressors, le feature simmetriche sono identiche in d0 e d1
-    # → usiamo solo target=1 per risparmiare 50% del tempo di training
+    # ── 1b. Preparazione dataset games (verrà filtrato dopo lo split) ────────
+    X_games_full = df_ml[GAMES_FEATURES].fillna(0)
+    games_raw_full = df_ml['total_games'].values.astype(np.float32)
+    
+    # Statistiche pre-filtraggio
     df_games_only = df_ml[df_ml['target'] == 1].copy()
-    X_games = df_games_only[GAMES_FEATURES].fillna(0)
-    games_raw_all = df_games_only['total_games'].values.astype(np.float32)
-    games_dates = df_games_only['tourney_date']
-    games_level_w = df_games_only['level_weight'].values
-    games_valid_all = ~np.isnan(games_raw_all)
-    n_valid = int(games_valid_all.sum())
-    print(f"   → Total games (solo target=1): {n_valid:,}/{len(games_raw_all):,} validi | media={np.nanmean(games_raw_all):.1f} | std={np.nanstd(games_raw_all):.1f}")
-    print(f"   💡 Ottimizzazione: usato solo target=1 per games (feature simmetriche) → 50% più veloce")
+    games_valid_check = ~df_games_only['total_games'].isna()
+    n_valid = int(games_valid_check.sum())
+    print(f"   → Total games (solo target=1 dopo split): {n_valid:,} validi | media={df_games_only['total_games'].mean():.1f}")
+    print(f"   💡 Ottimizzazione: filtrerò target=1 dopo split → 50% più veloce per games regressors")
 
     # ── 2. Split globale: 70 / 15 / 15 ───────────────────────────────────────
-    X_tr, X_tmp, y_tr, y_tmp, d_tr, d_tmp, lw_tr, _, \
-        Xg_tr, Xg_tmp, gr_tr, gr_tmp = train_test_split(
-        X, y, dates, level_w, X_games, games_raw_all,
+    # Split TUTTI i dati insieme (incluso X_games e games_raw che hanno stessa lunghezza)
+    X_tr, X_tmp, y_tr, y_tmp, d_tr, d_tmp, lw_tr, lw_tmp, \
+        Xg_tr_full, Xg_tmp_full, gr_tr_full, gr_tmp_full = train_test_split(
+        X, y, dates, level_w, X_games_full, games_raw_full,
         test_size=0.30, random_state=SEED)
-    X_val, X_test, y_val, y_test, Xg_val, Xg_test, gr_val, gr_test = train_test_split(
-        X_tmp, y_tmp, Xg_tmp, gr_tmp,
+    
+    X_val, X_test, y_val, y_test, lw_val, lw_test, \
+        Xg_val_full, Xg_test_full, gr_val_full, gr_test_full = train_test_split(
+        X_tmp, y_tmp, lw_tmp, Xg_tmp_full, gr_tmp_full,
         test_size=0.50, random_state=SEED)
+
+    # ── 2b. Filtra solo target=1 per dataset games ───────────────────────────
+    # Train set games
+    mask_tr = (y_tr == 1).values if hasattr(y_tr, 'values') else (y_tr == 1)
+    Xg_tr = Xg_tr_full[mask_tr]
+    gr_tr = gr_tr_full[mask_tr]
+    
+    # Val set games
+    mask_val = (y_val == 1).values if hasattr(y_val, 'values') else (y_val == 1)
+    Xg_val = Xg_val_full[mask_val]
+    gr_val = gr_val_full[mask_val]
+    
+    # Test set games
+    mask_test = (y_test == 1).values if hasattr(y_test, 'values') else (y_test == 1)
+    Xg_test = Xg_test_full[mask_test]
+    gr_test = gr_test_full[mask_test]
+    
+    print(f"   → Games train: {len(Xg_tr):,} | val: {len(Xg_val):,} | test: {len(Xg_test):,}")
+
 
     scaler = StandardScaler()
     X_tr_sc  = scaler.fit_transform(X_tr)
@@ -1372,22 +1392,34 @@ if __name__ == '__main__':
     mb_val = np.abs(best_probs_val - 0.5).flatten()
     mb_te  = np.abs(best_probs_te  - 0.5).flatten()
 
+    # Filtra match_balance per solo target=1 (corrispondente a Xg_tr/val/test)
+    mask_tr_games = (y_tr == 1).values if hasattr(y_tr, 'values') else (y_tr == 1)
+    mask_val_games = (y_val == 1).values if hasattr(y_val, 'values') else (y_val == 1)
+    mask_te_games = (y_test == 1).values if hasattr(y_test, 'values') else (y_test == 1)
+    
+    mb_tr_games  = mb_tr[mask_tr_games]
+    mb_val_games = mb_val[mask_val_games]
+    mb_te_games  = mb_te[mask_te_games]
+
     # Aggiungi match_balance alle feature games
-    Xg_tr_ext  = np.column_stack([Xg_tr.values if hasattr(Xg_tr, 'values') else Xg_tr, mb_tr])
-    Xg_val_ext = np.column_stack([Xg_val.values if hasattr(Xg_val, 'values') else Xg_val, mb_val])
-    Xg_te_ext  = np.column_stack([Xg_test.values if hasattr(Xg_test, 'values') else Xg_test, mb_te])
+    Xg_tr_ext  = np.column_stack([Xg_tr.values if hasattr(Xg_tr, 'values') else Xg_tr, mb_tr_games])
+    Xg_val_ext = np.column_stack([Xg_val.values if hasattr(Xg_val, 'values') else Xg_val, mb_val_games])
+    Xg_te_ext  = np.column_stack([Xg_test.values if hasattr(Xg_test, 'values') else Xg_test, mb_te_games])
 
     scaler_games = StandardScaler()
     Xg_tr_sc  = scaler_games.fit_transform(Xg_tr_ext)
     Xg_val_sc = scaler_games.transform(Xg_val_ext)
     Xg_te_sc  = scaler_games.transform(Xg_te_ext)
 
+    # Filtra combined_weights per solo target=1
+    combined_weights_games = combined_weights[mask_tr_games]
+
     gv_tr = ~np.isnan(gr_tr); gv_val = ~np.isnan(gr_val); gv_te = ~np.isnan(gr_test)
     games_models, games_maes, games_best_key = train_games_regressors(
         Xg_tr_sc[gv_tr], gr_tr[gv_tr],
         Xg_val_sc[gv_val], gr_val[gv_val],
         Xg_te_sc[gv_te], gr_test[gv_te],
-        sample_weights_tr=combined_weights[gv_tr],
+        sample_weights_tr=combined_weights_games[gv_tr],
         n_trials=TRIALS_GBM_GAMES)
     games_mae_test = games_maes.get(games_best_key)
 
@@ -1507,6 +1539,12 @@ if __name__ == '__main__':
     if games_models:
         print("   Re-training games regressors on all data...")
         
+        # Ricrea dataset games (solo target=1) per re-training finale
+        df_games_only = df_ml[df_ml['target'] == 1].copy()
+        X_games = df_games_only[GAMES_FEATURES].fillna(0)
+        games_raw_all = df_games_only['total_games'].values.astype(np.float32)
+        games_valid_all = ~np.isnan(games_raw_all)
+        
         # Calcola match_balance usando il modello finale appropriato
         X_all_sc = scaler.transform(X)
         
@@ -1535,8 +1573,12 @@ if __name__ == '__main__':
         
         mb_all = np.abs(best_probs_all - 0.5).flatten()
         
+        # Filtra match_balance per solo target=1 (corrispondente a X_games)
+        mask_target1 = (y == 1).values if hasattr(y, 'values') else (y == 1)
+        mb_games = mb_all[mask_target1]
+        
         # Aggiungi match_balance alle feature games
-        Xg_all_ext = np.column_stack([X_games.values if hasattr(X_games, 'values') else X_games, mb_all])
+        Xg_all_ext = np.column_stack([X_games.values if hasattr(X_games, 'values') else X_games, mb_games])
         scaler_games_final = StandardScaler()
         Xg_all_sc = scaler_games_final.fit_transform(Xg_all_ext)
         gv_all = games_valid_all
