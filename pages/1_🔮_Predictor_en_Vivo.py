@@ -142,8 +142,19 @@ ROUND_MAP_STR = {'Finale': 7, 'Semifinale': 6, 'Quarti': 5, '16mi': 4,
                  '32mi': 3, '64mi': 2, '128mi': 1, 'Round Robin': 4}
 
 # ─── Caricamento risorse ─────────────────────────────────────────────────────
+
+def get_version():
+    try:
+        ruta_script = os.path.dirname(os.path.abspath(__file__))
+        ruta_proyecto = os.path.dirname(ruta_script)
+        ruta_redeploy = os.path.join(ruta_proyecto, ".streamlit_redeploy.py")
+        with open(ruta_redeploy) as f:
+            return f.read().strip()
+    except:
+        return "default"
+
 @st.cache_resource
-def cargar_todo():
+def cargar_todo(_version: str):
     ruta_script = os.path.dirname(os.path.abspath(__file__))
     ruta_proyecto = os.path.dirname(ruta_script)
     ruta_pred   = os.path.join(ruta_proyecto, "prediccion")
