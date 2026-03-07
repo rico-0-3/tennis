@@ -28,6 +28,27 @@ senza dover accendere il PC. L'aggiornamento viene eseguito su **GitHub Actions*
 
 st.divider()
 
+# ─── Protezione con password ─────────────────────────────────────────────────
+ADMIN_PASSWORD = "Tennis2026"
+
+if not ADMIN_PASSWORD:
+    st.error("⚠️ **ADMIN_PASSWORD** non configurata nei Secrets di Streamlit Cloud.")
+    st.stop()
+
+if "admin_auth" not in st.session_state:
+    st.session_state.admin_auth = False
+
+if not st.session_state.admin_auth:
+    st.markdown("### 🔐 Accesso riservato")
+    pwd = st.text_input("Inserisci la password amministratore:", type="password")
+    if st.button("🔓 Accedi", use_container_width=True):
+        if pwd == ADMIN_PASSWORD:
+            st.session_state.admin_auth = True
+            st.rerun()
+        else:
+            st.error("❌ Password errata.")
+    st.stop()
+
 # ─── Configurazione GitHub ────────────────────────────────────────────────────
 # Il token va messo nei Secrets di Streamlit Cloud come GITHUB_TOKEN
 # Il repo va configurato qui sotto
