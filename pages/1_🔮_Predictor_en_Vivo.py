@@ -61,13 +61,15 @@ N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
 
 
 class TennisANNv3(nn.Module):
-    """Wide & Deep con Feature Interaction e Residual Connections."""
+    """Wide & Deep con Feature Interaction, Residual Connections e Multi-Task (games)."""
     def __init__(self, input_dim: int, hidden_layers: list, dropout: float = 0.3,
                  n_interactions: int = N_INTERACTIONS,
-                 interaction_pairs: list = None):
+                 interaction_pairs: list = None,
+                 predict_games: bool = False):
         super().__init__()
         self.interaction_pairs = interaction_pairs or DEFAULT_INTERACTION_PAIRS
         self.n_interactions = min(n_interactions, len(self.interaction_pairs))
+        self.predict_games = predict_games
 
         # === Wide path ===
         self.wide = nn.Linear(input_dim, 1)
@@ -91,6 +93,16 @@ class TennisANNv3(nn.Module):
             prev = h
 
         self.deep_out = nn.Linear(prev, 1)
+
+        # === Games regression head (multi-task) ===
+        if predict_games:
+            games_hidden = max(prev // 2, 16)
+            self.games_head = nn.Sequential(
+                nn.Linear(prev, games_hidden),
+                nn.ReLU(),
+                nn.Dropout(dropout * 0.5),
+                nn.Linear(games_hidden, 1)
+            )
 
     def forward(self, x):
         wide_out = self.wide(x)
@@ -116,7 +128,13 @@ class TennisANNv3(nn.Module):
             h = h + identity
 
         deep_out = self.deep_out(h)
-        return (wide_out + deep_out).squeeze(1)
+        cls_logit = (wide_out + deep_out).squeeze(1)
+
+        if self.predict_games:
+            games_pred = self.games_head(h).squeeze(1)
+            return cls_logit, games_pred
+
+        return cls_logit
 
 
 ANN_FEATURES = [
@@ -241,6 +259,9 @@ finale_scaler   = modelo_finale['scaler']
 finale_name     = modelo_finale['model_name']
 finale_accuracy = modelo_finale.get('accuracy', 0)
 finale_score    = modelo_finale.get('score', 0)
+finale_games_mean = modelo_finale.get('games_mean', 24.0)
+finale_games_std  = modelo_finale.get('games_std', 6.0)
+finale_predict_games = modelo_finale.get('predict_games', False)
 
 st.sidebar.success(f"🎯 Modello attivo: **{finale_name}**\n\nAcc: {finale_accuracy:.1%} · Score: {finale_score:.4f}")
 
@@ -254,7 +275,9 @@ def _build_ann(cfg):
     dr  = hp['dropout']
     ipairs = hp.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
     ninter = hp.get('n_interactions', len(ipairs))
-    m = TennisANNv3(len(ANN_FEATURES), hl, dr, ninter, ipairs)
+    predict_games = hp.get('predict_games', False)
+    m = TennisANNv3(len(ANN_FEATURES), hl, dr, ninter, ipairs,
+                    predict_games=predict_games)
     m.load_state_dict(cfg['state_dict'])
     m.eval()
     return m
@@ -263,48 +286,81 @@ def _ann_prob(model, input_t):
     """Probabilità sigmoid da un modello ANN."""
     model.eval()
     with torch.no_grad():
-        logit = model(input_t).item()
+        output = model(input_t)
+    logit = output[0].item() if isinstance(output, tuple) else output.item()
     return 1 / (1 + np.exp(-logit))
 
+def _ann_games(model, input_t):
+    """Predice il numero totale di game (denormalizzato)."""
+    model.eval()
+    with torch.no_grad():
+        output = model(input_t)
+    if isinstance(output, tuple):
+        games_norm = output[1].item()
+        return games_norm * finale_games_std + finale_games_mean
+    return None
+
 def predici(input_sc, input_t):
-    """Produce probabilità J1 usando la strategia in modelo_finale."""
+    """Produce probabilità J1 e total games usando la strategia in modelo_finale."""
     s = finale_strategy
+    games_pred = None
+
+    def _get_games_from_ann(ann):
+        return _ann_games(ann, input_t)
 
     if s == 'ann_best':
         ann = _build_ann(modelo_finale['ann'])
-        return _ann_prob(ann, input_t), finale_name
+        games_pred = _get_games_from_ann(ann)
+        return _ann_prob(ann, input_t), finale_name, games_pred
 
     elif s == 'ann_top5':
-        probs = [_ann_prob(_build_ann(c), input_t) for c in modelo_finale['ann_top5']]
-        return float(np.mean(probs)), finale_name
+        anns = [_build_ann(c) for c in modelo_finale['ann_top5']]
+        probs = [_ann_prob(a, input_t) for a in anns]
+        games_list = [_get_games_from_ann(a) for a in anns]
+        games_list = [g for g in games_list if g is not None]
+        games_pred = float(np.mean(games_list)) if games_list else None
+        return float(np.mean(probs)), finale_name, games_pred
 
     elif s == 'lgb':
-        return modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0], finale_name
+        # Per games, usa la ANN salvata (se disponibile)
+        if 'ann' in modelo_finale:
+            ann = _build_ann(modelo_finale['ann'])
+            games_pred = _get_games_from_ann(ann)
+        return modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0], finale_name, games_pred
 
     elif s == 'xgb':
-        return modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0], finale_name
+        if 'ann' in modelo_finale:
+            ann = _build_ann(modelo_finale['ann'])
+            games_pred = _get_games_from_ann(ann)
+        return modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0], finale_name, games_pred
 
     elif s == 'ensemble_avg':
         ann = _build_ann(modelo_finale['ann'])
         p_ann = _ann_prob(ann, input_t)
+        games_pred = _get_games_from_ann(ann)
         p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
         p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
-        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name
+        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name, games_pred
 
     elif s == 'ensemble_avg_top5':
-        probs_ann = [_ann_prob(_build_ann(c), input_t) for c in modelo_finale['ann_top5']]
+        anns = [_build_ann(c) for c in modelo_finale['ann_top5']]
+        probs_ann = [_ann_prob(a, input_t) for a in anns]
+        games_list = [_get_games_from_ann(a) for a in anns]
+        games_list = [g for g in games_list if g is not None]
+        games_pred = float(np.mean(games_list)) if games_list else None
         p_ann = float(np.mean(probs_ann))
         p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
         p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
-        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name
+        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name, games_pred
 
     elif s == 'ensemble_stacking':
         ann = _build_ann(modelo_finale['ann'])
         p_ann = _ann_prob(ann, input_t)
+        games_pred = _get_games_from_ann(ann)
         p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
         p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
         meta_input = np.array([[p_ann, p_lgb, p_xgb]])
-        return modelo_finale['meta_model'].predict_proba(meta_input)[0, 1], finale_name
+        return modelo_finale['meta_model'].predict_proba(meta_input)[0, 1], finale_name, games_pred
 
     else:
         raise ValueError(f"Strategia sconosciuta: {s}")
@@ -655,7 +711,7 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
     input_t  = torch.tensor(input_sc.astype(np.float32))
 
     # ─── Predizione con modello finale (strategia auto-selezionata) ──────────
-    prob_j1, modello_usato = predici(input_sc, input_t)
+    prob_j1, modello_usato, games_pred = predici(input_sc, input_t)
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()
@@ -672,6 +728,12 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         else:
             st.error(f"🏆 Vincitore: **{nombre2}**")
             st.metric("Confidenza", f"{(1-prob_j1):.1%}", delta=f"Modello: {modello_usato}")
+
+        # Total games prediction
+        if games_pred is not None:
+            games_pred_rounded = max(12, round(games_pred))
+            st.metric("Total Game Previsti", f"{games_pred_rounded}",
+                      help="Numero totale di game previsti nel match (somma di tutti i set)")
 
         # Barra probabilità
         prob_display = prob_j1 if prob_j1 > 0.5 else 1 - prob_j1

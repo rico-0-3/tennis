@@ -90,7 +90,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 120       # numero trial Optuna ANN 
+TRIALS = 150       # numero trial Optuna ANN 
 TRIALS_GBM = 50    # trial per LightGBM e XGBoost
 
 # Importanza tornei (moltiplicatore sui pesi campione)
@@ -201,6 +201,9 @@ def carica_e_prepara(csv_path: str):
             continue
         if not isinstance(surf, str):
             continue  # salta righe senza superficie
+
+        # --- Total games (target regressione) ---
+        total_games = parse_total_games(str(row.get('score', '')))
 
         # --- Fatica ---
         f_w = fatiga_t.get((tid, w), 0); f_l = fatiga_t.get((tid, l), 0)
@@ -410,12 +413,12 @@ def carica_e_prepara(csv_path: str):
         diffs['court_ace_pct'] = court_ace
         diffs['court_speed']   = court_spd
 
-        d1 = diffs.copy(); d1['target'] = 1
+        d1 = diffs.copy(); d1['target'] = 1; d1['total_games'] = total_games
         d0 = {k: -v if k not in ('surface_enc','tourney_level','round_enc',
                                   'is_best_of_5','tourney_date','level_weight',
                                   'court_ace_pct','court_speed')
               else v for k, v in diffs.items()}
-        d0['target'] = 0
+        d0['target'] = 0; d0['total_games'] = total_games
         rows.append(d1); rows.append(d0)
         upd_serve(l, rd, 'l'); upd_return(l, rd, 'w')
 
@@ -533,13 +536,15 @@ N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
 
 
 class TennisANNv3(nn.Module):
-    """Wide & Deep con Feature Interaction e Residual Connections."""
+    """Wide & Deep con Feature Interaction, Residual Connections e Multi-Task (games)."""
     def __init__(self, input_dim: int, hidden_layers: list, dropout: float = 0.3,
                  n_interactions: int = N_INTERACTIONS,
-                 interaction_pairs: list = None):
+                 interaction_pairs: list = None,
+                 predict_games: bool = False):
         super().__init__()
         self.interaction_pairs = interaction_pairs or DEFAULT_INTERACTION_PAIRS
         self.n_interactions = min(n_interactions, len(self.interaction_pairs))
+        self.predict_games = predict_games
 
         # === Wide path (linear, cattura relazioni dirette) ===
         self.wide = nn.Linear(input_dim, 1)
@@ -563,6 +568,16 @@ class TennisANNv3(nn.Module):
             prev = h
 
         self.deep_out = nn.Linear(prev, 1)
+
+        # === Games regression head (multi-task) ===
+        if predict_games:
+            games_hidden = max(prev // 2, 16)
+            self.games_head = nn.Sequential(
+                nn.Linear(prev, games_hidden),
+                nn.ReLU(),
+                nn.Dropout(dropout * 0.5),
+                nn.Linear(games_hidden, 1)
+            )
 
     def forward(self, x):
         # Wide
@@ -592,8 +607,14 @@ class TennisANNv3(nn.Module):
 
         deep_out = self.deep_out(h)
 
-        # Combina wide + deep
-        return (wide_out + deep_out).squeeze(1)
+        # Combina wide + deep (classificazione)
+        cls_logit = (wide_out + deep_out).squeeze(1)
+
+        if self.predict_games:
+            games_pred = self.games_head(h).squeeze(1)
+            return cls_logit, games_pred
+
+        return cls_logit
 
 
 def label_smoothed_bce(logits, targets, smoothing=0.05):
@@ -603,8 +624,9 @@ def label_smoothed_bce(logits, targets, smoothing=0.05):
 
 
 def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10,
-                smoothing=0.05):
+                smoothing=0.05, alpha_games=ALPHA_GAMES):
     model.to(device)
+    has_games = getattr(model, 'predict_games', False)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-5)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=4)
     criterion_val = nn.BCEWithLogitsLoss()  # no smoothing per validazione
@@ -612,18 +634,39 @@ def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10
 
     for _ in range(epochs):
         model.train()
-        for Xb, yb in loader_train:
-            Xb, yb = Xb.to(device), yb.to(device)
+        for batch in loader_train:
+            Xb, yb = batch[0].to(device), batch[1].to(device)
             optimizer.zero_grad()
-            loss = label_smoothed_bce(model(Xb), yb, smoothing=smoothing)
+            output = model(Xb)
+
+            if has_games and isinstance(output, tuple):
+                cls_logit, games_pred = output
+                cls_loss = label_smoothed_bce(cls_logit, yb, smoothing=smoothing)
+                # batch contiene [X, y, games_norm, games_mask]
+                if len(batch) == 4:
+                    gb = batch[2].to(device)
+                    mb = batch[3].to(device).bool()
+                    if mb.any():
+                        games_loss = nn.functional.mse_loss(games_pred[mb], gb[mb])
+                    else:
+                        games_loss = torch.tensor(0.0, device=device)
+                else:
+                    games_loss = torch.tensor(0.0, device=device)
+                loss = cls_loss + alpha_games * games_loss
+            else:
+                logits = output if not isinstance(output, tuple) else output[0]
+                loss = label_smoothed_bce(logits, yb, smoothing=smoothing)
+
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
         model.eval(); vl = []
         with torch.no_grad():
-            for Xb, yb in loader_val:
-                Xb, yb = Xb.to(device), yb.to(device)
-                vl.append(criterion_val(model(Xb), yb).item())
+            for batch in loader_val:
+                Xb, yb = batch[0].to(device), batch[1].to(device)
+                output = model(Xb)
+                logits = output[0] if isinstance(output, tuple) else output
+                vl.append(criterion_val(logits, yb).item())
         vl_mean = np.mean(vl); scheduler.step(vl_mean)
         if vl_mean < best_val - 1e-5:
             best_val = vl_mean
@@ -636,12 +679,28 @@ def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10
     return model, best_val
 
 
-def valuta(model, Xsc, y_np):
+def valuta(model, Xsc, y_np, games_raw=None, games_mean=0.0, games_std=1.0):
+    """Valuta classificazione (acc, log_loss) e opzionalmente regressione games (MAE)."""
     model.eval()
     with torch.no_grad():
-        logits = model(torch.tensor(Xsc.astype(np.float32)).to(device)).cpu().numpy()
+        output = model(torch.tensor(Xsc.astype(np.float32)).to(device))
+    if isinstance(output, tuple):
+        logits = output[0].cpu().numpy()
+        games_pred_norm = output[1].cpu().numpy()
+    else:
+        logits = output.cpu().numpy()
+        games_pred_norm = None
     probs = 1 / (1 + np.exp(-logits))
-    return accuracy_score(y_np, (probs >= 0.5).astype(int)), log_loss(y_np, probs)
+    acc = accuracy_score(y_np, (probs >= 0.5).astype(int))
+    ll = log_loss(y_np, probs)
+
+    games_mae = None
+    if games_pred_norm is not None and games_raw is not None:
+        games_pred = games_pred_norm * games_std + games_mean
+        valid = ~np.isnan(games_raw)
+        if valid.any():
+            games_mae = float(np.mean(np.abs(games_pred[valid] - games_raw[valid])))
+    return acc, ll, games_mae
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -650,7 +709,10 @@ def valuta(model, Xsc, y_np):
 
 def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
                   y_val, y_test, dates_tr, level_w_tr,
-                  n_trials=TRIALS, input_dim=len(FEATURES), label="Global"):
+                  n_trials=TRIALS, input_dim=len(FEATURES), label="Global",
+                  games_tr=None, games_mask_tr=None,
+                  games_val_raw=None, games_test_raw=None,
+                  games_mean=0.0, games_std=1.0):
 
     X_val_t  = torch.tensor(X_val_sc.astype(np.float32))
     X_test_t = torch.tensor(X_te_sc.astype(np.float32))
@@ -660,7 +722,14 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
     X_tr_t = torch.tensor(X_tr.astype(np.float32))
     y_tr_t = torch.tensor(y_tr.values.astype(np.float32) if hasattr(y_tr, 'values') else y_tr.astype(np.float32))
 
-    dataset_tr  = TensorDataset(X_tr_t, y_tr_t)
+    # Dataset con games data (multi-task)
+    has_games = games_tr is not None and games_mask_tr is not None
+    if has_games:
+        g_tr_t  = torch.tensor(games_tr.astype(np.float32))
+        gm_tr_t = torch.tensor(games_mask_tr.astype(np.float32))
+        dataset_tr  = TensorDataset(X_tr_t, y_tr_t, g_tr_t, gm_tr_t)
+    else:
+        dataset_tr  = TensorDataset(X_tr_t, y_tr_t)
     dataset_val = TensorDataset(X_val_t, torch.tensor(y_val_np.astype(np.float32)))
 
     USE_CUDA    = device.type == 'cuda'
@@ -698,9 +767,10 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             ldr_val = DataLoader(dataset_val, batch_size=4096, shuffle=False,
                                  pin_memory=PIN_MEM, num_workers=N_WORKERS)
 
-            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs)
+            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs,
+                                predict_games=has_games)
             model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
-            acc_v, _ = valuta(model, X_val_sc, y_val_np)
+            acc_v, _, _ = valuta(model, X_val_sc, y_val_np)
 
             trial.set_user_attr('model', model)
             trial.set_user_attr('hl', hl)
@@ -710,7 +780,8 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
                                        'label_smoothing': sm,
                                        'interaction_set': iset,
                                        'interaction_pairs': i_pairs,
-                                       'n_interactions': n_inter})
+                                       'n_interactions': n_inter,
+                                       'predict_games': has_games})
             return acc_v
 
         study = optuna.create_study(direction='maximize',
@@ -725,8 +796,9 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             if t.value is None: continue
             model_t = t.user_attrs.get('model')
             if model_t is None: continue
-            acc_t, ll = valuta(model_t, X_te_sc, y_test_np)
-            risultati.append({
+            acc_t, ll, mae_t = valuta(model_t, X_te_sc, y_test_np,
+                                      games_test_raw, games_mean, games_std)
+            entry = {
                 'trial':        t.number+1,
                 'hidden_layers': str(t.user_attrs.get('hl',[])),
                 'dropout':      t.params.get('dropout'),
@@ -741,7 +813,10 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
                 'log_loss':     ll,
                 '_model':       model_t,
                 '_config':      t.user_attrs.get('hp', {}),
-            })
+            }
+            if mae_t is not None:
+                entry['games_mae'] = mae_t
+            risultati.append(entry)
 
     else:
         # Fallback: random search
@@ -761,24 +836,31 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             n_inter = len(i_pairs)
             hp  = {'hidden_layers': hl, 'dropout': dr, 'lr': lr,
                    'batch_size': bs, 'epochs': ep, 'lambda_decay': lam, 'label_smoothing': sm,
-                   'interaction_set': iset, 'interaction_pairs': i_pairs, 'n_interactions': n_inter}
+                   'interaction_set': iset, 'interaction_pairs': i_pairs, 'n_interactions': n_inter,
+                   'predict_games': has_games}
             print(f"  [{i+1:3d}/{n_trials}] {str(hl):22s} drop={dr} lr={lr:.0e} λ={lam:.4f} sm={sm:.2f} int={iset}  ▶ avvio...", flush=True)
             w_combined = calcola_pesi_combinati(dates_tr, level_w_tr, lam)
             w_t = torch.tensor(w_combined)
             sampler = WeightedRandomSampler(w_t, len(w_t), replacement=True)
             ldr_tr  = DataLoader(dataset_tr,  batch_size=bs, sampler=sampler)
             ldr_val = DataLoader(dataset_val, batch_size=2048, shuffle=False)
-            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs)
+            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs,
+                                predict_games=has_games)
             model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
-            acc_v, _ = valuta(model, X_val_sc, y_val_np)
-            acc_t, ll = valuta(model, X_te_sc, y_test_np)
-            print(f"     └─ val={acc_v:.3f} test={acc_t:.3f}", flush=True)
-            risultati.append({'trial': i+1, 'hidden_layers': str(hl),
-                               'dropout': dr, 'lr': lr, 'batch_size': bs,
-                               'epochs': ep, 'lambda_decay': lam, 'smoothing': sm,
-                               'interaction_set': iset,
-                               'val_acc': acc_v, 'test_acc': acc_t,
-                               'log_loss': ll, '_model': model, '_config': hp})
+            acc_v, _, _ = valuta(model, X_val_sc, y_val_np)
+            acc_t, ll, mae_t = valuta(model, X_te_sc, y_test_np,
+                                      games_test_raw, games_mean, games_std)
+            games_info = f" | mae_games={mae_t:.1f}" if mae_t else ""
+            print(f"     └─ val={acc_v:.3f} test={acc_t:.3f}{games_info}", flush=True)
+            entry = {'trial': i+1, 'hidden_layers': str(hl),
+                     'dropout': dr, 'lr': lr, 'batch_size': bs,
+                     'epochs': ep, 'lambda_decay': lam, 'smoothing': sm,
+                     'interaction_set': iset,
+                     'val_acc': acc_v, 'test_acc': acc_t,
+                     'log_loss': ll, '_model': model, '_config': hp}
+            if mae_t is not None:
+                entry['games_mae'] = mae_t
+            risultati.append(entry)
 
     return sorted(risultati, key=lambda x: x['test_acc'], reverse=True)
 
@@ -909,8 +991,20 @@ def get_ann_probs(model, X_sc):
     """Get ANN prediction probabilities."""
     model.eval()
     with torch.no_grad():
-        logits = model(torch.tensor(X_sc.astype(np.float32)).to(device)).cpu().numpy()
+        output = model(torch.tensor(X_sc.astype(np.float32)).to(device))
+    logits = output[0].cpu().numpy() if isinstance(output, tuple) else output.cpu().numpy()
     return 1 / (1 + np.exp(-logits))
+
+
+def get_ann_games(model, X_sc, games_mean=0.0, games_std=1.0):
+    """Predice il numero totale di game dalla ANN (head di regressione)."""
+    model.eval()
+    with torch.no_grad():
+        output = model(torch.tensor(X_sc.astype(np.float32)).to(device))
+    if isinstance(output, tuple):
+        games_norm = output[1].cpu().numpy()
+        return games_norm * games_std + games_mean
+    return None
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -928,10 +1022,17 @@ def confronto_finale(results_list):
     print("\n" + "="*80)
     print("  🏆  CLASSIFICA FINALE — TUTTI I MODELLI  (Score = Accuracy − Log Loss)")
     print("="*80)
-    print(df_final[['Modello','Acc. %','Log Loss','Score','Note']].to_string(index=False))
+    cols = ['Modello','Acc. %','Log Loss','Score']
+    if 'Games MAE' in df_final.columns:
+        cols.append('Games MAE')
+    cols.append('Note')
+    print(df_final[cols].to_string(index=False))
     print("="*80)
     vincitore = df_final.iloc[0]
-    print(f"\n  🥇  Miglior modello: {vincitore['Modello']}  →  Acc {vincitore['Acc. %']:.2f}%  |  Score {vincitore['Score']:.4f}\n")
+    games_info = ""
+    if 'Games MAE' in df_final.columns and pd.notna(vincitore.get('Games MAE')):
+        games_info = f"  |  Games MAE {vincitore['Games MAE']:.2f}"
+    print(f"\n  🥇  Miglior modello: {vincitore['Modello']}  →  Acc {vincitore['Acc. %']:.2f}%  |  Score {vincitore['Score']:.4f}{games_info}\n")
     return df_final
 
 
@@ -957,11 +1058,28 @@ if __name__ == '__main__':
     dates = df_ml['tourney_date']
     level_w = df_ml['level_weight'].values
 
+    # ── 1b. Preparazione target total games (regressione) ─────────────────────
+    games_raw_all = df_ml['total_games'].values.astype(np.float32)
+    games_valid_all = ~np.isnan(games_raw_all)
+    games_mean = float(np.nanmean(games_raw_all))
+    games_std  = float(np.nanstd(games_raw_all))
+    # Normalizzazione: (games - mean) / std, NaN → 0
+    games_norm_all = np.where(games_valid_all,
+                              (games_raw_all - games_mean) / (games_std + 1e-8),
+                              0.0).astype(np.float32)
+    games_mask_all = games_valid_all.astype(np.float32)
+    n_valid = int(games_valid_all.sum())
+    print(f"   → Total games: {n_valid:,}/{len(games_raw_all):,} validi | media={games_mean:.1f} | std={games_std:.1f}")
+
     # ── 2. Split globale: 70 / 15 / 15 ───────────────────────────────────────
-    X_tr, X_tmp, y_tr, y_tmp, d_tr, d_tmp, lw_tr, _ = train_test_split(
-        X, y, dates, level_w, test_size=0.30, random_state=SEED)
-    X_val, X_test, y_val, y_test = train_test_split(
-        X_tmp, y_tmp, test_size=0.50, random_state=SEED)
+    X_tr, X_tmp, y_tr, y_tmp, d_tr, d_tmp, lw_tr, _, \
+        g_tr, g_tmp, gm_tr, gm_tmp, gr_tr, gr_tmp = train_test_split(
+        X, y, dates, level_w, games_norm_all, games_mask_all, games_raw_all,
+        test_size=0.30, random_state=SEED)
+    X_val, X_test, y_val, y_test, g_val, g_test, gm_val, gm_test, \
+        gr_val, gr_test = train_test_split(
+        X_tmp, y_tmp, g_tmp, gm_tmp, gr_tmp,
+        test_size=0.50, random_state=SEED)
 
     scaler = StandardScaler()
     X_tr_sc  = scaler.fit_transform(X_tr)
@@ -974,7 +1092,10 @@ if __name__ == '__main__':
     risultati = optuna_search(
         X_tr_sc, y_tr, X_val_sc, X_te_sc,
         y_val, y_test, d_tr, lw_tr,
-        n_trials=TRIALS, input_dim=len(FEATURES), label="Global"
+        n_trials=TRIALS, input_dim=len(FEATURES), label="Global",
+        games_tr=g_tr, games_mask_tr=gm_tr,
+        games_val_raw=gr_val, games_test_raw=gr_test,
+        games_mean=games_mean, games_std=games_std,
     )
 
     df_ris = pd.DataFrame([{k: v for k, v in r.items() if not k.startswith('_')}
@@ -983,14 +1104,19 @@ if __name__ == '__main__':
 
     best = risultati[0]
     best_hp = best['_config']
-    acc_test, ll_test = valuta(best['_model'], X_te_sc, y_test.values)
+    acc_test, ll_test, mae_test = valuta(best['_model'], X_te_sc, y_test.values,
+                                          gr_test, games_mean, games_std)
 
     print(f"\n🏆 Modello migliore (Optuna):")
     print(f"   Architettura:  {best['hidden_layers']}")
     print(f"   Hyperparams:   dropout={best['dropout']} | lr={best['lr']:.0e} | bs={best['batch_size']} | λ={best['lambda_decay']} | sm={best.get('smoothing', '?')} | int={best.get('interaction_set', '?')}")
     print(f"   Test Accuracy: {acc_test:.2%}")
     print(f"   Log Loss:      {ll_test:.4f}")
+    if mae_test is not None:
+        print(f"   Games MAE:     {mae_test:.2f}")
     top5_cols = ['hidden_layers','dropout','lr','lambda_decay','smoothing','interaction_set','val_acc','test_acc']
+    if 'games_mae' in df_ris.columns:
+        top5_cols.append('games_mae')
     top5_cols = [c for c in top5_cols if c in df_ris.columns]
     print(f"   Top 5 trial:\n{df_ris[top5_cols].head(5).to_string(index=False)}")
 
@@ -1065,12 +1191,31 @@ if __name__ == '__main__':
     else:
         stack_acc, stack_ll = avg_acc, avg_ll
 
-    # ── 3d. Results table ─────────────────────────────────────────────────────
+    # ── 3d. Games MAE per il best ANN ──────────────────────────────────────
+    best_games_mae = mae_test  # calcolato sopra da valuta()
+    if best_games_mae is not None:
+        print(f"\n   🎯 ANN Best — Games MAE: {best_games_mae:.2f} game")
+
+    # Top-5 games MAE (media delle predizioni)
+    top5_games_preds = [get_ann_games(r['_model'], X_te_sc, games_mean, games_std)
+                        for r in risultati[:5]]
+    top5_games_preds = [p for p in top5_games_preds if p is not None]
+    top5_games_mae = None
+    if top5_games_preds:
+        avg_games_pred = np.mean(top5_games_preds, axis=0)
+        valid_g = ~np.isnan(gr_test)
+        if valid_g.any():
+            top5_games_mae = float(np.mean(np.abs(avg_games_pred[valid_g] - gr_test[valid_g])))
+            print(f"   🎯 ANN Top-5 — Games MAE: {top5_games_mae:.2f} game")
+
+    # ── 3e. Results table ─────────────────────────────────────────────────────
     results_list = [
         {'Modello': 'ANN Best', 'Accuracy': acc_test, 'Log Loss': ll_test,
+         'Games MAE': best_games_mae,
          'Note': f'Optuna best, arch={best["hidden_layers"]}',
          '_strategy': 'ann_best'},
         {'Modello': 'ANN Top-5 Avg', 'Accuracy': top5_ann_acc, 'Log Loss': top5_ann_ll,
+         'Games MAE': top5_games_mae,
          'Note': 'Average of top 5 ANN trials',
          '_strategy': 'ann_top5'},
     ]
@@ -1110,9 +1255,11 @@ if __name__ == '__main__':
     scaler.fit(X)
     joblib.dump(scaler, 'scaler_ann.pkl')
 
-    # Split per early stopping: 85% train, 15% val
-    X_tr_fin, X_val_fin, y_tr_fin, y_val_fin, d_tr_fin, _, lw_tr_fin, _ = train_test_split(
-        X, y, dates, level_w, test_size=0.15, random_state=SEED)
+    # Split per early stopping: 85% train, 15% val (con games data)
+    X_tr_fin, X_val_fin, y_tr_fin, y_val_fin, d_tr_fin, _, lw_tr_fin, _, \
+        g_tr_fin, g_val_fin, gm_tr_fin, gm_val_fin = train_test_split(
+        X, y, dates, level_w, games_norm_all, games_mask_all,
+        test_size=0.15, random_state=SEED)
 
     X_tr_fin_sc  = scaler.transform(X_tr_fin)
     X_val_fin_sc = scaler.transform(X_val_fin)
@@ -1131,6 +1278,8 @@ if __name__ == '__main__':
     X_tr_t = torch.tensor(X_tr_fin_sc.astype(np.float32))
     y_tr_t = torch.tensor(y_tr_fin.values.astype(np.float32) if hasattr(y_tr_fin, 'values')
                           else y_tr_fin.astype(np.float32))
+    g_tr_t  = torch.tensor(g_tr_fin.astype(np.float32))
+    gm_tr_t = torch.tensor(gm_tr_fin.astype(np.float32))
     X_val_t = torch.tensor(X_val_fin_sc.astype(np.float32))
     y_val_t = torch.tensor(y_val_fin.values.astype(np.float32) if hasattr(y_val_fin, 'values')
                            else y_val_fin.astype(np.float32))
@@ -1144,12 +1293,14 @@ if __name__ == '__main__':
     N_WORK   = 2 if USE_CUDA else 0
     bs_eff   = bs * 2 if USE_CUDA and bs < 2048 else bs
 
-    ldr_tr  = DataLoader(TensorDataset(X_tr_t, y_tr_t), batch_size=bs_eff,
+    ldr_tr  = DataLoader(TensorDataset(X_tr_t, y_tr_t, g_tr_t, gm_tr_t),
+                         batch_size=bs_eff,
                          sampler=sampler, pin_memory=PIN_MEM, num_workers=N_WORK)
     ldr_val = DataLoader(TensorDataset(X_val_t, y_val_t), batch_size=4096,
                          shuffle=False, pin_memory=PIN_MEM, num_workers=N_WORK)
 
-    model_final = TennisANNv3(len(FEATURES), hl, dr, best_ninter, best_ipairs)
+    model_final = TennisANNv3(len(FEATURES), hl, dr, best_ninter, best_ipairs,
+                              predict_games=True)
     model_final, _ = train_model(model_final, ldr_tr, ldr_val, epochs=ep, lr=lr,
                                   smoothing=sm)
 
@@ -1175,9 +1326,11 @@ if __name__ == '__main__':
             bs_eff_i = bs_i * 2 if USE_CUDA and bs_i < 2048 else bs_i
             w_i = torch.tensor(w_combined)
             sampler_i = WeightedRandomSampler(w_i, len(w_i), replacement=True)
-            ldr_tr_i = DataLoader(TensorDataset(X_tr_t, y_tr_t), batch_size=bs_eff_i,
+            ldr_tr_i = DataLoader(TensorDataset(X_tr_t, y_tr_t, g_tr_t, gm_tr_t),
+                                  batch_size=bs_eff_i,
                                   sampler=sampler_i, pin_memory=PIN_MEM, num_workers=N_WORK)
-            model_i = TennisANNv3(len(FEATURES), hl_i, dr_i, ninter_i, ipairs_i)
+            model_i = TennisANNv3(len(FEATURES), hl_i, dr_i, ninter_i, ipairs_i,
+                                  predict_games=True)
             model_i, _ = train_model(model_i, ldr_tr_i, ldr_val, epochs=ep_i, lr=lr_i,
                                       smoothing=sm_i)
             top5_state_dicts.append(model_i.state_dict())
@@ -1207,15 +1360,19 @@ if __name__ == '__main__':
         'score': best_score,
         'features': FEATURES,
         'scaler': scaler,
+        # Multi-task: predizione total games
+        'games_mean': games_mean,
+        'games_std': games_std,
+        'predict_games': True,
     }
 
-    if best_strategy == 'ann_best':
-        modelo_finale['ann'] = {
-            'state_dict': model_final.state_dict(),
-            'config': best_hp,
-        }
+    # L'ANN viene sempre salvata per la predizione total games (multi-task)
+    modelo_finale['ann'] = {
+        'state_dict': model_final.state_dict(),
+        'config': best_hp,
+    }
 
-    elif best_strategy == 'ann_top5':
+    if best_strategy == 'ann_top5':
         modelo_finale['ann_top5'] = [
             {'state_dict': sd, 'config': c}
             for sd, c in zip(top5_state_dicts, top5_configs)
@@ -1228,10 +1385,6 @@ if __name__ == '__main__':
         modelo_finale['xgb_model'] = xgb_final
 
     elif best_strategy == 'ensemble_avg':
-        modelo_finale['ann'] = {
-            'state_dict': model_final.state_dict(),
-            'config': best_hp,
-        }
         modelo_finale['lgb_model'] = lgb_final
         modelo_finale['xgb_model'] = xgb_final
 
@@ -1244,10 +1397,6 @@ if __name__ == '__main__':
         modelo_finale['xgb_model'] = xgb_final
 
     elif best_strategy == 'ensemble_stacking':
-        modelo_finale['ann'] = {
-            'state_dict': model_final.state_dict(),
-            'config': best_hp,
-        }
         modelo_finale['lgb_model'] = lgb_final
         modelo_finale['xgb_model'] = xgb_final
         modelo_finale['meta_model'] = meta_model
