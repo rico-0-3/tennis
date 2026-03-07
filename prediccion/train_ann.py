@@ -90,7 +90,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 100       # numero trial Optuna ANN 
+TRIALS = 1       # numero trial Optuna ANN 
 TRIALS_GBM = 40    # trial per LightGBM e XGBoost
 
 # Importanza tornei (moltiplicatore sui pesi campione)
@@ -531,7 +531,7 @@ GAMES_FEATURES = [
     'is_best_of_5',         # formato (bo3 vs bo5)
     'court_ace_pct',        # caratteristiche campo
     'court_speed',          # velocità campo
-]  # totale: 23 feature (senza match_balance, aggiunto dopo ANN)
+]  # totale: 23 feature (match_balance rimosso - non più usato dall'ANN)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1260,26 +1260,12 @@ if __name__ == '__main__':
     else:
         stack_acc, stack_ll = avg_acc, avg_ll
 
-    # ── 3d. Games regressors (DOPO classificazione → usa match_balance) ─────
-    # Calcola probabilità di vittoria dal miglior modello di classificazione
-    # per usarle come feature "match_balance" nel modello games
-    cls_probs_tr  = get_ann_probs(best_ann, X_tr_sc)
-    cls_probs_val = get_ann_probs(best_ann, X_val_sc)
-    cls_probs_te  = get_ann_probs(best_ann, X_te_sc)
-    # match_balance: 0 = match equilibratissimo (50/50), 0.5 = dominio totale
-    mb_tr  = np.abs(cls_probs_tr  - 0.5)
-    mb_val = np.abs(cls_probs_val - 0.5)
-    mb_te  = np.abs(cls_probs_te  - 0.5)
-
-    # Aggiungi match_balance alle feature games
-    Xg_tr_ext  = np.column_stack([Xg_tr.values if hasattr(Xg_tr, 'values') else Xg_tr, mb_tr])
-    Xg_val_ext = np.column_stack([Xg_val.values if hasattr(Xg_val, 'values') else Xg_val, mb_val])
-    Xg_te_ext  = np.column_stack([Xg_test.values if hasattr(Xg_test, 'values') else Xg_test, mb_te])
-
+    # ── 3d. Games regressors (SENZA match_balance dall'ANN) ─────────────────
+    # Training diretto con le feature originali, senza aggiungere probabilità ANN
     scaler_games = StandardScaler()
-    Xg_tr_sc  = scaler_games.fit_transform(Xg_tr_ext)
-    Xg_val_sc = scaler_games.transform(Xg_val_ext)
-    Xg_te_sc  = scaler_games.transform(Xg_te_ext)
+    Xg_tr_sc  = scaler_games.fit_transform(Xg_tr.values if hasattr(Xg_tr, 'values') else Xg_tr)
+    Xg_val_sc = scaler_games.transform(Xg_val.values if hasattr(Xg_val, 'values') else Xg_val)
+    Xg_te_sc  = scaler_games.transform(Xg_test.values if hasattr(Xg_test, 'values') else Xg_test)
 
     gv_tr = ~np.isnan(gr_tr); gv_val = ~np.isnan(gr_val); gv_te = ~np.isnan(gr_test)
     games_models, games_maes, games_best_key = train_games_regressors(
@@ -1431,17 +1417,14 @@ if __name__ == '__main__':
         xgb_final.set_params(early_stopping_rounds=None)
         xgb_final.fit(scaler.transform(X), y_all_np, sample_weight=all_weights)
 
-    # Re-train games regressors su TUTTI i dati (con match_balance dal model_final)
+    # Re-train games regressors su TUTTI i dati (SENZA match_balance)
     games_models_final = {}
     scaler_games_final = None
     if games_models:
         print("   Re-training games regressors on all data...")
-        # Calcola match_balance su tutti i dati usando il modello finale
-        cls_probs_all = get_ann_probs(model_final, scaler.transform(X))
-        mb_all = np.abs(cls_probs_all - 0.5)
-        Xg_all_ext = np.column_stack([X_games.values if hasattr(X_games, 'values') else X_games, mb_all])
+        # Usa direttamente le feature originali senza match_balance
         scaler_games_final = StandardScaler()
-        Xg_all_sc = scaler_games_final.fit_transform(Xg_all_ext)
+        Xg_all_sc = scaler_games_final.fit_transform(X_games.values if hasattr(X_games, 'values') else X_games)
         gv_all = games_valid_all
         for gk, gm in games_models.items():
             print(f"     Re-training {gk} regressor...")

@@ -77,6 +77,45 @@ def copia_se_esiste(src: str, dst: str):
     else:
         print(f"   ⚠️   Non trovato: {os.path.relpath(src, ROOT)}")
 
+def filtra_ritiri_e_copia(src: str, dst: str):
+    """Filtra match con RET e W/O prima di copiare in prediccion."""
+    if not os.path.exists(src):
+        print(f"   ⚠️   Non trovato: {os.path.relpath(src, ROOT)}")
+        return
+    
+    try:
+        import pandas as pd
+        
+        print(f"   🔍  Caricamento dataset: {os.path.basename(src)}")
+        df = pd.read_csv(src, low_memory=False)
+        
+        n_originale = len(df)
+        print(f"   📊  Match totali: {n_originale:,}")
+        
+        # Filtra ritiri (RET) e walkovers (W/O)
+        mask_ritiri = df['score'].astype(str).str.contains('RET', na=False, case=False)
+        mask_wo = df['score'].astype(str).str.contains('W/O', na=False, case=False)
+        
+        n_ritiri = mask_ritiri.sum()
+        n_wo = mask_wo.sum()
+        
+        # Mantieni solo match completi
+        df_pulito = df[~(mask_ritiri | mask_wo)].copy()
+        n_finale = len(df_pulito)
+        
+        # Salva dataset pulito
+        df_pulito.to_csv(dst, index=False)
+        
+        print(f"   🗑️  Rimossi {n_ritiri:,} ritiri (RET)")
+        print(f"   🗑️  Rimossi {n_wo:,} walkovers (W/O)")
+        print(f"   ✅  Match puliti: {n_finale:,} ({100*n_finale/n_originale:.1f}%)")
+        print(f"   💾  Salvato: {os.path.relpath(dst, ROOT)}")
+        
+    except Exception as e:
+        print(f"   ❌  Errore durante il filtraggio: {e}")
+        print(f"   📋  Fallback: copia normale")
+        shutil.copy2(src, dst)
+
 # ─── PIPELINE ────────────────────────────────────────────────────────────────
 
 def main():
@@ -131,7 +170,9 @@ def main():
         if not ok:
             print("   ❌  Fusione fallita. Impossibile continuare.")
             return
-        copia_se_esiste(
+        
+        # Filtra ritiri e walkovers prima di copiare in prediccion
+        filtra_ritiri_e_copia(
             os.path.join(SCRAPING, "historialTenis.csv"),
             os.path.join(PREDICCION, "historialTenis.csv")
         )
@@ -182,8 +223,8 @@ def main():
     src_hist = os.path.join(SCRAPING,   "historialTenis.csv")
     dst_hist = os.path.join(PREDICCION, "historialTenis.csv")
     if os.path.exists(src_hist):
-        shutil.copy2(src_hist, dst_hist)
-        print("   ✅  historialTenis.csv sincronizzato: scraping/ → prediccion/")
+        filtra_ritiri_e_copia(src_hist, dst_hist)
+        print("   ✅  historialTenis.csv filtrato e sincronizzato: scraping/ → prediccion/")
     else:
         print("   ⚠️   historialTenis.csv non trovato in scraping/ — nessuna copia")
 
