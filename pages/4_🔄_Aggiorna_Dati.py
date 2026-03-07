@@ -61,7 +61,7 @@ HEADERS = {
 
 # ─── Funzioni GitHub API ─────────────────────────────────────────────────────
 
-def avvia_workflow(inputs: dict) -> bool:
+def avvia_workflow(inputs: dict) -> tuple[bool, str]:
     """Avvia il workflow su GitHub Actions tramite API."""
     url = f"https://api.github.com/repos/{GITHUB_REPO}/actions/workflows/{WORKFLOW_FILE}/dispatches"
     payload = {
@@ -70,10 +70,13 @@ def avvia_workflow(inputs: dict) -> bool:
     }
     try:
         resp = requests.post(url, json=payload, headers=HEADERS, timeout=15)
-        return resp.status_code == 204
+        if resp.status_code == 204:
+            return True, ""
+        else:
+            detail = resp.json() if resp.headers.get('content-type','').startswith('application/json') else resp.text
+            return False, f"HTTP {resp.status_code}: {detail}"
     except Exception as e:
-        st.error(f"Errore di connessione: {e}")
-        return False
+        return False, f"Errore di connessione: {e}"
 
 
 def get_ultimo_run() -> dict | None:
@@ -149,7 +152,7 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
     }
 
     with st.spinner("📡 Invio richiesta a GitHub Actions..."):
-        ok = avvia_workflow(inputs)
+        ok, errore = avvia_workflow(inputs)
 
     if ok:
         st.success("✅ **Workflow avviato con successo!** Puoi seguire il progresso qui sotto.")
@@ -236,15 +239,21 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
             status_container.warning("⏰ **Timeout di monitoraggio** — il workflow potrebbe essere ancora in corso. Controlla su GitHub.")
 
     else:
-        st.error("""
+        st.error(f"""
         ❌ **Impossibile avviare il workflow.**
+
+        **Errore:** `{errore}`
+
+        **Debug:**
+        - Repo: `{GITHUB_REPO}`
+        - Token: `{GITHUB_TOKEN[:8]}...` ({len(GITHUB_TOKEN)} caratteri)
+        - Workflow: `{WORKFLOW_FILE}`
 
         Possibili cause:
         - Token GitHub non valido o scaduto
-        - Nome repo errato nei Secrets
-        - Il workflow non esiste nel branch `main`
-
-        Controlla la configurazione nei Secrets di Streamlit Cloud.
+        - Il token non ha il permesso `repo` + `workflow` (serve Classic Token)
+        - Nome repo errato nei Secrets (formato: `utente/nome-repo`)
+        - Il file workflow non esiste nel branch `main`
         """)
 
 # ─── Sezione: Ultimo aggiornamento ───────────────────────────────────────────
