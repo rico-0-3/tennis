@@ -217,6 +217,12 @@ def cargar_todo():
     if os.path.exists(agp_bo3):    avg_games_bo3_dict = joblib.load(agp_bo3)
     if os.path.exists(agp_bo5):    avg_games_bo5_dict = joblib.load(agp_bo5)
     if os.path.exists(agp_surf):   avg_games_surf_dict = joblib.load(agp_surf)
+    player_gps_dict = {}   # {player: [last 50 games_per_set]}
+    player_tb_dict = {}    # {player: [last 50 tiebreak booleans]}
+    pgps_path = pp('player_gps_players.pkl')
+    ptb_path = pp('player_tb_players.pkl')
+    if os.path.exists(pgps_path): player_gps_dict = joblib.load(pgps_path)
+    if os.path.exists(ptb_path):  player_tb_dict = joblib.load(ptb_path)
 
     # Storico e Ranking
     try:
@@ -235,7 +241,8 @@ def cargar_todo():
             elo_surface, streak_players,
             momentum_surface, elo_overall, recent_form,
             h2h_surface_dict, last_match_date_dict, avg_games_dict,
-            avg_games_bo3_dict, avg_games_bo5_dict, avg_games_surf_dict)
+            avg_games_bo3_dict, avg_games_bo5_dict, avg_games_surf_dict,
+            player_gps_dict, player_tb_dict)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
@@ -243,7 +250,8 @@ def cargar_todo():
  elo_surface, streak_players,
  momentum_surface, elo_overall, recent_form,
  h2h_surface_dict, last_match_date_dict, avg_games_dict,
- avg_games_bo3_dict, avg_games_bo5_dict, avg_games_surf_dict) = cargar_todo()
+ avg_games_bo3_dict, avg_games_bo5_dict, avg_games_surf_dict,
+ player_gps_dict, player_tb_dict) = cargar_todo()
 
 if modelo_finale is None:
     st.error("❌ Modello non trovato. Assicurati che `modelo_finale.pkl` sia nella cartella `prediccion/`.")
@@ -777,6 +785,10 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
             'g_avg_games_surf_p1':  avg_g_surf_1,
             'g_avg_games_surf_p2':  avg_g_surf_2,
             'g_avg_games_surf_both': (avg_g_surf_1 + avg_g_surf_2) / 2,
+            'g_avg_gps_p1':     float(np.mean(player_gps_dict.get(nombre1, [])) if player_gps_dict.get(nombre1) else 10.0),
+            'g_avg_gps_p2':     float(np.mean(player_gps_dict.get(nombre2, [])) if player_gps_dict.get(nombre2) else 10.0),
+            'g_avg_gps_both':   (float(np.mean(player_gps_dict.get(nombre1, [])) if player_gps_dict.get(nombre1) else 10.0) + float(np.mean(player_gps_dict.get(nombre2, [])) if player_gps_dict.get(nombre2) else 10.0)) / 2,
+            'g_avg_tb_rate':    (float(np.mean(player_tb_dict.get(nombre1, [])) if player_tb_dict.get(nombre1) else 0.15) + float(np.mean(player_tb_dict.get(nombre2, [])) if player_tb_dict.get(nombre2) else 0.15)) / 2,
             'surface_enc':      float(SURFACE_MAP.get(superficie, 0)),
             'tourney_level':    float(LEVEL_LABEL.get(livello, 3)),
             'round_enc':        float(ROUND_MAP_STR.get(turno, 3)),
@@ -785,9 +797,11 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
             'court_speed':      court_spd,
         })
         games_input = pd.DataFrame([games_row])
-        # Aggiungi match_balance dalla probabilità di classificazione
+        # Aggiungi match_balance + classifier features
         match_balance = abs(prob_j1 - 0.5)
-        games_arr = np.column_stack([games_input[finale_games_features].values, [match_balance]])
+        clf_features = entrada[FEATURES].values
+        games_arr = np.column_stack([games_input[finale_games_features].values, 
+                                      [[match_balance]], clf_features])
         # No scaling needed for tree-based models - pass raw features
         games_pred = _predict_games(games_arr, is_bo5=(best_of == 5))
 

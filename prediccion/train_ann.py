@@ -92,7 +92,7 @@ print(f"🖥️  Device: {device}")
 # ─── Configurazione globale ───────────────────────────────────────────────────
 TRIALS = 1      # numero trial Optuna ANN  (100)
 TRIALS_GBM = 1    # trial per LightGBM e XGBoost (50)
-TRIALS_GBM_GAMES = 20   # trial per regressione total games
+TRIALS_GBM_GAMES = 50   # trial per regressione total games
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
@@ -133,6 +133,23 @@ def parse_total_games(score_str):
         return float(total_games), float(sets_played)
     else:
         return np.nan, np.nan
+
+
+def parse_set_details(score_str):
+    """Estrae dettagli per-set: [(games_in_set, is_tiebreak), ...]"""
+    if not isinstance(score_str, str): return []
+    sets_info = []
+    for token in score_str.split():
+        tc = token.split('(')[0]
+        parts = tc.split('-')
+        if len(parts) == 2:
+            try:
+                g1, g2 = int(parts[0]), int(parts[1])
+                is_tb = (g1 == 7 and g2 == 6) or (g1 == 6 and g2 == 7)
+                sets_info.append((g1 + g2, is_tb))
+            except ValueError:
+                pass
+    return sets_info
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -199,6 +216,10 @@ def carica_e_prepara(csv_path: str):
     avg_games_bo3_t = {}  # {player: [last 30 total games in Bo3 only]}
     avg_games_bo5_t = {}  # {player: [last 30 total games in Bo5 only]}
     avg_games_surf_t = {}  # {(player, surface): [last 20 total games]}  — media per superficie
+    # Per-set tracking for decomposed model
+    player_gps_t = {}  # {player: [last 50 games_per_set values]}
+    player_tb_t = {}   # {player: [last 50 tiebreak booleans per set]}
+    player_close_t = {}  # {player: [last 50 close-set booleans]}
 
     ELO_DEFAULT = 1500.0
     K_BASE      = 32.0
@@ -281,6 +302,27 @@ def carica_e_prepara(csv_path: str):
                 lst = avg_games_surf_t.setdefault((p, surf_val), [])
                 lst.append(total_games)
                 if len(lst) > 20: lst.pop(0)
+
+        # --- Per-set features: games_per_set e tiebreak rate ---
+        gps_w_hist = player_gps_t.get(w, [])
+        gps_l_hist = player_gps_t.get(l, [])
+        tb_w_hist = player_tb_t.get(w, [])
+        tb_l_hist = player_tb_t.get(l, [])
+        avg_gps_w = float(np.mean(gps_w_hist)) if len(gps_w_hist) >= 5 else 10.0
+        avg_gps_l = float(np.mean(gps_l_hist)) if len(gps_l_hist) >= 5 else 10.0
+        tb_rate_w = float(np.mean(tb_w_hist)) if len(tb_w_hist) >= 5 else 0.15
+        tb_rate_l = float(np.mean(tb_l_hist)) if len(tb_l_hist) >= 5 else 0.15
+        # Update per-set tracking
+        score_str = str(row.get('score', ''))
+        set_details = parse_set_details(score_str)
+        for gps_val_set, is_tb_set in set_details:
+            for p in (w, l):
+                gps_lst = player_gps_t.setdefault(p, [])
+                gps_lst.append(gps_val_set)
+                if len(gps_lst) > 50: gps_lst.pop(0)
+                tb_lst = player_tb_t.setdefault(p, [])
+                tb_lst.append(float(is_tb_set))
+                if len(tb_lst) > 50: tb_lst.pop(0)
 
         # --- Fatica ---
         f_w = fatiga_t.get((tid, w), 0); f_l = fatiga_t.get((tid, l), 0)
@@ -533,6 +575,11 @@ def carica_e_prepara(csv_path: str):
         diffs['g_avg_games_surf_p1']   = avg_g_surf_w
         diffs['g_avg_games_surf_p2']   = avg_g_surf_l
         diffs['g_avg_games_surf_both'] = (avg_g_surf_w + avg_g_surf_l) / 2
+        # Per-set features (games_per_set e tiebreak rate)
+        diffs['g_avg_gps_p1']   = avg_gps_w
+        diffs['g_avg_gps_p2']   = avg_gps_l
+        diffs['g_avg_gps_both'] = (avg_gps_w + avg_gps_l) / 2
+        diffs['g_avg_tb_rate']  = (tb_rate_w + tb_rate_l) / 2
 
         _SYMM_KEYS = ('surface_enc','tourney_level','round_enc',
                        'is_best_of_5','tourney_date','level_weight',
@@ -546,7 +593,9 @@ def carica_e_prepara(csv_path: str):
                        'g_avg_games_p1','g_avg_games_p2','g_avg_games_both',
                        'g_avg_games_bo3_p1','g_avg_games_bo3_p2','g_avg_games_bo3_both',
                        'g_avg_games_bo5_p1','g_avg_games_bo5_p2','g_avg_games_bo5_both',
-                       'g_avg_games_surf_p1','g_avg_games_surf_p2','g_avg_games_surf_both')
+                       'g_avg_games_surf_p1','g_avg_games_surf_p2','g_avg_games_surf_both',
+                       'g_avg_gps_p1','g_avg_gps_p2','g_avg_gps_both','g_avg_tb_rate',
+                       'g_combined_serve_dominance')
 
         d1 = diffs.copy(); d1['target'] = 1; d1['total_games'] = total_games; d1['y_sets'] = y_sets
         d0 = {k: -v if k not in _SYMM_KEYS else v for k, v in diffs.items()}
@@ -582,6 +631,9 @@ def carica_e_prepara(csv_path: str):
     print("   → avg_games_bo3/bo5_players.pkl salvati")
     joblib.dump(avg_games_surf_t, 'avg_games_surf_players.pkl')
     print("   → avg_games_surf_players.pkl salvato")
+    joblib.dump(player_gps_t, 'player_gps_players.pkl')
+    joblib.dump(player_tb_t, 'player_tb_players.pkl')
+    print("   → player_gps/tb_players.pkl salvati")
 
     return df_out, stats_dict, elo_surf, streak_t
 
@@ -633,6 +685,10 @@ GAMES_FEATURES = [
     'g_avg_games_surf_p1',  # media game superficie del giocatore 1
     'g_avg_games_surf_p2',  # media game superficie del giocatore 2
     'g_avg_games_surf_both', # media combinata game superficie
+    'g_avg_gps_p1',         # media storica games-per-set giocatore 1
+    'g_avg_gps_p2',         # media storica games-per-set giocatore 2
+    'g_avg_gps_both',       # media combinata games-per-set
+    'g_avg_tb_rate',        # tiebreak rate media dei due giocatori
     'surface_enc',          # superficie
     'tourney_level',        # livello torneo
     'round_enc',            # turno
@@ -640,7 +696,7 @@ GAMES_FEATURES = [
     'court_ace_pct',        # caratteristiche campo
     'court_speed',          # velocità campo
     'g_combined_serve_dominance',
-]  # totale: 31 feature base + match_balance aggiunto dopo selezione
+]  # totale: 38 feature base + match_balance aggiunto dopo selezione
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1143,7 +1199,7 @@ def train_games_regressors(X_tr, y_tr, y_tr_sets, X_val, y_val, y_val_sets, X_te
                     'objective': obj, 'eval_metric': 'mae', 'seed': SEED, 'verbosity': 0, 'n_jobs': -1,
                     'n_estimators': trial.suggest_int('n_estimators', 400, 2500),
                     'learning_rate': trial.suggest_float('learning_rate', 0.005, 0.08, log=True),
-                    'max_depth': trial.suggest_int('max_depth', 3, 8),
+                    'max_depth': trial.suggest_int('max_depth', 3, 12),
                     'min_child_weight': trial.suggest_int('min_child_weight', 5, 50),
                     'subsample': trial.suggest_float('subsample', 0.6, 0.95),
                     'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 0.9),
@@ -1176,7 +1232,7 @@ def train_games_regressors(X_tr, y_tr, y_tr_sets, X_val, y_val, y_val_sets, X_te
                         'objective': obj, 'metric': 'mae', 'verbosity': -1, 'seed': SEED, 'n_jobs': -1,
                         'n_estimators': trial.suggest_int('n_estimators', 400, 2500),
                         'learning_rate': trial.suggest_float('learning_rate', 0.005, 0.08, log=True),
-                        'num_leaves': trial.suggest_int('num_leaves', 20, 120),
+                        'num_leaves': trial.suggest_int('num_leaves', 20, 200),
                         'min_child_samples': trial.suggest_int('min_child_samples', 10, 80),
                         'subsample': trial.suggest_float('subsample', 0.6, 0.95),
                         'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 0.9),
@@ -1611,10 +1667,20 @@ if __name__ == '__main__':
     mb_val_games = mb_val[mask_val_games][clean_mask_val]
     mb_te_games  = mb_te[mask_te_games][clean_mask_test]
 
-    # Aggiungi match_balance alle feature games
-    Xg_tr_ext  = np.column_stack([Xg_tr, mb_tr_games])
-    Xg_val_ext = np.column_stack([Xg_val, mb_val_games])
-    Xg_te_ext  = np.column_stack([Xg_test, mb_te_games])
+    # Aggiungi match_balance E classifier features alle feature games
+    # I classifier features (elo_diff, rank_ratio, ecc.) contengono info sulla
+    # closeness del match che aiutano a predire il numero di game
+    Xcl_tr = X_tr.values if hasattr(X_tr, 'values') else X_tr
+    Xcl_val = X_val.values if hasattr(X_val, 'values') else X_val
+    Xcl_te = X_test.values if hasattr(X_test, 'values') else X_test
+    # Filtra per target=1 e pulizia
+    Xcl_tr_games = Xcl_tr[mask_tr_games][clean_mask_tr]
+    Xcl_val_games = Xcl_val[mask_val_games][clean_mask_val]
+    Xcl_te_games = Xcl_te[mask_te_games][clean_mask_test]
+
+    Xg_tr_ext  = np.column_stack([Xg_tr, mb_tr_games, Xcl_tr_games])
+    Xg_val_ext = np.column_stack([Xg_val, mb_val_games, Xcl_val_games])
+    Xg_te_ext  = np.column_stack([Xg_test, mb_te_games, Xcl_te_games])
 
     # Per i tree-based regressors, non serve la scalatura - salviamo solo media/std per il predictor
     scaler_games = StandardScaler()
@@ -1794,7 +1860,10 @@ if __name__ == '__main__':
         mb_games = mb_games[clean_all]
         
         # Estendi le features per i games (senza scaling per tree models)
-        Xg_all_ext = np.column_stack([Xg_all_np, mb_games])
+        # Aggiungi classifier features + match_balance
+        Xcl_all = X.values if hasattr(X, 'values') else X
+        Xcl_all_games = Xcl_all[mask_target1][clean_all]
+        Xg_all_ext = np.column_stack([Xg_all_np, mb_games, Xcl_all_games])
         scaler_games_final = StandardScaler().fit(Xg_all_ext)  # Solo per il predictor
         
         # Maschere base (su dati NON scalati per corretta identificazione Bo3/Bo5)
