@@ -9,6 +9,17 @@ import torch
 import torch.nn as nn
 import plotly.graph_objects as go
 
+# GamesEnsembleRegressor needed for loading ensemble game models from pickle
+class GamesEnsembleRegressor:
+    """Average of two regressors for games prediction."""
+    def __init__(self, m1, m2):
+        self.m1 = m1
+        self.m2 = m2
+    def predict(self, X):
+        return (self.m1.predict(X) + self.m2.predict(X)) / 2
+    def get_params(self):
+        return self.m1.get_params()
+
 # Import court speed helper
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scraping'))
 try:

@@ -1142,6 +1142,17 @@ def train_xgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
     return model, acc, ll
 
 
+class GamesEnsembleRegressor:
+    """Average of two regressors for games prediction."""
+    def __init__(self, m1, m2):
+        self.m1 = m1
+        self.m2 = m2
+    def predict(self, X):
+        return (self.m1.predict(X) + self.m2.predict(X)) / 2
+    def get_params(self):
+        return self.m1.get_params()
+
+
 def train_games_regressors(X_tr, y_tr, y_tr_sets, X_val, y_val, y_val_sets, X_test, y_test, y_test_sets,
                            sample_weights_tr=None, n_trials=80):
     """
@@ -1181,6 +1192,9 @@ def train_games_regressors(X_tr, y_tr, y_tr_sets, X_val, y_val, y_val_sets, X_te
         else:
             print("   ⚠️ Optuna not found, using default parameters.")
             return objective_fn(None)
+
+    # === Ensemble helper ===
+    # Uses module-level GamesEnsembleRegressor for pickle compatibility
 
     # === Regressore generico (Bo3 o Bo5) - prova XGBoost e LightGBM ===
     def train_direct_regressor(X_t, y_t, w_t, X_v, y_v, label, n_tri):
@@ -1256,9 +1270,20 @@ def train_games_regressors(X_tr, y_tr, y_tr_sets, X_val, y_val, y_val_sets, X_te
 
             if lgb_mae < xgb_mae:
                 print(f"      → LightGBM wins ({lgb_mae:.4f} < {xgb_mae:.4f})")
+                # Ensemble: average of XGB + LGB (diversity helps)
+                avg_mae = float(np.mean(np.abs(
+                    (xgb_model.predict(X_v) + lgb_model.predict(X_v)) / 2 - y_v)))
+                if avg_mae < lgb_mae:
+                    print(f"      → Ensemble better: {avg_mae:.4f} < {lgb_mae:.4f}")
+                    return GamesEnsembleRegressor(xgb_model, lgb_model)
                 return lgb_model
             else:
                 print(f"      → XGBoost wins ({xgb_mae:.4f} ≤ {lgb_mae:.4f})")
+                avg_mae = float(np.mean(np.abs(
+                    (xgb_model.predict(X_v) + lgb_model.predict(X_v)) / 2 - y_v)))
+                if avg_mae < xgb_mae:
+                    print(f"      → Ensemble better: {avg_mae:.4f} < {xgb_mae:.4f}")
+                    return GamesEnsembleRegressor(xgb_model, lgb_model)
 
         return xgb_model
 
@@ -1876,6 +1901,33 @@ if __name__ == '__main__':
         for gk, gm in games_models.items():
             if gm is None: continue
             print(f"      Re-training {gk} on all data...")
+
+            # Handle ensemble models
+            if hasattr(gm, 'm1') and hasattr(gm, 'm2'):
+                # GamesEnsembleRegressor: re-train both sub-models
+                sub_models = []
+                for sub_m in [gm.m1, gm.m2]:
+                    if isinstance(sub_m, lgb.LGBMRegressor):
+                        sm_final = lgb.LGBMRegressor(**sub_m.get_params())
+                        sm_final.set_params(early_stopping_rounds=None)
+                    else:
+                        sm_final = xgb_lib.XGBRegressor(**sub_m.get_params())
+                        sm_final.set_params(early_stopping_rounds=None)
+                    sub_models.append(sm_final)
+                
+                if 'bo3' in gk:
+                    mask = m_bo3_all & games_valid_all
+                elif 'bo5' in gk:
+                    mask = m_bo5_all & games_valid_all
+                else:
+                    mask = games_valid_all
+                
+                if sum(mask) > 0:
+                    for sm in sub_models:
+                        sm.fit(Xg_all_ext[mask], games_raw_all[mask],
+                               sample_weight=weights_all_games[mask])
+                    games_models_final[gk] = GamesEnsembleRegressor(sub_models[0], sub_models[1])
+                continue
 
             # Detect model type and re-train accordingly
             if isinstance(gm, lgb.LGBMRegressor):
