@@ -289,23 +289,30 @@ def _ann_prob(model, input_t):
         logit = model(input_t).item()
     return 1 / (1 + np.exp(-logit))
 
-def _predict_games(games_input_sc):
-    """Predice total games usando ensemble di regressori con feature simmetriche."""
+def _predict_games(games_input_sc, is_bo5=False):
+    """Predice total games usando regressori diretti (Bo3 o Bo5)."""
     if not finale_games_models or games_input_sc is None:
         return None
+    # Seleziona il modello corretto in base al formato
+    if is_bo5:
+        model = finale_games_models.get('bo5_regressor')
+    else:
+        model = finale_games_models.get('bo3_regressor')
+    if model is not None:
+        return float(model.predict(games_input_sc)[0])
+    # Fallback: usa il primo modello disponibile
     if finale_games_best_key == 'ensemble' and len(finale_games_models) >= 2:
         preds = [m.predict(games_input_sc)[0] for m in finale_games_models.values()]
         return float(np.mean(preds))
     best_m = finale_games_models.get(finale_games_best_key)
     if best_m is not None:
         return float(best_m.predict(games_input_sc)[0])
-    # Fallback: usa il primo disponibile
     return float(next(iter(finale_games_models.values())).predict(games_input_sc)[0])
 
-def predici(input_sc, input_t, games_input_sc=None):
+def predici(input_sc, input_t, games_input_sc=None, is_bo5=False):
     """Produce probabilità J1 e total games usando la strategia in modelo_finale."""
     s = finale_strategy
-    games_pred = _predict_games(games_input_sc)
+    games_pred = _predict_games(games_input_sc, is_bo5=is_bo5)
 
     if s == 'ann_best':
         ann = _build_ann(modelo_finale['ann'])
@@ -752,7 +759,7 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         match_balance = abs(prob_j1 - 0.5)
         games_arr = np.column_stack([games_input[finale_games_features].values, [match_balance]])
         games_input_sc = finale_games_scaler.transform(games_arr)
-        games_pred = _predict_games(games_input_sc)
+        games_pred = _predict_games(games_input_sc, is_bo5=(best_of == 5))
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()
