@@ -1299,6 +1299,7 @@ if __name__ == '__main__':
         xgb_final.fit(scaler.transform(X), y_all_np, sample_weight=all_weights)
 
     # ── 5. Costruzione modelo_finale.pkl ──────────────────────────────────────
+    from datetime import datetime
     modelo_finale = {
         'strategy': best_strategy,
         'model_name': best_model_name,
@@ -1306,6 +1307,7 @@ if __name__ == '__main__':
         'score': best_score,
         'features': FEATURES,
         'scaler': scaler,
+        'trained_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
     }
 
     modelo_finale['ann'] = {

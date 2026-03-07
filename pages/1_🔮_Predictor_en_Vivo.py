@@ -241,7 +241,8 @@ finale_scaler   = modelo_finale['scaler']
 finale_name     = modelo_finale['model_name']
 finale_accuracy = modelo_finale.get('accuracy', 0)
 finale_score    = modelo_finale.get('score', 0)
-st.sidebar.success(f"🎯 Modello attivo: **{finale_name}**\n\nAcc: {finale_accuracy:.1%} · Score: {finale_score:.4f}")
+finale_trained  = modelo_finale.get('trained_date', 'N/D')
+st.sidebar.success(f"🎯 Modello attivo: **{finale_name}**\n\nAcc: {finale_accuracy:.1%} · Score: {finale_score:.4f}\n\n📅 Addestrato: {finale_trained}")
 
 
 def get_skill(p, s): return stats_dict.get((p, s), 0.5)
