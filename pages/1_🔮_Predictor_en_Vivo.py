@@ -201,13 +201,22 @@ def cargar_todo():
 
     h2h_surface_dict = {}  # {(p1, p2, surface): [w1, w2]}
     last_match_date_dict = {}  # {player: int (YYYYMMDD)}
-    avg_games_dict = {}  # {player: [last 15 total games]}
+    avg_games_dict = {}  # {player: [last 30 total games]}
+    avg_games_bo3_dict = {}  # {player: [last 30 total games in Bo3]}
+    avg_games_bo5_dict = {}  # {player: [last 30 total games in Bo5]}
+    avg_games_surf_dict = {}  # {(player, surface): [last 20 total games]}
     h2h_s_path = pp('h2h_surface.pkl')
     lmd_path   = pp('last_match_date.pkl')
     agp_path   = pp('avg_games_players.pkl')
+    agp_bo3    = pp('avg_games_bo3_players.pkl')
+    agp_bo5    = pp('avg_games_bo5_players.pkl')
+    agp_surf   = pp('avg_games_surf_players.pkl')
     if os.path.exists(h2h_s_path): h2h_surface_dict  = joblib.load(h2h_s_path)
     if os.path.exists(lmd_path):   last_match_date_dict = joblib.load(lmd_path)
     if os.path.exists(agp_path):   avg_games_dict = joblib.load(agp_path)
+    if os.path.exists(agp_bo3):    avg_games_bo3_dict = joblib.load(agp_bo3)
+    if os.path.exists(agp_bo5):    avg_games_bo5_dict = joblib.load(agp_bo5)
+    if os.path.exists(agp_surf):   avg_games_surf_dict = joblib.load(agp_surf)
 
     # Storico e Ranking
     try:
@@ -225,14 +234,16 @@ def cargar_todo():
             modelo_finale,
             elo_surface, streak_players,
             momentum_surface, elo_overall, recent_form,
-            h2h_surface_dict, last_match_date_dict, avg_games_dict)
+            h2h_surface_dict, last_match_date_dict, avg_games_dict,
+            avg_games_bo3_dict, avg_games_bo5_dict, avg_games_surf_dict)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
  modelo_finale,
  elo_surface, streak_players,
  momentum_surface, elo_overall, recent_form,
- h2h_surface_dict, last_match_date_dict, avg_games_dict) = cargar_todo()
+ h2h_surface_dict, last_match_date_dict, avg_games_dict,
+ avg_games_bo3_dict, avg_games_bo5_dict, avg_games_surf_dict) = cargar_todo()
 
 if modelo_finale is None:
     st.error("❌ Modello non trovato. Assicurati che `modelo_finale.pkl` sia nella cartella `prediccion/`.")
@@ -289,25 +300,21 @@ def _ann_prob(model, input_t):
         logit = model(input_t).item()
     return 1 / (1 + np.exp(-logit))
 
-def _predict_games(games_input_sc, is_bo5=False):
+def _predict_games(games_input_raw, is_bo5=False):
     """Predice total games usando regressori diretti (Bo3 o Bo5)."""
-    if not finale_games_models or games_input_sc is None:
+    if not finale_games_models or games_input_raw is None:
         return None
-    # Seleziona il modello corretto in base al formato
     if is_bo5:
         model = finale_games_models.get('bo5_regressor')
     else:
         model = finale_games_models.get('bo3_regressor')
     if model is not None:
-        return float(model.predict(games_input_sc)[0])
-    # Fallback: usa il primo modello disponibile
-    if finale_games_best_key == 'ensemble' and len(finale_games_models) >= 2:
-        preds = [m.predict(games_input_sc)[0] for m in finale_games_models.values()]
-        return float(np.mean(preds))
-    best_m = finale_games_models.get(finale_games_best_key)
-    if best_m is not None:
-        return float(best_m.predict(games_input_sc)[0])
-    return float(next(iter(finale_games_models.values())).predict(games_input_sc)[0])
+        return float(model.predict(games_input_raw)[0])
+    # Fallback
+    for m in finale_games_models.values():
+        if hasattr(m, 'predict'):
+            return float(m.predict(games_input_raw)[0])
+    return None
 
 def predici(input_sc, input_t, games_input_sc=None, is_bo5=False):
     """Produce probabilità J1 e total games usando la strategia in modelo_finale."""
@@ -710,6 +717,20 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         ag2 = avg_games_dict.get(nombre2, [])
         avg_g1 = float(np.mean(ag1)) if ag1 else 23.0
         avg_g2 = float(np.mean(ag2)) if ag2 else 23.0
+        # Format-specific averages
+        ag_bo3_1 = avg_games_bo3_dict.get(nombre1, [])
+        ag_bo3_2 = avg_games_bo3_dict.get(nombre2, [])
+        ag_bo5_1 = avg_games_bo5_dict.get(nombre1, [])
+        ag_bo5_2 = avg_games_bo5_dict.get(nombre2, [])
+        avg_g_bo3_1 = float(np.mean(ag_bo3_1)) if ag_bo3_1 else 23.0
+        avg_g_bo3_2 = float(np.mean(ag_bo3_2)) if ag_bo3_2 else 23.0
+        avg_g_bo5_1 = float(np.mean(ag_bo5_1)) if ag_bo5_1 else 36.0
+        avg_g_bo5_2 = float(np.mean(ag_bo5_2)) if ag_bo5_2 else 36.0
+        # Surface-specific game averages
+        ag_surf_1 = avg_games_surf_dict.get((nombre1, superficie), [])
+        ag_surf_2 = avg_games_surf_dict.get((nombre2, superficie), [])
+        avg_g_surf_1 = float(np.mean(ag_surf_1)) if ag_surf_1 else (23.0 if best_of != 5 else 36.0)
+        avg_g_surf_2 = float(np.mean(ag_surf_2)) if ag_surf_2 else (23.0 if best_of != 5 else 36.0)
 
         games_row = {
             'g_abs_diff_elo':   abs(elo1 - elo2),
@@ -747,6 +768,15 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
             'g_avg_games_p1':   avg_g1,
             'g_avg_games_p2':   avg_g2,
             'g_avg_games_both': (avg_g1 + avg_g2) / 2,
+            'g_avg_games_bo3_p1':   avg_g_bo3_1,
+            'g_avg_games_bo3_p2':   avg_g_bo3_2,
+            'g_avg_games_bo3_both': (avg_g_bo3_1 + avg_g_bo3_2) / 2,
+            'g_avg_games_bo5_p1':   avg_g_bo5_1,
+            'g_avg_games_bo5_p2':   avg_g_bo5_2,
+            'g_avg_games_bo5_both': (avg_g_bo5_1 + avg_g_bo5_2) / 2,
+            'g_avg_games_surf_p1':  avg_g_surf_1,
+            'g_avg_games_surf_p2':  avg_g_surf_2,
+            'g_avg_games_surf_both': (avg_g_surf_1 + avg_g_surf_2) / 2,
             'surface_enc':      float(SURFACE_MAP.get(superficie, 0)),
             'tourney_level':    float(LEVEL_LABEL.get(livello, 3)),
             'round_enc':        float(ROUND_MAP_STR.get(turno, 3)),
@@ -758,8 +788,8 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         # Aggiungi match_balance dalla probabilità di classificazione
         match_balance = abs(prob_j1 - 0.5)
         games_arr = np.column_stack([games_input[finale_games_features].values, [match_balance]])
-        games_input_sc = finale_games_scaler.transform(games_arr)
-        games_pred = _predict_games(games_input_sc, is_bo5=(best_of == 5))
+        # No scaling needed for tree-based models - pass raw features
+        games_pred = _predict_games(games_arr, is_bo5=(best_of == 5))
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()

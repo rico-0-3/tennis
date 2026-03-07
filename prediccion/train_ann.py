@@ -92,7 +92,7 @@ print(f"🖥️  Device: {device}")
 # ─── Configurazione globale ───────────────────────────────────────────────────
 TRIALS = 1      # numero trial Optuna ANN  (100)
 TRIALS_GBM = 1    # trial per LightGBM e XGBoost (50)
-TRIALS_GBM_GAMES = 6   # trial per regressione total games (6, 2 per ogni modello)
+TRIALS_GBM_GAMES = 20   # trial per regressione total games
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
@@ -195,7 +195,10 @@ def carica_e_prepara(csv_path: str):
     streak_t  = {}   # {player: int}  +N=N vittorie consecutive, -N=sconfitte
     recent_form_t = {}  # {player: [last 10 results across all surfaces]}
     last_match_date_t = {}  # {player: int (YYYYMMDD)}  — data ultimo match
-    avg_games_t = {}   # {player: [last 15 total games]}  — media game per match
+    avg_games_t = {}   # {player: [last 30 total games]}  — media game per match
+    avg_games_bo3_t = {}  # {player: [last 30 total games in Bo3 only]}
+    avg_games_bo5_t = {}  # {player: [last 30 total games in Bo5 only]}
+    avg_games_surf_t = {}  # {(player, surface): [last 20 total games]}  — media per superficie
 
     ELO_DEFAULT = 1500.0
     K_BASE      = 32.0
@@ -234,18 +237,50 @@ def carica_e_prepara(csv_path: str):
             elif sets_played == 3:
                 y_sets = 1.0
 
-        # --- Media storica game per giocatore (rolling 15) ---
+        # --- Media storica game per giocatore (rolling 30) ---
         ag_w = avg_games_t.get(w, [])
         ag_l = avg_games_t.get(l, [])
         avg_g_w = float(np.mean(ag_w)) if ag_w else 23.0  # default tipico bo3
         avg_g_l = float(np.mean(ag_l)) if ag_l else 23.0
+        # Format-specific averages (Bo3/Bo5 separate)
+        ag_bo3_w = avg_games_bo3_t.get(w, [])
+        ag_bo3_l = avg_games_bo3_t.get(l, [])
+        ag_bo5_w = avg_games_bo5_t.get(w, [])
+        ag_bo5_l = avg_games_bo5_t.get(l, [])
+        avg_g_bo3_w = float(np.mean(ag_bo3_w)) if ag_bo3_w else 23.0
+        avg_g_bo3_l = float(np.mean(ag_bo3_l)) if ag_bo3_l else 23.0
+        avg_g_bo5_w = float(np.mean(ag_bo5_w)) if ag_bo5_w else 36.0
+        avg_g_bo5_l = float(np.mean(ag_bo5_l)) if ag_bo5_l else 36.0
+        # Surface-specific game averages
+        surf_val = row.get('surface', 'Hard')
+        ag_surf_w = avg_games_surf_t.get((w, surf_val), [])
+        ag_surf_l = avg_games_surf_t.get((l, surf_val), [])
+        avg_g_surf_w = float(np.mean(ag_surf_w)) if ag_surf_w else (23.0 if not is_bo5 else 36.0)
+        avg_g_surf_l = float(np.mean(ag_surf_l)) if ag_surf_l else (23.0 if not is_bo5 else 36.0)
         if not np.isnan(total_games):
+            WINDOW = 30
             ag_w_new = avg_games_t.setdefault(w, [])
             ag_l_new = avg_games_t.setdefault(l, [])
             ag_w_new.append(total_games)
             ag_l_new.append(total_games)
-            if len(ag_w_new) > 15: ag_w_new.pop(0)
-            if len(ag_l_new) > 15: ag_l_new.pop(0)
+            if len(ag_w_new) > WINDOW: ag_w_new.pop(0)
+            if len(ag_l_new) > WINDOW: ag_l_new.pop(0)
+            # Format-specific tracking
+            if is_bo5:
+                for p in (w, l):
+                    lst = avg_games_bo5_t.setdefault(p, [])
+                    lst.append(total_games)
+                    if len(lst) > WINDOW: lst.pop(0)
+            else:
+                for p in (w, l):
+                    lst = avg_games_bo3_t.setdefault(p, [])
+                    lst.append(total_games)
+                    if len(lst) > WINDOW: lst.pop(0)
+            # Surface-specific tracking
+            for p in (w, l):
+                lst = avg_games_surf_t.setdefault((p, surf_val), [])
+                lst.append(total_games)
+                if len(lst) > 20: lst.pop(0)
 
         # --- Fatica ---
         f_w = fatiga_t.get((tid, w), 0); f_l = fatiga_t.get((tid, l), 0)
@@ -487,6 +522,17 @@ def carica_e_prepara(csv_path: str):
         diffs['g_avg_games_p1']   = avg_g_w  # media storica game del giocatore 1
         diffs['g_avg_games_p2']   = avg_g_l  # media storica game del giocatore 2
         diffs['g_avg_games_both'] = (avg_g_w + avg_g_l) / 2  # media combinata
+        # Format-specific game averages (Bo3/Bo5 separate)
+        diffs['g_avg_games_bo3_p1']   = avg_g_bo3_w
+        diffs['g_avg_games_bo3_p2']   = avg_g_bo3_l
+        diffs['g_avg_games_bo3_both'] = (avg_g_bo3_w + avg_g_bo3_l) / 2
+        diffs['g_avg_games_bo5_p1']   = avg_g_bo5_w
+        diffs['g_avg_games_bo5_p2']   = avg_g_bo5_l
+        diffs['g_avg_games_bo5_both'] = (avg_g_bo5_w + avg_g_bo5_l) / 2
+        # Surface-specific game averages
+        diffs['g_avg_games_surf_p1']   = avg_g_surf_w
+        diffs['g_avg_games_surf_p2']   = avg_g_surf_l
+        diffs['g_avg_games_surf_both'] = (avg_g_surf_w + avg_g_surf_l) / 2
 
         _SYMM_KEYS = ('surface_enc','tourney_level','round_enc',
                        'is_best_of_5','tourney_date','level_weight',
@@ -497,7 +543,10 @@ def carica_e_prepara(csv_path: str):
                        'g_service_gap',
                        'g_min_skill','g_max_skill','g_avg_ht',
                        'g_abs_diff_form','g_avg_momentum',
-                       'g_avg_games_p1','g_avg_games_p2','g_avg_games_both')
+                       'g_avg_games_p1','g_avg_games_p2','g_avg_games_both',
+                       'g_avg_games_bo3_p1','g_avg_games_bo3_p2','g_avg_games_bo3_both',
+                       'g_avg_games_bo5_p1','g_avg_games_bo5_p2','g_avg_games_bo5_both',
+                       'g_avg_games_surf_p1','g_avg_games_surf_p2','g_avg_games_surf_both')
 
         d1 = diffs.copy(); d1['target'] = 1; d1['total_games'] = total_games; d1['y_sets'] = y_sets
         d0 = {k: -v if k not in _SYMM_KEYS else v for k, v in diffs.items()}
@@ -528,6 +577,11 @@ def carica_e_prepara(csv_path: str):
     print("   → last_match_date.pkl salvato")
     joblib.dump(avg_games_t, 'avg_games_players.pkl')
     print("   → avg_games_players.pkl salvato")
+    joblib.dump(avg_games_bo3_t, 'avg_games_bo3_players.pkl')
+    joblib.dump(avg_games_bo5_t, 'avg_games_bo5_players.pkl')
+    print("   → avg_games_bo3/bo5_players.pkl salvati")
+    joblib.dump(avg_games_surf_t, 'avg_games_surf_players.pkl')
+    print("   → avg_games_surf_players.pkl salvato")
 
     return df_out, stats_dict, elo_surf, streak_t
 
@@ -570,6 +624,15 @@ GAMES_FEATURES = [
     'g_avg_games_p1',       # media storica game del giocatore 1
     'g_avg_games_p2',       # media storica game del giocatore 2
     'g_avg_games_both',     # media combinata game dei due giocatori
+    'g_avg_games_bo3_p1',   # media game Bo3 del giocatore 1
+    'g_avg_games_bo3_p2',   # media game Bo3 del giocatore 2
+    'g_avg_games_bo3_both', # media combinata game Bo3
+    'g_avg_games_bo5_p1',   # media game Bo5 del giocatore 1
+    'g_avg_games_bo5_p2',   # media game Bo5 del giocatore 2
+    'g_avg_games_bo5_both', # media combinata game Bo5
+    'g_avg_games_surf_p1',  # media game superficie del giocatore 1
+    'g_avg_games_surf_p2',  # media game superficie del giocatore 2
+    'g_avg_games_surf_both', # media combinata game superficie
     'surface_enc',          # superficie
     'tourney_level',        # livello torneo
     'round_enc',            # turno
@@ -577,7 +640,7 @@ GAMES_FEATURES = [
     'court_ace_pct',        # caratteristiche campo
     'court_speed',          # velocità campo
     'g_combined_serve_dominance',
-]  # totale: 25 feature base + match_balance (dal modello migliore) aggiunto dopo selezione
+]  # totale: 31 feature base + match_balance aggiunto dopo selezione
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1063,17 +1126,21 @@ def train_games_regressors(X_tr, y_tr, y_tr_sets, X_val, y_val, y_val_sets, X_te
             print("   ⚠️ Optuna not found, using default parameters.")
             return objective_fn(None)
 
-    # === Regressore generico (Bo3 o Bo5) ===
+    # === Regressore generico (Bo3 o Bo5) - prova XGBoost e LightGBM ===
     def train_direct_regressor(X_t, y_t, w_t, X_v, y_v, label, n_tri):
         print(f"\n   ➤ Optimizing {label} Regressor ({len(y_t)} samples, {n_tri} trials)...")
+        n_xgb = max(1, n_tri // 2)
+        n_lgb = n_tri - n_xgb
 
-        def objective_reg(trial):
-            if trial is None:  # Fallback case
+        # --- XGBoost ---
+        def objective_xgb(trial):
+            if trial is None:
                 params = {'objective': 'reg:squarederror', 'eval_metric': 'mae', 'seed': SEED,
                           'n_estimators': 800, 'learning_rate': 0.02, 'max_depth': 5}
             else:
+                obj = trial.suggest_categorical('objective', ['reg:squarederror', 'reg:absoluteerror'])
                 params = {
-                    'objective': 'reg:squarederror', 'eval_metric': 'mae', 'seed': SEED, 'verbosity': 0, 'n_jobs': -1,
+                    'objective': obj, 'eval_metric': 'mae', 'seed': SEED, 'verbosity': 0, 'n_jobs': -1,
                     'n_estimators': trial.suggest_int('n_estimators', 400, 2500),
                     'learning_rate': trial.suggest_float('learning_rate', 0.005, 0.08, log=True),
                     'max_depth': trial.suggest_int('max_depth', 3, 8),
@@ -1084,19 +1151,60 @@ def train_games_regressors(X_tr, y_tr, y_tr_sets, X_val, y_val, y_val_sets, X_te
                     'reg_lambda': trial.suggest_float('reg_lambda', 1e-3, 10.0, log=True),
                     'gamma': trial.suggest_float('gamma', 0.0, 5.0),
                 }
-
             m = xgb_lib.XGBRegressor(**params, early_stopping_rounds=40 if trial else None)
             m.fit(X_t, y_t, sample_weight=w_t, eval_set=[(X_v, y_v)], verbose=False)
-
             if trial is None:
-                return m  # Fallback case
-
+                return m
             preds_val = m.predict(X_v)
             mae = float(np.mean(np.abs(preds_val - y_v)))
             trial.set_user_attr('model', m)
             return mae
 
-        return _run_optuna_search(objective_reg, n_trials_sub=n_tri)
+        xgb_model = _run_optuna_search(objective_xgb, n_trials_sub=n_xgb)
+        xgb_mae = float(np.mean(np.abs(xgb_model.predict(X_v) - y_v)))
+        print(f"      XGB val MAE: {xgb_mae:.4f}")
+
+        # --- LightGBM ---
+        if HAS_LGB and n_lgb > 0:
+            def objective_lgb(trial):
+                if trial is None:
+                    params = {'objective': 'regression', 'metric': 'mae', 'seed': SEED,
+                              'n_estimators': 800, 'learning_rate': 0.02, 'num_leaves': 31}
+                else:
+                    obj = trial.suggest_categorical('objective', ['regression', 'regression_l1', 'huber'])
+                    params = {
+                        'objective': obj, 'metric': 'mae', 'verbosity': -1, 'seed': SEED, 'n_jobs': -1,
+                        'n_estimators': trial.suggest_int('n_estimators', 400, 2500),
+                        'learning_rate': trial.suggest_float('learning_rate', 0.005, 0.08, log=True),
+                        'num_leaves': trial.suggest_int('num_leaves', 20, 120),
+                        'min_child_samples': trial.suggest_int('min_child_samples', 10, 80),
+                        'subsample': trial.suggest_float('subsample', 0.6, 0.95),
+                        'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 0.9),
+                        'reg_alpha': trial.suggest_float('reg_alpha', 1e-3, 10.0, log=True),
+                        'reg_lambda': trial.suggest_float('reg_lambda', 1e-3, 10.0, log=True),
+                    }
+                m = lgb.LGBMRegressor(**params)
+                m.fit(X_t, y_t, sample_weight=w_t,
+                      eval_set=[(X_v, y_v)],
+                      callbacks=[lgb.early_stopping(40, verbose=False)])
+                if trial is None:
+                    return m
+                preds_val = m.predict(X_v)
+                mae = float(np.mean(np.abs(preds_val - y_v)))
+                trial.set_user_attr('model', m)
+                return mae
+
+            lgb_model = _run_optuna_search(objective_lgb, n_trials_sub=n_lgb)
+            lgb_mae = float(np.mean(np.abs(lgb_model.predict(X_v) - y_v)))
+            print(f"      LGB val MAE: {lgb_mae:.4f}")
+
+            if lgb_mae < xgb_mae:
+                print(f"      → LightGBM wins ({lgb_mae:.4f} < {xgb_mae:.4f})")
+                return lgb_model
+            else:
+                print(f"      → XGBoost wins ({xgb_mae:.4f} ≤ {lgb_mae:.4f})")
+
+        return xgb_model
 
     # Calcola trials per modello
     n_trials_bo5 = max(1, n_trials // 3)
@@ -1119,7 +1227,7 @@ def train_games_regressors(X_tr, y_tr, y_tr_sets, X_val, y_val, y_val_sets, X_te
     # === Predizioni sul Test Set ===
     preds_test = np.zeros(len(y_test))
 
-    # Predizioni Bo3 (dirette)
+    # Predizioni Bo3
     if sum(m_bo3_test) > 0:
         preds_test[m_bo3_test] = model_bo3.predict(X_test[m_bo3_test])
 
@@ -1508,19 +1616,18 @@ if __name__ == '__main__':
     Xg_val_ext = np.column_stack([Xg_val, mb_val_games])
     Xg_te_ext  = np.column_stack([Xg_test, mb_te_games])
 
+    # Per i tree-based regressors, non serve la scalatura - salviamo solo media/std per il predictor
     scaler_games = StandardScaler()
-    Xg_tr_sc  = scaler_games.fit_transform(Xg_tr_ext)
-    Xg_val_sc = scaler_games.transform(Xg_val_ext)
-    Xg_te_sc  = scaler_games.transform(Xg_te_ext)
+    scaler_games.fit(Xg_tr_ext)  # Solo fit, non transform (serve per il predictor)
 
     # Filtra combined_weights per solo target=1, poi pulizia
     combined_weights_games = combined_weights[mask_tr_games][clean_mask_tr]
 
     gv_tr = ~np.isnan(gr_tr); gv_val = ~np.isnan(gr_val); gv_te = ~np.isnan(gr_test)
     games_models, games_maes, games_best_key = train_games_regressors(
-        Xg_tr_sc[gv_tr], gr_tr[gv_tr], sr_tr[gv_tr],
-        Xg_val_sc[gv_val], gr_val[gv_val], sr_val[gv_val],
-        Xg_te_sc[gv_te], gr_test[gv_te], sr_test[gv_te],
+        Xg_tr_ext[gv_tr], gr_tr[gv_tr], sr_tr[gv_tr],
+        Xg_val_ext[gv_val], gr_val[gv_val], sr_val[gv_val],
+        Xg_te_ext[gv_te], gr_test[gv_te], sr_test[gv_te],
         sample_weights_tr=combined_weights_games[gv_tr],
         n_trials=TRIALS_GBM_GAMES)
     games_mae_test = games_maes.get(games_best_key)
@@ -1686,10 +1793,9 @@ if __name__ == '__main__':
         weights_all_games = weights_all_games[clean_all]
         mb_games = mb_games[clean_all]
         
-        # Estendi e scala le features per i games
+        # Estendi le features per i games (senza scaling per tree models)
         Xg_all_ext = np.column_stack([Xg_all_np, mb_games])
-        scaler_games_final = StandardScaler().fit(Xg_all_ext)
-        Xg_all_sc = scaler_games_final.transform(Xg_all_ext)
+        scaler_games_final = StandardScaler().fit(Xg_all_ext)  # Solo per il predictor
         
         # Maschere base (su dati NON scalati per corretta identificazione Bo3/Bo5)
         bo5_idx_games = GAMES_FEATURES.index('is_best_of_5')
@@ -1702,9 +1808,13 @@ if __name__ == '__main__':
             if gm is None: continue
             print(f"      Re-training {gk} on all data...")
 
-            # Regressori XGBoost per i Game
-            gm_final = xgb_lib.XGBRegressor(**gm.get_params())
-            gm_final.set_params(early_stopping_rounds=None)
+            # Detect model type and re-train accordingly
+            if isinstance(gm, lgb.LGBMRegressor):
+                gm_final = lgb.LGBMRegressor(**gm.get_params())
+                gm_final.set_params(early_stopping_rounds=None)
+            else:
+                gm_final = xgb_lib.XGBRegressor(**gm.get_params())
+                gm_final.set_params(early_stopping_rounds=None)
             
             # Costruzione maschere specifiche
             if 'bo3' in gk:
@@ -1715,7 +1825,7 @@ if __name__ == '__main__':
                 mask = games_valid_all
             
             if sum(mask) > 0:
-                gm_final.fit(Xg_all_sc[mask], games_raw_all[mask],
+                gm_final.fit(Xg_all_ext[mask], games_raw_all[mask],
                              sample_weight=weights_all_games[mask])
                 games_models_final[gk] = gm_final
 
