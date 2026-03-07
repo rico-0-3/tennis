@@ -265,8 +265,20 @@ def _build_ann(cfg):
     dr  = hp['dropout']
     ipairs = hp.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
     ninter = hp.get('n_interactions', len(ipairs))
+    
+    # Prova con le interaction_pairs salvate
     m = TennisANNv3(len(ANN_FEATURES), hl, dr, ninter, ipairs)
-    m.load_state_dict(cfg['state_dict'])
+    try:
+        m.load_state_dict(cfg['state_dict'])
+    except RuntimeError:
+        # Fallback: prova con vecchie interaction_pairs (per modelli legacy)
+        old_ipairs = [
+            (4, 12), (0, 15), (4, 15), (12, 14), (0, 1),
+            (4, 16), (12, 16), (6, 15), (14, 15), (1, 12),
+        ]
+        m = TennisANNv3(len(ANN_FEATURES), hl, dr, len(old_ipairs), old_ipairs)
+        m.load_state_dict(cfg['state_dict'])
+    
     m.eval()
     return m
 
@@ -702,6 +714,24 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
             'g_avg_2nd_won':    (sa1.get('second_serve_win', 50) + sa2.get('second_serve_win', 50)) / 200,
             'g_avg_bp_saved':   (sa1.get('bp_saved', 60) + sa2.get('bp_saved', 60)) / 200,
             'g_avg_return_pct': (rtn_pct1 + rtn_pct2) / 2,
+        }
+        
+        # g_service_gap: dominance ratio nei turni di servizio
+        serve1 = sa1.get('serve_win', 65) + sa1.get('second_serve_win', 50)
+        serve2 = sa2.get('serve_win', 65) + sa2.get('second_serve_win', 50)
+        if serve2 > 0.01:
+            dominance = serve1 / serve2
+        else:
+            dominance = 2.0 if serve1 > 0.01 else 1.0
+        games_row['g_service_gap'] = abs(dominance - 1.0)
+        
+        # g_combined_serve_dominance: serve vs return
+        first_won1 = sa1.get('serve_win', 65)
+        first_won2 = sa2.get('serve_win', 65)
+        games_row['g_combined_serve_dominance'] = (first_won1 + first_won2) - (rtn_pct1 + rtn_pct2)
+        
+        # Altre feature
+        games_row.update({
             'g_min_skill':      min(skill1, skill2),
             'g_max_skill':      max(skill1, skill2),
             'g_avg_ht':         (h1 + h2) / 2,
@@ -716,7 +746,7 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
             'is_best_of_5':     1.0 if best_of == 5 else 0.0,
             'court_ace_pct':    court_ace,
             'court_speed':      court_spd,
-        }
+        })
         games_input = pd.DataFrame([games_row])
         # Aggiungi match_balance dalla probabilità di classificazione
         match_balance = abs(prob_j1 - 0.5)
