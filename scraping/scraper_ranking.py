@@ -7,23 +7,27 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import re
 import sys
+import os
 
 URL_RANKING = "https://www.atptour.com/en/rankings/singles?rankRange=1-400"
 ARCHIVO_SALIDA = "ranking_2026.csv"
 
 MAX_INTENTOS = 3
 
+IS_CI = os.environ.get("CI", "").lower() == "true"
+
 def crear_driver():
     """Crea un driver UC con retry sul patcher."""
-    options = uc.ChromeOptions()
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--window-size=1920,1080")
-    
     for intento in range(3):
         try:
-            driver = uc.Chrome(options=options, version_main=145)
+            options = uc.ChromeOptions()
+            options.add_argument("--no-sandbox")
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--disable-gpu")
+            options.add_argument("--window-size=1920,1080")
+            if IS_CI:
+                options.add_argument("--headless=new")
+            driver = uc.Chrome(options=options)
             return driver
         except Exception as e:
             print(f"   ⚠️  Intento {intento+1} di creare Chrome fallito: {e}")

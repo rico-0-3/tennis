@@ -10,6 +10,8 @@ import random
 import os
 import re
 
+IS_CI = os.environ.get("CI", "").lower() == "true"
+
 # --- CONFIGURACIÓN ---
 ARCHIVO_ENTRADA = "atp_torneos_2026_final.csv"
 ARCHIVO_SALIDA = "atp_matches_2026_indetectable.csv"
@@ -108,9 +110,13 @@ except Exception as e:
 # 2. INICIAR NAVEGADOR INDETECTABLE
 options = uc.ChromeOptions()
 options.add_argument("--start-maximized")
+if IS_CI:
+    options.add_argument("--headless=new")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
 
 print("🚀 Lanzando Chrome parcheado (puede tardar unos segundos)...")
-driver = uc.Chrome(options=options, version_main=145)
+driver = uc.Chrome(options=options)
 
 # ── CARICA DATI ESISTENTI (logica incrementale + date-aware) ─────────────────
 MAX_TORNEO_GG = 16
@@ -302,7 +308,13 @@ for i, url in enumerate(urls):
             try: driver.quit()
             except: pass
             time.sleep(3)
-            driver = uc.Chrome(options=options, version_main=145)
+            opts2 = uc.ChromeOptions()
+            opts2.add_argument("--start-maximized")
+            if IS_CI:
+                opts2.add_argument("--headless=new")
+                opts2.add_argument("--no-sandbox")
+                opts2.add_argument("--disable-dev-shm-usage")
+            driver = uc.Chrome(options=opts2)
             time.sleep(2)
 
 driver.quit()
