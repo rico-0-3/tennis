@@ -9,3 +9,6 @@ Pillow>=9.5.0
 torch>=2.0.0
 xgboost>=1.7.0
 lightgbm>=3.3.0
+selenium
+undetected-chromedriver
+bs4

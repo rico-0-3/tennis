@@ -1,7 +1,7 @@
 """
-train_ann.py v3.0  —  ANN Avanzata per Tennis Predictor
+train_ann.py v4.0  —  ANN Avanzata per Tennis Predictor
 ========================================================
-Funzionalità v3 rispetto v2:
+Funzionalità v4 rispetto v3:
   ✅ Rating Elo per superficie  (più accurato del ranking ATP)
   ✅ Striscia attiva            (consecutive wins/losses)
   ✅ Momentum per superficie    (rolling 10 match per surface)
@@ -12,21 +12,25 @@ Funzionalità v3 rispetto v2:
   ✅ Calibrazione Platt scaling (probabilità calibrate)
   ✅ Ponderazione torneo        (Grand Slam pesa x2, Masters x1.5 ...)
   ✅ Optuna bayesian search     (più efficiente del random search)
+  ✅ Best-of-5 indicator        (Slam favorisce il più forte)
+  ✅ Days since last match      (riposo vs ruggine)
+  ✅ H2H per superficie         (scontri diretti surface-specific)
+  🔧 Rimosse feature ridondanti (diff_rank, diff_rank_points, diff_seed, draw_size, diff_hand)
 
 UTILIZZO:
     cd prediccion/
     python train_ann.py
 
 OUTPUT:
-    modelo_ann.pth               ← modello globale v3.1
-    ann_config.json              ← config con v3.1 metadata
+    modelo_finale.pkl            ← modello finale (auto-selezionato)
     scaler_ann.pkl               ← StandardScaler 29 feature
     elo_surface.pkl              ← Elo corrente per superficie
     elo_overall.pkl              ← Elo overall (tutte le superfici)
     streak_players.pkl           ← striscia attiva per giocatore
     momentum_surface.pkl         ← momentum per (giocatore, superficie)
     recent_form.pkl              ← recent form per giocatore (ultimi 10)
-    calibrator_ann.pkl           ← Platt scaling calibrator
+    last_match_date.pkl          ← data ultimo match per giocatore
+    h2h_surface.pkl              ← H2H per superficie
     resultados_comparacion_finale.csv  ← confronto modelli
 """
 
@@ -145,12 +149,14 @@ def carica_e_prepara(csv_path: str):
     fatiga_t  = {}
     racha_t   = {}
     h2h_t     = {}
+    h2h_surf_t = {}  # {(sorted_p1, sorted_p2, surface): [w1, w2]}
     serve_t   = {}
     return_t  = {}   # {player: {return_pct: [...], bp_conv: [...], return_1st: [...]}}
     elo_surf  = {}   # {(player, surface): float}  — ELO per superficie
     elo_overall = {} # {player: float}  — ELO overall (all surfaces)
     streak_t  = {}   # {player: int}  +N=N vittorie consecutive, -N=sconfitte
     recent_form_t = {}  # {player: [last 10 results across all surfaces]}
+    last_match_date_t = {}  # {player: int (YYYYMMDD)}  — data ultimo match
 
     ELO_DEFAULT = 1500.0
     K_BASE      = 32.0
@@ -186,7 +192,7 @@ def carica_e_prepara(csv_path: str):
         if len(hl) > 10: hl.pop(0)
         racha_t[(w, surf)] = hw; racha_t[(l, surf)] = hl
 
-        # --- H2H ---
+        # --- H2H globale ---
         p1k, p2k = sorted([w, l]); key = (p1k, p2k)
         rec = h2h_t.get(key, [0, 0])
         if w == p1k:
@@ -194,6 +200,33 @@ def carica_e_prepara(csv_path: str):
         else:
             h2h_w = rec[1]-rec[0]; h2h_l = rec[0]-rec[1]; rec[1] += 1
         h2h_t[key] = rec
+
+        # --- H2H per superficie ---
+        key_s = (p1k, p2k, surf)
+        rec_s = h2h_surf_t.get(key_s, [0, 0])
+        if w == p1k:
+            h2h_s_w = rec_s[0]-rec_s[1]; h2h_s_l = rec_s[1]-rec_s[0]; rec_s[0] += 1
+        else:
+            h2h_s_w = rec_s[1]-rec_s[0]; h2h_s_l = rec_s[0]-rec_s[1]; rec_s[1] += 1
+        h2h_surf_t[key_s] = rec_s
+
+        # --- Days since last match ---
+        td = int(row['tourney_date']) if pd.notna(row.get('tourney_date')) else 20200101
+        def _date_to_days(d):
+            """Converte YYYYMMDD int in giorni approssimativi."""
+            y, rest = divmod(d, 10000)
+            m, day = divmod(rest, 100)
+            return y * 365 + m * 30 + day
+        td_days = _date_to_days(td)
+        last_w = last_match_date_t.get(w)
+        last_l = last_match_date_t.get(l)
+        days_since_w = (td_days - _date_to_days(last_w)) if last_w is not None else 14.0
+        days_since_l = (td_days - _date_to_days(last_l)) if last_l is not None else 14.0
+        # Clamp a 0-180 per evitare outlier estremi (es. inizio carriera)
+        days_since_w = max(0.0, min(180.0, float(days_since_w)))
+        days_since_l = max(0.0, min(180.0, float(days_since_l)))
+        last_match_date_t[w] = td
+        last_match_date_t[l] = td
 
         # --- Elo per superficie (dynamic K by tournament level) ---
         elo_w = get_elo(w, surf); elo_l = get_elo(l, surf)
@@ -303,22 +336,20 @@ def carica_e_prepara(csv_path: str):
         pts_l = float(row['loser_rank_points'])  if pd.notna(row.get('loser_rank_points'))  else 0
         rk_w = float(row['winner_rank']) if pd.notna(row.get('winner_rank')) else 500
         rk_l = float(row['loser_rank']) if pd.notna(row.get('loser_rank')) else 500
-        seed_w = float(row['winner_seed']) if pd.notna(row.get('winner_seed')) else 33
-        seed_l = float(row['loser_seed'])  if pd.notna(row.get('loser_seed'))  else 33
         lev_w  = LEVEL_MULT.get(str(row.get('tourney_level','')), 1.0)
 
+        # Best-of-5 indicator (Grand Slam)
+        best_of_val = row.get('best_of', 3)
+        is_bo5 = 1.0 if best_of_val == 5 or best_of_val == '5' else 0.0
+
         diffs = {
-            'diff_rank':         (row['loser_rank']-row['winner_rank'])
-                                 if pd.notna(row.get('winner_rank')) and pd.notna(row.get('loser_rank')) else 0,
-            'diff_rank_points':  pts_w - pts_l,
             'log_rank_ratio':    np.log1p(rk_l) - np.log1p(rk_w),
             'log_pts_ratio':     np.log1p(pts_w) - np.log1p(pts_l),
-            'diff_seed':         seed_l - seed_w,
             'diff_age':          (row['winner_age']-row['loser_age'])
                                  if pd.notna(row.get('winner_age')) and pd.notna(row.get('loser_age')) else 0,
             'diff_ht':           (row['winner_ht']-row['loser_ht'])
                                  if pd.notna(row.get('winner_ht')) and pd.notna(row.get('loser_ht')) else 0,
-            # nuove feature
+            # Elo
             'diff_elo':          elo_w - elo_l,             # Elo PRIMA dell'aggiornamento
             'diff_elo_overall':  elo_ov_w - elo_ov_l,       # Elo overall (all surfaces)
             'diff_streak':       float(str_w - str_l),      # striscia attiva
@@ -327,20 +358,20 @@ def carica_e_prepara(csv_path: str):
             'surface_enc':       float(row['surface_enc']),
             'tourney_level':     float(row['tourney_level_enc']),
             'round_enc':         float(row['round_enc']),
-            'draw_size':         float(row['draw_size']) if pd.notna(row.get('draw_size')) else 32,
-            'diff_hand':         row['w_hand_enc'] - row['l_hand_enc'],
+            'is_best_of_5':      is_bo5,                    # best-of-3 vs best-of-5
             'diff_skill':        sk_w - sk_l,
             'diff_home':         home_w - home_l,
             'diff_fatigue':      f_w - f_l,
             'diff_momentum':     mw - ml,
             'diff_h2h':          h2h_w - h2h_l,
+            'diff_h2h_surface':  h2h_s_w - h2h_s_l,         # H2H per superficie
+            'diff_days_since_last': days_since_w - days_since_l,  # riposo vs ruggine
             'diff_ace':          sa_w['ace']     - sa_l['ace'],
-            'diff_df':           sa_w['df']      - sa_l['df'],
             'diff_1st_pct':      sa_w['1st_pct'] - sa_l['1st_pct'],
             'diff_1st_won':      sa_w['1st_won'] - sa_l['1st_won'],
             'diff_2nd_won':      sa_w['2nd_won'] - sa_l['2nd_won'],
             'diff_bp_saved':     sa_w['bp_saved']- sa_l['bp_saved'],
-            # nuove feature ritorno
+            # feature ritorno
             'diff_return_pct':   ra_w['return_pct'] - ra_l['return_pct'],
             'diff_bp_conv':      ra_w['bp_conv']    - ra_l['bp_conv'],
             'diff_return_1st':   ra_w['return_1st'] - ra_l['return_1st'],
@@ -358,7 +389,7 @@ def carica_e_prepara(csv_path: str):
 
         d1 = diffs.copy(); d1['target'] = 1
         d0 = {k: -v if k not in ('surface_enc','tourney_level','round_enc',
-                                  'draw_size','tourney_date','level_weight',
+                                  'is_best_of_5','tourney_date','level_weight',
                                   'court_ace_pct','court_speed')
               else v for k, v in diffs.items()}
         d0['target'] = 0
@@ -376,28 +407,36 @@ def carica_e_prepara(csv_path: str):
     # Salva momentum per superficie {(player, surface): [last 10 results]}
     joblib.dump(racha_t, 'momentum_surface.pkl')
     print("   → momentum_surface.pkl salvato")
-    # Salva Elo overall e recent form (usati dal predictor per le 4 nuove feature)
+    # Salva Elo overall e recent form (usati dal predictor)
     joblib.dump(elo_overall, 'elo_overall.pkl')
     print("   → elo_overall.pkl salvato")
     joblib.dump(recent_form_t, 'recent_form.pkl')
     print("   → recent_form.pkl salvato")
+    # Salva H2H per superficie e data ultimo match
+    joblib.dump(h2h_surf_t, 'h2h_surface.pkl')
+    print("   → h2h_surface.pkl salvato")
+    joblib.dump(last_match_date_t, 'last_match_date.pkl')
+    print("   → last_match_date.pkl salvato")
 
     return df_out, stats_dict, elo_surf, streak_t
 
 
-# ── Lista feature (29) — original 25 + log transforms + overall elo + recent form
+# ── Lista feature (29) — v4.0: rimossi 5 ridondanti, aggiunti bo5/days/h2h_surf/1st_pct
 FEATURES = [
-    'diff_rank', 'diff_rank_points', 'diff_seed', 'diff_age', 'diff_ht',  # 0-4
-    'diff_elo', 'diff_streak',                          # 5-6
-    'surface_enc', 'tourney_level', 'round_enc', 'draw_size',  # 7-10
-    'diff_hand',                                         # 11
-    'diff_skill', 'diff_home',                           # 12-13
-    'diff_fatigue', 'diff_momentum', 'diff_h2h',         # 14-15-16
-    'diff_ace', 'diff_1st_won', 'diff_bp_saved',         # 17-18-19
-    'diff_return_pct', 'diff_bp_conv', 'diff_return_1st', # 20-21-22
-    'court_ace_pct', 'court_speed',                       # 23-24
-    'log_rank_ratio', 'log_pts_ratio',                    # 25-26
-    'diff_elo_overall', 'diff_recent_form',               # 27-28
+    'log_rank_ratio', 'log_pts_ratio',                    # 0-1   (ranking, compressi)
+    'diff_age', 'diff_ht',                                # 2-3
+    'diff_elo', 'diff_elo_overall',                       # 4-5   (Elo superficie + overall)
+    'diff_streak', 'diff_recent_form',                    # 6-7   (forma)
+    'surface_enc', 'tourney_level', 'round_enc',          # 8-9-10 (contesto)
+    'is_best_of_5',                                       # 11    (bo3 vs bo5)
+    'diff_skill', 'diff_home',                            # 12-13
+    'diff_fatigue', 'diff_momentum',                      # 14-15
+    'diff_h2h', 'diff_h2h_surface',                       # 16-17 (H2H globale + per superficie)
+    'diff_days_since_last',                               # 18    (riposo vs ruggine)
+    'diff_ace', 'diff_1st_pct', 'diff_1st_won',           # 19-20-21 (servizio)
+    'diff_2nd_won', 'diff_bp_saved',                      # 22-23
+    'diff_return_pct', 'diff_bp_conv', 'diff_return_1st', # 24-25-26 (ritorno)
+    'court_ace_pct', 'court_speed',                       # 27-28
 ]  # totale: 29 feature
 
 
@@ -441,29 +480,29 @@ ARCH_OPTIONS = {
     '4L_m':    [256, 128, 64, 32],
 }
 
-# Coppie di feature per interaction layer (indici aggiornati per 29 feature)
-# 0=rank, 1=rank_pts, 2=seed, 3=age, 4=ht, 5=elo, 6=streak,
-# 7=surface, 8=level, 9=round, 10=draw, 11=hand,
-# 12=skill, 13=home, 14=fatigue, 15=momentum, 16=h2h,
-# 17=ace, 18=1st_won, 19=bp_saved, 20=return_pct, 21=bp_conv, 22=return_1st,
-# 23=court_ace, 24=court_speed, 25=log_rank_ratio, 26=log_pts_ratio,
-# 27=elo_overall, 28=recent_form
+# Coppie di feature per interaction layer (indici aggiornati per 28 feature v4.0)
+# 0=log_rank_ratio, 1=log_pts_ratio, 2=age, 3=ht, 4=elo, 5=elo_overall,
+# 6=streak, 7=recent_form, 8=surface, 9=level, 10=round, 11=bo5,
+# 12=skill, 13=home, 14=fatigue, 15=momentum, 16=h2h, 17=h2h_surface,
+# 18=days_since_last, 19=ace, 20=1st_pct, 21=1st_won, 22=2nd_won,
+# 23=bp_saved, 24=return_pct, 25=bp_conv, 26=return_1st,
+# 27=court_ace, 28=court_speed  (if included)
 
 INTERACTION_SETS = {
     'core': [                    # Coppie fondamentali (ranking × form)
-        (5, 12), (0, 15), (5, 15), (12, 15), (0, 1),
-        (5, 16), (6, 15), (12, 14), (14, 15), (1, 12),
+        (4, 12), (0, 15), (4, 15), (12, 15), (0, 1),
+        (4, 16), (6, 15), (12, 14), (14, 15), (1, 12),
     ],
     'serve_return': [            # Coppie servizio × ritorno
-        (5, 12), (0, 15), (5, 15), (17, 20), (18, 22),
-        (19, 21), (5, 16), (12, 15), (6, 15), (0, 1),
+        (4, 12), (0, 15), (4, 15), (19, 24), (21, 26),
+        (23, 25), (4, 16), (12, 15), (6, 15), (0, 1),
     ],
     'context': [                 # Coppie con contesto (superficie, livello torneo)
-        (5, 12), (0, 15), (5, 7), (12, 7), (15, 7),
-        (5, 8), (0, 1), (5, 16), (6, 15), (12, 15),
+        (4, 12), (0, 15), (4, 8), (12, 8), (15, 8),
+        (4, 9), (0, 1), (4, 16), (6, 15), (12, 15),
     ],
     'minimal': [                 # Solo le 5 più importanti
-        (5, 12), (0, 15), (5, 15), (5, 16), (0, 1),
+        (4, 12), (0, 15), (4, 15), (4, 16), (0, 1),
     ],
 }
 DEFAULT_INTERACTION_PAIRS = INTERACTION_SETS['core']

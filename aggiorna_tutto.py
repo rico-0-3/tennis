@@ -34,9 +34,9 @@ PREDICCION = os.path.join(ROOT, "prediccion")
 PYTHON = VENV_PY if os.path.exists(VENV_PY) else sys.executable
 
 # ─── Flag opzionali ───────────────────────────────────────────────────────────
-ESEGUI_SCRAPING    = False    # Scarica nuovi dati ATP (richiede Chrome installato)
-ESEGUI_FUSIONE     = False    # Fonde storico + nuovi dati
-ESEGUI_PROFILI     = False    # Rigenera profili giocatori
+ESEGUI_SCRAPING    = True    # Scarica nuovi dati ATP (richiede Chrome installato)
+ESEGUI_FUSIONE     = True    # Fonde storico + nuovi dati
+ESEGUI_PROFILI     = True    # Rigenera profili giocatori
 ESEGUI_COURT_SPEED = True    # Scraping velocità campo + arricchimento CSV
 ESEGUI_MODELLI     = False    # Riaddestra XGBoost, Ensemble, LR
 ESEGUI_ANN         = False   # True = addestra la rete neurale (lento su CPU ~1-2h)

@@ -42,10 +42,11 @@ in fase di addestramento come il **migliore** tra diverse strategie:
 | 🎯 **Ensemble Stacking** | Meta-Learner | Regressione logistica che combina i 3 modelli con pesi ottimali |
 
 Il sistema analizza **29 feature** tra cui:
-* 📊 **Gerarchia:** Ranking, Punti, Elo (globale e per superficie).
-* ⚔️ **Storico:** Scontri diretti (H2H), forma recente.
-* 🧠 **Momento:** Striscia, momentum, fatica.
-* 🎯 **Tecnica:** Ace, servizio, break point, resa al ritorno.
+* 📊 **Gerarchia:** Ranking (log), Punti (log), Elo (globale e per superficie).
+* ⚔️ **Storico:** Scontri diretti (H2H globale e per superficie), forma recente.
+* 🧠 **Momento:** Striscia, momentum, fatica, giorni dall'ultimo match.
+* 🎯 **Tecnica:** Ace, servizio (1st pct, 1st won, 2nd won), break point, resa al ritorno.
+* 🏆 **Contesto:** Superficie, livello torneo, turno, best-of-3/5.
 """)
 
 st.write("---")
@@ -53,8 +54,8 @@ st.write("---")
 
 # ─── Definizione ANN v3 (stessa architettura di train_ann.py) ────────────────
 DEFAULT_INTERACTION_PAIRS = [
-    (5, 12), (0, 15), (5, 15), (12, 14), (0, 1),
-    (5, 16), (12, 16), (6, 15), (14, 15), (1, 12),
+    (4, 12), (0, 15), (4, 15), (12, 14), (0, 1),
+    (4, 16), (12, 16), (6, 15), (14, 15), (1, 12),
 ]
 N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
 
@@ -119,18 +120,21 @@ class TennisANNv3(nn.Module):
 
 
 ANN_FEATURES = [
-    'diff_rank', 'diff_rank_points', 'diff_seed', 'diff_age', 'diff_ht',
-    'diff_elo', 'diff_streak',
-    'surface_enc', 'tourney_level', 'round_enc', 'draw_size',
-    'diff_hand',
+    'log_rank_ratio', 'log_pts_ratio',
+    'diff_age', 'diff_ht',
+    'diff_elo', 'diff_elo_overall',
+    'diff_streak', 'diff_recent_form',
+    'surface_enc', 'tourney_level', 'round_enc',
+    'is_best_of_5',
     'diff_skill', 'diff_home',
-    'diff_fatigue', 'diff_momentum', 'diff_h2h',
-    'diff_ace', 'diff_1st_won', 'diff_bp_saved',
+    'diff_fatigue', 'diff_momentum',
+    'diff_h2h', 'diff_h2h_surface',
+    'diff_days_since_last',
+    'diff_ace', 'diff_1st_pct', 'diff_1st_won',
+    'diff_2nd_won', 'diff_bp_saved',
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',
     'court_ace_pct', 'court_speed',
-    'log_rank_ratio', 'log_pts_ratio',
-    'diff_elo_overall', 'diff_recent_form',
-]  # 29 feature (v3.1)
+]  # 29 feature (v4.0)
 
 SURFACE_MAP   = {'Hard': 0, 'Clay': 1, 'Grass': 2}
 LEVEL_MAP     = {'G': 5, 'M': 4, 'A': 3, 'F': 4, 'C': 2, 'S': 1, 'E': 0}
@@ -195,6 +199,13 @@ def cargar_todo():
     if os.path.exists(elo_ov_path): elo_overall  = joblib.load(elo_ov_path)
     if os.path.exists(rf_path):     recent_form  = joblib.load(rf_path)
 
+    h2h_surface_dict = {}  # {(p1, p2, surface): [w1, w2]}
+    last_match_date_dict = {}  # {player: int (YYYYMMDD)}
+    h2h_s_path = pp('h2h_surface.pkl')
+    lmd_path   = pp('last_match_date.pkl')
+    if os.path.exists(h2h_s_path): h2h_surface_dict  = joblib.load(h2h_s_path)
+    if os.path.exists(lmd_path):   last_match_date_dict = joblib.load(lmd_path)
+
     # Storico e Ranking
     try:
         df_history = pd.read_csv(ps("historialTenis.csv"), low_memory=False)
@@ -210,13 +221,15 @@ def cargar_todo():
     return (stats_dict, perfiles, df_history, ranking_dict,
             modelo_finale,
             elo_surface, streak_players,
-            momentum_surface, elo_overall, recent_form)
+            momentum_surface, elo_overall, recent_form,
+            h2h_surface_dict, last_match_date_dict)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
  modelo_finale,
  elo_surface, streak_players,
- momentum_surface, elo_overall, recent_form) = cargar_todo()
+ momentum_surface, elo_overall, recent_form,
+ h2h_surface_dict, last_match_date_dict) = cargar_todo()
 
 if modelo_finale is None:
     st.error("❌ Modello non trovato. Assicurati che `modelo_finale.pkl` sia nella cartella `prediccion/`.")
@@ -382,7 +395,7 @@ with st.sidebar:
     st.header("⚙️ Configurazione")
 
     st.subheader("🧠 Cervello dell'IA")
-    st.info("Usando: **ANN v3.1** — Wide&Deep + Residual + GBM Ensemble (29 feature, calibrato) 🔥")
+    st.info("Usando: **ANN v4.0** — Wide&Deep + Residual + GBM Ensemble (29 feature, calibrato) 🔥")
 
     st.divider()
 
@@ -414,6 +427,8 @@ with st.sidebar:
     livello       = st.selectbox("Livello Torneo", ["Grand Slam", "Masters 1000", "ATP 500", "ATP 250"],
                                   help="G=Grand Slam | M=Masters | A=500 | C=250")
     draw_sz       = st.selectbox("Tabellone", [128, 96, 64, 32, 16], index=2)
+    best_of       = st.selectbox("Formato", [3, 5], index=0,
+                                  help="3 = best-of-3 (ATP normali) | 5 = best-of-5 (Grand Slam)")
 
     LEVEL_LABEL = {'Grand Slam': 5, 'Masters 1000': 4, 'ATP 500': 3, 'ATP 250': 2}
 
@@ -576,36 +591,64 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
     rtn_1st1 = 0.30  # default (non disponibile nel profilo)
     rtn_1st2 = 0.30
 
+    # H2H per superficie (dal pkl)
+    p1k, p2k = sorted([nombre1, nombre2])
+    rec_s = h2h_surface_dict.get((p1k, p2k, superficie), [0, 0])
+    if nombre1 == p1k:
+        _h2h_s1, _h2h_s2 = rec_s[0] - rec_s[1], rec_s[1] - rec_s[0]
+    else:
+        _h2h_s1, _h2h_s2 = rec_s[1] - rec_s[0], rec_s[0] - rec_s[1]
+
+    # Days since last match (dal pkl, default 14 se non disponibile)
+    _lmd1 = last_match_date_dict.get(nombre1)
+    _lmd2 = last_match_date_dict.get(nombre2)
+    _days1 = 14.0  # default
+    _days2 = 14.0
+    if _lmd1 is not None:
+        _y, _rest = divmod(_lmd1, 10000); _m, _d = divmod(_rest, 100)
+        import datetime as _dt
+        try:
+            _last1 = _dt.date(_y, max(1,_m), max(1,_d))
+            _days1 = max(0.0, min(180.0, (_dt.date.today() - _last1).days))
+        except: pass
+    if _lmd2 is not None:
+        _y, _rest = divmod(_lmd2, 10000); _m, _d = divmod(_rest, 100)
+        import datetime as _dt
+        try:
+            _last2 = _dt.date(_y, max(1,_m), max(1,_d))
+            _days2 = max(0.0, min(180.0, (_dt.date.today() - _last2).days))
+        except: pass
+
     ann_input = pd.DataFrame([{
-        'diff_rank':        r2 - r1,
-        'diff_rank_points': pts1 - pts2,
-        'diff_seed':        seed2_eff - seed1_eff,
+        'log_rank_ratio':   np.log1p(r2) - np.log1p(r1),
+        'log_pts_ratio':    np.log1p(pts1) - np.log1p(pts2),
         'diff_age':         a1 - a2,
         'diff_ht':          h1 - h2,
         'diff_elo':         elo1 - elo2,
+        'diff_elo_overall':  elo_ov1 - elo_ov2,
         'diff_streak':      float(strk1 - strk2),
+        'diff_recent_form':  form1 - form2,
         'surface_enc':      float(SURFACE_MAP.get(superficie, 0)),
         'tourney_level':    float(LEVEL_LABEL.get(livello, 3)),
         'round_enc':        float(ROUND_MAP_STR.get(turno, 3)),
-        'draw_size':        float(draw_sz),
-        'diff_hand':        hand_map_d.get(hand1, 0) - hand_map_d.get(hand2, 0),
+        'is_best_of_5':     1.0 if best_of == 5 else 0.0,
         'diff_skill':       skill1 - skill2,
         'diff_home':        home1 - home2,
         'diff_fatigue':     fat1 - fat2,
         'diff_momentum':    mom1_val - mom2_val,
         'diff_h2h':         diff_h2h,
+        'diff_h2h_surface': float(_h2h_s1 - _h2h_s2),
+        'diff_days_since_last': float(_days1 - _days2),
         'diff_ace':         sa1.get('aces', 0) - sa2.get('aces', 0),
+        'diff_1st_pct':     (sa1.get('first_serve_pct', 62) - sa2.get('first_serve_pct', 62)) / 100,
         'diff_1st_won':     (sa1.get('serve_win', 65) - sa2.get('serve_win', 65)) / 100,
+        'diff_2nd_won':     (sa1.get('second_serve_win', 50) - sa2.get('second_serve_win', 50)) / 100,
         'diff_bp_saved':    (sa1.get('bp_saved', 60) - sa2.get('bp_saved', 60)) / 100,
         'diff_return_pct':  rtn_pct1 - rtn_pct2,
         'diff_bp_conv':     bp_conv1 - bp_conv2,
         'diff_return_1st':  rtn_1st1 - rtn_1st2,
         'court_ace_pct':    court_ace,
         'court_speed':      court_spd,
-        'log_rank_ratio':   np.log1p(r2) - np.log1p(r1),
-        'log_pts_ratio':    np.log1p(pts1) - np.log1p(pts2),
-        'diff_elo_overall':  elo_ov1 - elo_ov2,
-        'diff_recent_form':  form1 - form2,
     }])
 
     input_sc = finale_scaler.transform(ann_input[ANN_FEATURES])
