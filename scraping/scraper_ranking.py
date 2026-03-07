@@ -18,9 +18,10 @@ IS_CI = os.environ.get("CI", "").lower() == "true"
 
 def _get_chrome_version():
     """Auto-detect della versione di Chrome installata."""
+    import subprocess as _sp
     for cmd in ['google-chrome', 'google-chrome-stable', 'chromium-browser', 'chromium']:
         try:
-            out = subprocess.check_output([cmd, '--version'], text=True, stderr=subprocess.DEVNULL)
+            out = _sp.check_output([cmd, '--version'], text=True, stderr=_sp.DEVNULL)
             ver = int(out.strip().split()[-1].split('.')[0])
             print(f"   ℹ️  Chrome rilevato: {out.strip()} → version_main={ver}")
             return ver
