@@ -97,9 +97,6 @@ TRIALS_GBM = 40    # trial per LightGBM e XGBoost
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
               'D': 1.0, 'C': 0.8, 'S': 0.7, 'E': 0.5}
 
-ALPHA_GAMES = 0.1  # peso della loss di regressione (total games) rispetto alla classificazione
-
-
 def parse_total_games(score_str):
     """Estrae il numero totale di game da una stringa di punteggio.
     Es: '7-6 6-2' → 21, '6-4 3-6 7-5' → 31, 'W/O' → NaN"""
@@ -180,6 +177,7 @@ def carica_e_prepara(csv_path: str):
     streak_t  = {}   # {player: int}  +N=N vittorie consecutive, -N=sconfitte
     recent_form_t = {}  # {player: [last 10 results across all surfaces]}
     last_match_date_t = {}  # {player: int (YYYYMMDD)}  — data ultimo match
+    avg_games_t = {}   # {player: [last 15 total games]}  — media game per match
 
     ELO_DEFAULT = 1500.0
     K_BASE      = 32.0
@@ -204,6 +202,19 @@ def carica_e_prepara(csv_path: str):
 
         # --- Total games (target regressione) ---
         total_games = parse_total_games(str(row.get('score', '')))
+
+        # --- Media storica game per giocatore (rolling 15) ---
+        ag_w = avg_games_t.get(w, [])
+        ag_l = avg_games_t.get(l, [])
+        avg_g_w = float(np.mean(ag_w)) if ag_w else 23.0  # default tipico bo3
+        avg_g_l = float(np.mean(ag_l)) if ag_l else 23.0
+        if not np.isnan(total_games):
+            ag_w_new = avg_games_t.setdefault(w, [])
+            ag_l_new = avg_games_t.setdefault(l, [])
+            ag_w_new.append(total_games)
+            ag_l_new.append(total_games)
+            if len(ag_w_new) > 15: ag_w_new.pop(0)
+            if len(ag_l_new) > 15: ag_l_new.pop(0)
 
         # --- Fatica ---
         f_w = fatiga_t.get((tid, w), 0); f_l = fatiga_t.get((tid, l), 0)
@@ -413,11 +424,39 @@ def carica_e_prepara(csv_path: str):
         diffs['court_ace_pct'] = court_ace
         diffs['court_speed']   = court_spd
 
+        # ── Feature simmetriche per regressione total games ──────────────────
+        ht_w = float(row['winner_ht']) if pd.notna(row.get('winner_ht')) else 185.0
+        ht_l = float(row['loser_ht'])  if pd.notna(row.get('loser_ht'))  else 185.0
+        diffs['g_abs_diff_elo']   = abs(elo_w - elo_l)
+        diffs['g_avg_elo']        = (elo_w + elo_l) / 2
+        diffs['g_abs_diff_rank']  = abs(np.log1p(rk_w) - np.log1p(rk_l))
+        diffs['g_avg_ace']        = (sa_w['ace'] + sa_l['ace']) / 2
+        diffs['g_avg_1st_pct']    = (sa_w['1st_pct'] + sa_l['1st_pct']) / 2
+        diffs['g_avg_1st_won']    = (sa_w['1st_won'] + sa_l['1st_won']) / 2
+        diffs['g_avg_2nd_won']    = (sa_w['2nd_won'] + sa_l['2nd_won']) / 2
+        diffs['g_avg_bp_saved']   = (sa_w['bp_saved'] + sa_l['bp_saved']) / 2
+        diffs['g_avg_return_pct'] = (ra_w['return_pct'] + ra_l['return_pct']) / 2
+        diffs['g_min_skill']      = min(sk_w, sk_l)
+        diffs['g_max_skill']      = max(sk_w, sk_l)
+        diffs['g_avg_ht']         = (ht_w + ht_l) / 2
+        diffs['g_abs_diff_form']  = abs(form_w - form_l)
+        diffs['g_avg_momentum']   = (mw + ml) / 2
+        diffs['g_avg_games_p1']   = avg_g_w  # media storica game del giocatore 1
+        diffs['g_avg_games_p2']   = avg_g_l  # media storica game del giocatore 2
+        diffs['g_avg_games_both'] = (avg_g_w + avg_g_l) / 2  # media combinata
+
+        _SYMM_KEYS = ('surface_enc','tourney_level','round_enc',
+                       'is_best_of_5','tourney_date','level_weight',
+                       'court_ace_pct','court_speed',
+                       'g_abs_diff_elo','g_avg_elo','g_abs_diff_rank',
+                       'g_avg_ace','g_avg_1st_pct','g_avg_1st_won',
+                       'g_avg_2nd_won','g_avg_bp_saved','g_avg_return_pct',
+                       'g_min_skill','g_max_skill','g_avg_ht',
+                       'g_abs_diff_form','g_avg_momentum',
+                       'g_avg_games_p1','g_avg_games_p2','g_avg_games_both')
+
         d1 = diffs.copy(); d1['target'] = 1; d1['total_games'] = total_games
-        d0 = {k: -v if k not in ('surface_enc','tourney_level','round_enc',
-                                  'is_best_of_5','tourney_date','level_weight',
-                                  'court_ace_pct','court_speed')
-              else v for k, v in diffs.items()}
+        d0 = {k: -v if k not in _SYMM_KEYS else v for k, v in diffs.items()}
         d0['target'] = 0; d0['total_games'] = total_games
         rows.append(d1); rows.append(d0)
         upd_serve(l, rd, 'l'); upd_return(l, rd, 'w')
@@ -443,6 +482,8 @@ def carica_e_prepara(csv_path: str):
     print("   → h2h_surface.pkl salvato")
     joblib.dump(last_match_date_t, 'last_match_date.pkl')
     print("   → last_match_date.pkl salvato")
+    joblib.dump(avg_games_t, 'avg_games_players.pkl')
+    print("   → avg_games_players.pkl salvato")
 
     return df_out, stats_dict, elo_surf, streak_t
 
@@ -464,6 +505,33 @@ FEATURES = [
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st', # 24-25-26 (ritorno)
     'court_ace_pct', 'court_speed',                       # 27-28
 ]  # totale: 29 feature
+
+# Feature dedicate alla regressione total games (simmetriche / assolute)
+GAMES_FEATURES = [
+    'g_abs_diff_elo',       # equilibrio del match (Elo)
+    'g_avg_elo',            # livello medio giocatori
+    'g_abs_diff_rank',      # equilibrio (ranking)
+    'g_avg_ace',            # potenza servizio media → meno break
+    'g_avg_1st_pct',        # accuratezza prima media
+    'g_avg_1st_won',        # efficacia prima media
+    'g_avg_2nd_won',        # seconda di servizio media
+    'g_avg_bp_saved',       # resistenza al break media
+    'g_avg_return_pct',     # qualità risposta media
+    'g_min_skill',          # il più debole sulla superficie
+    'g_max_skill',          # il più forte sulla superficie
+    'g_avg_ht',             # altezza media → serve power
+    'g_abs_diff_form',      # quanto è diversa la forma recente
+    'g_avg_momentum',       # momentum medio sulla superficie
+    'g_avg_games_p1',       # media storica game del giocatore 1
+    'g_avg_games_p2',       # media storica game del giocatore 2
+    'g_avg_games_both',     # media combinata game dei due giocatori
+    'surface_enc',          # superficie
+    'tourney_level',        # livello torneo
+    'round_enc',            # turno
+    'is_best_of_5',         # formato (bo3 vs bo5)
+    'court_ace_pct',        # caratteristiche campo
+    'court_speed',          # velocità campo
+]  # totale: 23 feature (senza match_balance, aggiunto dopo ANN)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -536,15 +604,13 @@ N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
 
 
 class TennisANNv3(nn.Module):
-    """Wide & Deep con Feature Interaction, Residual Connections e Multi-Task (games)."""
+    """Wide & Deep con Feature Interaction e Residual Connections."""
     def __init__(self, input_dim: int, hidden_layers: list, dropout: float = 0.3,
                  n_interactions: int = N_INTERACTIONS,
-                 interaction_pairs: list = None,
-                 predict_games: bool = False):
+                 interaction_pairs: list = None):
         super().__init__()
         self.interaction_pairs = interaction_pairs or DEFAULT_INTERACTION_PAIRS
         self.n_interactions = min(n_interactions, len(self.interaction_pairs))
-        self.predict_games = predict_games
 
         # === Wide path (linear, cattura relazioni dirette) ===
         self.wide = nn.Linear(input_dim, 1)
@@ -568,16 +634,6 @@ class TennisANNv3(nn.Module):
             prev = h
 
         self.deep_out = nn.Linear(prev, 1)
-
-        # === Games regression head (multi-task) ===
-        if predict_games:
-            games_hidden = max(prev // 2, 16)
-            self.games_head = nn.Sequential(
-                nn.Linear(prev, games_hidden),
-                nn.ReLU(),
-                nn.Dropout(dropout * 0.5),
-                nn.Linear(games_hidden, 1)
-            )
 
     def forward(self, x):
         # Wide
@@ -606,15 +662,7 @@ class TennisANNv3(nn.Module):
             h = h + identity  # residual connection
 
         deep_out = self.deep_out(h)
-
-        # Combina wide + deep (classificazione)
-        cls_logit = (wide_out + deep_out).squeeze(1)
-
-        if self.predict_games:
-            games_pred = self.games_head(h).squeeze(1)
-            return cls_logit, games_pred
-
-        return cls_logit
+        return (wide_out + deep_out).squeeze(1)
 
 
 def label_smoothed_bce(logits, targets, smoothing=0.05):
@@ -624,9 +672,8 @@ def label_smoothed_bce(logits, targets, smoothing=0.05):
 
 
 def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10,
-                smoothing=0.05, alpha_games=ALPHA_GAMES):
+                smoothing=0.05):
     model.to(device)
-    has_games = getattr(model, 'predict_games', False)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-5)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, 'min', factor=0.5, patience=4)
     criterion_val = nn.BCEWithLogitsLoss()  # no smoothing per validazione
@@ -637,26 +684,7 @@ def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10
         for batch in loader_train:
             Xb, yb = batch[0].to(device), batch[1].to(device)
             optimizer.zero_grad()
-            output = model(Xb)
-
-            if has_games and isinstance(output, tuple):
-                cls_logit, games_pred = output
-                cls_loss = label_smoothed_bce(cls_logit, yb, smoothing=smoothing)
-                # batch contiene [X, y, games_norm, games_mask]
-                if len(batch) == 4:
-                    gb = batch[2].to(device)
-                    mb = batch[3].to(device).bool()
-                    if mb.any():
-                        games_loss = nn.functional.mse_loss(games_pred[mb], gb[mb])
-                    else:
-                        games_loss = torch.tensor(0.0, device=device)
-                else:
-                    games_loss = torch.tensor(0.0, device=device)
-                loss = cls_loss + alpha_games * games_loss
-            else:
-                logits = output if not isinstance(output, tuple) else output[0]
-                loss = label_smoothed_bce(logits, yb, smoothing=smoothing)
-
+            loss = label_smoothed_bce(model(Xb), yb, smoothing=smoothing)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
             optimizer.step()
@@ -664,9 +692,7 @@ def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10
         with torch.no_grad():
             for batch in loader_val:
                 Xb, yb = batch[0].to(device), batch[1].to(device)
-                output = model(Xb)
-                logits = output[0] if isinstance(output, tuple) else output
-                vl.append(criterion_val(logits, yb).item())
+                vl.append(criterion_val(model(Xb), yb).item())
         vl_mean = np.mean(vl); scheduler.step(vl_mean)
         if vl_mean < best_val - 1e-5:
             best_val = vl_mean
@@ -679,28 +705,15 @@ def train_model(model, loader_train, loader_val, epochs=80, lr=1e-3, patience=10
     return model, best_val
 
 
-def valuta(model, Xsc, y_np, games_raw=None, games_mean=0.0, games_std=1.0):
-    """Valuta classificazione (acc, log_loss) e opzionalmente regressione games (MAE)."""
+def valuta(model, Xsc, y_np):
+    """Valuta classificazione (acc, log_loss)."""
     model.eval()
     with torch.no_grad():
-        output = model(torch.tensor(Xsc.astype(np.float32)).to(device))
-    if isinstance(output, tuple):
-        logits = output[0].cpu().numpy()
-        games_pred_norm = output[1].cpu().numpy()
-    else:
-        logits = output.cpu().numpy()
-        games_pred_norm = None
+        logits = model(torch.tensor(Xsc.astype(np.float32)).to(device)).cpu().numpy()
     probs = 1 / (1 + np.exp(-logits))
     acc = accuracy_score(y_np, (probs >= 0.5).astype(int))
     ll = log_loss(y_np, probs)
-
-    games_mae = None
-    if games_pred_norm is not None and games_raw is not None:
-        games_pred = games_pred_norm * games_std + games_mean
-        valid = ~np.isnan(games_raw)
-        if valid.any():
-            games_mae = float(np.mean(np.abs(games_pred[valid] - games_raw[valid])))
-    return acc, ll, games_mae
+    return acc, ll
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -709,10 +722,7 @@ def valuta(model, Xsc, y_np, games_raw=None, games_mean=0.0, games_std=1.0):
 
 def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
                   y_val, y_test, dates_tr, level_w_tr,
-                  n_trials=TRIALS, input_dim=len(FEATURES), label="Global",
-                  games_tr=None, games_mask_tr=None,
-                  games_val_raw=None, games_test_raw=None,
-                  games_mean=0.0, games_std=1.0):
+                  n_trials=TRIALS, input_dim=len(FEATURES), label="Global"):
 
     X_val_t  = torch.tensor(X_val_sc.astype(np.float32))
     X_test_t = torch.tensor(X_te_sc.astype(np.float32))
@@ -722,14 +732,7 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
     X_tr_t = torch.tensor(X_tr.astype(np.float32))
     y_tr_t = torch.tensor(y_tr.values.astype(np.float32) if hasattr(y_tr, 'values') else y_tr.astype(np.float32))
 
-    # Dataset con games data (multi-task)
-    has_games = games_tr is not None and games_mask_tr is not None
-    if has_games:
-        g_tr_t  = torch.tensor(games_tr.astype(np.float32))
-        gm_tr_t = torch.tensor(games_mask_tr.astype(np.float32))
-        dataset_tr  = TensorDataset(X_tr_t, y_tr_t, g_tr_t, gm_tr_t)
-    else:
-        dataset_tr  = TensorDataset(X_tr_t, y_tr_t)
+    dataset_tr  = TensorDataset(X_tr_t, y_tr_t)
     dataset_val = TensorDataset(X_val_t, torch.tensor(y_val_np.astype(np.float32)))
 
     USE_CUDA    = device.type == 'cuda'
@@ -767,10 +770,9 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             ldr_val = DataLoader(dataset_val, batch_size=4096, shuffle=False,
                                  pin_memory=PIN_MEM, num_workers=N_WORKERS)
 
-            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs,
-                                predict_games=has_games)
+            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs)
             model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
-            acc_v, _, _ = valuta(model, X_val_sc, y_val_np)
+            acc_v, _ = valuta(model, X_val_sc, y_val_np)
 
             trial.set_user_attr('model', model)
             trial.set_user_attr('hl', hl)
@@ -780,8 +782,7 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
                                        'label_smoothing': sm,
                                        'interaction_set': iset,
                                        'interaction_pairs': i_pairs,
-                                       'n_interactions': n_inter,
-                                       'predict_games': has_games})
+                                       'n_interactions': n_inter})
             return acc_v
 
         study = optuna.create_study(direction='maximize',
@@ -796,9 +797,8 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             if t.value is None: continue
             model_t = t.user_attrs.get('model')
             if model_t is None: continue
-            acc_t, ll, mae_t = valuta(model_t, X_te_sc, y_test_np,
-                                      games_test_raw, games_mean, games_std)
-            entry = {
+            acc_t, ll = valuta(model_t, X_te_sc, y_test_np)
+            risultati.append({
                 'trial':        t.number+1,
                 'hidden_layers': str(t.user_attrs.get('hl',[])),
                 'dropout':      t.params.get('dropout'),
@@ -813,10 +813,7 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
                 'log_loss':     ll,
                 '_model':       model_t,
                 '_config':      t.user_attrs.get('hp', {}),
-            }
-            if mae_t is not None:
-                entry['games_mae'] = mae_t
-            risultati.append(entry)
+            })
 
     else:
         # Fallback: random search
@@ -836,31 +833,24 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
             n_inter = len(i_pairs)
             hp  = {'hidden_layers': hl, 'dropout': dr, 'lr': lr,
                    'batch_size': bs, 'epochs': ep, 'lambda_decay': lam, 'label_smoothing': sm,
-                   'interaction_set': iset, 'interaction_pairs': i_pairs, 'n_interactions': n_inter,
-                   'predict_games': has_games}
+                   'interaction_set': iset, 'interaction_pairs': i_pairs, 'n_interactions': n_inter}
             print(f"  [{i+1:3d}/{n_trials}] {str(hl):22s} drop={dr} lr={lr:.0e} λ={lam:.4f} sm={sm:.2f} int={iset}  ▶ avvio...", flush=True)
             w_combined = calcola_pesi_combinati(dates_tr, level_w_tr, lam)
             w_t = torch.tensor(w_combined)
             sampler = WeightedRandomSampler(w_t, len(w_t), replacement=True)
             ldr_tr  = DataLoader(dataset_tr,  batch_size=bs, sampler=sampler)
             ldr_val = DataLoader(dataset_val, batch_size=2048, shuffle=False)
-            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs,
-                                predict_games=has_games)
+            model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs)
             model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
-            acc_v, _, _ = valuta(model, X_val_sc, y_val_np)
-            acc_t, ll, mae_t = valuta(model, X_te_sc, y_test_np,
-                                      games_test_raw, games_mean, games_std)
-            games_info = f" | mae_games={mae_t:.1f}" if mae_t else ""
-            print(f"     └─ val={acc_v:.3f} test={acc_t:.3f}{games_info}", flush=True)
-            entry = {'trial': i+1, 'hidden_layers': str(hl),
+            acc_v, _ = valuta(model, X_val_sc, y_val_np)
+            acc_t, ll = valuta(model, X_te_sc, y_test_np)
+            print(f"     └─ val={acc_v:.3f} test={acc_t:.3f}", flush=True)
+            risultati.append({'trial': i+1, 'hidden_layers': str(hl),
                      'dropout': dr, 'lr': lr, 'batch_size': bs,
                      'epochs': ep, 'lambda_decay': lam, 'smoothing': sm,
                      'interaction_set': iset,
                      'val_acc': acc_v, 'test_acc': acc_t,
-                     'log_loss': ll, '_model': model, '_config': hp}
-            if mae_t is not None:
-                entry['games_mae'] = mae_t
-            risultati.append(entry)
+                     'log_loss': ll, '_model': model, '_config': hp})
 
     return sorted(risultati, key=lambda x: x['test_acc'], reverse=True)
 
@@ -987,24 +977,118 @@ def train_xgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
     return model, acc, ll
 
 
+def train_games_regressors(X_tr, y_tr, X_val, y_val, X_test, y_test,
+                           sample_weights_tr=None, n_trials=TRIALS_GBM):
+    """Train LGB + XGB regressori per total games, restituisce il migliore o ensemble."""
+    models = {}; maes = {}
+
+    # ── LightGBM Regressor ───────────────────────────────────────────────────
+    if HAS_LGB:
+        print(f"\n🎾 Training LGBMRegressor (Total Games) — Optuna {n_trials} trials...")
+        best_m = [None]; best_mae = [float('inf')]
+
+        def obj_lgb(trial):
+            params = {
+                'objective': 'regression_l1', 'metric': 'mae',
+                'boosting_type': 'gbdt', 'verbosity': -1, 'seed': SEED,
+                'n_estimators': trial.suggest_int('n_estimators', 300, 2000),
+                'learning_rate': trial.suggest_float('learning_rate', 0.005, 0.1, log=True),
+                'max_depth': trial.suggest_int('max_depth', 3, 12),
+                'num_leaves': trial.suggest_int('num_leaves', 20, 200),
+                'min_child_samples': trial.suggest_int('min_child_samples', 5, 100),
+                'subsample': trial.suggest_float('subsample', 0.5, 1.0),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.4, 1.0),
+                'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 10, log=True),
+                'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 10, log=True),
+            }
+            m = lgb.LGBMRegressor(**params)
+            m.fit(X_tr, y_tr, sample_weight=sample_weights_tr,
+                  eval_set=[(X_val, y_val)],
+                  callbacks=[lgb.early_stopping(50, verbose=False),
+                            lgb.log_evaluation(period=0)])
+            mae = float(np.mean(np.abs(m.predict(X_val) - y_val)))
+            if mae < best_mae[0]:
+                best_mae[0] = mae; best_m[0] = m
+            return mae
+
+        if HAS_OPTUNA:
+            study = optuna.create_study(direction='minimize',
+                                        sampler=optuna.samplers.TPESampler(seed=SEED))
+            study.optimize(obj_lgb, n_trials=n_trials, show_progress_bar=True)
+        else:
+            m = lgb.LGBMRegressor(n_estimators=500, objective='regression_l1',
+                                   learning_rate=0.05, max_depth=6, seed=SEED)
+            m.fit(X_tr, y_tr, sample_weight=sample_weights_tr,
+                  eval_set=[(X_val, y_val)],
+                  callbacks=[lgb.early_stopping(50, verbose=False)])
+            best_m[0] = m; best_mae[0] = float(np.mean(np.abs(m.predict(X_val) - y_val)))
+
+        mae_te = float(np.mean(np.abs(best_m[0].predict(X_test) - y_test)))
+        models['lgb'] = best_m[0]; maes['lgb'] = mae_te
+        print(f"   LGBMRegressor test MAE: {mae_te:.2f}")
+
+    # ── XGBoost Regressor ────────────────────────────────────────────────────
+    if HAS_XGB:
+        print(f"\n🌲 Training XGBRegressor (Total Games) — Optuna {n_trials} trials...")
+        best_m = [None]; best_mae = [float('inf')]
+
+        def obj_xgb(trial):
+            params = {
+                'objective': 'reg:absoluteerror', 'eval_metric': 'mae',
+                'seed': SEED, 'verbosity': 0,
+                'n_estimators': trial.suggest_int('n_estimators', 300, 2000),
+                'learning_rate': trial.suggest_float('learning_rate', 0.005, 0.1, log=True),
+                'max_depth': trial.suggest_int('max_depth', 3, 12),
+                'min_child_weight': trial.suggest_int('min_child_weight', 1, 50),
+                'subsample': trial.suggest_float('subsample', 0.5, 1.0),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.4, 1.0),
+                'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 10, log=True),
+                'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 10, log=True),
+                'gamma': trial.suggest_float('gamma', 0, 5),
+            }
+            m = xgb_lib.XGBRegressor(**params)
+            m.fit(X_tr, y_tr, sample_weight=sample_weights_tr,
+                  eval_set=[(X_val, y_val)], verbose=False)
+            mae = float(np.mean(np.abs(m.predict(X_val) - y_val)))
+            if mae < best_mae[0]:
+                best_mae[0] = mae; best_m[0] = m
+            return mae
+
+        if HAS_OPTUNA:
+            study = optuna.create_study(direction='minimize',
+                                        sampler=optuna.samplers.TPESampler(seed=SEED+1))
+            study.optimize(obj_xgb, n_trials=n_trials, show_progress_bar=True)
+        else:
+            m = xgb_lib.XGBRegressor(n_estimators=500, objective='reg:absoluteerror',
+                                      learning_rate=0.05, max_depth=6, seed=SEED)
+            m.fit(X_tr, y_tr, sample_weight=sample_weights_tr,
+                  eval_set=[(X_val, y_val)], verbose=False)
+            best_m[0] = m; best_mae[0] = float(np.mean(np.abs(m.predict(X_val) - y_val)))
+
+        mae_te = float(np.mean(np.abs(best_m[0].predict(X_test) - y_test)))
+        models['xgb'] = best_m[0]; maes['xgb'] = mae_te
+        print(f"   XGBRegressor test MAE: {mae_te:.2f}")
+
+    # ── Ensemble (media LGB + XGB) ───────────────────────────────────────────
+    if len(models) >= 2:
+        preds = np.mean([m.predict(X_test) for m in models.values()], axis=0)
+        mae_ens = float(np.mean(np.abs(preds - y_test)))
+        maes['ensemble'] = mae_ens
+        print(f"   Ensemble (LGB+XGB) test MAE: {mae_ens:.2f}")
+
+    # Scegli il migliore
+    best_key = min(maes, key=maes.get)
+    best_mae_val = maes[best_key]
+    print(f"\n   🏆 Games best: {best_key} (MAE={best_mae_val:.2f})")
+    return models, maes, best_key
+
+
 def get_ann_probs(model, X_sc):
     """Get ANN prediction probabilities."""
     model.eval()
     with torch.no_grad():
-        output = model(torch.tensor(X_sc.astype(np.float32)).to(device))
-    logits = output[0].cpu().numpy() if isinstance(output, tuple) else output.cpu().numpy()
+        logits = model(torch.tensor(X_sc.astype(np.float32)).to(device)).cpu().numpy()
     return 1 / (1 + np.exp(-logits))
-
-
-def get_ann_games(model, X_sc, games_mean=0.0, games_std=1.0):
-    """Predice il numero totale di game dalla ANN (head di regressione)."""
-    model.eval()
-    with torch.no_grad():
-        output = model(torch.tensor(X_sc.astype(np.float32)).to(device))
-    if isinstance(output, tuple):
-        games_norm = output[1].cpu().numpy()
-        return games_norm * games_std + games_mean
-    return None
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1054,6 +1138,7 @@ if __name__ == '__main__':
     df_ml, stats_dict, elo_surf, streak_t = carica_e_prepara(csv_path)
 
     X = df_ml[FEATURES].fillna(0)
+    X_games = df_ml[GAMES_FEATURES].fillna(0)
     y = df_ml['target']
     dates = df_ml['tourney_date']
     level_w = df_ml['level_weight'].values
@@ -1061,24 +1146,16 @@ if __name__ == '__main__':
     # ── 1b. Preparazione target total games (regressione) ─────────────────────
     games_raw_all = df_ml['total_games'].values.astype(np.float32)
     games_valid_all = ~np.isnan(games_raw_all)
-    games_mean = float(np.nanmean(games_raw_all))
-    games_std  = float(np.nanstd(games_raw_all))
-    # Normalizzazione: (games - mean) / std, NaN → 0
-    games_norm_all = np.where(games_valid_all,
-                              (games_raw_all - games_mean) / (games_std + 1e-8),
-                              0.0).astype(np.float32)
-    games_mask_all = games_valid_all.astype(np.float32)
     n_valid = int(games_valid_all.sum())
-    print(f"   → Total games: {n_valid:,}/{len(games_raw_all):,} validi | media={games_mean:.1f} | std={games_std:.1f}")
+    print(f"   → Total games: {n_valid:,}/{len(games_raw_all):,} validi | media={np.nanmean(games_raw_all):.1f} | std={np.nanstd(games_raw_all):.1f}")
 
     # ── 2. Split globale: 70 / 15 / 15 ───────────────────────────────────────
     X_tr, X_tmp, y_tr, y_tmp, d_tr, d_tmp, lw_tr, _, \
-        g_tr, g_tmp, gm_tr, gm_tmp, gr_tr, gr_tmp = train_test_split(
-        X, y, dates, level_w, games_norm_all, games_mask_all, games_raw_all,
+        Xg_tr, Xg_tmp, gr_tr, gr_tmp = train_test_split(
+        X, y, dates, level_w, X_games, games_raw_all,
         test_size=0.30, random_state=SEED)
-    X_val, X_test, y_val, y_test, g_val, g_test, gm_val, gm_test, \
-        gr_val, gr_test = train_test_split(
-        X_tmp, y_tmp, g_tmp, gm_tmp, gr_tmp,
+    X_val, X_test, y_val, y_test, Xg_val, Xg_test, gr_val, gr_test = train_test_split(
+        X_tmp, y_tmp, Xg_tmp, gr_tmp,
         test_size=0.50, random_state=SEED)
 
     scaler = StandardScaler()
@@ -1088,14 +1165,13 @@ if __name__ == '__main__':
     joblib.dump(scaler, 'scaler_ann.pkl')
     print(f"   → scaler_ann.pkl salvato  |  {len(FEATURES)} feature")
 
-    # ── 3. Optuna search globale ──────────────────────────────────────────────
+    combined_weights = calcola_pesi_combinati(d_tr, lw_tr, 0.003)
+
+    # ── 3. Optuna search globale (solo classificazione) ───────────────────────
     risultati = optuna_search(
         X_tr_sc, y_tr, X_val_sc, X_te_sc,
         y_val, y_test, d_tr, lw_tr,
         n_trials=TRIALS, input_dim=len(FEATURES), label="Global",
-        games_tr=g_tr, games_mask_tr=gm_tr,
-        games_val_raw=gr_val, games_test_raw=gr_test,
-        games_mean=games_mean, games_std=games_std,
     )
 
     df_ris = pd.DataFrame([{k: v for k, v in r.items() if not k.startswith('_')}
@@ -1104,25 +1180,18 @@ if __name__ == '__main__':
 
     best = risultati[0]
     best_hp = best['_config']
-    acc_test, ll_test, mae_test = valuta(best['_model'], X_te_sc, y_test.values,
-                                          gr_test, games_mean, games_std)
+    acc_test, ll_test = valuta(best['_model'], X_te_sc, y_test.values)
 
     print(f"\n🏆 Modello migliore (Optuna):")
     print(f"   Architettura:  {best['hidden_layers']}")
     print(f"   Hyperparams:   dropout={best['dropout']} | lr={best['lr']:.0e} | bs={best['batch_size']} | λ={best['lambda_decay']} | sm={best.get('smoothing', '?')} | int={best.get('interaction_set', '?')}")
     print(f"   Test Accuracy: {acc_test:.2%}")
     print(f"   Log Loss:      {ll_test:.4f}")
-    if mae_test is not None:
-        print(f"   Games MAE:     {mae_test:.2f}")
     top5_cols = ['hidden_layers','dropout','lr','lambda_decay','smoothing','interaction_set','val_acc','test_acc']
-    if 'games_mae' in df_ris.columns:
-        top5_cols.append('games_mae')
     top5_cols = [c for c in top5_cols if c in df_ris.columns]
     print(f"   Top 5 trial:\n{df_ris[top5_cols].head(5).to_string(index=False)}")
 
-    # ── 3b. GBM models ──────────────────────────────────────────────────────
-    combined_weights = calcola_pesi_combinati(d_tr, lw_tr, 0.003)
-
+    # ── 3b. GBM models (classificazione) ─────────────────────────────────────
     lgb_model, lgb_acc, lgb_ll = train_lgb_optuna(
         X_tr_sc, y_tr, X_val_sc, y_val, X_te_sc, y_test,
         sample_weights_tr=combined_weights, n_trials=TRIALS_GBM)
@@ -1191,31 +1260,42 @@ if __name__ == '__main__':
     else:
         stack_acc, stack_ll = avg_acc, avg_ll
 
-    # ── 3d. Games MAE per il best ANN ──────────────────────────────────────
-    best_games_mae = mae_test  # calcolato sopra da valuta()
-    if best_games_mae is not None:
-        print(f"\n   🎯 ANN Best — Games MAE: {best_games_mae:.2f} game")
+    # ── 3d. Games regressors (DOPO classificazione → usa match_balance) ─────
+    # Calcola probabilità di vittoria dal miglior modello di classificazione
+    # per usarle come feature "match_balance" nel modello games
+    cls_probs_tr  = get_ann_probs(best_ann, X_tr_sc)
+    cls_probs_val = get_ann_probs(best_ann, X_val_sc)
+    cls_probs_te  = get_ann_probs(best_ann, X_te_sc)
+    # match_balance: 0 = match equilibratissimo (50/50), 0.5 = dominio totale
+    mb_tr  = np.abs(cls_probs_tr  - 0.5)
+    mb_val = np.abs(cls_probs_val - 0.5)
+    mb_te  = np.abs(cls_probs_te  - 0.5)
 
-    # Top-5 games MAE (media delle predizioni)
-    top5_games_preds = [get_ann_games(r['_model'], X_te_sc, games_mean, games_std)
-                        for r in risultati[:5]]
-    top5_games_preds = [p for p in top5_games_preds if p is not None]
-    top5_games_mae = None
-    if top5_games_preds:
-        avg_games_pred = np.mean(top5_games_preds, axis=0)
-        valid_g = ~np.isnan(gr_test)
-        if valid_g.any():
-            top5_games_mae = float(np.mean(np.abs(avg_games_pred[valid_g] - gr_test[valid_g])))
-            print(f"   🎯 ANN Top-5 — Games MAE: {top5_games_mae:.2f} game")
+    # Aggiungi match_balance alle feature games
+    Xg_tr_ext  = np.column_stack([Xg_tr.values if hasattr(Xg_tr, 'values') else Xg_tr, mb_tr])
+    Xg_val_ext = np.column_stack([Xg_val.values if hasattr(Xg_val, 'values') else Xg_val, mb_val])
+    Xg_te_ext  = np.column_stack([Xg_test.values if hasattr(Xg_test, 'values') else Xg_test, mb_te])
+
+    scaler_games = StandardScaler()
+    Xg_tr_sc  = scaler_games.fit_transform(Xg_tr_ext)
+    Xg_val_sc = scaler_games.transform(Xg_val_ext)
+    Xg_te_sc  = scaler_games.transform(Xg_te_ext)
+
+    gv_tr = ~np.isnan(gr_tr); gv_val = ~np.isnan(gr_val); gv_te = ~np.isnan(gr_test)
+    games_models, games_maes, games_best_key = train_games_regressors(
+        Xg_tr_sc[gv_tr], gr_tr[gv_tr],
+        Xg_val_sc[gv_val], gr_val[gv_val],
+        Xg_te_sc[gv_te], gr_test[gv_te],
+        sample_weights_tr=combined_weights[gv_tr],
+        n_trials=TRIALS_GBM)
+    games_mae_test = games_maes.get(games_best_key)
 
     # ── 3e. Results table ─────────────────────────────────────────────────────
     results_list = [
         {'Modello': 'ANN Best', 'Accuracy': acc_test, 'Log Loss': ll_test,
-         'Games MAE': best_games_mae,
          'Note': f'Optuna best, arch={best["hidden_layers"]}',
          '_strategy': 'ann_best'},
         {'Modello': 'ANN Top-5 Avg', 'Accuracy': top5_ann_acc, 'Log Loss': top5_ann_ll,
-         'Games MAE': top5_games_mae,
          'Note': 'Average of top 5 ANN trials',
          '_strategy': 'ann_top5'},
     ]
@@ -1237,8 +1317,12 @@ if __name__ == '__main__':
                         'Log Loss': stack_ll, 'Note': 'Meta-LR on ANN+LGB+XGB',
                         '_strategy': 'ensemble_stacking'})
 
+    # Aggiungi Games MAE alla tabella (vale per tutti, modello unico)
+    if games_mae_test is not None:
+        for r in results_list:
+            r['Games MAE'] = games_mae_test
+
     # ── 4. Selezione automatica e re-training su TUTTI i dati ─────────────────
-    # Determina la strategia vincente (Score = Accuracy − Log Loss)
     for r in results_list:
         r['_score'] = r['Accuracy'] - r['Log Loss']
     winner = max(results_list, key=lambda r: r['_score'])
@@ -1255,10 +1339,9 @@ if __name__ == '__main__':
     scaler.fit(X)
     joblib.dump(scaler, 'scaler_ann.pkl')
 
-    # Split per early stopping: 85% train, 15% val (con games data)
-    X_tr_fin, X_val_fin, y_tr_fin, y_val_fin, d_tr_fin, _, lw_tr_fin, _, \
-        g_tr_fin, g_val_fin, gm_tr_fin, gm_val_fin = train_test_split(
-        X, y, dates, level_w, games_norm_all, games_mask_all,
+    # Split per early stopping: 85% train, 15% val
+    X_tr_fin, X_val_fin, y_tr_fin, y_val_fin, d_tr_fin, _, lw_tr_fin, _ = train_test_split(
+        X, y, dates, level_w,
         test_size=0.15, random_state=SEED)
 
     X_tr_fin_sc  = scaler.transform(X_tr_fin)
@@ -1278,8 +1361,6 @@ if __name__ == '__main__':
     X_tr_t = torch.tensor(X_tr_fin_sc.astype(np.float32))
     y_tr_t = torch.tensor(y_tr_fin.values.astype(np.float32) if hasattr(y_tr_fin, 'values')
                           else y_tr_fin.astype(np.float32))
-    g_tr_t  = torch.tensor(g_tr_fin.astype(np.float32))
-    gm_tr_t = torch.tensor(gm_tr_fin.astype(np.float32))
     X_val_t = torch.tensor(X_val_fin_sc.astype(np.float32))
     y_val_t = torch.tensor(y_val_fin.values.astype(np.float32) if hasattr(y_val_fin, 'values')
                            else y_val_fin.astype(np.float32))
@@ -1293,14 +1374,13 @@ if __name__ == '__main__':
     N_WORK   = 2 if USE_CUDA else 0
     bs_eff   = bs * 2 if USE_CUDA and bs < 2048 else bs
 
-    ldr_tr  = DataLoader(TensorDataset(X_tr_t, y_tr_t, g_tr_t, gm_tr_t),
+    ldr_tr  = DataLoader(TensorDataset(X_tr_t, y_tr_t),
                          batch_size=bs_eff,
                          sampler=sampler, pin_memory=PIN_MEM, num_workers=N_WORK)
     ldr_val = DataLoader(TensorDataset(X_val_t, y_val_t), batch_size=4096,
                          shuffle=False, pin_memory=PIN_MEM, num_workers=N_WORK)
 
-    model_final = TennisANNv3(len(FEATURES), hl, dr, best_ninter, best_ipairs,
-                              predict_games=True)
+    model_final = TennisANNv3(len(FEATURES), hl, dr, best_ninter, best_ipairs)
     model_final, _ = train_model(model_final, ldr_tr, ldr_val, epochs=ep, lr=lr,
                                   smoothing=sm)
 
@@ -1326,11 +1406,10 @@ if __name__ == '__main__':
             bs_eff_i = bs_i * 2 if USE_CUDA and bs_i < 2048 else bs_i
             w_i = torch.tensor(w_combined)
             sampler_i = WeightedRandomSampler(w_i, len(w_i), replacement=True)
-            ldr_tr_i = DataLoader(TensorDataset(X_tr_t, y_tr_t, g_tr_t, gm_tr_t),
+            ldr_tr_i = DataLoader(TensorDataset(X_tr_t, y_tr_t),
                                   batch_size=bs_eff_i,
                                   sampler=sampler_i, pin_memory=PIN_MEM, num_workers=N_WORK)
-            model_i = TennisANNv3(len(FEATURES), hl_i, dr_i, ninter_i, ipairs_i,
-                                  predict_games=True)
+            model_i = TennisANNv3(len(FEATURES), hl_i, dr_i, ninter_i, ipairs_i)
             model_i, _ = train_model(model_i, ldr_tr_i, ldr_val, epochs=ep_i, lr=lr_i,
                                       smoothing=sm_i)
             top5_state_dicts.append(model_i.state_dict())
@@ -1352,6 +1431,29 @@ if __name__ == '__main__':
         xgb_final.set_params(early_stopping_rounds=None)
         xgb_final.fit(scaler.transform(X), y_all_np, sample_weight=all_weights)
 
+    # Re-train games regressors su TUTTI i dati (con match_balance dal model_final)
+    games_models_final = {}
+    scaler_games_final = None
+    if games_models:
+        print("   Re-training games regressors on all data...")
+        # Calcola match_balance su tutti i dati usando il modello finale
+        cls_probs_all = get_ann_probs(model_final, scaler.transform(X))
+        mb_all = np.abs(cls_probs_all - 0.5)
+        Xg_all_ext = np.column_stack([X_games.values if hasattr(X_games, 'values') else X_games, mb_all])
+        scaler_games_final = StandardScaler()
+        Xg_all_sc = scaler_games_final.fit_transform(Xg_all_ext)
+        gv_all = games_valid_all
+        for gk, gm in games_models.items():
+            print(f"     Re-training {gk} regressor...")
+            if gk == 'lgb':
+                gm_final = lgb.LGBMRegressor(**gm.get_params())
+            else:
+                gm_final = xgb_lib.XGBRegressor(**gm.get_params())
+                gm_final.set_params(early_stopping_rounds=None)
+            gm_final.fit(Xg_all_sc[gv_all], games_raw_all[gv_all],
+                         sample_weight=all_weights[gv_all])
+            games_models_final[gk] = gm_final
+
     # ── 5. Costruzione modelo_finale.pkl ──────────────────────────────────────
     modelo_finale = {
         'strategy': best_strategy,
@@ -1360,13 +1462,12 @@ if __name__ == '__main__':
         'score': best_score,
         'features': FEATURES,
         'scaler': scaler,
-        # Multi-task: predizione total games
-        'games_mean': games_mean,
-        'games_std': games_std,
-        'predict_games': True,
+        'games_models': games_models_final,
+        'games_best_key': games_best_key if games_models else None,
+        'games_features': GAMES_FEATURES,
+        'games_scaler': scaler_games_final,
     }
 
-    # L'ANN viene sempre salvata per la predizione total games (multi-task)
     modelo_finale['ann'] = {
         'state_dict': model_final.state_dict(),
         'config': best_hp,
@@ -1405,14 +1506,13 @@ if __name__ == '__main__':
     print(f"\n   → modelo_finale.pkl salvato (strategia: {best_strategy})")
 
     # ── 6. Confronto finale ───────────────────────────────────────────────────
-    # Strip internal keys before printing
     results_clean = [{k: v for k, v in r.items() if not k.startswith('_')} for r in results_list]
     df_confronto = confronto_finale(results_clean)
 
     print("\n✅ File salvati:")
     for f in ['modelo_finale.pkl', 'scaler_ann.pkl',
               'elo_surface.pkl', 'elo_overall.pkl', 'streak_players.pkl',
-              'momentum_surface.pkl', 'recent_form.pkl',
+              'momentum_surface.pkl', 'recent_form.pkl', 'avg_games_players.pkl',
               'resultados_comparacion_finale.csv']:
         stato = "✅" if os.path.exists(f) else "—"
         print(f"  {stato}  {f}")

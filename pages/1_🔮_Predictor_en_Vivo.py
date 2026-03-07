@@ -61,15 +61,13 @@ N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
 
 
 class TennisANNv3(nn.Module):
-    """Wide & Deep con Feature Interaction, Residual Connections e Multi-Task (games)."""
+    """Wide & Deep con Feature Interaction e Residual Connections."""
     def __init__(self, input_dim: int, hidden_layers: list, dropout: float = 0.3,
                  n_interactions: int = N_INTERACTIONS,
-                 interaction_pairs: list = None,
-                 predict_games: bool = False):
+                 interaction_pairs: list = None):
         super().__init__()
         self.interaction_pairs = interaction_pairs or DEFAULT_INTERACTION_PAIRS
         self.n_interactions = min(n_interactions, len(self.interaction_pairs))
-        self.predict_games = predict_games
 
         # === Wide path ===
         self.wide = nn.Linear(input_dim, 1)
@@ -93,16 +91,6 @@ class TennisANNv3(nn.Module):
             prev = h
 
         self.deep_out = nn.Linear(prev, 1)
-
-        # === Games regression head (multi-task) ===
-        if predict_games:
-            games_hidden = max(prev // 2, 16)
-            self.games_head = nn.Sequential(
-                nn.Linear(prev, games_hidden),
-                nn.ReLU(),
-                nn.Dropout(dropout * 0.5),
-                nn.Linear(games_hidden, 1)
-            )
 
     def forward(self, x):
         wide_out = self.wide(x)
@@ -128,13 +116,7 @@ class TennisANNv3(nn.Module):
             h = h + identity
 
         deep_out = self.deep_out(h)
-        cls_logit = (wide_out + deep_out).squeeze(1)
-
-        if self.predict_games:
-            games_pred = self.games_head(h).squeeze(1)
-            return cls_logit, games_pred
-
-        return cls_logit
+        return (wide_out + deep_out).squeeze(1)
 
 
 ANN_FEATURES = [
@@ -219,10 +201,13 @@ def cargar_todo():
 
     h2h_surface_dict = {}  # {(p1, p2, surface): [w1, w2]}
     last_match_date_dict = {}  # {player: int (YYYYMMDD)}
+    avg_games_dict = {}  # {player: [last 15 total games]}
     h2h_s_path = pp('h2h_surface.pkl')
     lmd_path   = pp('last_match_date.pkl')
+    agp_path   = pp('avg_games_players.pkl')
     if os.path.exists(h2h_s_path): h2h_surface_dict  = joblib.load(h2h_s_path)
     if os.path.exists(lmd_path):   last_match_date_dict = joblib.load(lmd_path)
+    if os.path.exists(agp_path):   avg_games_dict = joblib.load(agp_path)
 
     # Storico e Ranking
     try:
@@ -240,14 +225,14 @@ def cargar_todo():
             modelo_finale,
             elo_surface, streak_players,
             momentum_surface, elo_overall, recent_form,
-            h2h_surface_dict, last_match_date_dict)
+            h2h_surface_dict, last_match_date_dict, avg_games_dict)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
  modelo_finale,
  elo_surface, streak_players,
  momentum_surface, elo_overall, recent_form,
- h2h_surface_dict, last_match_date_dict) = cargar_todo()
+ h2h_surface_dict, last_match_date_dict, avg_games_dict) = cargar_todo()
 
 if modelo_finale is None:
     st.error("❌ Modello non trovato. Assicurati che `modelo_finale.pkl` sia nella cartella `prediccion/`.")
@@ -259,9 +244,14 @@ finale_scaler   = modelo_finale['scaler']
 finale_name     = modelo_finale['model_name']
 finale_accuracy = modelo_finale.get('accuracy', 0)
 finale_score    = modelo_finale.get('score', 0)
-finale_games_mean = modelo_finale.get('games_mean', 24.0)
-finale_games_std  = modelo_finale.get('games_std', 6.0)
-finale_predict_games = modelo_finale.get('predict_games', False)
+finale_games_models   = modelo_finale.get('games_models', {})
+finale_games_best_key = modelo_finale.get('games_best_key', None)
+finale_games_features = modelo_finale.get('games_features', None)
+finale_games_scaler   = modelo_finale.get('games_scaler', None)
+# Backward compat: vecchio formato con singolo games_model
+if not finale_games_models and 'games_model' in modelo_finale and modelo_finale['games_model'] is not None:
+    finale_games_models = {'lgb': modelo_finale['games_model']}
+    finale_games_best_key = 'lgb'
 
 st.sidebar.success(f"🎯 Modello attivo: **{finale_name}**\n\nAcc: {finale_accuracy:.1%} · Score: {finale_score:.4f}")
 
@@ -275,9 +265,7 @@ def _build_ann(cfg):
     dr  = hp['dropout']
     ipairs = hp.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
     ninter = hp.get('n_interactions', len(ipairs))
-    predict_games = hp.get('predict_games', False)
-    m = TennisANNv3(len(ANN_FEATURES), hl, dr, ninter, ipairs,
-                    predict_games=predict_games)
+    m = TennisANNv3(len(ANN_FEATURES), hl, dr, ninter, ipairs)
     m.load_state_dict(cfg['state_dict'])
     m.eval()
     return m
@@ -286,58 +274,45 @@ def _ann_prob(model, input_t):
     """Probabilità sigmoid da un modello ANN."""
     model.eval()
     with torch.no_grad():
-        output = model(input_t)
-    logit = output[0].item() if isinstance(output, tuple) else output.item()
+        logit = model(input_t).item()
     return 1 / (1 + np.exp(-logit))
 
-def _ann_games(model, input_t):
-    """Predice il numero totale di game (denormalizzato)."""
-    model.eval()
-    with torch.no_grad():
-        output = model(input_t)
-    if isinstance(output, tuple):
-        games_norm = output[1].item()
-        return games_norm * finale_games_std + finale_games_mean
-    return None
+def _predict_games(games_input_sc):
+    """Predice total games usando ensemble di regressori con feature simmetriche."""
+    if not finale_games_models or games_input_sc is None:
+        return None
+    if finale_games_best_key == 'ensemble' and len(finale_games_models) >= 2:
+        preds = [m.predict(games_input_sc)[0] for m in finale_games_models.values()]
+        return float(np.mean(preds))
+    best_m = finale_games_models.get(finale_games_best_key)
+    if best_m is not None:
+        return float(best_m.predict(games_input_sc)[0])
+    # Fallback: usa il primo disponibile
+    return float(next(iter(finale_games_models.values())).predict(games_input_sc)[0])
 
-def predici(input_sc, input_t):
+def predici(input_sc, input_t, games_input_sc=None):
     """Produce probabilità J1 e total games usando la strategia in modelo_finale."""
     s = finale_strategy
-    games_pred = None
-
-    def _get_games_from_ann(ann):
-        return _ann_games(ann, input_t)
+    games_pred = _predict_games(games_input_sc)
 
     if s == 'ann_best':
         ann = _build_ann(modelo_finale['ann'])
-        games_pred = _get_games_from_ann(ann)
         return _ann_prob(ann, input_t), finale_name, games_pred
 
     elif s == 'ann_top5':
         anns = [_build_ann(c) for c in modelo_finale['ann_top5']]
         probs = [_ann_prob(a, input_t) for a in anns]
-        games_list = [_get_games_from_ann(a) for a in anns]
-        games_list = [g for g in games_list if g is not None]
-        games_pred = float(np.mean(games_list)) if games_list else None
         return float(np.mean(probs)), finale_name, games_pred
 
     elif s == 'lgb':
-        # Per games, usa la ANN salvata (se disponibile)
-        if 'ann' in modelo_finale:
-            ann = _build_ann(modelo_finale['ann'])
-            games_pred = _get_games_from_ann(ann)
         return modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0], finale_name, games_pred
 
     elif s == 'xgb':
-        if 'ann' in modelo_finale:
-            ann = _build_ann(modelo_finale['ann'])
-            games_pred = _get_games_from_ann(ann)
         return modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0], finale_name, games_pred
 
     elif s == 'ensemble_avg':
         ann = _build_ann(modelo_finale['ann'])
         p_ann = _ann_prob(ann, input_t)
-        games_pred = _get_games_from_ann(ann)
         p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
         p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
         return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name, games_pred
@@ -345,9 +320,6 @@ def predici(input_sc, input_t):
     elif s == 'ensemble_avg_top5':
         anns = [_build_ann(c) for c in modelo_finale['ann_top5']]
         probs_ann = [_ann_prob(a, input_t) for a in anns]
-        games_list = [_get_games_from_ann(a) for a in anns]
-        games_list = [g for g in games_list if g is not None]
-        games_pred = float(np.mean(games_list)) if games_list else None
         p_ann = float(np.mean(probs_ann))
         p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
         p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
@@ -356,7 +328,6 @@ def predici(input_sc, input_t):
     elif s == 'ensemble_stacking':
         ann = _build_ann(modelo_finale['ann'])
         p_ann = _ann_prob(ann, input_t)
-        games_pred = _get_games_from_ann(ann)
         p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
         p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
         meta_input = np.array([[p_ann, p_lgb, p_xgb]])
@@ -711,7 +682,47 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
     input_t  = torch.tensor(input_sc.astype(np.float32))
 
     # ─── Predizione con modello finale (strategia auto-selezionata) ──────────
-    prob_j1, modello_usato, games_pred = predici(input_sc, input_t)
+    prob_j1, modello_usato, _ = predici(input_sc, input_t, None)
+
+    # ─── Feature simmetriche per predizione total games ──────────────────────
+    games_pred = None
+    if finale_games_models and finale_games_features is not None and finale_games_scaler is not None:
+        ag1 = avg_games_dict.get(nombre1, [])
+        ag2 = avg_games_dict.get(nombre2, [])
+        avg_g1 = float(np.mean(ag1)) if ag1 else 23.0
+        avg_g2 = float(np.mean(ag2)) if ag2 else 23.0
+
+        games_row = {
+            'g_abs_diff_elo':   abs(elo1 - elo2),
+            'g_avg_elo':        (elo1 + elo2) / 2,
+            'g_abs_diff_rank':  abs(np.log1p(r1) - np.log1p(r2)),
+            'g_avg_ace':        (sa1.get('aces', 0) + sa2.get('aces', 0)) / 2,
+            'g_avg_1st_pct':    (sa1.get('first_serve_pct', 62) + sa2.get('first_serve_pct', 62)) / 200,
+            'g_avg_1st_won':    (sa1.get('serve_win', 65) + sa2.get('serve_win', 65)) / 200,
+            'g_avg_2nd_won':    (sa1.get('second_serve_win', 50) + sa2.get('second_serve_win', 50)) / 200,
+            'g_avg_bp_saved':   (sa1.get('bp_saved', 60) + sa2.get('bp_saved', 60)) / 200,
+            'g_avg_return_pct': (rtn_pct1 + rtn_pct2) / 2,
+            'g_min_skill':      min(skill1, skill2),
+            'g_max_skill':      max(skill1, skill2),
+            'g_avg_ht':         (h1 + h2) / 2,
+            'g_abs_diff_form':  abs(form1 - form2),
+            'g_avg_momentum':   (mom1_val + mom2_val) / 2,
+            'g_avg_games_p1':   avg_g1,
+            'g_avg_games_p2':   avg_g2,
+            'g_avg_games_both': (avg_g1 + avg_g2) / 2,
+            'surface_enc':      float(SURFACE_MAP.get(superficie, 0)),
+            'tourney_level':    float(LEVEL_LABEL.get(livello, 3)),
+            'round_enc':        float(ROUND_MAP_STR.get(turno, 3)),
+            'is_best_of_5':     1.0 if best_of == 5 else 0.0,
+            'court_ace_pct':    court_ace,
+            'court_speed':      court_spd,
+        }
+        games_input = pd.DataFrame([games_row])
+        # Aggiungi match_balance dalla probabilità di classificazione
+        match_balance = abs(prob_j1 - 0.5)
+        games_arr = np.column_stack([games_input[finale_games_features].values, [match_balance]])
+        games_input_sc = finale_games_scaler.transform(games_arr)
+        games_pred = _predict_games(games_input_sc)
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()
