@@ -54,8 +54,8 @@ st.write("---")
 
 # ─── Definizione ANN v3 (stessa architettura di train_ann.py) ────────────────
 DEFAULT_INTERACTION_PAIRS = [
-    (4, 12), (0, 15), (4, 15), (12, 14), (0, 1),
-    (4, 16), (12, 16), (6, 15), (14, 15), (1, 12),
+    (4, 12), (0, 15), (4, 15), (12, 15), (0, 1),
+    (4, 16), (6, 15), (12, 14), (14, 15), (1, 12),
 ]
 N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
 
