@@ -90,12 +90,35 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 60       # numero trial Optuna ANN
-TRIALS_GBM = 30    # trial per LightGBM e XGBoost
+TRIALS = 120       # numero trial Optuna ANN 
+TRIALS_GBM = 50    # trial per LightGBM e XGBoost
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
               'D': 1.0, 'C': 0.8, 'S': 0.7, 'E': 0.5}
+
+ALPHA_GAMES = 0.1  # peso della loss di regressione (total games) rispetto alla classificazione
+
+
+def parse_total_games(score_str):
+    """Estrae il numero totale di game da una stringa di punteggio.
+    Es: '7-6 6-2' → 21, '6-4 3-6 7-5' → 31, 'W/O' → NaN"""
+    if not isinstance(score_str, str) or not score_str.strip():
+        return np.nan
+    score = score_str.strip().upper()
+    if any(x in score for x in ['W/O', 'RET', 'DEF', 'WO', 'ABN', 'UNP', 'BYE', 'NA', 'NAN']):
+        return np.nan
+    total = 0
+    for token in score.split():
+        token = token.split('(')[0]  # "7-6(5)" → "7-6"
+        parts = token.split('-')
+        if len(parts) == 2:
+            try:
+                total += int(parts[0]) + int(parts[1])
+            except ValueError:
+                continue
+    return float(total) if total > 0 else np.nan
+
 
 # ══════════════════════════════════════════════════════════════════════════════
 # 1.  FEATURE ENGINEERING
