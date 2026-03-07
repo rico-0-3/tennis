@@ -12,3 +12,4 @@ lightgbm>=3.3.0
 selenium
 undetected-chromedriver
 bs4
+optuna
