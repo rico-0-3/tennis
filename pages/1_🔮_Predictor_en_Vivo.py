@@ -240,7 +240,7 @@ def cargar_todo(_version: str):
  modelo_finale,
  elo_surface, streak_players,
  momentum_surface, elo_overall, recent_form,
- h2h_surface_dict, last_match_date_dict) = cargar_todo()
+ h2h_surface_dict, last_match_date_dict) = cargar_todo(_version=get_version()) 
 
 if modelo_finale is None:
     st.error("❌ Modello non trovato. Assicurati che `modelo_finale.pkl` sia nella cartella `prediccion/`.")
