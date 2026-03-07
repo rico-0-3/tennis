@@ -152,7 +152,6 @@ with col1:
 
 with col2:
     st.markdown("##### 🧠 Modelli")
-    modelli = st.checkbox("🌲 Training Modelli (XGBoost, Ensemble, LR)", value=False)
     ann     = st.checkbox("🧠 Training ANN (lento ~1-2h su CPU)", value=False)
 
     if ann:
@@ -168,7 +167,7 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
         "esegui_fusione":     fusione,
         "esegui_profili":     profili,
         "esegui_court_speed": court_speed,
-        "esegui_modelli":     modelli,
+        "esegui_modelli":     False,
         "esegui_ann":         ann,
     }
 
