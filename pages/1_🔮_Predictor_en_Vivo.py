@@ -201,13 +201,10 @@ def cargar_todo():
 
     h2h_surface_dict = {}  # {(p1, p2, surface): [w1, w2]}
     last_match_date_dict = {}  # {player: int (YYYYMMDD)}
-    avg_games_dict = {}  # {player: [last 15 total games]}
     h2h_s_path = pp('h2h_surface.pkl')
     lmd_path   = pp('last_match_date.pkl')
-    agp_path   = pp('avg_games_players.pkl')
     if os.path.exists(h2h_s_path): h2h_surface_dict  = joblib.load(h2h_s_path)
     if os.path.exists(lmd_path):   last_match_date_dict = joblib.load(lmd_path)
-    if os.path.exists(agp_path):   avg_games_dict = joblib.load(agp_path)
 
     # Storico e Ranking
     try:
@@ -225,14 +222,14 @@ def cargar_todo():
             modelo_finale,
             elo_surface, streak_players,
             momentum_surface, elo_overall, recent_form,
-            h2h_surface_dict, last_match_date_dict, avg_games_dict)
+            h2h_surface_dict, last_match_date_dict)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
  modelo_finale,
  elo_surface, streak_players,
  momentum_surface, elo_overall, recent_form,
- h2h_surface_dict, last_match_date_dict, avg_games_dict) = cargar_todo()
+ h2h_surface_dict, last_match_date_dict) = cargar_todo()
 
 if modelo_finale is None:
     st.error("❌ Modello non trovato. Assicurati che `modelo_finale.pkl` sia nella cartella `prediccion/`.")
@@ -244,15 +241,6 @@ finale_scaler   = modelo_finale['scaler']
 finale_name     = modelo_finale['model_name']
 finale_accuracy = modelo_finale.get('accuracy', 0)
 finale_score    = modelo_finale.get('score', 0)
-finale_games_models   = modelo_finale.get('games_models', {})
-finale_games_best_key = modelo_finale.get('games_best_key', None)
-finale_games_features = modelo_finale.get('games_features', None)
-finale_games_scaler   = modelo_finale.get('games_scaler', None)
-# Backward compat: vecchio formato con singolo games_model
-if not finale_games_models and 'games_model' in modelo_finale and modelo_finale['games_model'] is not None:
-    finale_games_models = {'lgb': modelo_finale['games_model']}
-    finale_games_best_key = 'lgb'
-
 st.sidebar.success(f"🎯 Modello attivo: **{finale_name}**\n\nAcc: {finale_accuracy:.1%} · Score: {finale_score:.4f}")
 
 
@@ -289,45 +277,31 @@ def _ann_prob(model, input_t):
         logit = model(input_t).item()
     return 1 / (1 + np.exp(-logit))
 
-def _predict_games(games_input_sc):
-    """Predice total games usando ensemble di regressori con feature simmetriche."""
-    if not finale_games_models or games_input_sc is None:
-        return None
-    if finale_games_best_key == 'ensemble' and len(finale_games_models) >= 2:
-        preds = [m.predict(games_input_sc)[0] for m in finale_games_models.values()]
-        return float(np.mean(preds))
-    best_m = finale_games_models.get(finale_games_best_key)
-    if best_m is not None:
-        return float(best_m.predict(games_input_sc)[0])
-    # Fallback: usa il primo disponibile
-    return float(next(iter(finale_games_models.values())).predict(games_input_sc)[0])
-
-def predici(input_sc, input_t, games_input_sc=None):
-    """Produce probabilità J1 e total games usando la strategia in modelo_finale."""
+def predici(input_sc, input_t):
+    """Produce probabilità J1 usando la strategia in modelo_finale."""
     s = finale_strategy
-    games_pred = _predict_games(games_input_sc)
 
     if s == 'ann_best':
         ann = _build_ann(modelo_finale['ann'])
-        return _ann_prob(ann, input_t), finale_name, games_pred
+        return _ann_prob(ann, input_t), finale_name
 
     elif s == 'ann_top5':
         anns = [_build_ann(c) for c in modelo_finale['ann_top5']]
         probs = [_ann_prob(a, input_t) for a in anns]
-        return float(np.mean(probs)), finale_name, games_pred
+        return float(np.mean(probs)), finale_name
 
     elif s == 'lgb':
-        return modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0], finale_name, games_pred
+        return modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0], finale_name
 
     elif s == 'xgb':
-        return modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0], finale_name, games_pred
+        return modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0], finale_name
 
     elif s == 'ensemble_avg':
         ann = _build_ann(modelo_finale['ann'])
         p_ann = _ann_prob(ann, input_t)
         p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
         p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
-        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name, games_pred
+        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name
 
     elif s == 'ensemble_avg_top5':
         anns = [_build_ann(c) for c in modelo_finale['ann_top5']]
@@ -335,7 +309,7 @@ def predici(input_sc, input_t, games_input_sc=None):
         p_ann = float(np.mean(probs_ann))
         p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
         p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
-        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name, games_pred
+        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name
 
     elif s == 'ensemble_stacking':
         ann = _build_ann(modelo_finale['ann'])
@@ -343,7 +317,7 @@ def predici(input_sc, input_t, games_input_sc=None):
         p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
         p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
         meta_input = np.array([[p_ann, p_lgb, p_xgb]])
-        return modelo_finale['meta_model'].predict_proba(meta_input)[0, 1], finale_name, games_pred
+        return modelo_finale['meta_model'].predict_proba(meta_input)[0, 1], finale_name
 
     else:
         raise ValueError(f"Strategia sconosciuta: {s}")
@@ -694,65 +668,7 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
     input_t  = torch.tensor(input_sc.astype(np.float32))
 
     # ─── Predizione con modello finale (strategia auto-selezionata) ──────────
-    prob_j1, modello_usato, _ = predici(input_sc, input_t, None)
-
-    # ─── Feature simmetriche per predizione total games ──────────────────────
-    games_pred = None
-    if finale_games_models and finale_games_features is not None and finale_games_scaler is not None:
-        ag1 = avg_games_dict.get(nombre1, [])
-        ag2 = avg_games_dict.get(nombre2, [])
-        avg_g1 = float(np.mean(ag1)) if ag1 else 23.0
-        avg_g2 = float(np.mean(ag2)) if ag2 else 23.0
-
-        games_row = {
-            'g_abs_diff_elo':   abs(elo1 - elo2),
-            'g_avg_elo':        (elo1 + elo2) / 2,
-            'g_abs_diff_rank':  abs(np.log1p(r1) - np.log1p(r2)),
-            'g_avg_ace':        (sa1.get('aces', 0) + sa2.get('aces', 0)) / 2,
-            'g_avg_1st_pct':    (sa1.get('first_serve_pct', 62) + sa2.get('first_serve_pct', 62)) / 200,
-            'g_avg_1st_won':    (sa1.get('serve_win', 65) + sa2.get('serve_win', 65)) / 200,
-            'g_avg_2nd_won':    (sa1.get('second_serve_win', 50) + sa2.get('second_serve_win', 50)) / 200,
-            'g_avg_bp_saved':   (sa1.get('bp_saved', 60) + sa2.get('bp_saved', 60)) / 200,
-            'g_avg_return_pct': (rtn_pct1 + rtn_pct2) / 2,
-        }
-        
-        # g_service_gap: dominance ratio nei turni di servizio
-        serve1 = sa1.get('serve_win', 65) + sa1.get('second_serve_win', 50)
-        serve2 = sa2.get('serve_win', 65) + sa2.get('second_serve_win', 50)
-        if serve2 > 0.01:
-            dominance = serve1 / serve2
-        else:
-            dominance = 2.0 if serve1 > 0.01 else 1.0
-        games_row['g_service_gap'] = abs(dominance - 1.0)
-        
-        # g_combined_serve_dominance: serve vs return
-        first_won1 = sa1.get('serve_win', 65)
-        first_won2 = sa2.get('serve_win', 65)
-        games_row['g_combined_serve_dominance'] = (first_won1 + first_won2) - (rtn_pct1 + rtn_pct2)
-        
-        # Altre feature
-        games_row.update({
-            'g_min_skill':      min(skill1, skill2),
-            'g_max_skill':      max(skill1, skill2),
-            'g_avg_ht':         (h1 + h2) / 2,
-            'g_abs_diff_form':  abs(form1 - form2),
-            'g_avg_momentum':   (mom1_val + mom2_val) / 2,
-            'g_avg_games_p1':   avg_g1,
-            'g_avg_games_p2':   avg_g2,
-            'g_avg_games_both': (avg_g1 + avg_g2) / 2,
-            'surface_enc':      float(SURFACE_MAP.get(superficie, 0)),
-            'tourney_level':    float(LEVEL_LABEL.get(livello, 3)),
-            'round_enc':        float(ROUND_MAP_STR.get(turno, 3)),
-            'is_best_of_5':     1.0 if best_of == 5 else 0.0,
-            'court_ace_pct':    court_ace,
-            'court_speed':      court_spd,
-        })
-        games_input = pd.DataFrame([games_row])
-        # Aggiungi match_balance dalla probabilità di classificazione
-        match_balance = abs(prob_j1 - 0.5)
-        games_arr = np.column_stack([games_input[finale_games_features].values, [match_balance]])
-        games_input_sc = finale_games_scaler.transform(games_arr)
-        games_pred = _predict_games(games_input_sc)
+    prob_j1, modello_usato = predici(input_sc, input_t)
 
     # ─── Risultato ───────────────────────────────────────────────────────────
     st.divider()
@@ -769,12 +685,6 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         else:
             st.error(f"🏆 Vincitore: **{nombre2}**")
             st.metric("Confidenza", f"{(1-prob_j1):.1%}", delta=f"Modello: {modello_usato}")
-
-        # Total games prediction
-        if games_pred is not None:
-            games_pred_rounded = max(12, round(games_pred))
-            st.metric("Total Game Previsti", f"{games_pred_rounded}",
-                      help="Numero totale di game previsti nel match (somma di tutti i set)")
 
         # Barra probabilità
         prob_display = prob_j1 if prob_j1 > 0.5 else 1 - prob_j1
