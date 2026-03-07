@@ -90,9 +90,9 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
 # ─── Configurazione globale ───────────────────────────────────────────────────
-TRIALS = 60      # numero trial Optuna ANN  (100)
-TRIALS_GBM = 50    # trial per LightGBM e XGBoost (40)
-TRIALS_GBM_GAMES = 150   # trial per regressione total games (100)
+TRIALS = 100      # numero trial Optuna ANN  (100)
+TRIALS_GBM = 50    # trial per LightGBM e XGBoost (50)
+TRIALS_GBM_GAMES = 225   # trial per regressione total games (225, 75 per ogni modello)
 
 # Importanza tornei (moltiplicatore sui pesi campione)
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
