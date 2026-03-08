@@ -1173,28 +1173,28 @@ if HAS_TORCH:
 
     class SetANN(nn.Module):
         """ANN per classificazione numero di set.
-        Wide & Deep con BatchNorm, Dropout, Residual connections.
-        Supporta varie attivazioni: relu, gelu, silu.
-        Output: logits per ogni classe (2 per Bo3, 3 per Bo5).
+        MLP con BatchNorm, Dropout, optional residual connections.
+        Modalità 'simple' (MLP puro) o 'wide_deep' (Wide & Deep).
         """
         def __init__(self, input_dim: int, n_classes: int,
                      hidden_layers: list, dropout: float = 0.3,
-                     activation: str = 'relu'):
+                     activation: str = 'relu', use_wide: bool = False):
             super().__init__()
             self.n_classes = n_classes
+            self.use_wide = use_wide
 
             act_fn = {'relu': nn.ReLU, 'gelu': nn.GELU, 'silu': nn.SiLU}
             self.act = act_fn.get(activation, nn.ReLU)
 
-            # Wide path
-            self.wide = nn.Linear(input_dim, n_classes)
+            # Wide path (optional)
+            if use_wide:
+                self.wide = nn.Linear(input_dim, n_classes)
 
-            # Deep path con residual connections
+            # Deep path
             self.deep_layers = nn.ModuleList()
             self.deep_norms  = nn.ModuleList()
             self.deep_drops  = nn.ModuleList()
             self.deep_acts   = nn.ModuleList()
-            self.res_projs   = nn.ModuleList()
 
             prev = input_dim
             for h in hidden_layers:
@@ -1202,29 +1202,29 @@ if HAS_TORCH:
                 self.deep_norms.append(nn.BatchNorm1d(h))
                 self.deep_drops.append(nn.Dropout(dropout))
                 self.deep_acts.append(self.act())
-                self.res_projs.append(nn.Linear(prev, h) if prev != h else nn.Identity())
                 prev = h
 
             self.deep_out = nn.Linear(prev, n_classes)
 
         def forward(self, x):
-            wide_out = self.wide(x)
-
             h = x
-            for layer, norm, drop, act, res in zip(
+            for layer, norm, drop, act in zip(
                     self.deep_layers, self.deep_norms,
-                    self.deep_drops, self.deep_acts, self.res_projs):
-                identity = res(h)
-                h = drop(act(norm(layer(h)))) + identity
+                    self.deep_drops, self.deep_acts):
+                h = drop(act(norm(layer(h))))
 
-            deep_out = self.deep_out(h)
-            return wide_out + deep_out  # logits
+            out = self.deep_out(h)
+            if self.use_wide:
+                out = out + self.wide(x)
+            return out
 
     def train_set_ann(model, X_tr, y_tr, X_val, y_val,
                       epochs=80, lr=1e-3, patience=15, batch_size=512,
                       weight_decay=1e-4, label_smoothing=0.05,
-                      use_focal=False, focal_gamma=2.0):
-        """Addestra SetANN con early stopping, class weighting, optional Focal Loss."""
+                      use_focal=False, focal_gamma=2.0,
+                      use_oversampling=False):
+        """Addestra SetANN con early stopping, class weighting, optional Focal Loss.
+        Usa WeightedRandomSampler per oversampling della classe minoritaria."""
         model.to(device)
 
         # Class weights per gestire sbilanciamento
@@ -1240,8 +1240,8 @@ if HAS_TORCH:
         criterion_val = nn.CrossEntropyLoss()  # no smoothing/focal per val
 
         optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(
-            optimizer, T_0=20, T_mult=2, eta_min=lr * 0.01)
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer, 'min', factor=0.5, patience=8, min_lr=lr * 0.01)
 
         X_tr_t = torch.tensor(X_tr, dtype=torch.float32)
         y_tr_t = torch.tensor(y_tr, dtype=torch.long)
@@ -1249,7 +1249,15 @@ if HAS_TORCH:
         y_val_t = torch.tensor(y_val, dtype=torch.long).to(device)
 
         dataset = TensorDataset(X_tr_t, y_tr_t)
-        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
+        if use_oversampling:
+            # WeightedRandomSampler: oversampling della classe minoritaria
+            sample_weights = np.array([weights[c] for c in y_tr])
+            sampler = torch.utils.data.WeightedRandomSampler(
+                sample_weights, len(sample_weights), replacement=True)
+            loader = DataLoader(dataset, batch_size=batch_size, sampler=sampler)
+        else:
+            loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
         best_val = float('inf')
         best_state = None
@@ -1269,7 +1277,7 @@ if HAS_TORCH:
             with torch.no_grad():
                 val_logits = model(X_val_t)
                 val_loss = criterion_val(val_logits, y_val_t).item()
-            scheduler.step(ep)
+            scheduler.step(val_loss)
 
             if val_loss < best_val - 1e-5:
                 best_val = val_loss
@@ -1336,13 +1344,17 @@ if HAS_TORCH:
             use_focal = trial.suggest_categorical('focal', [True, False])
             focal_gamma = trial.suggest_float('focal_gamma', 1.0, 4.0) if use_focal else 2.0
             sm = 0.0 if use_focal else trial.suggest_float('smoothing', 0.0, 0.15, step=0.02)
+            use_wide = trial.suggest_categorical('wide', [True, False])
+            use_oversamp = trial.suggest_categorical('oversample', [True, False])
 
-            model = SetANN(X_tr_sc.shape[1], n_classes, hl, dr, activation=act)
+            model = SetANN(X_tr_sc.shape[1], n_classes, hl, dr,
+                          activation=act, use_wide=use_wide)
             model, _ = train_set_ann(model, X_tr_sc, y_tr, X_val_sc, y_val,
                                       epochs=ep, lr=lr, patience=15,
                                       batch_size=bs, weight_decay=wd,
                                       label_smoothing=sm,
-                                      use_focal=use_focal, focal_gamma=focal_gamma)
+                                      use_focal=use_focal, focal_gamma=focal_gamma,
+                                      use_oversampling=use_oversamp)
             wrapper = ANNSetClassifierWrapper(model, scaler)
             preds = wrapper.predict(X_val)
             acc = accuracy_score(y_val, preds)
@@ -1355,7 +1367,8 @@ if HAS_TORCH:
                 sc_copy.var_ = scaler.var_.copy()
                 sc_copy.n_features_in_ = scaler.n_features_in_
                 sc_copy.n_samples_seen_ = scaler.n_samples_seen_
-                model_copy = SetANN(X_tr_sc.shape[1], n_classes, hl, dr, activation=act)
+                model_copy = SetANN(X_tr_sc.shape[1], n_classes, hl, dr,
+                                   activation=act, use_wide=use_wide)
                 model_copy.load_state_dict(
                     {k: v.clone() for k, v in model.state_dict().items()})
                 model_copy.eval()
@@ -1737,6 +1750,52 @@ if __name__ == '__main__':
                                                      'feat_names': best_set_feats}
                     print(f"     ANN (sel) test acc: {acc_test:.4f}")
 
+        # --- Ensemble Set Classifier (media probabilità di tutti i modelli) ---
+        if len(set_clf_candidates) >= 2:
+            print(f"\n  🔹 Ensemble Set Classifier (averaging {len(set_clf_candidates)} modelli):")
+
+            # Group by feat_idxs (models must use same features for ensemble)
+            from itertools import groupby
+            by_feats = {}
+            for name, info in set_clf_candidates.items():
+                key = tuple(info['feat_idxs'])
+                by_feats.setdefault(key, []).append((name, info))
+
+            for feat_key, models in by_feats.items():
+                if len(models) < 2:
+                    continue
+                feat_idxs_ens = list(feat_key)
+                X_test_ens = X_test[:, feat_idxs_ens]
+
+                # Average probabilities
+                probs_list = []
+                for mname, minfo in models:
+                    probs = minfo['model'].predict_proba(X_test_ens)
+                    probs_list.append(probs)
+
+                avg_probs = np.mean(probs_list, axis=0)
+                preds_ens = avg_probs.argmax(axis=1)
+                acc_ens = accuracy_score(y_sets_test, preds_ens)
+
+                ens_name = f"Ensemble_{'_'.join(m[0] for m in models)}"
+                # Create a simple wrapper
+                class EnsembleSetClf:
+                    def __init__(self, models_list):
+                        self.models = [m[1]['model'] for m in models_list]
+                    def predict(self, X):
+                        return self.predict_proba(X).argmax(axis=1)
+                    def predict_proba(self, X):
+                        all_probs = [m.predict_proba(X) for m in self.models]
+                        return np.mean(all_probs, axis=0)
+
+                ens_clf = EnsembleSetClf(models)
+                feat_names_ens = models[0][1]['feat_names']
+                set_clf_candidates[ens_name] = {
+                    'model': ens_clf, 'acc': acc_ens,
+                    'feat_idxs': feat_idxs_ens,
+                    'feat_names': feat_names_ens}
+                print(f"     {ens_name}: test acc={acc_ens:.4f}")
+
         # Select best set classifier
         best_set_clf = None
         best_set_acc_test = 0.0
@@ -1932,6 +1991,7 @@ if __name__ == '__main__':
                     n_classes=n_classes, n_trials=1, label=f"{label}_ANN_final")
                 set_clf_final = ann_final if ann_final is not None else best_set_clf
             else:
+                # Ensemble or other — use as-is (already trained on train set)
                 set_clf_final = best_set_clf
 
         # Re-train conditional regressors on all data (already done in train_conditional_regressor)
