@@ -14,7 +14,8 @@ Approccio GERARCHICO (2 stadi):
   ✅ Feature engineering specifiche per game count
   ✅ Feature dei 29 classificatori (riutilizzate, non mirror)
   ✅ ~15 nuove feature game-specifiche (avg games, tiebreak rate, ecc.)
-  ✅ Classificatore set: LightGBM, XGBoost, ANN (FocalLoss, GELU/SiLU, 13 architetture) con Optuna
+  ✅ Classificatore set: LightGBM, XGBoost con Optuna (ANN rimossa — non performante)
+  ✅ Feature bookmaker-inspired: implied probability, serve/return dominance, competitiveness
   ✅ Regressori condizionali: LGB, XGB — separati per 2-set, 3-set (Bo3), 3/4/5-set (Bo5)
   ✅ Regressore diretto: LGB, XGB + ensemble averaging
   ✅ Cross-validation 5-fold
@@ -55,18 +56,8 @@ from sklearn.pipeline import Pipeline
 
 warnings.filterwarnings("ignore")
 
-# ── PyTorch ──────────────────────────────────────────────────────────────────
-try:
-    import torch
-    import torch.nn as nn
-    from torch.utils.data import TensorDataset, DataLoader
-    HAS_TORCH = True
-    USE_CUDA = torch.cuda.is_available()
-    device = torch.device('cuda' if USE_CUDA else 'cpu')
-    print(f"   ✅ PyTorch disponibile (device={device})")
-except ImportError:
-    HAS_TORCH = False
-    print("   ⚠️ PyTorch non disponibile — ANN set classifier disabilitato")
+# ── PyTorch — rimosso (ANN non performante per set prediction) ────────────────
+HAS_TORCH = False
 
 # ── Court Speed helper ────────────────────────────────────────────────────────
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scraping'))
@@ -104,7 +95,7 @@ SEED = 42
 np.random.seed(SEED)
 
 # ── Configurazione ────────────────────────────────────────────────────────────
-TRIALS_GBM   = 10     # trial Optuna per LGB/XGB/ANN (pochi per iterare veloce)
+TRIALS_GBM   = 5      # trial Optuna — pochi per iterare veloce sulle feature
 GAME_HISTORY = 30     # finestra rolling per avg games
 GAME_HISTORY_SURF = 20
 GLOBAL_HISTORY = 500  # per medie globali superficie/livello
@@ -205,6 +196,8 @@ GAME_FEATURES = [
 ]
 
 # Feature AGGIUNTIVE specifiche per predire il numero di set
+# Ispirate a come i bookmaker calcolano le quote: probabilità implicita,
+# dominanza al servizio/risposta, competitività della partita
 SET_PRED_FEATURES = [
     'combined_straight_rate',   # media tasso partite in 2-set di entrambi
     'min_straight_rate',        # il giocatore che meno "chiude in 2"
@@ -218,6 +211,20 @@ SET_PRED_FEATURES = [
     'both_top20',               # entrambi top20 (partite più combattute)
     'both_top50',               # entrambi top50
     'rank_tier_same',           # stessa fascia di ranking (0..1)
+    # ── Bookmaker-inspired features ──────────────────────────────────────
+    'implied_prob_favorite',    # P(favorite vince) da Elo — come le quote
+    'serve_dominance_w',        # ace + 1stWon + 2ndWon combinato (winner)
+    'serve_dominance_l',        # ace + 1stWon + 2ndWon combinato (loser)
+    'serve_dominance_diff',     # differenza dominanza servizio
+    'return_strength_diff',     # differenza forza in risposta
+    'serve_hold_proxy',         # proxy per % di turni tenuti (servizio forte vs risposta avversario)
+    'break_potential',          # potenziale di break: return_pct vs serve weakness
+    'match_competitiveness',    # combinazione di closeness + entrambi buoni al servizio
+    'upset_potential',          # alta closeness + basso ranking ratio → possibile upset
+    'fatigue_combined',         # abs(fatigue) — partite recenti di entrambi
+    'h2h_intensity',            # |h2h| — rivalità diretta
+    'surface_specialist_gap',   # differenza skill sulla superficie
+    'momentum_combined',        # abs(momentum diff) — chi è in forma
 ]
 
 ALL_FEATURES = CLF_FEATURES + GAME_FEATURES + SET_PRED_FEATURES
@@ -624,6 +631,35 @@ def prepare_game_dataset(csv_path: str):
             'both_top20':              1.0 if (rk_w <= 20 and rk_l <= 20) else 0.0,
             'both_top50':              1.0 if (rk_w <= 50 and rk_l <= 50) else 0.0,
             'rank_tier_same':          1.0 if abs(rk_w - rk_l) <= max(0.2 * min(rk_w, rk_l), 10) else 0.0,
+
+            # ── Bookmaker-inspired features ──────────────────────────────
+            # Probabilità implicita del favorito (come le quote dei bookmaker)
+            'implied_prob_favorite':   1.0 / (1.0 + 10 ** (-(elo_w - elo_l) / 400.0)),
+            # Dominanza al servizio: combinazione di ace, 1st won, 2nd won
+            'serve_dominance_w':       sa_w['ace'] * 0.3 + sa_w['1st_won'] * 0.4 + sa_w['2nd_won'] * 0.3,
+            'serve_dominance_l':       sa_l['ace'] * 0.3 + sa_l['1st_won'] * 0.4 + sa_l['2nd_won'] * 0.3,
+            'serve_dominance_diff':    (sa_w['ace'] * 0.3 + sa_w['1st_won'] * 0.4 + sa_w['2nd_won'] * 0.3)
+                                       - (sa_l['ace'] * 0.3 + sa_l['1st_won'] * 0.4 + sa_l['2nd_won'] * 0.3),
+            # Forza in risposta
+            'return_strength_diff':    ra_w['return_pct'] - ra_l['return_pct'],
+            # Proxy per hold %: servizio forte vs risposta avversario
+            'serve_hold_proxy':        (sa_w['1st_won'] + sa_w['2nd_won']) / 2.0 - ra_l['return_pct'],
+            # Potenziale di break: return vs serve weakness dell'avversario
+            'break_potential':         (ra_w['bp_conv'] + ra_l['bp_conv']) / 2.0,
+            # Competitività: partita equilibrata + entrambi buoni al servizio
+            'match_competitiveness':   (1.0 - min(abs(elo_w - elo_l) / 400.0, 1.0))
+                                       * ((sa_w['1st_won'] + sa_l['1st_won']) / 2.0),
+            # Potenziale upset: alta closeness + ranking simili
+            'upset_potential':         (1.0 - min(abs(elo_w - elo_l) / 400.0, 1.0))
+                                       * min(rk_w, rk_l) / max(rk_w, rk_l, 1),
+            # Fatica combinata
+            'fatigue_combined':        abs(f_w) + abs(f_l),
+            # Intensità head-to-head
+            'h2h_intensity':           abs(h2h_w - h2h_l),
+            # Gap specialista superficie
+            'surface_specialist_gap':  abs(sk_w - sk_l),
+            # Momentum combinato
+            'momentum_combined':       abs(mw - ml),
 
             # target + meta
             'total_games':  total_games,
@@ -1132,261 +1168,6 @@ def print_feature_importance(model, feature_names, top_n=20):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 8b.  ANN SET CLASSIFIER  (PyTorch) — FOCUS PRINCIPALE
-# ══════════════════════════════════════════════════════════════════════════════
-
-# Architetture ANN per set classification — molte varianti per Optuna
-SET_ANN_ARCHS = {
-    'tiny':        [32, 16],
-    'small':       [64, 32],
-    'medium':      [128, 64],
-    'deep_sm':     [64, 64, 32],
-    'deep_md':     [128, 64, 32],
-    'deep_lg':     [128, 128, 64],
-    'wide':        [256, 64],
-    'wide_deep':   [256, 128, 64],
-    'xl':          [256, 128, 64, 32],
-    'xxl':         [512, 256, 128, 64],
-    'narrow_deep': [64, 64, 64, 32],
-    'funnel':      [256, 128, 32],
-    'bottle':      [128, 32, 128],  # bottleneck
-}
-
-if HAS_TORCH:
-    class FocalLoss(nn.Module):
-        """Focal Loss per classificazione sbilanciata.
-        Riduce il peso delle predizioni facili, concentra su quelle difficili."""
-        def __init__(self, alpha=None, gamma=2.0, reduction='mean'):
-            super().__init__()
-            self.alpha = alpha  # class weights
-            self.gamma = gamma
-            self.reduction = reduction
-
-        def forward(self, inputs, targets):
-            ce_loss = nn.functional.cross_entropy(inputs, targets, weight=self.alpha,
-                                                   reduction='none')
-            pt = torch.exp(-ce_loss)
-            focal_loss = ((1 - pt) ** self.gamma) * ce_loss
-            if self.reduction == 'mean':
-                return focal_loss.mean()
-            return focal_loss.sum()
-
-    class SetANN(nn.Module):
-        """ANN per classificazione numero di set.
-        MLP con BatchNorm, Dropout, optional residual connections.
-        Modalità 'simple' (MLP puro) o 'wide_deep' (Wide & Deep).
-        """
-        def __init__(self, input_dim: int, n_classes: int,
-                     hidden_layers: list, dropout: float = 0.3,
-                     activation: str = 'relu', use_wide: bool = False):
-            super().__init__()
-            self.n_classes = n_classes
-            self.use_wide = use_wide
-
-            act_fn = {'relu': nn.ReLU, 'gelu': nn.GELU, 'silu': nn.SiLU}
-            self.act = act_fn.get(activation, nn.ReLU)
-
-            # Wide path (optional)
-            if use_wide:
-                self.wide = nn.Linear(input_dim, n_classes)
-
-            # Deep path
-            self.deep_layers = nn.ModuleList()
-            self.deep_norms  = nn.ModuleList()
-            self.deep_drops  = nn.ModuleList()
-            self.deep_acts   = nn.ModuleList()
-
-            prev = input_dim
-            for h in hidden_layers:
-                self.deep_layers.append(nn.Linear(prev, h))
-                self.deep_norms.append(nn.BatchNorm1d(h))
-                self.deep_drops.append(nn.Dropout(dropout))
-                self.deep_acts.append(self.act())
-                prev = h
-
-            self.deep_out = nn.Linear(prev, n_classes)
-
-        def forward(self, x):
-            h = x
-            for layer, norm, drop, act in zip(
-                    self.deep_layers, self.deep_norms,
-                    self.deep_drops, self.deep_acts):
-                h = drop(act(norm(layer(h))))
-
-            out = self.deep_out(h)
-            if self.use_wide:
-                out = out + self.wide(x)
-            return out
-
-    def train_set_ann(model, X_tr, y_tr, X_val, y_val,
-                      epochs=80, lr=1e-3, patience=15, batch_size=512,
-                      weight_decay=1e-4, label_smoothing=0.05,
-                      use_focal=False, focal_gamma=2.0,
-                      use_oversampling=False):
-        """Addestra SetANN con early stopping, class weighting, optional Focal Loss.
-        Usa WeightedRandomSampler per oversampling della classe minoritaria."""
-        model.to(device)
-
-        # Class weights per gestire sbilanciamento
-        classes, counts = np.unique(y_tr, return_counts=True)
-        weights = 1.0 / counts.astype(float)
-        weights = weights / weights.sum() * len(classes)
-        class_w = torch.tensor(weights, dtype=torch.float32).to(device)
-
-        if use_focal:
-            criterion = FocalLoss(alpha=class_w, gamma=focal_gamma)
-        else:
-            criterion = nn.CrossEntropyLoss(weight=class_w, label_smoothing=label_smoothing)
-        criterion_val = nn.CrossEntropyLoss()  # no smoothing/focal per val
-
-        optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer, 'min', factor=0.5, patience=8, min_lr=1e-6)
-
-        X_tr_t = torch.tensor(X_tr, dtype=torch.float32)
-        y_tr_t = torch.tensor(y_tr, dtype=torch.long)
-        X_val_t = torch.tensor(X_val, dtype=torch.float32).to(device)
-        y_val_t = torch.tensor(y_val, dtype=torch.long).to(device)
-
-        dataset = TensorDataset(X_tr_t, y_tr_t)
-
-        if use_oversampling:
-            # WeightedRandomSampler: oversampling della classe minoritaria
-            sample_weights = np.array([weights[c] for c in y_tr])
-            sampler = torch.utils.data.WeightedRandomSampler(
-                sample_weights, len(sample_weights), replacement=True)
-            loader = DataLoader(dataset, batch_size=batch_size, sampler=sampler)
-        else:
-            loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
-
-        best_val = float('inf')
-        best_state = None
-        no_imp = 0
-
-        for ep in range(epochs):
-            model.train()
-            for Xb, yb in loader:
-                Xb, yb = Xb.to(device), yb.to(device)
-                optimizer.zero_grad()
-                loss = criterion(model(Xb), yb)
-                loss.backward()
-                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-                optimizer.step()
-
-            model.eval()
-            with torch.no_grad():
-                val_logits = model(X_val_t)
-                val_loss = criterion_val(val_logits, y_val_t).item()
-            scheduler.step(val_loss)
-
-            if val_loss < best_val - 1e-5:
-                best_val = val_loss
-                best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
-                no_imp = 0
-            else:
-                no_imp += 1
-                if no_imp >= patience:
-                    break
-
-        if best_state:
-            model.load_state_dict(best_state)
-        model.eval()
-        return model, best_val
-
-    class ANNSetClassifierWrapper:
-        """Wrapper sklearn-compatibile per SetANN (predict, predict_proba)."""
-        def __init__(self, model, scaler):
-            self.model = model
-            self.scaler = scaler
-            self.model.eval()
-
-        def predict(self, X):
-            X_sc = self.scaler.transform(X)
-            X_t = torch.tensor(X_sc, dtype=torch.float32).to(device)
-            with torch.no_grad():
-                logits = self.model(X_t)
-                preds = logits.argmax(dim=1).cpu().numpy()
-            return preds
-
-        def predict_proba(self, X):
-            X_sc = self.scaler.transform(X)
-            X_t = torch.tensor(X_sc, dtype=torch.float32).to(device)
-            with torch.no_grad():
-                logits = self.model(X_t)
-                probs = torch.softmax(logits, dim=1).cpu().numpy()
-            return probs
-
-    def train_set_ann_optuna(X_tr, y_tr, X_val, y_val, n_classes,
-                              n_trials=20, label="Bo3"):
-        """Tuning Optuna INTENSIVO per ANN set classifier.
-        Esplora: architetture, attivazioni, focal loss, dropout, lr, ecc."""
-        if not HAS_OPTUNA:
-            return None, 0.0
-
-        print(f"\n  🧠 ANN Set Classifier [{label}] ({n_trials} trials)...")
-
-        scaler = StandardScaler()
-        X_tr_sc = scaler.fit_transform(X_tr)
-        X_val_sc = scaler.transform(X_val)
-
-        best_wrapper = [None]
-        best_acc = [0.0]
-
-        def objective(trial):
-            arch_name = trial.suggest_categorical('arch', list(SET_ANN_ARCHS.keys()))
-            hl = SET_ANN_ARCHS[arch_name]
-            dr = trial.suggest_float('dropout', 0.05, 0.5, step=0.05)
-            lr = trial.suggest_float('lr', 1e-4, 8e-3, log=True)
-            bs = trial.suggest_categorical('batch_size', [128, 256, 512, 1024])
-            ep = trial.suggest_categorical('epochs', [60, 100, 150, 200])
-            wd = trial.suggest_float('weight_decay', 1e-6, 5e-3, log=True)
-            act = trial.suggest_categorical('activation', ['relu', 'gelu', 'silu'])
-            use_focal = trial.suggest_categorical('focal', [True, False])
-            focal_gamma = trial.suggest_float('focal_gamma', 1.0, 4.0) if use_focal else 2.0
-            sm = 0.0 if use_focal else trial.suggest_float('smoothing', 0.0, 0.15, step=0.02)
-            use_wide = trial.suggest_categorical('wide', [True, False])
-            use_oversamp = trial.suggest_categorical('oversample', [True, False])
-
-            model = SetANN(X_tr_sc.shape[1], n_classes, hl, dr,
-                          activation=act, use_wide=use_wide)
-            model, _ = train_set_ann(model, X_tr_sc, y_tr, X_val_sc, y_val,
-                                      epochs=ep, lr=lr, patience=15,
-                                      batch_size=bs, weight_decay=wd,
-                                      label_smoothing=sm,
-                                      use_focal=use_focal, focal_gamma=focal_gamma,
-                                      use_oversampling=use_oversamp)
-            wrapper = ANNSetClassifierWrapper(model, scaler)
-            preds = wrapper.predict(X_val)
-            acc = accuracy_score(y_val, preds)
-
-            if acc > best_acc[0]:
-                best_acc[0] = acc
-                sc_copy = StandardScaler()
-                sc_copy.mean_ = scaler.mean_.copy()
-                sc_copy.scale_ = scaler.scale_.copy()
-                sc_copy.var_ = scaler.var_.copy()
-                sc_copy.n_features_in_ = scaler.n_features_in_
-                sc_copy.n_samples_seen_ = scaler.n_samples_seen_
-                model_copy = SetANN(X_tr_sc.shape[1], n_classes, hl, dr,
-                                   activation=act, use_wide=use_wide)
-                model_copy.load_state_dict(
-                    {k: v.clone() for k, v in model.state_dict().items()})
-                model_copy.eval()
-                best_wrapper[0] = ANNSetClassifierWrapper(model_copy, sc_copy)
-
-            return acc
-
-        study = optuna.create_study(direction='maximize',
-                                    sampler=optuna.samplers.TPESampler(seed=SEED))
-        study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
-        print(f"     Best val accuracy: {best_acc[0]:.4f}")
-        print(f"     Best params: arch={study.best_params.get('arch')}, "
-              f"dr={study.best_params.get('dropout'):.2f}, "
-              f"lr={study.best_params.get('lr'):.1e}")
-        return best_wrapper[0], best_acc[0]
-
-
-# ══════════════════════════════════════════════════════════════════════════════
 # 9.  SET CLASSIFIER  (Stadio 1) — GBM con Optuna
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -1723,33 +1504,6 @@ if __name__ == '__main__':
                                                  'feat_names': best_set_feats}
                 print(f"     XGB (sel) test acc: {acc_test:.4f}")
 
-        # --- ANN set classifier (con tutte le feature e con le selezionate) ---
-        if HAS_TORCH:
-            print(f"\n  🔹 ANN Set Classifier:")
-
-            # ANN con TUTTE le feature
-            ann_all, ann_acc_all = train_set_ann_optuna(
-                X_tr, y_sets_tr, X_val, y_sets_val,
-                n_classes=n_classes, n_trials=20, label=f"{label}_ANN_all")
-            if ann_all is not None:
-                acc_test = accuracy_score(y_sets_test, ann_all.predict(X_test))
-                set_clf_candidates['ANN_all'] = {'model': ann_all, 'acc': acc_test,
-                                                 'feat_idxs': list(range(len(ALL_FEATURES))),
-                                                 'feat_names': list(ALL_FEATURES)}
-                print(f"     ANN (all) test acc: {acc_test:.4f}")
-
-            # ANN con feature SELEZIONATE
-            if len(set_feat_idxs) < len(ALL_FEATURES):
-                ann_sel, ann_acc_sel = train_set_ann_optuna(
-                    X_set_tr, y_sets_tr, X_set_val, y_sets_val,
-                    n_classes=n_classes, n_trials=20, label=f"{label}_ANN_sel")
-                if ann_sel is not None:
-                    acc_test = accuracy_score(y_sets_test, ann_sel.predict(X_set_test))
-                    set_clf_candidates['ANN_sel'] = {'model': ann_sel, 'acc': acc_test,
-                                                     'feat_idxs': set_feat_idxs,
-                                                     'feat_names': best_set_feats}
-                    print(f"     ANN (sel) test acc: {acc_test:.4f}")
-
         # --- Ensemble Set Classifier (media probabilità di tutti i modelli) ---
         if len(set_clf_candidates) >= 2:
             print(f"\n  🔹 Ensemble Set Classifier (averaging {len(set_clf_candidates)} modelli):")
@@ -1982,14 +1736,6 @@ if __name__ == '__main__':
                 params.pop('early_stopping_rounds', None)
                 set_clf_final = xgb_lib.XGBClassifier(**params)
                 set_clf_final.fit(X_set_all_final, y_sets)
-            elif HAS_TORCH and hasattr(best_set_clf, 'model'):
-                # ANN wrapper — retrain on all data
-                X_set_tr_f, X_set_val_f, y_sets_tr_f, y_sets_val_f = train_test_split(
-                    X_set_all_final, y_sets, test_size=0.1, random_state=SEED, stratify=y_sets)
-                ann_final, _ = train_set_ann_optuna(
-                    X_set_tr_f, y_sets_tr_f, X_set_val_f, y_sets_val_f,
-                    n_classes=n_classes, n_trials=1, label=f"{label}_ANN_final")
-                set_clf_final = ann_final if ann_final is not None else best_set_clf
             else:
                 # Ensemble or other — use as-is (already trained on train set)
                 set_clf_final = best_set_clf
