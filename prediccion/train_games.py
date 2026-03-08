@@ -196,8 +196,11 @@ GAME_FEATURES = [
 ]
 
 # Feature AGGIUNTIVE specifiche per predire il numero di set
-# Ispirate a come i bookmaker calcolano le quote: probabilità implicita,
-# dominanza al servizio/risposta, competitività della partita
+# Ispirate ai modelli dei bookmaker (Pinnacle, Betfair, FiveThirtyEight):
+#   - I bookmaker usano SPW (Serve Points Won %) e RPW (Return Points Won %)
+#     per calcolare P(game) → P(set) → P(match) con il modello Klaassen-Magnus
+#   - SPW e RPW sono le statistiche #1 usate (correlazione > 0.9 con quote)
+#   - Il modello punto-per-punto è lo standard industriale
 SET_PRED_FEATURES = [
     'combined_straight_rate',   # media tasso partite in 2-set di entrambi
     'min_straight_rate',        # il giocatore che meno "chiude in 2"
@@ -211,18 +214,27 @@ SET_PRED_FEATURES = [
     'both_top20',               # entrambi top20 (partite più combattute)
     'both_top50',               # entrambi top50
     'rank_tier_same',           # stessa fascia di ranking (0..1)
-    # ── Bookmaker-inspired features ──────────────────────────────────────
+    # ── Feature BOOKMAKER-CRITICAL (come calcolano le quote) ─────────
+    'w_spw',                    # SPW winner: serve points won % (LA stat #1)
+    'l_spw',                    # SPW loser
+    'spw_diff',                 # differenza SPW (chi serve meglio)
+    'w_rpw',                    # RPW winner: return points won %
+    'l_rpw',                    # RPW loser
+    'rpw_diff',                 # differenza RPW (chi risponde meglio)
+    'w_complete_pct',           # SPW + RPW del winner (forza totale punti)
+    'l_complete_pct',           # SPW + RPW del loser
+    'complete_pct_diff',        # differenza forza totale
+    'hold_vs_break',            # SPW_w - RPW_l: prob di hold del winner contro return del loser
+    'p_game_w',                 # P(game vinto al servizio dal winner) — modello punto
+    'p_game_l',                 # P(game vinto al servizio dal loser)
+    'p_game_diff',              # differenza probabilità game
     'implied_prob_favorite',    # P(favorite vince) da Elo — come le quote
-    'serve_dominance_w',        # ace + 1stWon + 2ndWon combinato (winner)
-    'serve_dominance_l',        # ace + 1stWon + 2ndWon combinato (loser)
-    'serve_dominance_diff',     # differenza dominanza servizio
-    'return_strength_diff',     # differenza forza in risposta
-    'serve_hold_proxy',         # proxy per % di turni tenuti (servizio forte vs risposta avversario)
-    'break_potential',          # potenziale di break: return_pct vs serve weakness
-    'match_competitiveness',    # combinazione di closeness + entrambi buoni al servizio
-    'upset_potential',          # alta closeness + basso ranking ratio → possibile upset
-    'fatigue_combined',         # abs(fatigue) — partite recenti di entrambi
-    'h2h_intensity',            # |h2h| — rivalità diretta
+    'w_ace_rate',               # ace per serve point (winner)
+    'l_ace_rate',               # ace per serve point (loser)
+    'w_df_rate',                # double fault per serve point (winner)
+    'l_df_rate',                # double fault per serve point (loser)
+    'serve_return_balance_w',   # SPW_w - RPW_l: quanto serve meglio vs return avversario
+    'serve_return_balance_l',   # SPW_l - RPW_w: idem per il loser
     'surface_specialist_gap',   # differenza skill sulla superficie
     'momentum_combined',        # abs(momentum diff) — chi è in forma
 ]
@@ -486,12 +498,16 @@ def prepare_game_dataset(csv_path: str):
         # Statistiche servizio medie
         def get_sa(player):
             s = serve_t.get(player, {})
-            return {'ace':     np.mean(s.get('ace',     [0])),
-                    'df':      np.mean(s.get('df',      [0])),
-                    '1st_pct': np.mean(s.get('1st_pct', [0.6])),
-                    '1st_won': np.mean(s.get('1st_won', [0.7])),
-                    '2nd_won': np.mean(s.get('2nd_won', [0.5])),
-                    'bp_saved':np.mean(s.get('bp_saved',[0.6]))}
+            return {'ace':      np.mean(s.get('ace',      [0])),
+                    'df':       np.mean(s.get('df',       [0])),
+                    '1st_pct':  np.mean(s.get('1st_pct',  [0.6])),
+                    '1st_won':  np.mean(s.get('1st_won',  [0.7])),
+                    '2nd_won':  np.mean(s.get('2nd_won',  [0.5])),
+                    'bp_saved': np.mean(s.get('bp_saved', [0.6])),
+                    'spw':      np.mean(s.get('spw',      [0.62])),   # serve points won %
+                    'df_rate':  np.mean(s.get('df_rate',  [0.04])),   # double fault rate
+                    'ace_rate': np.mean(s.get('ace_rate', [0.06])),    # ace rate
+                    }
         sa_w = get_sa(w); sa_l = get_sa(l)
 
         # Return stats
@@ -536,12 +552,24 @@ def prepare_game_dataset(csv_path: str):
             svpt = rd.get(f'{pref}_svpt', np.nan); fi = rd.get(f'{pref}_1stIn', np.nan)
             fw = rd.get(f'{pref}_1stWon', np.nan); sw = rd.get(f'{pref}_2ndWon', np.nan)
             bps = rd.get(f'{pref}_bpSaved', np.nan); bpf = rd.get(f'{pref}_bpFaced', np.nan)
-            for k2, v in [('ace', rd.get(f'{pref}_ace', np.nan)),
-                          ('df', rd.get(f'{pref}_df', np.nan)),
+            ace = rd.get(f'{pref}_ace', np.nan); dfs = rd.get(f'{pref}_df', np.nan)
+            for k2, v in [('ace', ace),
+                          ('df', dfs),
                           ('1st_pct', fi / svpt if svpt and svpt > 0 else np.nan),
                           ('1st_won', fw / fi if fi and fi > 0 else np.nan),
                           ('2nd_won', sw / (svpt - fi) if svpt and fi and (svpt - fi) > 0 else np.nan),
-                          ('bp_saved', bps / bpf if bpf and bpf > 0 else np.nan)]:
+                          ('bp_saved', bps / bpf if bpf and bpf > 0 else np.nan),
+                          # SPW: % punti vinti al servizio (LA feature #1 dei bookmaker)
+                          ('spw', (fw + sw) / svpt if svpt and svpt > 0 and
+                           not (isinstance(fw, float) and np.isnan(fw)) and
+                           not (isinstance(sw, float) and np.isnan(sw)) else np.nan),
+                          # DF rate: double faults / serve points
+                          ('df_rate', dfs / svpt if svpt and svpt > 0 and
+                           not (isinstance(dfs, float) and np.isnan(dfs)) else np.nan),
+                          # Ace rate: aces / serve points
+                          ('ace_rate', ace / svpt if svpt and svpt > 0 and
+                           not (isinstance(ace, float) and np.isnan(ace)) else np.nan),
+                          ]:
                 if not (isinstance(v, float) and np.isnan(v)):
                     lst = s.setdefault(k2, [])
                     lst.append(float(v))
@@ -632,30 +660,35 @@ def prepare_game_dataset(csv_path: str):
             'both_top50':              1.0 if (rk_w <= 50 and rk_l <= 50) else 0.0,
             'rank_tier_same':          1.0 if abs(rk_w - rk_l) <= max(0.2 * min(rk_w, rk_l), 10) else 0.0,
 
-            # ── Bookmaker-inspired features ──────────────────────────────
-            # Probabilità implicita del favorito (come le quote dei bookmaker)
+            # ── Feature BOOKMAKER-CRITICAL (SPW, RPW, P(game)) ────────────
+            # SPW = Serve Points Won % — LA statistica #1 dei bookmaker
+            'w_spw':                   sa_w['spw'],
+            'l_spw':                   sa_l['spw'],
+            'spw_diff':                sa_w['spw'] - sa_l['spw'],
+            # RPW = Return Points Won % (= 1 - opponent SPW, tracked as return_pct)
+            'w_rpw':                   ra_w['return_pct'],
+            'l_rpw':                   ra_l['return_pct'],
+            'rpw_diff':                ra_w['return_pct'] - ra_l['return_pct'],
+            # Complete % = SPW + RPW (forza totale di un giocatore)
+            'w_complete_pct':          sa_w['spw'] + ra_w['return_pct'],
+            'l_complete_pct':          sa_l['spw'] + ra_l['return_pct'],
+            'complete_pct_diff':       (sa_w['spw'] + ra_w['return_pct']) - (sa_l['spw'] + ra_l['return_pct']),
+            # Hold vs Break: SPW_w vs RPW_l — quanto è probabile che il winner tenga il servizio
+            'hold_vs_break':           sa_w['spw'] - ra_l['return_pct'],
+            # P(game) approssimato: p^4 / (p^4 + (1-p)^4) — modello punto Klaassen-Magnus
+            'p_game_w':                sa_w['spw']**4 / (sa_w['spw']**4 + (1-sa_w['spw'])**4 + 1e-9),
+            'p_game_l':                sa_l['spw']**4 / (sa_l['spw']**4 + (1-sa_l['spw'])**4 + 1e-9),
+            'p_game_diff':             (sa_w['spw']**4 / (sa_w['spw']**4 + (1-sa_w['spw'])**4 + 1e-9))
+                                       - (sa_l['spw']**4 / (sa_l['spw']**4 + (1-sa_l['spw'])**4 + 1e-9)),
             'implied_prob_favorite':   1.0 / (1.0 + 10 ** (-(elo_w - elo_l) / 400.0)),
-            # Dominanza al servizio: combinazione di ace, 1st won, 2nd won
-            'serve_dominance_w':       sa_w['ace'] * 0.3 + sa_w['1st_won'] * 0.4 + sa_w['2nd_won'] * 0.3,
-            'serve_dominance_l':       sa_l['ace'] * 0.3 + sa_l['1st_won'] * 0.4 + sa_l['2nd_won'] * 0.3,
-            'serve_dominance_diff':    (sa_w['ace'] * 0.3 + sa_w['1st_won'] * 0.4 + sa_w['2nd_won'] * 0.3)
-                                       - (sa_l['ace'] * 0.3 + sa_l['1st_won'] * 0.4 + sa_l['2nd_won'] * 0.3),
-            # Forza in risposta
-            'return_strength_diff':    ra_w['return_pct'] - ra_l['return_pct'],
-            # Proxy per hold %: servizio forte vs risposta avversario
-            'serve_hold_proxy':        (sa_w['1st_won'] + sa_w['2nd_won']) / 2.0 - ra_l['return_pct'],
-            # Potenziale di break: return vs serve weakness dell'avversario
-            'break_potential':         (ra_w['bp_conv'] + ra_l['bp_conv']) / 2.0,
-            # Competitività: partita equilibrata + entrambi buoni al servizio
-            'match_competitiveness':   (1.0 - min(abs(elo_w - elo_l) / 400.0, 1.0))
-                                       * ((sa_w['1st_won'] + sa_l['1st_won']) / 2.0),
-            # Potenziale upset: alta closeness + ranking simili
-            'upset_potential':         (1.0 - min(abs(elo_w - elo_l) / 400.0, 1.0))
-                                       * min(rk_w, rk_l) / max(rk_w, rk_l, 1),
-            # Fatica combinata
-            'fatigue_combined':        abs(f_w) + abs(f_l),
-            # Intensità head-to-head
-            'h2h_intensity':           abs(h2h_w - h2h_l),
+            # Ace/DF rate per serve point
+            'w_ace_rate':              sa_w['ace_rate'],
+            'l_ace_rate':              sa_l['ace_rate'],
+            'w_df_rate':               sa_w['df_rate'],
+            'l_df_rate':               sa_l['df_rate'],
+            # Serve-Return balance: quanto serve meglio vs return avversario
+            'serve_return_balance_w':  sa_w['spw'] - ra_l['return_pct'],
+            'serve_return_balance_l':  sa_l['spw'] - ra_w['return_pct'],
             # Gap specialista superficie
             'surface_specialist_gap':  abs(sk_w - sk_l),
             # Momentum combinato
