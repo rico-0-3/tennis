@@ -54,6 +54,19 @@ from sklearn.pipeline import Pipeline
 
 warnings.filterwarnings("ignore")
 
+# ── PyTorch ──────────────────────────────────────────────────────────────────
+try:
+    import torch
+    import torch.nn as nn
+    from torch.utils.data import TensorDataset, DataLoader
+    HAS_TORCH = True
+    USE_CUDA = torch.cuda.is_available()
+    device = torch.device('cuda' if USE_CUDA else 'cpu')
+    print(f"   ✅ PyTorch disponibile (device={device})")
+except ImportError:
+    HAS_TORCH = False
+    print("   ⚠️ PyTorch non disponibile — ANN set classifier disabilitato")
+
 # ── Court Speed helper ────────────────────────────────────────────────────────
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scraping'))
 try:
@@ -741,6 +754,129 @@ def pca_analysis(X, y, feature_names):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
+# 4b.  FEATURE SELECTION — Test empirico con subset diversi
+# ══════════════════════════════════════════════════════════════════════════════
+
+def feature_selection_analysis(X, y_games, y_sets, feature_names, set_classes, label="Bo3"):
+    """Testa diversi subset di feature per il set classifier e il game regressor.
+    Confronta: top-K (per |r| con target), tutte, solo game-specifiche, solo clf, ecc.
+
+    Restituisce: (best_features_set_clf, best_features_game_reg) — liste nomi feature
+    """
+    print("\n" + "=" * 70)
+    print(f"  🔍  FEATURE SELECTION ANALYSIS — {label}")
+    print("=" * 70)
+
+    kf = KFold(n_splits=5, shuffle=True, random_state=SEED)
+    n_classes = len(set_classes)
+
+    # ── Correlazioni feature ↔ y_sets (per ordinare) ─────────────────────────
+    corrs_set = {}
+    corrs_game = {}
+    for i, fname in enumerate(feature_names):
+        col = X[:, i]
+        valid_s = ~(np.isnan(col) | np.isnan(y_sets.astype(float)))
+        valid_g = ~(np.isnan(col) | np.isnan(y_games))
+        if valid_s.sum() > 100:
+            c = np.corrcoef(col[valid_s], y_sets[valid_s])[0, 1]
+            corrs_set[fname] = abs(c) if not np.isnan(c) else 0.0
+        else:
+            corrs_set[fname] = 0.0
+        if valid_g.sum() > 100:
+            c = np.corrcoef(col[valid_g], y_games[valid_g])[0, 1]
+            corrs_game[fname] = abs(c) if not np.isnan(c) else 0.0
+        else:
+            corrs_game[fname] = 0.0
+
+    # Ordina per correlazione con set e con games
+    ranked_set  = sorted(corrs_set.items(),  key=lambda x: x[1], reverse=True)
+    ranked_game = sorted(corrs_game.items(), key=lambda x: x[1], reverse=True)
+
+    print(f"\n  📊 Top 10 feature per |r| con sets_played:")
+    for i, (fn, r) in enumerate(ranked_set[:10]):
+        print(f"     {i+1:2d}. {fn:30s}  |r|={r:.4f}")
+
+    # ── Definisci subset candidati ───────────────────────────────────────────
+    top_set_names  = {fn for fn, _ in ranked_set}
+    top_game_names = {fn for fn, _ in ranked_game}
+
+    subsets = {}
+    subsets['ALL_46'] = list(feature_names)
+
+    # Top-K per set classifier
+    for k in [8, 12, 18, 25, 35]:
+        if k <= len(feature_names):
+            subsets[f'top{k}_set'] = [fn for fn, _ in ranked_set[:k]]
+
+    # Top-K per game regressor
+    for k in [8, 12, 18, 25, 35]:
+        if k <= len(feature_names):
+            subsets[f'top{k}_game'] = [fn for fn, _ in ranked_game[:k]]
+
+    # Solo game-specifiche
+    subsets['GAME_only'] = [f for f in GAME_FEATURES if f in feature_names]
+
+    # Solo clf + abs (senza direction)
+    subsets['CLF_abs'] = [f for f in CLF_FEATURES if f in feature_names] + \
+                         ['abs_elo_diff', 'abs_rank_ratio']
+
+    # Feature name → index
+    fname_to_idx = {fn: i for i, fn in enumerate(feature_names)}
+
+    # ── Test SET CLASSIFIER con vari subset ──────────────────────────────────
+    print(f"\n  📋 CV accuracy SET CLASSIFIER per subset di feature:")
+
+    set_clf_results = {}
+    for sname, sfeats in subsets.items():
+        idxs = [fname_to_idx[f] for f in sfeats if f in fname_to_idx]
+        if len(idxs) < 3:
+            continue
+        X_sub = X[:, idxs]
+
+        if HAS_LGB:
+            clf = lgb.LGBMClassifier(n_estimators=500, max_depth=7,
+                                     verbosity=-1, random_state=SEED)
+            scores = cross_val_score(clf, X_sub, y_sets, cv=kf,
+                                     scoring='accuracy', n_jobs=-1)
+            acc = scores.mean()
+            set_clf_results[sname] = {'acc': acc, 'std': scores.std(), 'n_feats': len(idxs)}
+            marker = " ⭐" if acc == max(r['acc'] for r in set_clf_results.values()) else ""
+            print(f"    {sname:20s} ({len(idxs):2d} feat)  acc={acc:.4f} ± {scores.std():.4f}{marker}")
+
+    # ── Test GAME REGRESSOR con vari subset ──────────────────────────────────
+    print(f"\n  📋 CV MAE GAME REGRESSOR per subset di feature:")
+
+    game_reg_results = {}
+    for sname, sfeats in subsets.items():
+        idxs = [fname_to_idx[f] for f in sfeats if f in fname_to_idx]
+        if len(idxs) < 3:
+            continue
+        X_sub = X[:, idxs]
+
+        if HAS_LGB:
+            reg = lgb.LGBMRegressor(n_estimators=500, max_depth=7,
+                                    verbosity=-1, random_state=SEED)
+            scores = cross_val_score(reg, X_sub, y_games, cv=kf,
+                                     scoring='neg_mean_absolute_error', n_jobs=-1)
+            mae = -scores.mean()
+            game_reg_results[sname] = {'mae': mae, 'std': scores.std(), 'n_feats': len(idxs)}
+            marker = " ⭐" if mae == min(r['mae'] for r in game_reg_results.values()) else ""
+            print(f"    {sname:20s} ({len(idxs):2d} feat)  MAE={mae:.4f} ± {scores.std():.4f}{marker}")
+
+    # ── Seleziona best subset ────────────────────────────────────────────────
+    best_set_sub = max(set_clf_results, key=lambda k: set_clf_results[k]['acc']) if set_clf_results else 'ALL_46'
+    best_game_sub = min(game_reg_results, key=lambda k: game_reg_results[k]['mae']) if game_reg_results else 'ALL_46'
+
+    best_set_feats = subsets[best_set_sub]
+    best_game_feats = subsets[best_game_sub]
+
+    print(f"\n  🏆 Best set clf subset:  {best_set_sub} ({len(best_set_feats)} feat, acc={set_clf_results.get(best_set_sub, {}).get('acc', 0):.4f})")
+    print(f"  🏆 Best game reg subset: {best_game_sub} ({len(best_game_feats)} feat, MAE={game_reg_results.get(best_game_sub, {}).get('mae', 0):.4f})")
+
+    return best_set_feats, best_game_feats, subsets, set_clf_results, game_reg_results
+
+
+# ══════════════════════════════════════════════════════════════════════════════
 # 5.  MODEL TRAINING & CROSS-VALIDATION
 # ══════════════════════════════════════════════════════════════════════════════
 
@@ -965,7 +1101,211 @@ def print_feature_importance(model, feature_names, top_n=20):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 9.  SET CLASSIFIER  (Stadio 1)
+# 8b.  ANN SET CLASSIFIER  (PyTorch)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Architetture ANN per set classification (più piccole del match predictor)
+SET_ANN_ARCHS = {
+    'small':     [64, 32],
+    'medium':    [128, 64],
+    'deep_sm':   [64, 64, 32],
+    'deep_md':   [128, 64, 32],
+    'wide':      [256, 64],
+    'deep_wide': [256, 128, 64],
+    'xl':        [256, 128, 64, 32],
+}
+
+if HAS_TORCH:
+    class SetANN(nn.Module):
+        """ANN per classificazione numero di set.
+        Wide & Deep con BatchNorm, Dropout, Residual connections.
+        Output: logits per ogni classe (2 per Bo3, 3 per Bo5).
+        """
+        def __init__(self, input_dim: int, n_classes: int,
+                     hidden_layers: list, dropout: float = 0.3):
+            super().__init__()
+            self.n_classes = n_classes
+
+            # Wide path
+            self.wide = nn.Linear(input_dim, n_classes)
+
+            # Deep path con residual connections
+            self.deep_layers = nn.ModuleList()
+            self.deep_norms  = nn.ModuleList()
+            self.deep_drops  = nn.ModuleList()
+            self.res_projs   = nn.ModuleList()
+
+            prev = input_dim
+            for h in hidden_layers:
+                self.deep_layers.append(nn.Linear(prev, h))
+                self.deep_norms.append(nn.BatchNorm1d(h))
+                self.deep_drops.append(nn.Dropout(dropout))
+                self.res_projs.append(nn.Linear(prev, h) if prev != h else nn.Identity())
+                prev = h
+
+            self.deep_out = nn.Linear(prev, n_classes)
+
+        def forward(self, x):
+            wide_out = self.wide(x)
+
+            h = x
+            for layer, norm, drop, res in zip(
+                    self.deep_layers, self.deep_norms,
+                    self.deep_drops, self.res_projs):
+                identity = res(h)
+                h = drop(torch.relu(norm(layer(h)))) + identity
+
+            deep_out = self.deep_out(h)
+            return wide_out + deep_out  # logits
+
+    def train_set_ann(model, X_tr, y_tr, X_val, y_val,
+                      epochs=80, lr=1e-3, patience=12, batch_size=512,
+                      weight_decay=1e-4, label_smoothing=0.05):
+        """Addestra SetANN con early stopping e class weighting."""
+        model.to(device)
+
+        # Class weights per gestire sbilanciamento
+        classes, counts = np.unique(y_tr, return_counts=True)
+        weights = 1.0 / counts.astype(float)
+        weights = weights / weights.sum() * len(classes)
+        class_w = torch.tensor(weights, dtype=torch.float32).to(device)
+
+        criterion = nn.CrossEntropyLoss(weight=class_w, label_smoothing=label_smoothing)
+        criterion_val = nn.CrossEntropyLoss()  # no smoothing per val
+
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+            optimizer, 'min', factor=0.5, patience=5)
+
+        X_tr_t = torch.tensor(X_tr, dtype=torch.float32)
+        y_tr_t = torch.tensor(y_tr, dtype=torch.long)
+        X_val_t = torch.tensor(X_val, dtype=torch.float32).to(device)
+        y_val_t = torch.tensor(y_val, dtype=torch.long).to(device)
+
+        dataset = TensorDataset(X_tr_t, y_tr_t)
+        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+
+        best_val = float('inf')
+        best_state = None
+        no_imp = 0
+
+        for ep in range(epochs):
+            model.train()
+            for Xb, yb in loader:
+                Xb, yb = Xb.to(device), yb.to(device)
+                optimizer.zero_grad()
+                loss = criterion(model(Xb), yb)
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+                optimizer.step()
+
+            model.eval()
+            with torch.no_grad():
+                val_logits = model(X_val_t)
+                val_loss = criterion_val(val_logits, y_val_t).item()
+            scheduler.step(val_loss)
+
+            if val_loss < best_val - 1e-5:
+                best_val = val_loss
+                best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
+                no_imp = 0
+            else:
+                no_imp += 1
+                if no_imp >= patience:
+                    break
+
+        if best_state:
+            model.load_state_dict(best_state)
+        model.eval()
+        return model, best_val
+
+    class ANNSetClassifierWrapper:
+        """Wrapper sklearn-compatibile per SetANN (predict, predict_proba)."""
+        def __init__(self, model, scaler):
+            self.model = model
+            self.scaler = scaler
+            self.model.eval()
+
+        def predict(self, X):
+            X_sc = self.scaler.transform(X)
+            X_t = torch.tensor(X_sc, dtype=torch.float32).to(device)
+            with torch.no_grad():
+                logits = self.model(X_t)
+                preds = logits.argmax(dim=1).cpu().numpy()
+            return preds
+
+        def predict_proba(self, X):
+            X_sc = self.scaler.transform(X)
+            X_t = torch.tensor(X_sc, dtype=torch.float32).to(device)
+            with torch.no_grad():
+                logits = self.model(X_t)
+                probs = torch.softmax(logits, dim=1).cpu().numpy()
+            return probs
+
+    def train_set_ann_optuna(X_tr, y_tr, X_val, y_val, n_classes,
+                              n_trials=10, label="Bo3"):
+        """Tuning Optuna per ANN set classifier."""
+        if not HAS_OPTUNA:
+            return None, 0.0
+
+        print(f"\n  🧠 ANN Set Classifier [{label}] ({n_trials} trials)...")
+
+        scaler = StandardScaler()
+        X_tr_sc = scaler.fit_transform(X_tr)
+        X_val_sc = scaler.transform(X_val)
+
+        best_wrapper = [None]
+        best_acc = [0.0]
+
+        def objective(trial):
+            arch_name = trial.suggest_categorical('arch', list(SET_ANN_ARCHS.keys()))
+            hl = SET_ANN_ARCHS[arch_name]
+            dr = trial.suggest_float('dropout', 0.1, 0.5, step=0.05)
+            lr = trial.suggest_float('lr', 5e-4, 5e-3, log=True)
+            bs = trial.suggest_categorical('batch_size', [256, 512, 1024])
+            ep = trial.suggest_categorical('epochs', [60, 80, 100])
+            sm = trial.suggest_float('smoothing', 0.0, 0.1, step=0.02)
+            wd = trial.suggest_float('weight_decay', 1e-5, 1e-3, log=True)
+
+            model = SetANN(X_tr_sc.shape[1], n_classes, hl, dr)
+            model, _ = train_set_ann(model, X_tr_sc, y_tr, X_val_sc, y_val,
+                                      epochs=ep, lr=lr, patience=12,
+                                      batch_size=bs, weight_decay=wd,
+                                      label_smoothing=sm)
+            wrapper = ANNSetClassifierWrapper(model, scaler)
+            preds = wrapper.predict(X_val)
+            acc = accuracy_score(y_val, preds)
+
+            if acc > best_acc[0]:
+                best_acc[0] = acc
+                # Deep copy: create fresh scaler + model
+                import copy
+                sc_copy = StandardScaler()
+                sc_copy.mean_ = scaler.mean_.copy()
+                sc_copy.scale_ = scaler.scale_.copy()
+                sc_copy.var_ = scaler.var_.copy()
+                sc_copy.n_features_in_ = scaler.n_features_in_
+                sc_copy.n_samples_seen_ = scaler.n_samples_seen_
+                model_copy = SetANN(X_tr_sc.shape[1], n_classes, hl, dr)
+                model_copy.load_state_dict(
+                    {k: v.clone() for k, v in model.state_dict().items()})
+                model_copy.eval()
+                best_wrapper[0] = ANNSetClassifierWrapper(model_copy, sc_copy)
+
+            return acc
+
+        study = optuna.create_study(direction='maximize',
+                                    sampler=optuna.samplers.TPESampler(seed=SEED))
+        study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
+        print(f"     Best val accuracy: {best_acc[0]:.4f}")
+        print(f"     Best params: arch={study.best_params.get('arch')}, "
+              f"dr={study.best_params.get('dropout'):.2f}, "
+              f"lr={study.best_params.get('lr'):.1e}")
+        return best_wrapper[0], best_acc[0]
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 9.  SET CLASSIFIER  (Stadio 1) — GBM con Optuna
 # ══════════════════════════════════════════════════════════════════════════════
 
 def train_set_classifier_optuna(X_tr, y_tr, X_val, y_val, n_classes,
@@ -1114,25 +1454,29 @@ def train_conditional_regressor(X, y, n_trials=10, label="2-set"):
 # 11.  HIERARCHICAL PREDICTION
 # ══════════════════════════════════════════════════════════════════════════════
 
-def predict_hierarchical(set_clf, cond_regressors, X, set_classes):
+def predict_hierarchical(set_clf, cond_regressors, X_set, set_classes,
+                         X_game=None):
     """Predizione gerarchica: P(n_set) × E[games | n_set].
 
     set_clf: classificatore che restituisce probabilità per ogni classe
-    cond_regressors: dict {set_count: regressor}
-    X: features matrix
+    cond_regressors: dict {set_count: regressor} (trained on game features)
+    X_set: features matrix for set classifier
     set_classes: lista classi (es. [2, 3] per Bo3)
+    X_game: features matrix for game regressors (if None, uses X_set)
     """
+    X_reg = X_game if X_game is not None else X_set
+
     # Probabilità per ogni numero di set
-    set_probs = set_clf.predict_proba(X)  # shape (N, n_classes)
+    set_probs = set_clf.predict_proba(X_set)  # shape (N, n_classes)
 
     # Predizione condizionale per ogni numero di set
-    y_pred = np.zeros(len(X))
+    y_pred = np.zeros(len(X_set))
     for i, set_count in enumerate(set_classes):
         if set_count in cond_regressors and cond_regressors[set_count] is not None:
-            cond_pred = cond_regressors[set_count].predict(X)
+            cond_pred = cond_regressors[set_count].predict(X_reg)
         else:
             # Fallback: usa la media storica per quel numero di set
-            cond_pred = np.full(len(X), set_count * 10.0)  # approssimazione
+            cond_pred = np.full(len(X_set), set_count * 10.0)
 
         y_pred += set_probs[:, i] * cond_pred
 
@@ -1203,15 +1547,39 @@ if __name__ == '__main__':
         # ── Feature analysis ─────────────────────────────────────────────────
         analyze_features(X_all, y_games, ALL_FEATURES)
 
+        # ── Feature selection analysis ───────────────────────────────────────
+        best_set_feats, best_game_feats, fs_subsets, fs_set_res, fs_game_res = \
+            feature_selection_analysis(X_all, y_games, y_sets, ALL_FEATURES,
+                                       set_classes, label=label)
+
+        # Indici delle feature selezionate
+        fname_to_idx = {fn: i for i, fn in enumerate(ALL_FEATURES)}
+        set_feat_idxs  = [fname_to_idx[f] for f in best_set_feats  if f in fname_to_idx]
+        game_feat_idxs = [fname_to_idx[f] for f in best_game_feats if f in fname_to_idx]
+
+        # Dati con feature selezionate
+        X_set_all  = X_all[:, set_feat_idxs]
+        X_game_all = X_all[:, game_feat_idxs]
+
         # ── Split: 70% train, 15% val, 15% test ─────────────────────────────
-        X_tr, X_tmp, y_games_tr, y_games_tmp, y_sets_tr, y_sets_tmp = train_test_split(
-            X_all, y_games, y_sets, test_size=0.30, random_state=SEED, stratify=y_sets)
-        X_val, X_test, y_games_val, y_games_test, y_sets_val, y_sets_test = train_test_split(
-            X_tmp, y_games_tmp, y_sets_tmp, test_size=0.50, random_state=SEED, stratify=y_sets_tmp)
+        # Split con le feature complete (per poter estrarre sottoinsiemi)
+        indices = np.arange(len(X_all))
+        idx_tr, idx_tmp, y_games_tr, y_games_tmp, y_sets_tr, y_sets_tmp = train_test_split(
+            indices, y_games, y_sets, test_size=0.30, random_state=SEED, stratify=y_sets)
+        idx_val, idx_test, y_games_val, y_games_test, y_sets_val, y_sets_test = train_test_split(
+            idx_tmp, y_games_tmp, y_sets_tmp, test_size=0.50, random_state=SEED, stratify=y_sets_tmp)
+
+        # Feature complete
+        X_tr = X_all[idx_tr]; X_val = X_all[idx_val]; X_test = X_all[idx_test]
+        # Feature selezionate per set classifier
+        X_set_tr = X_set_all[idx_tr]; X_set_val = X_set_all[idx_val]; X_set_test = X_set_all[idx_test]
+        # Feature selezionate per game regressor
+        X_game_tr = X_game_all[idx_tr]; X_game_val = X_game_all[idx_val]; X_game_test = X_game_all[idx_test]
 
         y_sets_raw_test = np.array([set_classes[i] for i in y_sets_test])
 
         print(f"\n  Split: train={len(X_tr)}, val={len(X_val)}, test={len(X_test)}")
+        print(f"         Set clf features: {len(set_feat_idxs)}, Game reg features: {len(game_feat_idxs)}")
 
         # ══════════════════════════════════════════════════════════════════════
         # STADIO 1: CLASSIFICATORE SET
@@ -1225,91 +1593,118 @@ if __name__ == '__main__':
         baseline_acc = np.mean(y_sets_test == majority_class)
         print(f"  📏 Baseline (majority class={set_classes[majority_class]}): accuracy={baseline_acc:.1%}")
 
-        # LightGBM set classifier
-        lgb_set_clf, lgb_set_acc = train_set_classifier_optuna(
+        # Train set classifiers with ALL features AND selected features
+        set_clf_candidates = {}
+
+        # --- ALL features ---
+        print(f"\n  🔹 Con TUTTE le feature ({len(ALL_FEATURES)}):")
+        lgb_set_all, lgb_set_acc_all = train_set_classifier_optuna(
             X_tr, y_sets_tr, X_val, y_sets_val,
-            n_classes=n_classes, n_trials=TRIALS_GBM, label=label)
+            n_classes=n_classes, n_trials=TRIALS_GBM, label=f"{label}_all")
+        if lgb_set_all is not None:
+            acc_test = accuracy_score(y_sets_test, lgb_set_all.predict(X_test))
+            set_clf_candidates['LGB_all'] = {'model': lgb_set_all, 'acc': acc_test,
+                                             'feat_idxs': list(range(len(ALL_FEATURES))),
+                                             'feat_names': list(ALL_FEATURES)}
+            print(f"     LGB (all) test acc: {acc_test:.4f}")
 
-        # XGBoost set classifier
-        xgb_set_clf, xgb_set_acc = train_set_classifier_xgb(
+        xgb_set_all, xgb_set_acc_all = train_set_classifier_xgb(
             X_tr, y_sets_tr, X_val, y_sets_val,
-            n_classes=n_classes, n_trials=TRIALS_GBM, label=label)
+            n_classes=n_classes, n_trials=TRIALS_GBM, label=f"{label}_all")
+        if xgb_set_all is not None:
+            acc_test = accuracy_score(y_sets_test, xgb_set_all.predict(X_test))
+            set_clf_candidates['XGB_all'] = {'model': xgb_set_all, 'acc': acc_test,
+                                             'feat_idxs': list(range(len(ALL_FEATURES))),
+                                             'feat_names': list(ALL_FEATURES)}
+            print(f"     XGB (all) test acc: {acc_test:.4f}")
 
-        # Cross-validation for set classifiers
-        print(f"\n  🔄 Set Classifier CV Benchmark:")
-        kf = KFold(n_splits=5, shuffle=True, random_state=SEED)
-        set_clf_models = {}
+        # --- SELECTED features ---
+        if len(set_feat_idxs) < len(ALL_FEATURES):
+            print(f"\n  🔹 Con feature SELEZIONATE ({len(set_feat_idxs)}):")
+            lgb_set_sel, lgb_set_acc_sel = train_set_classifier_optuna(
+                X_set_tr, y_sets_tr, X_set_val, y_sets_val,
+                n_classes=n_classes, n_trials=TRIALS_GBM, label=f"{label}_sel")
+            if lgb_set_sel is not None:
+                acc_test = accuracy_score(y_sets_test, lgb_set_sel.predict(X_set_test))
+                set_clf_candidates['LGB_sel'] = {'model': lgb_set_sel, 'acc': acc_test,
+                                                 'feat_idxs': set_feat_idxs,
+                                                 'feat_names': best_set_feats}
+                print(f"     LGB (sel) test acc: {acc_test:.4f}")
 
-        if HAS_LGB:
-            set_clf_models['LGB_set'] = lgb.LGBMClassifier(
-                n_estimators=800, max_depth=7, verbosity=-1, random_state=SEED)
-        if HAS_XGB:
-            set_clf_models['XGB_set'] = xgb_lib.XGBClassifier(
-                n_estimators=800, max_depth=7, verbosity=0, random_state=SEED)
-        set_clf_models['RF_set'] = RandomForestClassifier(
-            n_estimators=500, max_depth=15, random_state=SEED, n_jobs=-1)
-        set_clf_models['ET_set'] = ExtraTreesClassifier(
-            n_estimators=500, max_depth=15, random_state=SEED, n_jobs=-1)
-        set_clf_models['KNN10_set'] = Pipeline([
-            ('scaler', StandardScaler()),
-            ('model', KNeighborsClassifier(n_neighbors=10, n_jobs=-1))])
-        set_clf_models['GB_set'] = GradientBoostingClassifier(
-            n_estimators=500, max_depth=5, random_state=SEED)
-        set_clf_models['LR_set'] = Pipeline([
-            ('scaler', StandardScaler()),
-            ('model', LogisticRegression(max_iter=2000, random_state=SEED))])
+            xgb_set_sel, xgb_set_acc_sel = train_set_classifier_xgb(
+                X_set_tr, y_sets_tr, X_set_val, y_sets_val,
+                n_classes=n_classes, n_trials=TRIALS_GBM, label=f"{label}_sel")
+            if xgb_set_sel is not None:
+                acc_test = accuracy_score(y_sets_test, xgb_set_sel.predict(X_set_test))
+                set_clf_candidates['XGB_sel'] = {'model': xgb_set_sel, 'acc': acc_test,
+                                                 'feat_idxs': set_feat_idxs,
+                                                 'feat_names': best_set_feats}
+                print(f"     XGB (sel) test acc: {acc_test:.4f}")
 
-        for name, clf in set_clf_models.items():
-            try:
-                scores = cross_val_score(clf, X_all, y_sets, cv=kf, scoring='accuracy', n_jobs=-1)
-                print(f"    {name:20s}  acc={scores.mean():.4f} ± {scores.std():.4f}")
-            except Exception as e:
-                print(f"    {name:20s}  ERRORE: {e}")
+        # --- ANN set classifier (con tutte le feature e con le selezionate) ---
+        if HAS_TORCH:
+            print(f"\n  🔹 ANN Set Classifier:")
+
+            # ANN con TUTTE le feature
+            ann_all, ann_acc_all = train_set_ann_optuna(
+                X_tr, y_sets_tr, X_val, y_sets_val,
+                n_classes=n_classes, n_trials=10, label=f"{label}_ANN_all")
+            if ann_all is not None:
+                acc_test = accuracy_score(y_sets_test, ann_all.predict(X_test))
+                set_clf_candidates['ANN_all'] = {'model': ann_all, 'acc': acc_test,
+                                                 'feat_idxs': list(range(len(ALL_FEATURES))),
+                                                 'feat_names': list(ALL_FEATURES)}
+                print(f"     ANN (all) test acc: {acc_test:.4f}")
+
+            # ANN con feature SELEZIONATE
+            if len(set_feat_idxs) < len(ALL_FEATURES):
+                ann_sel, ann_acc_sel = train_set_ann_optuna(
+                    X_set_tr, y_sets_tr, X_set_val, y_sets_val,
+                    n_classes=n_classes, n_trials=10, label=f"{label}_ANN_sel")
+                if ann_sel is not None:
+                    acc_test = accuracy_score(y_sets_test, ann_sel.predict(X_set_test))
+                    set_clf_candidates['ANN_sel'] = {'model': ann_sel, 'acc': acc_test,
+                                                     'feat_idxs': set_feat_idxs,
+                                                     'feat_names': best_set_feats}
+                    print(f"     ANN (sel) test acc: {acc_test:.4f}")
 
         # Select best set classifier
         best_set_clf = None
         best_set_acc_test = 0.0
         set_clf_name = "None"
+        best_set_feat_idxs = list(range(len(ALL_FEATURES)))
+        best_set_feat_names = list(ALL_FEATURES)
 
-        if lgb_set_clf is not None:
-            y_pred = lgb_set_clf.predict(X_test)
-            acc = accuracy_score(y_sets_test, y_pred)
-            print(f"\n  📊 LGB Set Clf test accuracy: {acc:.4f}")
-            if acc > best_set_acc_test:
-                best_set_acc_test = acc
-                best_set_clf = lgb_set_clf
-                set_clf_name = "LGB"
+        if set_clf_candidates:
+            winner_name = max(set_clf_candidates, key=lambda k: set_clf_candidates[k]['acc'])
+            winner = set_clf_candidates[winner_name]
+            best_set_clf = winner['model']
+            best_set_acc_test = winner['acc']
+            set_clf_name = winner_name
+            best_set_feat_idxs = winner['feat_idxs']
+            best_set_feat_names = winner['feat_names']
 
-        if xgb_set_clf is not None:
-            y_pred = xgb_set_clf.predict(X_test)
-            acc = accuracy_score(y_sets_test, y_pred)
-            print(f"  📊 XGB Set Clf test accuracy: {acc:.4f}")
-            if acc > best_set_acc_test:
-                best_set_acc_test = acc
-                best_set_clf = xgb_set_clf
-                set_clf_name = "XGB"
-
-        if best_set_clf is not None:
-            print(f"\n  🏆 Best Set Classifier: {set_clf_name} (acc={best_set_acc_test:.4f}, baseline={baseline_acc:.4f})")
+            print(f"\n  🏆 Best Set Classifier: {set_clf_name} (acc={best_set_acc_test:.4f}, baseline={baseline_acc:.4f}, {len(best_set_feat_idxs)} feats)")
             if hasattr(best_set_clf, 'feature_importances_'):
-                print_feature_importance(best_set_clf, ALL_FEATURES, top_n=15)
+                print_feature_importance(best_set_clf, best_set_feat_names, top_n=15)
         else:
             print(f"\n  ⚠️ Nessun classificatore set addestrato per {label}")
 
         # ══════════════════════════════════════════════════════════════════════
-        # STADIO 2: REGRESSORI CONDIZIONALI
+        # STADIO 2: REGRESSORI CONDIZIONALI (usano feature game-selezionate)
         # ══════════════════════════════════════════════════════════════════════
         print("\n" + "-" * 70)
         print(f"  STADIO 2: Regressori Condizionali per Game — {label}")
+        print(f"            (usando {len(game_feat_idxs)} feature selezionate)")
         print("-" * 70)
 
         cond_regressors = {}
         cond_means = {}
 
         for s_idx, s_count in enumerate(set_classes):
-            mask_all = (y_sets_raw == s_count)
-            X_cond = X_all[df_clean['sets_played'].values == s_count]
-            y_cond = y_games[df_clean['sets_played'].values == s_count]
+            mask = (df_clean['sets_played'].values == s_count)
+            X_cond = X_game_all[mask]
+            y_cond = y_games[mask]
 
             cond_means[s_count] = float(y_cond.mean())
             print(f"\n  --- {s_count}-set matches ({len(X_cond)} samples) ---")
@@ -1324,28 +1719,31 @@ if __name__ == '__main__':
         print(f"  STADIO 3: Valutazione Finale — {label}")
         print("-" * 70)
 
-        # --- A. Direct regression (benchmark) ---
-        print(f"\n  A) Approccio DIRETTO (regressione su total_games):")
+        # Build the correct X for set classifier and game regressor at test time
+        X_set_clf_test = X_test[:, best_set_feat_idxs]
+
+        # --- A. Direct regression (benchmark) — usa feature game-selezionate ---
+        print(f"\n  A) Approccio DIRETTO (regressione su total_games, {len(game_feat_idxs)} feat):")
         lgb_direct, lgb_direct_mae = optuna_tune_lgb_reg(
-            X_tr, y_games_tr, X_val, y_games_val, n_trials=TRIALS_GBM)
+            X_game_tr, y_games_tr, X_game_val, y_games_val, n_trials=TRIALS_GBM)
         xgb_direct, xgb_direct_mae = optuna_tune_xgb_reg(
-            X_tr, y_games_tr, X_val, y_games_val, n_trials=TRIALS_GBM)
+            X_game_tr, y_games_tr, X_game_val, y_games_val, n_trials=TRIALS_GBM)
 
         direct_results = {}
         if lgb_direct is not None:
-            y_pred = lgb_direct.predict(X_test)
+            y_pred = lgb_direct.predict(X_game_test)
             mae = mean_absolute_error(y_games_test, y_pred)
             direct_results['LGB_direct'] = mae
             print(f"     LGB Direct MAE (test): {mae:.4f}")
 
         if xgb_direct is not None:
-            y_pred = xgb_direct.predict(X_test)
+            y_pred = xgb_direct.predict(X_game_test)
             mae = mean_absolute_error(y_games_test, y_pred)
             direct_results['XGB_direct'] = mae
             print(f"     XGB Direct MAE (test): {mae:.4f}")
 
         if lgb_direct is not None and xgb_direct is not None:
-            y_avg = (lgb_direct.predict(X_test) + xgb_direct.predict(X_test)) / 2
+            y_avg = (lgb_direct.predict(X_game_test) + xgb_direct.predict(X_game_test)) / 2
             mae_avg = mean_absolute_error(y_games_test, y_avg)
             direct_results['Avg_direct'] = mae_avg
             print(f"     Avg Direct MAE (test): {mae_avg:.4f}")
@@ -1360,13 +1758,15 @@ if __name__ == '__main__':
 
         if best_set_clf is not None:
             # Use predicted set probabilities × conditional regressors
-            y_hier = predict_hierarchical(best_set_clf, cond_regressors, X_test, set_classes)
+            y_hier = predict_hierarchical(best_set_clf, cond_regressors,
+                                          X_set_clf_test, set_classes,
+                                          X_game=X_game_test)
             mae_hier = mean_absolute_error(y_games_test, y_hier)
             hier_results['Hierarchical'] = mae_hier
             print(f"     Hierarchical MAE (test): {mae_hier:.4f}")
 
             # Also try: use predicted set probabilities × conditional MEANS
-            set_probs = best_set_clf.predict_proba(X_test)
+            set_probs = best_set_clf.predict_proba(X_set_clf_test)
             y_hier_mean = np.zeros(len(X_test))
             for i, s_count in enumerate(set_classes):
                 y_hier_mean += set_probs[:, i] * cond_means[s_count]
@@ -1377,11 +1777,11 @@ if __name__ == '__main__':
             # Hybrid: average of hierarchical + direct
             if best_direct_name:
                 if best_direct_name == 'Avg_direct' and lgb_direct is not None and xgb_direct is not None:
-                    y_direct_best = (lgb_direct.predict(X_test) + xgb_direct.predict(X_test)) / 2
+                    y_direct_best = (lgb_direct.predict(X_game_test) + xgb_direct.predict(X_game_test)) / 2
                 elif best_direct_name == 'LGB_direct' and lgb_direct is not None:
-                    y_direct_best = lgb_direct.predict(X_test)
+                    y_direct_best = lgb_direct.predict(X_game_test)
                 elif best_direct_name == 'XGB_direct' and xgb_direct is not None:
-                    y_direct_best = xgb_direct.predict(X_test)
+                    y_direct_best = xgb_direct.predict(X_game_test)
                 else:
                     y_direct_best = None
 
@@ -1411,7 +1811,7 @@ if __name__ == '__main__':
         for i, s_count in enumerate(set_classes):
             mask = (y_sets_test == i)
             if mask.any() and s_count in cond_regressors and cond_regressors[s_count] is not None:
-                y_oracle[mask] = cond_regressors[s_count].predict(X_test[mask])
+                y_oracle[mask] = cond_regressors[s_count].predict(X_game_test[mask])
             else:
                 y_oracle[mask] = cond_means.get(s_count, y_games_test[mask].mean())
         mae_oracle = mean_absolute_error(y_games_test, y_oracle)
@@ -1442,31 +1842,32 @@ if __name__ == '__main__':
         # ── Re-train best models on ALL data ─────────────────────────────────
         print(f"\n  🚀 Re-training modelli finali su TUTTI i dati {label}...")
 
-        # Re-train set classifier on all data
+        # Re-train set classifier on all data (with selected features)
         set_clf_final = None
         if best_set_clf is not None:
+            X_set_all_final = X_all[:, best_set_feat_idxs]
             if isinstance(best_set_clf, lgb.LGBMClassifier):
                 set_clf_final = lgb.LGBMClassifier(**best_set_clf.get_params())
             else:
                 params = best_set_clf.get_params()
                 params.pop('early_stopping_rounds', None)
                 set_clf_final = xgb_lib.XGBClassifier(**params)
-            set_clf_final.fit(X_all, y_sets)
+            set_clf_final.fit(X_set_all_final, y_sets)
 
         # Re-train conditional regressors on all data (already done in train_conditional_regressor)
         # They were trained on the full subset for each set count
 
-        # Re-train direct regressors
+        # Re-train direct regressors (with game-selected features)
         lgb_direct_final = None
         xgb_direct_final = None
         if lgb_direct is not None:
             lgb_direct_final = lgb.LGBMRegressor(**lgb_direct.get_params())
-            lgb_direct_final.fit(X_all, y_games)
+            lgb_direct_final.fit(X_game_all, y_games)
         if xgb_direct is not None:
             xgb_params = xgb_direct.get_params()
             xgb_params.pop('early_stopping_rounds', None)
             xgb_direct_final = xgb_lib.XGBRegressor(**xgb_params)
-            xgb_direct_final.fit(X_all, y_games)
+            xgb_direct_final.fit(X_game_all, y_games)
 
         # Determine best_alpha for hybrid
         best_alpha_final = 0.5  # default
@@ -1484,6 +1885,8 @@ if __name__ == '__main__':
             'set_classifier': set_clf_final,
             'set_classifier_name': set_clf_name,
             'set_accuracy': best_set_acc_test,
+            'set_feat_names': best_set_feat_names,
+            'game_feat_names': best_game_feats,
             'cond_regressors': cond_regressors,
             'cond_means': cond_means,
             'lgb_direct': lgb_direct_final,
@@ -1515,6 +1918,8 @@ if __name__ == '__main__':
                 'set_classifier': info['set_classifier'],
                 'set_classifier_name': info['set_classifier_name'],
                 'set_accuracy': info['set_accuracy'],
+                'set_feat_names': info['set_feat_names'],
+                'game_feat_names': info['game_feat_names'],
                 'cond_regressors': info['cond_regressors'],
                 'cond_means': info['cond_means'],
                 'lgb_direct': info['lgb_direct'],
