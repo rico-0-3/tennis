@@ -1241,7 +1241,7 @@ if HAS_TORCH:
 
         optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer, 'min', factor=0.5, patience=8, min_lr=lr * 0.01)
+            optimizer, 'min', factor=0.5, patience=8, min_lr=1e-6)
 
         X_tr_t = torch.tensor(X_tr, dtype=torch.float32)
         y_tr_t = torch.tensor(y_tr, dtype=torch.long)
