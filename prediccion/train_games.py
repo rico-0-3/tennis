@@ -1,22 +1,25 @@
 """
-train_games.py — Predizione Numero Totale di Game per Partita
-=============================================================
+train_games.py — Predizione Numero di Set e Totale Game per Partita
+====================================================================
 Modello SEPARATO e INDIPENDENTE dal modello di classificazione (train_ann.py).
 NON modifica nessun file .pkl esistente.
 
 Target: Predirre total_games con MAE ≤ 4
 
-Approccio DIRETTO (senza predirre il numero di set prima):
+Approccio GERARCHICO (2 stadi):
+  STADIO 1: Classificatore set  (Bo3: 2 vs 3 set,  Bo5: 3/4/5 set)
+  STADIO 2: Regressori condizionali per game (uno per ogni n_set)
+  PREDIZIONE FINALE: Σ P(n_set) × E[games | n_set]
+
   ✅ Feature engineering specifiche per game count
   ✅ Feature dei 29 classificatori (riutilizzate, non mirror)
   ✅ ~15 nuove feature game-specifiche (avg games, tiebreak rate, ecc.)
-  ✅ Modelli multipli: LightGBM, XGBoost, Random Forest, ExtraTrees,
-     KNN, BayesianRidge, GradientBoosting, SVR, Bagging, Stacking
-  ✅ PCA analysis
+  ✅ Classificatore set: LightGBM, XGBoost con Optuna tuning
+  ✅ Regressori condizionali: separati per 2-set, 3-set (Bo3), 3/4/5-set (Bo5)
   ✅ Cross-validation 5-fold
   ✅ Feature importance e pair analysis
   ✅ Modelli separati per Bo3 e Bo5
-  ✅ Optuna hyperparameter tuning
+  ✅ Confronto diretto vs gerarchico
 
 UTILIZZO:
     cd prediccion/
@@ -35,14 +38,16 @@ from collections import deque
 
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score, log_loss
 from sklearn.ensemble import (
     RandomForestRegressor, ExtraTreesRegressor,
     GradientBoostingRegressor, BaggingRegressor,
-    StackingRegressor, VotingRegressor
+    StackingRegressor, VotingRegressor,
+    RandomForestClassifier, ExtraTreesClassifier,
+    GradientBoostingClassifier,
 )
-from sklearn.linear_model import BayesianRidge, Ridge, ElasticNet
-from sklearn.neighbors import KNeighborsRegressor
+from sklearn.linear_model import BayesianRidge, Ridge, ElasticNet, LogisticRegression
+from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
 from sklearn.svm import SVR
 from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
@@ -578,6 +583,7 @@ def prepare_game_dataset(csv_path: str):
 
             # target + meta
             'total_games':  total_games,
+            'sets_played':  sets_played,
             'tourney_date': float(row['tourney_date']) if pd.notna(row['tourney_date']) else 20200101,
         }
         rows.append(feature_row)
@@ -959,7 +965,182 @@ def print_feature_importance(model, feature_names, top_n=20):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 9.  MAIN PIPELINE
+# 9.  SET CLASSIFIER  (Stadio 1)
+# ══════════════════════════════════════════════════════════════════════════════
+
+def train_set_classifier_optuna(X_tr, y_tr, X_val, y_val, n_classes,
+                                 n_trials=TRIALS_GBM, label="Bo3"):
+    """Addestra classificatore numero di set con Optuna.
+    Bo3: y ∈ {0, 1} (2-set=0, 3-set=1)
+    Bo5: y ∈ {0, 1, 2} (3-set=0, 4-set=1, 5-set=2)
+    """
+    if not HAS_LGB or not HAS_OPTUNA:
+        return None, 0.0
+
+    is_binary = (n_classes == 2)
+    print(f"\n  🎯 Training Set Classifier [{label}] — {'binary' if is_binary else f'{n_classes}-class'}...")
+
+    best_model = [None]
+    best_acc = [0.0]
+
+    def objective(trial):
+        params = {
+            'objective': 'binary' if is_binary else 'multiclass',
+            'metric': 'binary_logloss' if is_binary else 'multi_logloss',
+            'verbosity': -1, 'seed': SEED,
+            'n_estimators': trial.suggest_int('n_estimators', 200, 2000),
+            'learning_rate': trial.suggest_float('lr', 0.005, 0.15, log=True),
+            'max_depth': trial.suggest_int('max_depth', 3, 12),
+            'num_leaves': trial.suggest_int('num_leaves', 15, 200),
+            'min_child_samples': trial.suggest_int('min_child_samples', 5, 100),
+            'subsample': trial.suggest_float('subsample', 0.5, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.3, 1.0),
+            'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 10, log=True),
+            'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 10, log=True),
+        }
+        if not is_binary:
+            params['num_class'] = n_classes
+
+        model = lgb.LGBMClassifier(**params)
+        model.fit(X_tr, y_tr,
+                  eval_set=[(X_val, y_val)],
+                  callbacks=[lgb.early_stopping(50, verbose=False),
+                             lgb.log_evaluation(period=0)])
+        y_pred = model.predict(X_val)
+        acc = accuracy_score(y_val, y_pred)
+        if acc > best_acc[0]:
+            best_acc[0] = acc
+            best_model[0] = model
+        return acc
+
+    study = optuna.create_study(direction='maximize',
+                                sampler=optuna.samplers.TPESampler(seed=SEED))
+    study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
+    print(f"     Best val accuracy: {best_acc[0]:.4f}")
+    return best_model[0], best_acc[0]
+
+
+def train_set_classifier_xgb(X_tr, y_tr, X_val, y_val, n_classes,
+                               n_trials=TRIALS_GBM, label="Bo3"):
+    """XGBoost set classifier con Optuna."""
+    if not HAS_XGB or not HAS_OPTUNA:
+        return None, 0.0
+
+    is_binary = (n_classes == 2)
+    print(f"\n  🌲 XGB Set Classifier [{label}]...")
+
+    best_model = [None]
+    best_acc = [0.0]
+
+    def objective(trial):
+        params = {
+            'objective': 'binary:logistic' if is_binary else 'multi:softprob',
+            'eval_metric': 'logloss' if is_binary else 'mlogloss',
+            'seed': SEED, 'verbosity': 0,
+            'n_estimators': trial.suggest_int('n_estimators', 200, 2000),
+            'learning_rate': trial.suggest_float('lr', 0.005, 0.15, log=True),
+            'max_depth': trial.suggest_int('max_depth', 3, 12),
+            'min_child_weight': trial.suggest_int('min_child_weight', 1, 50),
+            'subsample': trial.suggest_float('subsample', 0.5, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.3, 1.0),
+            'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 10, log=True),
+            'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 10, log=True),
+            'gamma': trial.suggest_float('gamma', 0, 5),
+        }
+        if not is_binary:
+            params['num_class'] = n_classes
+
+        model = xgb_lib.XGBClassifier(**params)
+        model.fit(X_tr, y_tr, eval_set=[(X_val, y_val)], verbose=False)
+        y_pred = model.predict(X_val)
+        acc = accuracy_score(y_val, y_pred)
+        if acc > best_acc[0]:
+            best_acc[0] = acc
+            best_model[0] = model
+        return acc
+
+    study = optuna.create_study(direction='maximize',
+                                sampler=optuna.samplers.TPESampler(seed=SEED))
+    study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
+    print(f"     Best val accuracy: {best_acc[0]:.4f}")
+    return best_model[0], best_acc[0]
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 10.  CONDITIONAL GAME REGRESSOR  (Stadio 2)
+# ══════════════════════════════════════════════════════════════════════════════
+
+def train_conditional_regressor(X, y, n_trials=10, label="2-set"):
+    """Addestra un regressore specifico per partite con N set."""
+    if len(X) < 200:
+        print(f"     ⚠️ Troppo pochi dati per {label} ({len(X)}), skip")
+        return None
+
+    print(f"     Conditional regressor [{label}]: {len(X)} samples, mean={y.mean():.1f}, std={y.std():.1f}")
+
+    X_tr, X_val, y_tr, y_val = train_test_split(X, y, test_size=0.2, random_state=SEED)
+
+    best_model = None
+    best_mae = float('inf')
+
+    if HAS_LGB and HAS_OPTUNA:
+        lgb_model, lgb_mae = optuna_tune_lgb_reg(X_tr, y_tr, X_val, y_val, n_trials=n_trials)
+        if lgb_model is not None and lgb_mae < best_mae:
+            best_mae = lgb_mae
+            best_model = lgb_model
+
+    if HAS_XGB and HAS_OPTUNA:
+        xgb_model, xgb_mae = optuna_tune_xgb_reg(X_tr, y_tr, X_val, y_val, n_trials=n_trials)
+        if xgb_model is not None and xgb_mae < best_mae:
+            best_mae = xgb_mae
+            best_model = xgb_model
+
+    if best_model is not None:
+        # Retrain on all data
+        if isinstance(best_model, lgb.LGBMRegressor):
+            final = lgb.LGBMRegressor(**best_model.get_params())
+        else:
+            params = best_model.get_params()
+            params.pop('early_stopping_rounds', None)
+            final = xgb_lib.XGBRegressor(**params)
+        final.fit(X, y)
+        print(f"     → [{label}] Best MAE (val): {best_mae:.4f}")
+        return final
+
+    return None
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 11.  HIERARCHICAL PREDICTION
+# ══════════════════════════════════════════════════════════════════════════════
+
+def predict_hierarchical(set_clf, cond_regressors, X, set_classes):
+    """Predizione gerarchica: P(n_set) × E[games | n_set].
+
+    set_clf: classificatore che restituisce probabilità per ogni classe
+    cond_regressors: dict {set_count: regressor}
+    X: features matrix
+    set_classes: lista classi (es. [2, 3] per Bo3)
+    """
+    # Probabilità per ogni numero di set
+    set_probs = set_clf.predict_proba(X)  # shape (N, n_classes)
+
+    # Predizione condizionale per ogni numero di set
+    y_pred = np.zeros(len(X))
+    for i, set_count in enumerate(set_classes):
+        if set_count in cond_regressors and cond_regressors[set_count] is not None:
+            cond_pred = cond_regressors[set_count].predict(X)
+        else:
+            # Fallback: usa la media storica per quel numero di set
+            cond_pred = np.full(len(X), set_count * 10.0)  # approssimazione
+
+        y_pred += set_probs[:, i] * cond_pred
+
+    return y_pred
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# 12.  MAIN PIPELINE
 # ══════════════════════════════════════════════════════════════════════════════
 
 if __name__ == '__main__':
@@ -984,196 +1165,364 @@ if __name__ == '__main__':
     print(f"   Bo3 target: mean={df_bo3['total_games'].mean():.1f}, std={df_bo3['total_games'].std():.1f}")
     print(f"   Bo5 target: mean={df_bo5['total_games'].mean():.1f}, std={df_bo5['total_games'].std():.1f}")
 
-    best_models = {}  # {'bo3': (model, mae, features), 'bo5': ...}
+    best_models = {}  # {'bo3': {...}, 'bo5': {...}}
 
-    for label, df_subset in [('Bo3', df_bo3), ('Bo5', df_bo5)]:
+    for label, df_subset, set_classes in [
+        ('Bo3', df_bo3, [2, 3]),
+        ('Bo5', df_bo5, [3, 4, 5]),
+    ]:
         print("\n" + "=" * 80)
-        print(f"  🎾  TRAINING GAME PREDICTION — {label}  ({len(df_subset):,} matches)")
+        print(f"  🎾  TRAINING SET + GAME PREDICTION — {label}  ({len(df_subset):,} matches)")
         print("=" * 80)
 
         if len(df_subset) < 500:
             print(f"  ⚠️ Troppo pochi dati per {label}, skip")
             continue
 
-        X = df_subset[ALL_FEATURES].fillna(0).values
-        y = df_subset['total_games'].values
+        # Filtra solo partite con set validi
+        df_clean = df_subset[df_subset['sets_played'].isin(set_classes)].reset_index(drop=True)
+        print(f"  → Partite con set validi: {len(df_clean):,}")
+
+        X_all = df_clean[ALL_FEATURES].fillna(0).values
+        y_games = df_clean['total_games'].values
+        y_sets_raw = df_clean['sets_played'].values
+
+        # Encode set classes: {2: 0, 3: 1} per Bo3, {3: 0, 4: 1, 5: 2} per Bo5
+        set_to_idx = {s: i for i, s in enumerate(set_classes)}
+        y_sets = np.array([set_to_idx[int(s)] for s in y_sets_raw])
+        n_classes = len(set_classes)
+
+        # Set distribution
+        print(f"\n  📊 Distribuzione set:")
+        for s in set_classes:
+            n = np.sum(y_sets_raw == s)
+            pct = n / len(y_sets_raw) * 100
+            sub_games = y_games[y_sets_raw == s]
+            print(f"     {s}-set: {n:,} ({pct:.1f}%) → games mean={sub_games.mean():.1f}, std={sub_games.std():.1f}")
 
         # ── Feature analysis ─────────────────────────────────────────────────
-        analyze_features(X, y, ALL_FEATURES)
+        analyze_features(X_all, y_games, ALL_FEATURES)
 
-        # ── PCA analysis ─────────────────────────────────────────────────────
-        pca_analysis(X, y, ALL_FEATURES)
+        # ── Split: 70% train, 15% val, 15% test ─────────────────────────────
+        X_tr, X_tmp, y_games_tr, y_games_tmp, y_sets_tr, y_sets_tmp = train_test_split(
+            X_all, y_games, y_sets, test_size=0.30, random_state=SEED, stratify=y_sets)
+        X_val, X_test, y_games_val, y_games_test, y_sets_val, y_sets_test = train_test_split(
+            X_tmp, y_games_tmp, y_sets_tmp, test_size=0.50, random_state=SEED, stratify=y_sets_tmp)
 
-        # ── Cross-validation benchmark ───────────────────────────────────────
+        y_sets_raw_test = np.array([set_classes[i] for i in y_sets_test])
+
+        print(f"\n  Split: train={len(X_tr)}, val={len(X_val)}, test={len(X_test)}")
+
+        # ══════════════════════════════════════════════════════════════════════
+        # STADIO 1: CLASSIFICATORE SET
+        # ══════════════════════════════════════════════════════════════════════
         print("\n" + "-" * 70)
-        print(f"  FASE 1: Cross-Validation Benchmark — {label}")
-        print("-" * 70)
-        base_models = get_base_models()
-        cv_results = cross_validate_models(base_models, X, y, cv=5)
-
-        # Baseline: predict mean
-        mean_mae = mean_absolute_error(y, [y.mean()] * len(y))
-        print(f"\n  📏 Baseline (predict mean={y.mean():.1f}): MAE={mean_mae:.3f}")
-
-        # ── Optuna hyperparameter tuning ─────────────────────────────────────
-        print("\n" + "-" * 70)
-        print(f"  FASE 2: Optuna Hyperparameter Tuning — {label}")
+        print(f"  STADIO 1: Classificatore Set — {label}")
         print("-" * 70)
 
-        X_tr, X_tmp, y_tr, y_tmp = train_test_split(X, y, test_size=0.30, random_state=SEED)
-        X_val, X_test, y_val, y_test = train_test_split(X_tmp, y_tmp, test_size=0.50,
-                                                         random_state=SEED)
-        print(f"  Split: train={len(X_tr)}, val={len(X_val)}, test={len(X_test)}")
+        # Majority baseline
+        majority_class = np.bincount(y_sets_test).argmax()
+        baseline_acc = np.mean(y_sets_test == majority_class)
+        print(f"  📏 Baseline (majority class={set_classes[majority_class]}): accuracy={baseline_acc:.1%}")
 
-        lgb_tuned, lgb_val_mae = optuna_tune_lgb_reg(X_tr, y_tr, X_val, y_val,
-                                                      n_trials=TRIALS_GBM)
-        xgb_tuned, xgb_val_mae = optuna_tune_xgb_reg(X_tr, y_tr, X_val, y_val,
-                                                       n_trials=TRIALS_GBM)
+        # LightGBM set classifier
+        lgb_set_clf, lgb_set_acc = train_set_classifier_optuna(
+            X_tr, y_sets_tr, X_val, y_sets_val,
+            n_classes=n_classes, n_trials=TRIALS_GBM, label=label)
 
-        # ── Evaluate tuned models on test set ────────────────────────────────
-        print(f"\n  📊 Risultati su TEST SET — {label}:")
-        test_results = {}
+        # XGBoost set classifier
+        xgb_set_clf, xgb_set_acc = train_set_classifier_xgb(
+            X_tr, y_sets_tr, X_val, y_sets_val,
+            n_classes=n_classes, n_trials=TRIALS_GBM, label=label)
 
-        if lgb_tuned is not None:
-            y_pred = lgb_tuned.predict(X_test)
-            mae = mean_absolute_error(y_test, y_pred)
-            rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-            test_results['LGB_tuned'] = {'MAE': mae, 'RMSE': rmse, 'model': lgb_tuned}
-            print(f"    LGB Tuned:    MAE={mae:.3f}  RMSE={rmse:.3f}")
-            print_feature_importance(lgb_tuned, ALL_FEATURES)
+        # Cross-validation for set classifiers
+        print(f"\n  🔄 Set Classifier CV Benchmark:")
+        kf = KFold(n_splits=5, shuffle=True, random_state=SEED)
+        set_clf_models = {}
 
-        if xgb_tuned is not None:
-            y_pred = xgb_tuned.predict(X_test)
-            mae = mean_absolute_error(y_test, y_pred)
-            rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-            test_results['XGB_tuned'] = {'MAE': mae, 'RMSE': rmse, 'model': xgb_tuned}
-            print(f"    XGB Tuned:    MAE={mae:.3f}  RMSE={rmse:.3f}")
+        if HAS_LGB:
+            set_clf_models['LGB_set'] = lgb.LGBMClassifier(
+                n_estimators=800, max_depth=7, verbosity=-1, random_state=SEED)
+        if HAS_XGB:
+            set_clf_models['XGB_set'] = xgb_lib.XGBClassifier(
+                n_estimators=800, max_depth=7, verbosity=0, random_state=SEED)
+        set_clf_models['RF_set'] = RandomForestClassifier(
+            n_estimators=500, max_depth=15, random_state=SEED, n_jobs=-1)
+        set_clf_models['ET_set'] = ExtraTreesClassifier(
+            n_estimators=500, max_depth=15, random_state=SEED, n_jobs=-1)
+        set_clf_models['KNN10_set'] = Pipeline([
+            ('scaler', StandardScaler()),
+            ('model', KNeighborsClassifier(n_neighbors=10, n_jobs=-1))])
+        set_clf_models['GB_set'] = GradientBoostingClassifier(
+            n_estimators=500, max_depth=5, random_state=SEED)
+        set_clf_models['LR_set'] = Pipeline([
+            ('scaler', StandardScaler()),
+            ('model', LogisticRegression(max_iter=2000, random_state=SEED))])
 
-        # Top 3 from CV, retrain on full train set
-        top3_cv = list(cv_results.items())[:3]
-        for name, info in top3_cv:
-            if name in ('LightGBM', 'XGBoost'):
-                continue  # Already tuned with Optuna
-            model = get_base_models()[name]
-            if name in NEEDS_SCALING:
-                scaler_m = StandardScaler()
-                X_tr_sc = scaler_m.fit_transform(X_tr)
-                X_test_sc = scaler_m.transform(X_test)
-                model.fit(X_tr_sc, y_tr)
-                y_pred = model.predict(X_test_sc)
-            else:
-                model.fit(X_tr, y_tr)
-                y_pred = model.predict(X_test)
-            mae = mean_absolute_error(y_test, y_pred)
-            rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-            test_results[name] = {'MAE': mae, 'RMSE': rmse, 'model': model}
-            print(f"    {name:20s}  MAE={mae:.3f}  RMSE={rmse:.3f}")
+        for name, clf in set_clf_models.items():
+            try:
+                scores = cross_val_score(clf, X_all, y_sets, cv=kf, scoring='accuracy', n_jobs=-1)
+                print(f"    {name:20s}  acc={scores.mean():.4f} ± {scores.std():.4f}")
+            except Exception as e:
+                print(f"    {name:20s}  ERRORE: {e}")
 
-        # ── Stacking ensemble ────────────────────────────────────────────────
-        stacking_base = {}
-        if lgb_tuned is not None:
-            stacking_base['LGB'] = lgb.LGBMRegressor(**lgb_tuned.get_params())
-        if xgb_tuned is not None:
-            xgb_params = xgb_tuned.get_params()
-            xgb_params.pop('early_stopping_rounds', None)
-            stacking_base['XGB'] = xgb_lib.XGBRegressor(**xgb_params)
-        # Add top CV model if not already included
-        for name, info in top3_cv[:1]:
-            if name not in ('LightGBM', 'XGBoost'):
-                stacking_base[name] = get_base_models()[name]
+        # Select best set classifier
+        best_set_clf = None
+        best_set_acc_test = 0.0
+        set_clf_name = "None"
 
-        if len(stacking_base) >= 2:
-            stacking_model, stacking_mae_val = build_stacking_ensemble(
-                stacking_base, X_tr, y_tr, X_val, y_val)
-            if stacking_model is not None:
-                y_pred = stacking_model.predict(X_test)
-                mae = mean_absolute_error(y_test, y_pred)
-                rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-                test_results['Stacking'] = {'MAE': mae, 'RMSE': rmse, 'model': stacking_model}
-                print(f"    Stacking:     MAE={mae:.3f}  RMSE={rmse:.3f}")
+        if lgb_set_clf is not None:
+            y_pred = lgb_set_clf.predict(X_test)
+            acc = accuracy_score(y_sets_test, y_pred)
+            print(f"\n  📊 LGB Set Clf test accuracy: {acc:.4f}")
+            if acc > best_set_acc_test:
+                best_set_acc_test = acc
+                best_set_clf = lgb_set_clf
+                set_clf_name = "LGB"
 
-        # ── Simple average ensemble ──────────────────────────────────────────
-        if lgb_tuned is not None and xgb_tuned is not None:
-            y_avg = (lgb_tuned.predict(X_test) + xgb_tuned.predict(X_test)) / 2
-            mae_avg = mean_absolute_error(y_test, y_avg)
-            rmse_avg = np.sqrt(mean_squared_error(y_test, y_avg))
-            print(f"    LGB+XGB Avg:  MAE={mae_avg:.3f}  RMSE={rmse_avg:.3f}")
-            # Store as dict for average ensemble
-            test_results['LGB_XGB_Avg'] = {'MAE': mae_avg, 'RMSE': rmse_avg,
-                                           'model': {'lgb': lgb_tuned, 'xgb': xgb_tuned,
-                                                     'type': 'average'}}
+        if xgb_set_clf is not None:
+            y_pred = xgb_set_clf.predict(X_test)
+            acc = accuracy_score(y_sets_test, y_pred)
+            print(f"  📊 XGB Set Clf test accuracy: {acc:.4f}")
+            if acc > best_set_acc_test:
+                best_set_acc_test = acc
+                best_set_clf = xgb_set_clf
+                set_clf_name = "XGB"
 
-        # ── Select best model ────────────────────────────────────────────────
-        if test_results:
-            best_name = min(test_results, key=lambda k: test_results[k]['MAE'])
-            best_info = test_results[best_name]
-            print(f"\n  🏆 Miglior modello {label}: {best_name}")
-            print(f"     MAE  = {best_info['MAE']:.4f}")
-            print(f"     RMSE = {best_info['RMSE']:.4f}")
-
-            # Re-train su tutti i dati
-            print(f"\n  🚀 Re-training {best_name} su TUTTI i dati {label}...")
-            if best_name == 'LGB_XGB_Avg':
-                lgb_final = lgb.LGBMRegressor(**lgb_tuned.get_params())
-                lgb_final.fit(X, y)
-                xgb_params = xgb_tuned.get_params()
-                xgb_params.pop('early_stopping_rounds', None)
-                xgb_final = xgb_lib.XGBRegressor(**xgb_params)
-                xgb_final.fit(X, y)
-                final_model = {'lgb': lgb_final, 'xgb': xgb_final, 'type': 'average'}
-            elif best_name == 'Stacking':
-                # Re-build stacking on all data
-                stacking_final, _ = build_stacking_ensemble(stacking_base, X, y, X_val, y_val)
-                final_model = stacking_final
-            elif best_name == 'LGB_tuned' and lgb_tuned is not None:
-                final_model = lgb.LGBMRegressor(**lgb_tuned.get_params())
-                final_model.fit(X, y)
-            elif best_name == 'XGB_tuned' and xgb_tuned is not None:
-                xgb_params = xgb_tuned.get_params()
-                xgb_params.pop('early_stopping_rounds', None)
-                final_model = xgb_lib.XGBRegressor(**xgb_params)
-                final_model.fit(X, y)
-            elif best_name in NEEDS_SCALING:
-                scaler_final = StandardScaler()
-                X_scaled = scaler_final.fit_transform(X)
-                model_final = get_base_models()[best_name]
-                model_final.fit(X_scaled, y)
-                final_model = Pipeline([('scaler', scaler_final), ('model', model_final)])
-            else:
-                final_model = get_base_models().get(best_name, best_info['model'])
-                if hasattr(final_model, 'fit'):
-                    final_model.fit(X, y)
-
-            best_models[label.lower()] = {
-                'model': final_model,
-                'mae': best_info['MAE'],
-                'rmse': best_info['RMSE'],
-                'model_name': best_name,
-                'features': ALL_FEATURES,
-                'n_samples': len(X),
-            }
+        if best_set_clf is not None:
+            print(f"\n  🏆 Best Set Classifier: {set_clf_name} (acc={best_set_acc_test:.4f}, baseline={baseline_acc:.4f})")
+            if hasattr(best_set_clf, 'feature_importances_'):
+                print_feature_importance(best_set_clf, ALL_FEATURES, top_n=15)
         else:
-            print(f"  ⚠️ Nessun modello valido per {label}")
+            print(f"\n  ⚠️ Nessun classificatore set addestrato per {label}")
+
+        # ══════════════════════════════════════════════════════════════════════
+        # STADIO 2: REGRESSORI CONDIZIONALI
+        # ══════════════════════════════════════════════════════════════════════
+        print("\n" + "-" * 70)
+        print(f"  STADIO 2: Regressori Condizionali per Game — {label}")
+        print("-" * 70)
+
+        cond_regressors = {}
+        cond_means = {}
+
+        for s_idx, s_count in enumerate(set_classes):
+            mask_all = (y_sets_raw == s_count)
+            X_cond = X_all[df_clean['sets_played'].values == s_count]
+            y_cond = y_games[df_clean['sets_played'].values == s_count]
+
+            cond_means[s_count] = float(y_cond.mean())
+            print(f"\n  --- {s_count}-set matches ({len(X_cond)} samples) ---")
+
+            reg = train_conditional_regressor(X_cond, y_cond, n_trials=8, label=f"{s_count}-set")
+            cond_regressors[s_count] = reg
+
+        # ══════════════════════════════════════════════════════════════════════
+        # STADIO 3: VALUTAZIONE
+        # ══════════════════════════════════════════════════════════════════════
+        print("\n" + "-" * 70)
+        print(f"  STADIO 3: Valutazione Finale — {label}")
+        print("-" * 70)
+
+        # --- A. Direct regression (benchmark) ---
+        print(f"\n  A) Approccio DIRETTO (regressione su total_games):")
+        lgb_direct, lgb_direct_mae = optuna_tune_lgb_reg(
+            X_tr, y_games_tr, X_val, y_games_val, n_trials=TRIALS_GBM)
+        xgb_direct, xgb_direct_mae = optuna_tune_xgb_reg(
+            X_tr, y_games_tr, X_val, y_games_val, n_trials=TRIALS_GBM)
+
+        direct_results = {}
+        if lgb_direct is not None:
+            y_pred = lgb_direct.predict(X_test)
+            mae = mean_absolute_error(y_games_test, y_pred)
+            direct_results['LGB_direct'] = mae
+            print(f"     LGB Direct MAE (test): {mae:.4f}")
+
+        if xgb_direct is not None:
+            y_pred = xgb_direct.predict(X_test)
+            mae = mean_absolute_error(y_games_test, y_pred)
+            direct_results['XGB_direct'] = mae
+            print(f"     XGB Direct MAE (test): {mae:.4f}")
+
+        if lgb_direct is not None and xgb_direct is not None:
+            y_avg = (lgb_direct.predict(X_test) + xgb_direct.predict(X_test)) / 2
+            mae_avg = mean_absolute_error(y_games_test, y_avg)
+            direct_results['Avg_direct'] = mae_avg
+            print(f"     Avg Direct MAE (test): {mae_avg:.4f}")
+
+        best_direct_name = min(direct_results, key=direct_results.get) if direct_results else None
+        best_direct_mae = direct_results[best_direct_name] if best_direct_name else float('inf')
+
+        # --- B. Hierarchical: P(set) × E[games|set] ---
+        print(f"\n  B) Approccio GERARCHICO (set classifier → conditional regressors):")
+
+        hier_results = {}
+
+        if best_set_clf is not None:
+            # Use predicted set probabilities × conditional regressors
+            y_hier = predict_hierarchical(best_set_clf, cond_regressors, X_test, set_classes)
+            mae_hier = mean_absolute_error(y_games_test, y_hier)
+            hier_results['Hierarchical'] = mae_hier
+            print(f"     Hierarchical MAE (test): {mae_hier:.4f}")
+
+            # Also try: use predicted set probabilities × conditional MEANS
+            set_probs = best_set_clf.predict_proba(X_test)
+            y_hier_mean = np.zeros(len(X_test))
+            for i, s_count in enumerate(set_classes):
+                y_hier_mean += set_probs[:, i] * cond_means[s_count]
+            mae_hier_mean = mean_absolute_error(y_games_test, y_hier_mean)
+            hier_results['Hierarchical_means'] = mae_hier_mean
+            print(f"     Hierarchical (cond means only) MAE (test): {mae_hier_mean:.4f}")
+
+            # Hybrid: average of hierarchical + direct
+            if best_direct_name:
+                if best_direct_name == 'Avg_direct' and lgb_direct is not None and xgb_direct is not None:
+                    y_direct_best = (lgb_direct.predict(X_test) + xgb_direct.predict(X_test)) / 2
+                elif best_direct_name == 'LGB_direct' and lgb_direct is not None:
+                    y_direct_best = lgb_direct.predict(X_test)
+                elif best_direct_name == 'XGB_direct' and xgb_direct is not None:
+                    y_direct_best = xgb_direct.predict(X_test)
+                else:
+                    y_direct_best = None
+
+                if y_direct_best is not None:
+                    y_hybrid = 0.5 * y_hier + 0.5 * y_direct_best
+                    mae_hybrid = mean_absolute_error(y_games_test, y_hybrid)
+                    hier_results['Hybrid_50_50'] = mae_hybrid
+                    print(f"     Hybrid (50% hier + 50% direct) MAE (test): {mae_hybrid:.4f}")
+
+                    # Try different blend ratios
+                    best_alpha = 0.5
+                    best_blend_mae = mae_hybrid
+                    for alpha in [0.3, 0.4, 0.6, 0.7]:
+                        y_blend = alpha * y_hier + (1 - alpha) * y_direct_best
+                        mae_blend = mean_absolute_error(y_games_test, y_blend)
+                        if mae_blend < best_blend_mae:
+                            best_blend_mae = mae_blend
+                            best_alpha = alpha
+                    y_blend_best = best_alpha * y_hier + (1 - best_alpha) * y_direct_best
+                    mae_blend_final = mean_absolute_error(y_games_test, y_blend_best)
+                    hier_results[f'Hybrid_{int(best_alpha*100)}_{int((1-best_alpha)*100)}'] = mae_blend_final
+                    print(f"     Hybrid (best α={best_alpha:.1f}) MAE (test): {mae_blend_final:.4f}")
+
+        # Oracle: what if we knew the exact number of sets?
+        print(f"\n  C) Oracle (perfetta conoscenza set):")
+        y_oracle = np.zeros(len(X_test))
+        for i, s_count in enumerate(set_classes):
+            mask = (y_sets_test == i)
+            if mask.any() and s_count in cond_regressors and cond_regressors[s_count] is not None:
+                y_oracle[mask] = cond_regressors[s_count].predict(X_test[mask])
+            else:
+                y_oracle[mask] = cond_means.get(s_count, y_games_test[mask].mean())
+        mae_oracle = mean_absolute_error(y_games_test, y_oracle)
+        print(f"     Oracle MAE (perfect set knowledge): {mae_oracle:.4f}")
+
+        # Baseline
+        mean_mae = mean_absolute_error(y_games_test, [y_games.mean()] * len(y_games_test))
+        print(f"\n  📏 Baseline (predict mean={y_games.mean():.1f}): MAE={mean_mae:.3f}")
+
+        # ── Summary & Select Best ────────────────────────────────────────────
+        all_results = {}
+        all_results.update(direct_results)
+        all_results.update(hier_results)
+
+        print(f"\n  📊 RIEPILOGO {label}:")
+        for name, mae in sorted(all_results.items(), key=lambda x: x[1]):
+            marker = "  ✅" if mae <= 4.0 else ""
+            print(f"     {name:35s}  MAE={mae:.4f}{marker}")
+        print(f"     {'Oracle':35s}  MAE={mae_oracle:.4f}  (limite teorico)")
+        print(f"     {'Baseline (predict mean)':35s}  MAE={mean_mae:.4f}")
+
+        # Select the best overall approach
+        best_approach_name = min(all_results, key=all_results.get) if all_results else None
+        best_approach_mae = all_results[best_approach_name] if best_approach_name else float('inf')
+
+        print(f"\n  🏆 Miglior approccio {label}: {best_approach_name} (MAE={best_approach_mae:.4f})")
+
+        # ── Re-train best models on ALL data ─────────────────────────────────
+        print(f"\n  🚀 Re-training modelli finali su TUTTI i dati {label}...")
+
+        # Re-train set classifier on all data
+        set_clf_final = None
+        if best_set_clf is not None:
+            if isinstance(best_set_clf, lgb.LGBMClassifier):
+                set_clf_final = lgb.LGBMClassifier(**best_set_clf.get_params())
+            else:
+                params = best_set_clf.get_params()
+                params.pop('early_stopping_rounds', None)
+                set_clf_final = xgb_lib.XGBClassifier(**params)
+            set_clf_final.fit(X_all, y_sets)
+
+        # Re-train conditional regressors on all data (already done in train_conditional_regressor)
+        # They were trained on the full subset for each set count
+
+        # Re-train direct regressors
+        lgb_direct_final = None
+        xgb_direct_final = None
+        if lgb_direct is not None:
+            lgb_direct_final = lgb.LGBMRegressor(**lgb_direct.get_params())
+            lgb_direct_final.fit(X_all, y_games)
+        if xgb_direct is not None:
+            xgb_params = xgb_direct.get_params()
+            xgb_params.pop('early_stopping_rounds', None)
+            xgb_direct_final = xgb_lib.XGBRegressor(**xgb_params)
+            xgb_direct_final.fit(X_all, y_games)
+
+        # Determine best_alpha for hybrid
+        best_alpha_final = 0.5  # default
+        if best_approach_name and 'Hybrid' in best_approach_name:
+            parts = best_approach_name.split('_')
+            if len(parts) >= 2:
+                try:
+                    best_alpha_final = int(parts[1]) / 100.0
+                except ValueError:
+                    best_alpha_final = 0.5
+
+        best_models[label.lower()] = {
+            'approach': best_approach_name,
+            'mae': best_approach_mae,
+            'set_classifier': set_clf_final,
+            'set_classifier_name': set_clf_name,
+            'set_accuracy': best_set_acc_test,
+            'cond_regressors': cond_regressors,
+            'cond_means': cond_means,
+            'lgb_direct': lgb_direct_final,
+            'xgb_direct': xgb_direct_final,
+            'set_classes': set_classes,
+            'hybrid_alpha': best_alpha_final,
+            'features': ALL_FEATURES,
+            'n_samples': len(X_all),
+            'oracle_mae': mae_oracle,
+        }
 
     # ══════════════════════════════════════════════════════════════════════════
-    # 10.  SAVE FINAL MODEL
+    # 13.  SAVE FINAL MODEL
     # ══════════════════════════════════════════════════════════════════════════
     from datetime import datetime
 
     modelo_games = {
         'trained_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'features': ALL_FEATURES,
+        'approach': 'hierarchical',
     }
 
     for key in ('bo3', 'bo5'):
         if key in best_models:
             info = best_models[key]
             modelo_games[key] = {
-                'model': info['model'],
+                'approach': info['approach'],
                 'mae': info['mae'],
-                'rmse': info['rmse'],
-                'model_name': info['model_name'],
+                'set_classifier': info['set_classifier'],
+                'set_classifier_name': info['set_classifier_name'],
+                'set_accuracy': info['set_accuracy'],
+                'cond_regressors': info['cond_regressors'],
+                'cond_means': info['cond_means'],
+                'lgb_direct': info['lgb_direct'],
+                'xgb_direct': info['xgb_direct'],
+                'set_classes': info['set_classes'],
+                'hybrid_alpha': info['hybrid_alpha'],
                 'n_samples': info['n_samples'],
+                'oracle_mae': info['oracle_mae'],
             }
 
     joblib.dump(modelo_games, 'modelo_games.pkl')
@@ -1188,7 +1537,9 @@ if __name__ == '__main__':
         if key in best_models:
             info = best_models[key]
             status = "✅" if info['mae'] <= 4.0 else "⚠️"
-            print(f"  {status} {key.upper()}: {info['model_name']:20s}  MAE={info['mae']:.4f}  RMSE={info['rmse']:.4f}  ({info['n_samples']} campioni)")
+            print(f"  {status} {key.upper()}: {info['approach']:30s}  MAE={info['mae']:.4f}  ({info['n_samples']} campioni)")
+            print(f"        Set classifier: {info['set_classifier_name']} (acc={info['set_accuracy']:.4f})")
+            print(f"        Oracle MAE: {info['oracle_mae']:.4f}")
         else:
             print(f"  ❌ {key.upper()}: Nessun modello addestrato")
 
