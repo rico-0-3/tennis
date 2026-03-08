@@ -14,9 +14,9 @@ Approccio GERARCHICO (2 stadi):
   ✅ Feature engineering specifiche per game count
   ✅ Feature dei 29 classificatori (riutilizzate, non mirror)
   ✅ ~15 nuove feature game-specifiche (avg games, tiebreak rate, ecc.)
-  ✅ Classificatore set: LightGBM, XGBoost, ANN con Optuna tuning
-  ✅ Regressori condizionali: LGB, XGB, ANN — separati per 2-set, 3-set (Bo3), 3/4/5-set (Bo5)
-  ✅ Regressore diretto: LGB, XGB, ANN + ensemble averaging
+  ✅ Classificatore set: LightGBM, XGBoost, ANN (FocalLoss, GELU/SiLU, 13 architetture) con Optuna
+  ✅ Regressori condizionali: LGB, XGB — separati per 2-set, 3-set (Bo3), 3/4/5-set (Bo5)
+  ✅ Regressore diretto: LGB, XGB + ensemble averaging
   ✅ Cross-validation 5-fold
   ✅ Feature importance e pair analysis
   ✅ Modelli separati per Bo3 e Bo5
@@ -204,7 +204,23 @@ GAME_FEATURES = [
     'surface_avg_games',
 ]
 
-ALL_FEATURES = CLF_FEATURES + GAME_FEATURES
+# Feature AGGIUNTIVE specifiche per predire il numero di set
+SET_PRED_FEATURES = [
+    'combined_straight_rate',   # media tasso partite in 2-set di entrambi
+    'min_straight_rate',        # il giocatore che meno "chiude in 2"
+    'straight_rate_diff',       # differenza tendenza straight-set
+    'combined_3set_rate',       # media tasso 3-set di entrambi
+    'match_closeness',          # quanto la partita è equilibrata (0..1)
+    'closeness_squared',        # match_closeness^2 (non-linearità)
+    'elo_diff_abs_log',         # log1p(|elo_diff|) — cattura non-linearità
+    'rank_closeness',           # 1 / (1 + abs_rank_diff) — decadimento
+    'elo_closeness',            # 1 / (1 + abs_elo_diff)
+    'both_top20',               # entrambi top20 (partite più combattute)
+    'both_top50',               # entrambi top50
+    'rank_tier_same',           # stessa fascia di ranking (0..1)
+]
+
+ALL_FEATURES = CLF_FEATURES + GAME_FEATURES + SET_PRED_FEATURES
 
 
 def prepare_game_dataset(csv_path: str):
@@ -594,6 +610,20 @@ def prepare_game_dataset(csv_path: str):
             'abs_elo_diff':            abs(elo_w - elo_l),
             'abs_rank_ratio':          abs(np.log1p(rk_l) - np.log1p(rk_w)),
             'surface_avg_games':       surf_avg,
+
+            # 12 set-prediction features
+            'combined_straight_rate':  (w_ss_rate + l_ss_rate) / 2.0,
+            'min_straight_rate':       min(w_ss_rate, l_ss_rate),
+            'straight_rate_diff':      abs(w_ss_rate - l_ss_rate),
+            'combined_3set_rate':      1.0 - (w_ss_rate + l_ss_rate) / 2.0,
+            'match_closeness':         1.0 - min(abs(elo_w - elo_l) / 400.0, 1.0),
+            'closeness_squared':       (1.0 - min(abs(elo_w - elo_l) / 400.0, 1.0)) ** 2,
+            'elo_diff_abs_log':        np.log1p(abs(elo_w - elo_l)),
+            'rank_closeness':          1.0 / (1.0 + abs(rk_w - rk_l)),
+            'elo_closeness':           1.0 / (1.0 + abs(elo_w - elo_l) / 100.0),
+            'both_top20':              1.0 if (rk_w <= 20 and rk_l <= 20) else 0.0,
+            'both_top50':              1.0 if (rk_w <= 50 and rk_l <= 50) else 0.0,
+            'rank_tier_same':          1.0 if abs(rk_w - rk_l) <= max(0.2 * min(rk_w, rk_l), 10) else 0.0,
 
             # target + meta
             'total_games':  total_games,
@@ -1102,30 +1132,59 @@ def print_feature_importance(model, feature_names, top_n=20):
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 8b.  ANN SET CLASSIFIER  (PyTorch)
+# 8b.  ANN SET CLASSIFIER  (PyTorch) — FOCUS PRINCIPALE
 # ══════════════════════════════════════════════════════════════════════════════
 
-# Architetture ANN per set classification (più piccole del match predictor)
+# Architetture ANN per set classification — molte varianti per Optuna
 SET_ANN_ARCHS = {
-    'small':     [64, 32],
-    'medium':    [128, 64],
-    'deep_sm':   [64, 64, 32],
-    'deep_md':   [128, 64, 32],
-    'wide':      [256, 64],
-    'deep_wide': [256, 128, 64],
-    'xl':        [256, 128, 64, 32],
+    'tiny':        [32, 16],
+    'small':       [64, 32],
+    'medium':      [128, 64],
+    'deep_sm':     [64, 64, 32],
+    'deep_md':     [128, 64, 32],
+    'deep_lg':     [128, 128, 64],
+    'wide':        [256, 64],
+    'wide_deep':   [256, 128, 64],
+    'xl':          [256, 128, 64, 32],
+    'xxl':         [512, 256, 128, 64],
+    'narrow_deep': [64, 64, 64, 32],
+    'funnel':      [256, 128, 32],
+    'bottle':      [128, 32, 128],  # bottleneck
 }
 
 if HAS_TORCH:
+    class FocalLoss(nn.Module):
+        """Focal Loss per classificazione sbilanciata.
+        Riduce il peso delle predizioni facili, concentra su quelle difficili."""
+        def __init__(self, alpha=None, gamma=2.0, reduction='mean'):
+            super().__init__()
+            self.alpha = alpha  # class weights
+            self.gamma = gamma
+            self.reduction = reduction
+
+        def forward(self, inputs, targets):
+            ce_loss = nn.functional.cross_entropy(inputs, targets, weight=self.alpha,
+                                                   reduction='none')
+            pt = torch.exp(-ce_loss)
+            focal_loss = ((1 - pt) ** self.gamma) * ce_loss
+            if self.reduction == 'mean':
+                return focal_loss.mean()
+            return focal_loss.sum()
+
     class SetANN(nn.Module):
         """ANN per classificazione numero di set.
         Wide & Deep con BatchNorm, Dropout, Residual connections.
+        Supporta varie attivazioni: relu, gelu, silu.
         Output: logits per ogni classe (2 per Bo3, 3 per Bo5).
         """
         def __init__(self, input_dim: int, n_classes: int,
-                     hidden_layers: list, dropout: float = 0.3):
+                     hidden_layers: list, dropout: float = 0.3,
+                     activation: str = 'relu'):
             super().__init__()
             self.n_classes = n_classes
+
+            act_fn = {'relu': nn.ReLU, 'gelu': nn.GELU, 'silu': nn.SiLU}
+            self.act = act_fn.get(activation, nn.ReLU)
 
             # Wide path
             self.wide = nn.Linear(input_dim, n_classes)
@@ -1134,6 +1193,7 @@ if HAS_TORCH:
             self.deep_layers = nn.ModuleList()
             self.deep_norms  = nn.ModuleList()
             self.deep_drops  = nn.ModuleList()
+            self.deep_acts   = nn.ModuleList()
             self.res_projs   = nn.ModuleList()
 
             prev = input_dim
@@ -1141,6 +1201,7 @@ if HAS_TORCH:
                 self.deep_layers.append(nn.Linear(prev, h))
                 self.deep_norms.append(nn.BatchNorm1d(h))
                 self.deep_drops.append(nn.Dropout(dropout))
+                self.deep_acts.append(self.act())
                 self.res_projs.append(nn.Linear(prev, h) if prev != h else nn.Identity())
                 prev = h
 
@@ -1150,19 +1211,20 @@ if HAS_TORCH:
             wide_out = self.wide(x)
 
             h = x
-            for layer, norm, drop, res in zip(
+            for layer, norm, drop, act, res in zip(
                     self.deep_layers, self.deep_norms,
-                    self.deep_drops, self.res_projs):
+                    self.deep_drops, self.deep_acts, self.res_projs):
                 identity = res(h)
-                h = drop(torch.relu(norm(layer(h)))) + identity
+                h = drop(act(norm(layer(h)))) + identity
 
             deep_out = self.deep_out(h)
             return wide_out + deep_out  # logits
 
     def train_set_ann(model, X_tr, y_tr, X_val, y_val,
-                      epochs=80, lr=1e-3, patience=12, batch_size=512,
-                      weight_decay=1e-4, label_smoothing=0.05):
-        """Addestra SetANN con early stopping e class weighting."""
+                      epochs=80, lr=1e-3, patience=15, batch_size=512,
+                      weight_decay=1e-4, label_smoothing=0.05,
+                      use_focal=False, focal_gamma=2.0):
+        """Addestra SetANN con early stopping, class weighting, optional Focal Loss."""
         model.to(device)
 
         # Class weights per gestire sbilanciamento
@@ -1171,12 +1233,15 @@ if HAS_TORCH:
         weights = weights / weights.sum() * len(classes)
         class_w = torch.tensor(weights, dtype=torch.float32).to(device)
 
-        criterion = nn.CrossEntropyLoss(weight=class_w, label_smoothing=label_smoothing)
-        criterion_val = nn.CrossEntropyLoss()  # no smoothing per val
+        if use_focal:
+            criterion = FocalLoss(alpha=class_w, gamma=focal_gamma)
+        else:
+            criterion = nn.CrossEntropyLoss(weight=class_w, label_smoothing=label_smoothing)
+        criterion_val = nn.CrossEntropyLoss()  # no smoothing/focal per val
 
-        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer, 'min', factor=0.5, patience=5)
+        optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(
+            optimizer, T_0=20, T_mult=2, eta_min=lr * 0.01)
 
         X_tr_t = torch.tensor(X_tr, dtype=torch.float32)
         y_tr_t = torch.tensor(y_tr, dtype=torch.long)
@@ -1204,7 +1269,7 @@ if HAS_TORCH:
             with torch.no_grad():
                 val_logits = model(X_val_t)
                 val_loss = criterion_val(val_logits, y_val_t).item()
-            scheduler.step(val_loss)
+            scheduler.step(ep)
 
             if val_loss < best_val - 1e-5:
                 best_val = val_loss
@@ -1244,8 +1309,9 @@ if HAS_TORCH:
             return probs
 
     def train_set_ann_optuna(X_tr, y_tr, X_val, y_val, n_classes,
-                              n_trials=10, label="Bo3"):
-        """Tuning Optuna per ANN set classifier."""
+                              n_trials=20, label="Bo3"):
+        """Tuning Optuna INTENSIVO per ANN set classifier.
+        Esplora: architetture, attivazioni, focal loss, dropout, lr, ecc."""
         if not HAS_OPTUNA:
             return None, 0.0
 
@@ -1261,33 +1327,35 @@ if HAS_TORCH:
         def objective(trial):
             arch_name = trial.suggest_categorical('arch', list(SET_ANN_ARCHS.keys()))
             hl = SET_ANN_ARCHS[arch_name]
-            dr = trial.suggest_float('dropout', 0.1, 0.5, step=0.05)
-            lr = trial.suggest_float('lr', 5e-4, 5e-3, log=True)
-            bs = trial.suggest_categorical('batch_size', [256, 512, 1024])
-            ep = trial.suggest_categorical('epochs', [60, 80, 100])
-            sm = trial.suggest_float('smoothing', 0.0, 0.1, step=0.02)
-            wd = trial.suggest_float('weight_decay', 1e-5, 1e-3, log=True)
+            dr = trial.suggest_float('dropout', 0.05, 0.5, step=0.05)
+            lr = trial.suggest_float('lr', 1e-4, 8e-3, log=True)
+            bs = trial.suggest_categorical('batch_size', [128, 256, 512, 1024])
+            ep = trial.suggest_categorical('epochs', [60, 100, 150, 200])
+            wd = trial.suggest_float('weight_decay', 1e-6, 5e-3, log=True)
+            act = trial.suggest_categorical('activation', ['relu', 'gelu', 'silu'])
+            use_focal = trial.suggest_categorical('focal', [True, False])
+            focal_gamma = trial.suggest_float('focal_gamma', 1.0, 4.0) if use_focal else 2.0
+            sm = 0.0 if use_focal else trial.suggest_float('smoothing', 0.0, 0.15, step=0.02)
 
-            model = SetANN(X_tr_sc.shape[1], n_classes, hl, dr)
+            model = SetANN(X_tr_sc.shape[1], n_classes, hl, dr, activation=act)
             model, _ = train_set_ann(model, X_tr_sc, y_tr, X_val_sc, y_val,
-                                      epochs=ep, lr=lr, patience=12,
+                                      epochs=ep, lr=lr, patience=15,
                                       batch_size=bs, weight_decay=wd,
-                                      label_smoothing=sm)
+                                      label_smoothing=sm,
+                                      use_focal=use_focal, focal_gamma=focal_gamma)
             wrapper = ANNSetClassifierWrapper(model, scaler)
             preds = wrapper.predict(X_val)
             acc = accuracy_score(y_val, preds)
 
             if acc > best_acc[0]:
                 best_acc[0] = acc
-                # Deep copy: create fresh scaler + model
-                import copy
                 sc_copy = StandardScaler()
                 sc_copy.mean_ = scaler.mean_.copy()
                 sc_copy.scale_ = scaler.scale_.copy()
                 sc_copy.var_ = scaler.var_.copy()
                 sc_copy.n_features_in_ = scaler.n_features_in_
                 sc_copy.n_samples_seen_ = scaler.n_samples_seen_
-                model_copy = SetANN(X_tr_sc.shape[1], n_classes, hl, dr)
+                model_copy = SetANN(X_tr_sc.shape[1], n_classes, hl, dr, activation=act)
                 model_copy.load_state_dict(
                     {k: v.clone() for k, v in model.state_dict().items()})
                 model_copy.eval()
@@ -1303,192 +1371,6 @@ if HAS_TORCH:
               f"dr={study.best_params.get('dropout'):.2f}, "
               f"lr={study.best_params.get('lr'):.1e}")
         return best_wrapper[0], best_acc[0]
-
-
-# ══════════════════════════════════════════════════════════════════════════════
-# 8c.  ANN GAME REGRESSOR  (PyTorch)
-# ══════════════════════════════════════════════════════════════════════════════
-
-GAME_ANN_ARCHS = {
-    'small':     [64, 32],
-    'medium':    [128, 64],
-    'deep_sm':   [64, 64, 32],
-    'deep_md':   [128, 64, 32],
-    'wide':      [256, 64],
-    'deep_wide': [256, 128, 64],
-    'xl':        [256, 128, 64, 32],
-}
-
-if HAS_TORCH:
-    class GameANN(nn.Module):
-        """ANN per regressione numero game.
-        Wide & Deep con BatchNorm, Dropout, Residual connections.
-        Output: singolo valore (total_games predetto).
-        """
-        def __init__(self, input_dim: int, hidden_layers: list,
-                     dropout: float = 0.3):
-            super().__init__()
-
-            # Wide path
-            self.wide = nn.Linear(input_dim, 1)
-
-            # Deep path con residual connections
-            self.deep_layers = nn.ModuleList()
-            self.deep_norms  = nn.ModuleList()
-            self.deep_drops  = nn.ModuleList()
-            self.res_projs   = nn.ModuleList()
-
-            prev = input_dim
-            for h in hidden_layers:
-                self.deep_layers.append(nn.Linear(prev, h))
-                self.deep_norms.append(nn.BatchNorm1d(h))
-                self.deep_drops.append(nn.Dropout(dropout))
-                self.res_projs.append(nn.Linear(prev, h) if prev != h else nn.Identity())
-                prev = h
-
-            self.deep_out = nn.Linear(prev, 1)
-
-        def forward(self, x):
-            wide_out = self.wide(x)
-
-            h = x
-            for layer, norm, drop, res in zip(
-                    self.deep_layers, self.deep_norms,
-                    self.deep_drops, self.res_projs):
-                identity = res(h)
-                h = drop(torch.relu(norm(layer(h)))) + identity
-
-            deep_out = self.deep_out(h)
-            return (wide_out + deep_out).squeeze(-1)  # scalar output
-
-    def train_game_ann(model, X_tr, y_tr, X_val, y_val,
-                       epochs=100, lr=1e-3, patience=15, batch_size=512,
-                       weight_decay=1e-4):
-        """Addestra GameANN con early stopping, Huber loss."""
-        model.to(device)
-
-        criterion = nn.HuberLoss(delta=2.0)
-        criterion_val = nn.L1Loss()  # MAE per val
-
-        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-        scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-            optimizer, 'min', factor=0.5, patience=6)
-
-        X_tr_t = torch.tensor(X_tr, dtype=torch.float32)
-        y_tr_t = torch.tensor(y_tr, dtype=torch.float32)
-        X_val_t = torch.tensor(X_val, dtype=torch.float32).to(device)
-        y_val_t = torch.tensor(y_val, dtype=torch.float32).to(device)
-
-        dataset = TensorDataset(X_tr_t, y_tr_t)
-        loader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
-
-        best_val_mae = float('inf')
-        best_state = None
-        no_imp = 0
-
-        for ep in range(epochs):
-            model.train()
-            for Xb, yb in loader:
-                Xb, yb = Xb.to(device), yb.to(device)
-                optimizer.zero_grad()
-                pred = model(Xb)
-                loss = criterion(pred, yb)
-                loss.backward()
-                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
-                optimizer.step()
-
-            model.eval()
-            with torch.no_grad():
-                val_pred = model(X_val_t)
-                val_mae = criterion_val(val_pred, y_val_t).item()
-            scheduler.step(val_mae)
-
-            if val_mae < best_val_mae - 1e-4:
-                best_val_mae = val_mae
-                best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
-                no_imp = 0
-            else:
-                no_imp += 1
-                if no_imp >= patience:
-                    break
-
-        if best_state:
-            model.load_state_dict(best_state)
-        model.eval()
-        return model, best_val_mae
-
-    class ANNGameRegressorWrapper:
-        """Wrapper sklearn-compatibile per GameANN (predict)."""
-        def __init__(self, model, scaler):
-            self.model = model
-            self.scaler = scaler
-            self.model.eval()
-
-        def predict(self, X):
-            X_sc = self.scaler.transform(X)
-            X_t = torch.tensor(X_sc, dtype=torch.float32).to(device)
-            with torch.no_grad():
-                preds = self.model(X_t).cpu().numpy()
-            return preds
-
-    def train_game_ann_optuna(X_tr, y_tr, X_val, y_val,
-                               n_trials=10, label="games"):
-        """Tuning Optuna per ANN game regressor.
-        Prova varie architetture, dropout, lr, batch size, loss, ecc."""
-        if not HAS_OPTUNA:
-            return None, float('inf')
-
-        print(f"\n  🧠 ANN Game Regressor [{label}] ({n_trials} trials)...")
-
-        scaler = StandardScaler()
-        X_tr_sc = scaler.fit_transform(X_tr)
-        X_val_sc = scaler.transform(X_val)
-
-        best_wrapper = [None]
-        best_mae = [float('inf')]
-
-        def objective(trial):
-            arch_name = trial.suggest_categorical('arch', list(GAME_ANN_ARCHS.keys()))
-            hl = GAME_ANN_ARCHS[arch_name]
-            dr = trial.suggest_float('dropout', 0.05, 0.5, step=0.05)
-            lr = trial.suggest_float('lr', 1e-4, 5e-3, log=True)
-            bs = trial.suggest_categorical('batch_size', [256, 512, 1024])
-            ep = trial.suggest_categorical('epochs', [80, 120, 160])
-            wd = trial.suggest_float('weight_decay', 1e-6, 1e-2, log=True)
-
-            model = GameANN(X_tr_sc.shape[1], hl, dr)
-            model, val_mae = train_game_ann(model, X_tr_sc, y_tr, X_val_sc, y_val,
-                                             epochs=ep, lr=lr, patience=15,
-                                             batch_size=bs, weight_decay=wd)
-            wrapper = ANNGameRegressorWrapper(model, scaler)
-            preds = wrapper.predict(X_val)
-            mae = mean_absolute_error(y_val, preds)
-
-            if mae < best_mae[0]:
-                best_mae[0] = mae
-                import copy
-                sc_copy = StandardScaler()
-                sc_copy.mean_ = scaler.mean_.copy()
-                sc_copy.scale_ = scaler.scale_.copy()
-                sc_copy.var_ = scaler.var_.copy()
-                sc_copy.n_features_in_ = scaler.n_features_in_
-                sc_copy.n_samples_seen_ = scaler.n_samples_seen_
-                model_copy = GameANN(X_tr_sc.shape[1], hl, dr)
-                model_copy.load_state_dict(
-                    {k: v.clone() for k, v in model.state_dict().items()})
-                model_copy.eval()
-                best_wrapper[0] = ANNGameRegressorWrapper(model_copy, sc_copy)
-
-            return mae
-
-        study = optuna.create_study(direction='minimize',
-                                    sampler=optuna.samplers.TPESampler(seed=SEED))
-        study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
-        print(f"     Best val MAE: {best_mae[0]:.4f}")
-        print(f"     Best params: arch={study.best_params.get('arch')}, "
-              f"dr={study.best_params.get('dropout'):.2f}, "
-              f"lr={study.best_params.get('lr'):.1e}")
-        return best_wrapper[0], best_mae[0]
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1598,8 +1480,7 @@ def train_set_classifier_xgb(X_tr, y_tr, X_val, y_val, n_classes,
 # ══════════════════════════════════════════════════════════════════════════════
 
 def train_conditional_regressor(X, y, n_trials=10, label="2-set"):
-    """Addestra un regressore specifico per partite con N set.
-    Prova LGB, XGB e ANN — seleziona il migliore per MAE."""
+    """Addestra un regressore specifico per partite con N set (LGB/XGB)."""
     if len(X) < 200:
         print(f"     ⚠️ Troppo pochi dati per {label} ({len(X)}), skip")
         return None
@@ -1610,56 +1491,30 @@ def train_conditional_regressor(X, y, n_trials=10, label="2-set"):
 
     best_model = None
     best_mae = float('inf')
-    best_name = "None"
 
     if HAS_LGB and HAS_OPTUNA:
         lgb_model, lgb_mae = optuna_tune_lgb_reg(X_tr, y_tr, X_val, y_val, n_trials=n_trials)
         if lgb_model is not None and lgb_mae < best_mae:
             best_mae = lgb_mae
             best_model = lgb_model
-            best_name = "LGB"
 
     if HAS_XGB and HAS_OPTUNA:
         xgb_model, xgb_mae = optuna_tune_xgb_reg(X_tr, y_tr, X_val, y_val, n_trials=n_trials)
         if xgb_model is not None and xgb_mae < best_mae:
             best_mae = xgb_mae
             best_model = xgb_model
-            best_name = "XGB"
-
-    # ANN regressor
-    if HAS_TORCH and HAS_OPTUNA:
-        ann_model, ann_mae = train_game_ann_optuna(
-            X_tr, y_tr, X_val, y_val,
-            n_trials=max(3, n_trials // 2), label=f"{label}_cond")
-        if ann_model is not None and ann_mae < best_mae:
-            best_mae = ann_mae
-            best_model = ann_model
-            best_name = "ANN"
 
     if best_model is not None:
-        # Retrain GBM on all data (ANN wrapper already has its own scaler)
-        if best_name == "LGB":
+        # Retrain on all data
+        if isinstance(best_model, lgb.LGBMRegressor):
             final = lgb.LGBMRegressor(**best_model.get_params())
-            final.fit(X, y)
-            best_model = final
-        elif best_name == "XGB":
+        else:
             params = best_model.get_params()
             params.pop('early_stopping_rounds', None)
             final = xgb_lib.XGBRegressor(**params)
-            final.fit(X, y)
-            best_model = final
-        elif best_name == "ANN":
-            # Retrain ANN on all data
-            X_full_tr, X_full_val, y_full_tr, y_full_val = train_test_split(
-                X, y, test_size=0.15, random_state=SEED)
-            ann_retrained, _ = train_game_ann_optuna(
-                X_full_tr, y_full_tr, X_full_val, y_full_val,
-                n_trials=1, label=f"{label}_cond_final")
-            if ann_retrained is not None:
-                best_model = ann_retrained
-
-        print(f"     → [{label}] Best: {best_name}, MAE (val): {best_mae:.4f}")
-        return best_model
+        final.fit(X, y)
+        print(f"     → [{label}] Best MAE (val): {best_mae:.4f}")
+        return final
 
     return None
 
@@ -1862,7 +1717,7 @@ if __name__ == '__main__':
             # ANN con TUTTE le feature
             ann_all, ann_acc_all = train_set_ann_optuna(
                 X_tr, y_sets_tr, X_val, y_sets_val,
-                n_classes=n_classes, n_trials=10, label=f"{label}_ANN_all")
+                n_classes=n_classes, n_trials=20, label=f"{label}_ANN_all")
             if ann_all is not None:
                 acc_test = accuracy_score(y_sets_test, ann_all.predict(X_test))
                 set_clf_candidates['ANN_all'] = {'model': ann_all, 'acc': acc_test,
@@ -1874,7 +1729,7 @@ if __name__ == '__main__':
             if len(set_feat_idxs) < len(ALL_FEATURES):
                 ann_sel, ann_acc_sel = train_set_ann_optuna(
                     X_set_tr, y_sets_tr, X_set_val, y_sets_val,
-                    n_classes=n_classes, n_trials=10, label=f"{label}_ANN_sel")
+                    n_classes=n_classes, n_trials=20, label=f"{label}_ANN_sel")
                 if ann_sel is not None:
                     acc_test = accuracy_score(y_sets_test, ann_sel.predict(X_set_test))
                     set_clf_candidates['ANN_sel'] = {'model': ann_sel, 'acc': acc_test,
@@ -1962,27 +1817,6 @@ if __name__ == '__main__':
             direct_results['Avg_direct'] = mae_avg
             print(f"     Avg Direct MAE (test): {mae_avg:.4f}")
 
-        # ANN direct regressor
-        ann_direct = None
-        if HAS_TORCH and HAS_OPTUNA:
-            ann_direct, ann_direct_mae = train_game_ann_optuna(
-                X_game_tr, y_games_tr, X_game_val, y_games_val,
-                n_trials=TRIALS_GBM, label=f"{label}_direct")
-            if ann_direct is not None:
-                y_pred = ann_direct.predict(X_game_test)
-                mae = mean_absolute_error(y_games_test, y_pred)
-                direct_results['ANN_direct'] = mae
-                print(f"     ANN Direct MAE (test): {mae:.4f}")
-
-                # Avg LGB+XGB+ANN
-                if lgb_direct is not None and xgb_direct is not None:
-                    y_avg3 = (lgb_direct.predict(X_game_test) +
-                              xgb_direct.predict(X_game_test) +
-                              ann_direct.predict(X_game_test)) / 3
-                    mae_avg3 = mean_absolute_error(y_games_test, y_avg3)
-                    direct_results['Avg3_direct'] = mae_avg3
-                    print(f"     Avg3 (LGB+XGB+ANN) Direct MAE (test): {mae_avg3:.4f}")
-
         best_direct_name = min(direct_results, key=direct_results.get) if direct_results else None
         best_direct_mae = direct_results[best_direct_name] if best_direct_name else float('inf')
 
@@ -2011,12 +1845,8 @@ if __name__ == '__main__':
 
             # Hybrid: average of hierarchical + direct
             if best_direct_name:
-                if best_direct_name == 'Avg3_direct' and lgb_direct is not None and xgb_direct is not None and ann_direct is not None:
-                    y_direct_best = (lgb_direct.predict(X_game_test) + xgb_direct.predict(X_game_test) + ann_direct.predict(X_game_test)) / 3
-                elif best_direct_name == 'Avg_direct' and lgb_direct is not None and xgb_direct is not None:
+                if best_direct_name == 'Avg_direct' and lgb_direct is not None and xgb_direct is not None:
                     y_direct_best = (lgb_direct.predict(X_game_test) + xgb_direct.predict(X_game_test)) / 2
-                elif best_direct_name == 'ANN_direct' and ann_direct is not None:
-                    y_direct_best = ann_direct.predict(X_game_test)
                 elif best_direct_name == 'LGB_direct' and lgb_direct is not None:
                     y_direct_best = lgb_direct.predict(X_game_test)
                 elif best_direct_name == 'XGB_direct' and xgb_direct is not None:
@@ -2110,7 +1940,6 @@ if __name__ == '__main__':
         # Re-train direct regressors (with game-selected features)
         lgb_direct_final = None
         xgb_direct_final = None
-        ann_direct_final = None
         if lgb_direct is not None:
             lgb_direct_final = lgb.LGBMRegressor(**lgb_direct.get_params())
             lgb_direct_final.fit(X_game_all, y_games)
@@ -2119,17 +1948,6 @@ if __name__ == '__main__':
             xgb_params.pop('early_stopping_rounds', None)
             xgb_direct_final = xgb_lib.XGBRegressor(**xgb_params)
             xgb_direct_final.fit(X_game_all, y_games)
-        if ann_direct is not None:
-            # Re-train ANN on all data
-            X_game_tr_all, X_game_val_all, y_tr_all, y_val_all = train_test_split(
-                X_game_all, y_games, test_size=0.1, random_state=SEED)
-            ann_retrained, _ = train_game_ann_optuna(
-                X_game_tr_all, y_tr_all, X_game_val_all, y_val_all,
-                n_trials=1, label=f"{label}_final")
-            if ann_retrained is not None:
-                ann_direct_final = ann_retrained
-            else:
-                ann_direct_final = ann_direct
 
         # Determine best_alpha for hybrid
         best_alpha_final = 0.5  # default
@@ -2153,7 +1971,6 @@ if __name__ == '__main__':
             'cond_means': cond_means,
             'lgb_direct': lgb_direct_final,
             'xgb_direct': xgb_direct_final,
-            'ann_direct': ann_direct_final,
             'set_classes': set_classes,
             'hybrid_alpha': best_alpha_final,
             'features': ALL_FEATURES,
@@ -2187,7 +2004,6 @@ if __name__ == '__main__':
                 'cond_means': info['cond_means'],
                 'lgb_direct': info['lgb_direct'],
                 'xgb_direct': info['xgb_direct'],
-                'ann_direct': info['ann_direct'],
                 'set_classes': info['set_classes'],
                 'hybrid_alpha': info['hybrid_alpha'],
                 'n_samples': info['n_samples'],
