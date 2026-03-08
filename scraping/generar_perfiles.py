@@ -1,6 +1,26 @@
 import pandas as pd
 import joblib
 import numpy as np
+import json
+from datetime import date
+
+# Carica bio reale da tennisstats.com (se disponibile)
+try:
+    with open("bio_jugadores.json", "r", encoding="utf-8") as _f:
+        BIO_REAL = json.load(_f)
+    print(f"   ✅ bio_jugadores.json caricato ({len(BIO_REAL)} giocatori)")
+except FileNotFoundError:
+    BIO_REAL = {}
+    print("   [WARNING] bio_jugadores.json non trovato -- uso dati storici ATP")
+
+def calcola_eta(dob_str: str) -> float:
+    """'1998-11-27' → età attuale in anni (float)."""
+    try:
+        dob = date.fromisoformat(dob_str)
+        today = date.today()
+        return (today - dob).days / 365.25
+    except Exception:
+        return 25.0
 
 print("👤 GENERANDO PERFILES (V5.0 - SOLUCIÓN TOTAL)...")
 
@@ -128,8 +148,15 @@ try:
         
         # --- 2. DATOS BIO (Igual que antes) ---
         # (Resumido para no ocupar espacio, la lógica es la misma de la V4.0)
+        
+        try:
+            tourney_year = int(str(int(fecha))[:4])
+        except Exception:
+            tourney_year = 0
         mem_w = bio_cache.get(w, {'age': 25, 'ht': 185, 'ioc': 'UNK', 'points': 0, 'rank': 500})
-        if pd.notna(row.get('winner_age')) and row['winner_age'] > 10: mem_w['age'] = row['winner_age']
+        if tourney_year < 2026 and pd.notna(row.get('winner_age')) and row['winner_age'] > 10:
+            mem_w['age'] = row['winner_age']
+            mem_w['birth_year'] = tourney_year - round(float(row['winner_age']))
         if pd.notna(row.get('winner_ht')) and row['winner_ht'] > 100: mem_w['ht'] = row['winner_ht']
         if pd.notna(row.get('winner_ioc')) and str(row['winner_ioc']) != '0': mem_w['ioc'] = row['winner_ioc']
         if pd.notna(row.get('winner_rank')): mem_w['rank'] = row['winner_rank']
@@ -137,7 +164,9 @@ try:
         bio_cache[w] = mem_w; perfiles[w] = mem_w.copy()
 
         mem_l = bio_cache.get(l, {'age': 25, 'ht': 185, 'ioc': 'UNK', 'points': 0, 'rank': 500})
-        if pd.notna(row.get('loser_age')) and row['loser_age'] > 10: mem_l['age'] = row['loser_age']
+        if tourney_year < 2026 and pd.notna(row.get('loser_age')) and row['loser_age'] > 10:
+            mem_l['age'] = row['loser_age']
+            mem_l['birth_year'] = tourney_year - round(float(row['loser_age']))
         if pd.notna(row.get('loser_ht')) and row['loser_ht'] > 100: mem_l['ht'] = row['loser_ht']
         if pd.notna(row.get('loser_ioc')) and str(row['loser_ioc']) != '0': mem_l['ioc'] = row['loser_ioc']
         if pd.notna(row.get('loser_rank')): mem_l['rank'] = row['loser_rank']
@@ -187,6 +216,18 @@ try:
     print("-----------------------\n")
 
     for jugador, datos in perfiles.items():
+        # Sovrascrittura da bio reale (tennisstats.com) — altezza e DOB sempre aggiornati
+        if jugador in BIO_REAL:
+            bio_entry = BIO_REAL[jugador]
+            if bio_entry.get("dob"):
+                perfiles[jugador]["age"] = calcola_eta(bio_entry["dob"])
+                try:
+                    perfiles[jugador]["birth_year"] = int(bio_entry["dob"][:4])
+                except (ValueError, TypeError):
+                    pass
+            if bio_entry.get("ht"):
+                perfiles[jugador]["ht"] = bio_entry["ht"]
+
         
         # 1. Actualizar Ranking y Puntos con la info fresca de hoy (Pisa la memoria vieja)
         if jugador in ranking_dict_fresco:

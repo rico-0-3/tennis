@@ -148,7 +148,11 @@ with col1:
     scraping    = st.checkbox("🌐 Scraping ATP (Ranking + Partite + Elaborazione)", value=True)
     fusione     = st.checkbox("📎 Fusione Storico", value=True)
     profili     = st.checkbox("👤 Profili Giocatori", value=True)
+    bio         = st.checkbox("🧬 Bio Giocatori (DOB + altezza da tennisstats.com)", value=False)
     court_speed = st.checkbox("🏟️ Court Speed (scraping + arricchimento)", value=True)
+
+    if bio:
+        st.info("ℹ️ Lo scraping bio fa ~400 richieste HTTP. Solo se i profili sono sbagliati.")
 
 with col2:
     st.markdown("##### 🧠 Modelli")
@@ -166,6 +170,7 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
         "esegui_scraping":    scraping,
         "esegui_fusione":     fusione,
         "esegui_profili":     profili,
+        "esegui_bio":         bio,
         "esegui_court_speed": court_speed,
         "esegui_modelli":     False,
         "esegui_ann":         ann,

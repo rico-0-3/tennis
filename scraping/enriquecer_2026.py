@@ -2,6 +2,15 @@ import pandas as pd
 import joblib
 import numpy as np
 
+from datetime import date as _date
+
+def _eta_da_birth_year(birth_year):
+    """Calcola l'età attuale da anno di nascita (intero)."""
+    try:
+        return _date.today().year - int(birth_year)
+    except Exception:
+        return 25
+
 # --- CONFIGURACIÓN ---
 ARCHIVO_NUEVO = "atp_matches_2026_indetectable.csv" # Tu CSV flaco (recién bajado)
 ARCHIVO_PERFILES = "perfiles_jugadores.pkl"         # Tu diccionario de datos (bajado antes)
@@ -75,7 +84,10 @@ for index, row in df.iterrows():
         p = perfiles[w_name]
         w_rank.append(p.get('rank', 100)) # Si no tiene rank, ponemos 100
         w_ht.append(p.get('ht', 185))     # Altura promedio 185
-        w_age.append(p.get('age', 25) + 1.5) # Sumamos 1.5 años porque es 2026
+        if 'birth_year' in p:
+            w_age.append(_eta_da_birth_year(p['birth_year']))
+        else:
+            w_age.append(p.get('age', 25))  # fallback senza accumulo
         w_ioc.append(p.get('ioc', 'UNK'))
         w_hand.append('R') # Asumimos diestro si falta (dato menor)
     else:
@@ -91,7 +103,10 @@ for index, row in df.iterrows():
         p = perfiles[l_name]
         l_rank.append(p.get('rank', 100))
         l_ht.append(p.get('ht', 185))
-        l_age.append(p.get('age', 25) + 1.5)
+        if 'birth_year' in p:
+            l_age.append(_eta_da_birth_year(p['birth_year']))
+        else:
+            l_age.append(p.get('age', 25))  # fallback senza accumulo
         l_ioc.append(p.get('ioc', 'UNK'))
         l_hand.append('R')
     else:

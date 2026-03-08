@@ -7,14 +7,15 @@ Esegui semplicemente:
 Oppure con doppio click su  AGGIORNA.bat
 
 Pipeline SEQUENZIALE:
-  FASE 1:  Scraping ranking ATP
-  FASE 2:  Scraping partite ATP 2025-2026
-  FASE 3:  Arricchimento + correzione dati
-  FASE 4:  Fusione storico
+  FASE 1:   Scraping ranking ATP
+  FASE 2:   Scraping partite ATP 2025-2026
+  FASE 3:   Arricchimento + correzione dati
+  FASE 4:   Fusione storico
   FASE 5:  Profili giocatori
-  FASE 6:  Training modelli (XGBoost, Ensemble, LR)
-  FASE 7:  Training ANN (opzionale)
-  FASE 8:  Court Speed (scraping + arricchimento)
+  FASE 5b: Bio giocatori (DOB + altezza) — solo se ESEGUI_BIO=True
+  FASE 6:   Training modelli (XGBoost, Ensemble, LR)
+  FASE 7:   Training ANN (opzionale)
+  FASE 8:   Court Speed (scraping + arricchimento)
 """
 
 import subprocess
@@ -34,10 +35,11 @@ PREDICCION = os.path.join(ROOT, "prediccion")
 PYTHON = VENV_PY if os.path.exists(VENV_PY) else sys.executable
 
 # ─── Flag opzionali ───────────────────────────────────────────────────────────
-ESEGUI_SCRAPING    = True    # Scarica nuovi dati ATP (richiede Chrome installato)
-ESEGUI_FUSIONE     = True    # Fonde storico + nuovi dati
-ESEGUI_PROFILI     = True    # Rigenera profili giocatori
-ESEGUI_COURT_SPEED = True    # Scraping velocità campo + arricchimento CSV
+ESEGUI_SCRAPING    = False    # Scarica nuovi dati ATP (richiede Chrome installato)
+ESEGUI_FUSIONE     = False    # Fonde storico + nuovi dati
+ESEGUI_BIO         = True  # True = scraping bio (DOB + altezza) da tennisstats.com
+ESEGUI_PROFILI     = False    # Rigenera profili giocatori
+ESEGUI_COURT_SPEED = False    # Scraping velocità campo + arricchimento CSV
 ESEGUI_MODELLI     = False    # Riaddestra XGBoost, Ensemble, LR
 ESEGUI_ANN         = False   # True = addestra la rete neurale (lento su CPU ~1-2h)
 
@@ -198,6 +200,18 @@ def main():
         )
 
     # ══════════════════════════════════════════════════════════════════════════
+    # FASE 5b — Bio giocatori (DOB + altezza da tennisstats.com)
+    # ══════════════════════════════════════════════════════════════════════════
+    if ESEGUI_BIO:
+        sezione("5️⃣b  FASE 5b — Bio giocatori (tennisstats.com)")
+        ok_bio = esegui("scraper_bio_jugadores.py", SCRAPING, "Bio giocatori (DOB + altezza)")
+        if ok_bio:
+            copia_se_esiste(
+                os.path.join(SCRAPING, "bio_jugadores.json"),
+                os.path.join(PREDICCION, "bio_jugadores.json")
+            )
+
+    # ══════════════════════════════════════════════════════════════════════════
     # FASE 5 — Profili giocatori
     # ══════════════════════════════════════════════════════════════════════════
     if ESEGUI_PROFILI:
@@ -207,6 +221,10 @@ def main():
             copia_se_esiste(
                 os.path.join(SCRAPING, "perfiles_jugadores.pkl"),
                 os.path.join(PREDICCION, "perfiles_jugadores.pkl")
+            )
+            copia_se_esiste(
+                os.path.join(SCRAPING, "bio_jugadores.json"),
+                os.path.join(PREDICCION, "bio_jugadores.json")
             )
 
     # ══════════════════════════════════════════════════════════════════════════

@@ -123,13 +123,14 @@ def main():
     parser.add_argument("--scraping",    action="store_true", help="Scraping ATP")
     parser.add_argument("--fusione",     action="store_true", help="Fusione storico")
     parser.add_argument("--profili",     action="store_true", help="Profili giocatori")
+    parser.add_argument("--bio",         action="store_true", help="Bio giocatori (tennisstats.com)")
     parser.add_argument("--court-speed", action="store_true", help="Court Speed")
     parser.add_argument("--modelli",     action="store_true", help="Training modelli")
     parser.add_argument("--ann",         action="store_true", help="Training ANN")
     args = parser.parse_args()
 
     # Se nessun flag passato, non fare nulla
-    if not any([args.scraping, args.fusione, args.profili,
+    if not any([args.scraping, args.fusione, args.profili, args.bio,
                 args.court_speed, args.modelli, args.ann]):
         print("⚠️  Nessuna fase selezionata. Usa --scraping, --fusione, ecc.")
         sys.exit(1)
@@ -177,6 +178,16 @@ def main():
             os.path.join(PREDICCION, "historialTenis.csv")
         )
 
+    # ═══ FASE 5b — Bio giocatori ════════════════════════════════════════════
+    if args.bio:
+        sezione("5️⃣b  FASE 5b — Bio giocatori (tennisstats.com)")
+        ok_bio = esegui("scraper_bio_jugadores.py", SCRAPING, "Bio giocatori (DOB + altezza)")
+        if ok_bio:
+            copia_se_esiste(
+                os.path.join(SCRAPING, "bio_jugadores.json"),
+                os.path.join(PREDICCION, "bio_jugadores.json")
+            )
+
     # ═══ FASE 5 — Profili giocatori ══════════════════════════════════════════
     if args.profili:
         sezione("5️⃣  FASE 5 — Profili giocatori")
@@ -185,6 +196,10 @@ def main():
             copia_se_esiste(
                 os.path.join(SCRAPING, "perfiles_jugadores.pkl"),
                 os.path.join(PREDICCION, "perfiles_jugadores.pkl")
+            )
+            copia_se_esiste(
+                os.path.join(SCRAPING, "bio_jugadores.json"),
+                os.path.join(PREDICCION, "bio_jugadores.json")
             )
 
     # ═══ FASE 6 — Court Speed ════════════════════════════════════════════════
