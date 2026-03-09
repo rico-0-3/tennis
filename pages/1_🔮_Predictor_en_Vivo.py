@@ -141,6 +141,31 @@ LEVEL_MAP     = {'G': 5, 'M': 4, 'A': 3, 'F': 4, 'C': 2, 'S': 1, 'E': 0}
 ROUND_MAP_STR = {'Finale': 7, 'Semifinale': 6, 'Quarti': 5, '16mi': 4,
                  '32mi': 3, '64mi': 2, '128mi': 1, 'Round Robin': 4}
 
+
+# ─── Definizione ANN per Scommesse Speciali ──────────────────────────────────
+class TennisANN_Reg(nn.Module):
+    """Wide & Deep ANN per Regressione (Scommesse Speciali)."""
+    def __init__(self, input_dim, hidden_layers=[64, 32], dropout=0.3):
+        super().__init__()
+        self.wide = nn.Linear(input_dim, 1)
+        
+        layers = []
+        in_dim = input_dim
+        for h in hidden_layers:
+            layers.append(nn.Linear(in_dim, h))
+            layers.append(nn.ReLU())
+            layers.append(nn.BatchNorm1d(h))
+            layers.append(nn.Dropout(dropout))
+            in_dim = h
+        self.deep = nn.Sequential(*layers)
+        self.deep_out = nn.Linear(in_dim, 1)
+        
+    def forward(self, x):
+        wide_out = self.wide(x)
+        deep_out = self.deep_out(self.deep(x))
+        return wide_out + deep_out
+# ─────────────────────────────────────────────────────────────────────────────
+
 # ─── Caricamento risorse ─────────────────────────────────────────────────────
 
 def get_version():
