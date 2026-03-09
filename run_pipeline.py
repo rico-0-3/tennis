@@ -6,7 +6,7 @@ Pensata per essere eseguita da GitHub Actions.
 
 Uso:
     python run_pipeline.py --scraping --fusione --profili --court-speed
-    python run_pipeline.py --scraping --fusione --profili --court-speed --modelli --ann
+    python run_pipeline.py --scraping --fusione --profili --court-speed --modelli --ann --special-bets
 """
 
 import subprocess
@@ -120,18 +120,19 @@ def filtra_ritiri_e_copia(src: str, dst: str):
 
 def main():
     parser = argparse.ArgumentParser(description="Pipeline Tennis Predictor")
-    parser.add_argument("--scraping",    action="store_true", help="Scraping ATP")
-    parser.add_argument("--fusione",     action="store_true", help="Fusione storico")
-    parser.add_argument("--profili",     action="store_true", help="Profili giocatori")
-    parser.add_argument("--bio",         action="store_true", help="Bio giocatori (tennisstats.com)")
-    parser.add_argument("--court-speed", action="store_true", help="Court Speed")
-    parser.add_argument("--modelli",     action="store_true", help="Training modelli")
-    parser.add_argument("--ann",         action="store_true", help="Training ANN")
+    parser.add_argument("--scraping",     action="store_true", help="Scraping ATP")
+    parser.add_argument("--fusione",      action="store_true", help="Fusione storico")
+    parser.add_argument("--profili",      action="store_true", help="Profili giocatori")
+    parser.add_argument("--bio",          action="store_true", help="Bio giocatori (tennisstats.com)")
+    parser.add_argument("--court-speed",  action="store_true", help="Court Speed")
+    parser.add_argument("--modelli",      action="store_true", help="Training modelli")
+    parser.add_argument("--ann",          action="store_true", help="Training ANN")
+    parser.add_argument("--special-bets", action="store_true", help="Training Special Bets (Ace, DF, Break)")
     args = parser.parse_args()
 
     # Se nessun flag passato, non fare nulla
     if not any([args.scraping, args.fusione, args.profili, args.bio,
-                args.court_speed, args.modelli, args.ann]):
+                args.court_speed, args.modelli, args.ann, args.special_bets]):
         print("⚠️  Nessuna fase selezionata. Usa --scraping, --fusione, ecc.")
         sys.exit(1)
 
@@ -233,6 +234,13 @@ def main():
         if ok:
             print("   🏆  Modello ANN addestrato e salvato in prediccion/")
 
+    # ═══ FASE 9 — Training Scommesse Speciali ════════════════════════════════
+    if args.special_bets:
+        sezione("9️⃣  FASE 9 — Training Scommesse Speciali")
+        ok = esegui("train_special_bet.py", PREDICCION, "Training modelli Ace, DF, Break")
+        if ok:
+            print("   🏆  Modelli speciali addestrati e salvati in prediccion/")
+
     # ── Sincronizzazione finale ──────────────────────────────────────────────
     sezione("🔄  SINCRONIZZAZIONE FINALE")
     src_hist = os.path.join(SCRAPING,   "historialTenis.csv")
@@ -253,13 +261,14 @@ def main():
 
     files_check = [
         (os.path.join(SCRAPING,   "historialTenis.csv"),        "historialTenis.csv (dataset)"),
-        (os.path.join(SCRAPING,   "ranking_2026.csv"),           "ranking_2026.csv"),
-        (os.path.join(SCRAPING,   "perfiles_jugadores.pkl"),     "perfiles_jugadores.pkl"),
-        (os.path.join(SCRAPING,   "court_speed_dict.pkl"),       "court_speed_dict.pkl"),
+        (os.path.join(SCRAPING,   "ranking_2026.csv"),          "ranking_2026.csv"),
+        (os.path.join(SCRAPING,   "perfiles_jugadores.pkl"),    "perfiles_jugadores.pkl"),
+        (os.path.join(SCRAPING,   "court_speed_dict.pkl"),      "court_speed_dict.pkl"),
         (os.path.join(PREDICCION, "modelo_xgboost_final.pkl"),  "modelo_xgboost_final.pkl"),
-        (os.path.join(PREDICCION, "modelo_ensemble.pkl"),        "modelo_ensemble.pkl"),
+        (os.path.join(PREDICCION, "modelo_ensemble.pkl"),       "modelo_ensemble.pkl"),
         (os.path.join(PREDICCION, "modelo_ann.pth"),             "modelo_ann.pth (ANN)"),
         (os.path.join(PREDICCION, "scaler_ann.pkl"),             "scaler_ann.pkl (ANN)"),
+        (os.path.join(PREDICCION, "modelos_special_bets.pkl"),   "modelos_special_bets.pkl (Special Bets)"),
     ]
     for path, desc in files_check:
         stato = "✅" if os.path.exists(path) else "❌ MANCANTE"
@@ -267,7 +276,6 @@ def main():
 
     print()
     print("=" * W)
-
 
 if __name__ == "__main__":
     main()

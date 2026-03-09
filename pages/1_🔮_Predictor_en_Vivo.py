@@ -852,8 +852,30 @@ try:
         q_over_equa = 1 / prob_over if prob_over > 0.001 else 999.0
         q_under_equa = 1 / prob_under if prob_under > 0.001 else 999.0
         
-        # Output visuale
+        # --- Calcolo Affidabilità Storica e Metriche (Dinamico dal file!) ---
+        mae_storico = model_info.get('mae', 0)
+        media_storica = model_info.get('avg_value', 1)
+        devianza_storica = model_info.get('devianza', 0)
+        
+        err_pct = (mae_storico / media_storica) * 100 if media_storica > 0 else 100
+        affidabilita = max(0, 100 - err_pct)
+        
+        # --- Output visuale ---
         st.markdown(f"### 🎯 Valore Atteso: **{lambda_pred:.1f}** {bet_mercato.split(' ')[-1]} (Modello: *{m_type}*)")
+        
+        # Mostriamo le metriche
+        c_met1, c_met2 = st.columns(2)
+        c_met1.metric(
+            label="Affidabilità Modello", 
+            value=f"{affidabilita:.1f}%", 
+            help=f"Calcolata su un errore medio (MAE) di {mae_storico:.2f} rispetto a una media di {media_storica:.1f} eventi."
+        )
+        c_met2.metric(
+            label="Devianza Poisson", 
+            value=f"{devianza_storica:.3f}", 
+            help="Più si avvicina a 1.0, più il modello è perfetto nel calcolare le probabilità."
+        )
+        st.write("---")
         
         col_o, col_u = st.columns(2)
         edge = (bet_quota / q_over_equa) - 1

@@ -156,10 +156,12 @@ with col1:
 
 with col2:
     st.markdown("##### 🧠 Modelli")
-    ann     = st.checkbox("🧠 Training ANN (lento ~1-2h su CPU)", value=False)
+    modelli_base = st.checkbox("📈 Training Modelli Base (XGBoost, Ensemble, LR)", value=False)
+    ann          = st.checkbox("🧠 Training ANN Testa a Testa (lento ~1-2h su CPU)", value=False)
+    special_bets = st.checkbox("🎲 Training Special Bets (Ace, DF, Break)", value=False)
 
-    if ann:
-        st.warning("⚠️ Il training ANN può richiedere **1-2 ore**. Il runner di GitHub Actions ha un timeout di 3 ore.")
+    if ann or special_bets:
+        st.warning("⚠️ Il training esteso può richiedere molto tempo. Il runner di GitHub Actions ha un timeout di 3 ore.")
 
 st.divider()
 
@@ -172,8 +174,9 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
         "esegui_profili":     profili,
         "esegui_bio":         bio,
         "esegui_court_speed": court_speed,
-        "esegui_modelli":     False,
+        "esegui_modelli":     modelli_base,
         "esegui_ann":         ann,
+        "esegui_special_bets": special_bets, # Nuova variabile!
     }
 
     with st.spinner("📡 Invio richiesta a GitHub Actions..."):

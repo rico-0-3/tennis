@@ -42,6 +42,7 @@ ESEGUI_PROFILI     = True    # Rigenera profili giocatori
 ESEGUI_COURT_SPEED = True    # Scraping velocità campo + arricchimento CSV
 ESEGUI_MODELLI     = False    # Riaddestra XGBoost, Ensemble, LR
 ESEGUI_ANN         = False   # True = addestra la rete neurale (lento su CPU ~1-2h)
+ESEGUI_SPECIAL_BETS = False  # True = addestra i modelli Poisson/Tweedie per Ace, DF e Break
 
 # ─── Helper ───────────────────────────────────────────────────────────────────
 
@@ -271,6 +272,20 @@ def main():
         print("   ℹ️   Saltato (ESEGUI_ANN = False).")
         print("   →   Imposta ESEGUI_ANN = True oppure usa Google Colab")
 
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # FASE 9 — Training Scommesse Speciali (Ace, Doppi Falli, Break)
+    # ══════════════════════════════════════════════════════════════════════════
+    if ESEGUI_SPECIAL_BETS:
+        sezione("9️⃣  FASE 9 — Training Scommesse Speciali")
+        ok = esegui("train_special_bet.py", PREDICCION, "Training modelli Ace, DF, Break (Poisson/Tweedie)")
+        if ok:
+            print("   🏆  Modelli speciali addestrati e salvati in prediccion/")
+    else:
+        sezione("9️⃣  FASE 9 — Training Scommesse Speciali")
+        print("   ℹ️   Saltato (ESEGUI_SPECIAL_BETS = False).")
+    
+    
     # ── Sincronizzazione finale (sempre) ──────────────────────────────────────
     sezione('��  SINCRONIZZAZIONE FINALE')
     src_hist = os.path.join(SCRAPING,   'historialTenis.csv')
@@ -298,6 +313,7 @@ def main():
         (os.path.join(PREDICCION, "modelo_ensemble.pkl"),        "modelo_ensemble.pkl"),
         (os.path.join(PREDICCION, "modelo_ann.pth"),             "modelo_ann.pth (ANN)"),
         (os.path.join(PREDICCION, "scaler_ann.pkl"),             "scaler_ann.pkl (ANN)"),
+        (os.path.join(PREDICCION, "modelos_special_bets.pkl"),   "modelos_special_bets.pkl (Scommesse Speciali)"),
     ]
     for path, desc in files_check:
         stato = "✅" if os.path.exists(path) else "❌ MANCANTE"

@@ -565,6 +565,10 @@ def train_and_evaluate_target(df, target_col, target_name):
         obj_to_save = {'type': 'single', 'model': best_ann} # Fallback sicurezza
         
     obj_to_save['scaler'] = scaler # Salva lo scaler specifico per questo target!
+    
+    obj_to_save['mae'] = [r['mae'] for r in results_summary if r['strategy'] == best_strat][0]
+    obj_to_save['devianza'] = best_dev
+    obj_to_save['avg_value'] = y_test.mean()
     # ------------------------------------------------------------------
 
     return {
