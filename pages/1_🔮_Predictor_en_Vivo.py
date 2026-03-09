@@ -716,3 +716,113 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
             margin=dict(l=0, r=0, t=10, b=10), showlegend=False
         )
         st.plotly_chart(fig_bar, use_container_width=True)
+        
+        
+# ─── SCOMMESSE SPECIALI (VALUE BET) ──────────────────────────────────────────
+from scipy.stats import poisson
+
+st.divider()
+st.header("🎲 Value Bet: Ace, Doppi Falli, Break")
+
+special_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'prediccion', 'modelos_special_bets.pkl')
+
+try:
+    special_data = joblib.load(special_path)
+    hist = special_data['history']
+    
+    c_bet1, c_bet2, c_bet3 = st.columns(3)
+    with c_bet1:
+        bet_mercato = st.selectbox("Mercato", ["Totale Ace", "Totale Doppi Falli", "Totale Break"])
+    with c_bet2:
+        bet_linea = st.number_input("Linea Bookmaker (es. 12.5)", value=12.5, step=0.5)
+    with c_bet3:
+        bet_quota = st.number_input("Quota OVER offerta", value=1.85, step=0.01)
+
+    if st.button("🧮 Calcola Valore Scommessa", type="secondary", use_container_width=True):
+        
+        # Costruiamo la chiave dinamica (es. "Totale Ace (Best of 3)")
+        target_key = f"{bet_mercato} (Best of {best_of})"
+        
+        if target_key not in special_data['models']:
+            st.warning(f"Modello non addestrato per: {target_key}")
+            st.stop()
+            
+        # Estraiamo il modello vincitore e il suo scaler
+        model_info = special_data['models'][target_key]
+        spec_scaler = model_info['scaler']
+        m_type = model_info['type']
+        
+        # --- Feature dinamiche per J1 e J2 ---
+        def get_special_stats(p):
+            if p not in hist or len(hist[p]['games_played']) == 0:
+                return {'ace_rate': 0.05, 'df_rate': 0.02, 'bp_faced_rate': 0.08, 'ace_allowed_rate': 0.05, 'bp_created_rate': 0.08}
+            h = hist[p]
+            t_sv = sum(h['games_played']) or 1
+            t_ret = sum(h['games_return']) or 1
+            return {
+                'ace_rate': sum(h['ace_for'])/t_sv, 'df_rate': sum(h['df_for'])/t_sv, 'bp_faced_rate': sum(h['bp_faced'])/t_sv,
+                'ace_allowed_rate': sum(h['ace_against'])/t_ret, 'bp_created_rate': sum(h['bp_created'])/t_ret
+            }
+
+        s1, s2 = get_special_stats(nombre1), get_special_stats(nombre2)
+        exp_games = 22 if best_of == 3 else 38
+        
+        feat_dict = {
+            'surface': SURFACE_MAP.get(superficie, 0),
+            'court_speed': court_spd,
+            'best_of': best_of,
+            'sum_ht': h1 + h2,
+            'proj_total_aces': (s1['ace_rate'] * s2['ace_allowed_rate'] + s2['ace_rate'] * s1['ace_allowed_rate']) * (exp_games/2),
+            'proj_total_dfs': (s1['df_rate'] + s2['df_rate']) * (exp_games/2),
+            'proj_total_bps': (s1['bp_faced_rate'] * s2['bp_created_rate'] + s2['bp_faced_rate'] * s1['bp_created_rate']) * (exp_games/2),
+            'diff_ace_rate': abs(s1['ace_rate'] - s2['ace_rate']),
+            'diff_def_rate': abs(s1['ace_allowed_rate'] - s2['ace_allowed_rate'])
+        }
+        
+        df_spec = pd.DataFrame([feat_dict])
+        x_spec_sc = spec_scaler.transform(df_spec)
+        
+        # --- Predizione Dinamica Universale (Gestisce Singoli, Avg e Stacking) ---
+        def get_single_pred(m, x):
+            if isinstance(m, nn.Module):
+                m.eval()
+                with torch.no_grad():
+                    return float(m(torch.tensor(x, dtype=torch.float32)).cpu().numpy()[0])
+            else:
+                return float(m.predict(x)[0])
+
+        if m_type == 'single':
+            lambda_pred = get_single_pred(model_info['model'], x_spec_sc)
+        elif m_type == 'avg':
+            lambda_pred = float(np.mean([get_single_pred(m, x_spec_sc) for m in model_info['models']]))
+        elif m_type == 'stacking':
+            base_preds = [get_single_pred(m, x_spec_sc) for m in model_info['models']]
+            lambda_pred = float(model_info['meta'].predict(np.array([base_preds]))[0])
+            
+        # Calcolo Poisson
+        k_under = int(np.floor(bet_linea))
+        prob_under = poisson.cdf(k_under, max(0.1, lambda_pred))
+        prob_over = 1.0 - prob_under
+        
+        q_over_equa = 1 / prob_over if prob_over > 0.001 else 999.0
+        q_under_equa = 1 / prob_under if prob_under > 0.001 else 999.0
+        
+        # Output visuale
+        st.markdown(f"### 🎯 Valore Atteso: **{lambda_pred:.1f}** {bet_mercato.split(' ')[-1]} (Modello: *{m_type}*)")
+        
+        col_o, col_u = st.columns(2)
+        edge = (bet_quota / q_over_equa) - 1
+        
+        with col_o:
+            if edge > 0:
+                st.success(f"📈 **OVER {bet_linea}**\n\nProb: **{prob_over*100:.1f}%** | Quota Equa: **{q_over_equa:.2f}**\n\n🔥 **VALUE BET! Edge: +{edge*100:.1f}%**")
+            else:
+                st.error(f"📉 **OVER {bet_linea}**\n\nProb: **{prob_over*100:.1f}%** | Quota Equa: **{q_over_equa:.2f}**\n\n❌ Nessun Valore")
+                
+        with col_u:
+            st.info(f"🔽 **UNDER {bet_linea}**\n\nProb: **{prob_under*100:.1f}%** | Quota Equa: **{q_under_equa:.2f}**")
+
+except FileNotFoundError:
+    st.info("ℹ️ File `modelos_special_bets.pkl` non trovato. Fai il training per abilitare il calcolatore.")
+except Exception as e:
+    st.error(f"Errore: {e}")
