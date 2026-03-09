@@ -60,8 +60,8 @@ torch.manual_seed(SEED)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
-TRIALS = 30        # Trial Optuna per ANN (come richiesto)
-TRIALS_GBM = 50   # Trial Optuna per XGB/LGB (come richiesto)
+TRIALS = 5        # Trial Optuna per ANN (come richiesto)
+TRIALS_GBM = 20   # Trial Optuna per XGB/LGB (come richiesto)
 
 BO3 = True        # Abilita/Disabilita Best of 3
 BO5 = True        # Abilita/Disabilita Best of 5
@@ -171,10 +171,10 @@ def load_and_process(csv_path):
             
             expected_games = 22 if best_of == 3 else 38
             
-            w_exp_aces = s_w['ace_rate'] * s_l['ace_allowed_rate'] * (expected_games / 2)
-            l_exp_aces = s_l['ace_rate'] * s_w['ace_allowed_rate'] * (expected_games / 2)
-            w_exp_bps = s_w['bp_faced_rate'] * s_l['bp_created_rate'] * (expected_games / 2)
-            l_exp_bps = s_l['bp_faced_rate'] * s_w['bp_created_rate'] * (expected_games / 2)
+            w_exp_aces = ((s_w['ace_rate'] + s_l['ace_allowed_rate']) / 2.0) * (expected_games / 2)
+            l_exp_aces = ((s_l['ace_rate'] + s_w['ace_allowed_rate']) / 2.0) * (expected_games / 2)
+            w_exp_bps = ((s_w['bp_faced_rate'] + s_l['bp_created_rate']) / 2.0) * (expected_games / 2)
+            l_exp_bps = ((s_l['bp_faced_rate'] + s_w['bp_created_rate']) / 2.0) * (expected_games / 2)
 
             feat = {
                 'surface': surface_code,

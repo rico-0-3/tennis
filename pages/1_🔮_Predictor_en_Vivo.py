@@ -817,9 +817,9 @@ try:
             'diff_ht': abs(h1 - h2), # NUOVA 1
             'prob_tb': s1['hold_pct'] * s2['hold_pct'], # NUOVA 2
             'avg_pressure': (s1['ret_2nd_win_pct'] + s2['ret_2nd_win_pct']) / 2.0, # NUOVA 3
-            'proj_total_aces': (s1['ace_rate'] * s2['ace_allowed_rate'] + s2['ace_rate'] * s1['ace_allowed_rate']) * (exp_games/2),
+            'proj_total_aces': ((s1['ace_rate'] + s2['ace_allowed_rate'])/2.0 + (s2['ace_rate'] + s1['ace_allowed_rate'])/2.0) * (exp_games/2),
             'proj_total_dfs': (s1['df_rate'] + s2['df_rate']) * (exp_games/2),
-            'proj_total_bps': (s1['bp_faced_rate'] * s2['bp_created_rate'] + s2['bp_faced_rate'] * s1['bp_created_rate']) * (exp_games/2),
+            'proj_total_bps': ((s1['bp_faced_rate'] + s2['bp_created_rate'])/2.0 + (s2['bp_faced_rate'] + s1['bp_created_rate'])/2.0) * (exp_games/2),
             'diff_ace_rate': abs(s1['ace_rate'] - s2['ace_rate']),
             'diff_def_rate': abs(s1['ace_allowed_rate'] - s2['ace_allowed_rate'])
         }
