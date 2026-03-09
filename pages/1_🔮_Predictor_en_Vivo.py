@@ -785,24 +785,38 @@ try:
         
         # --- Feature dinamiche per J1 e J2 ---
         def get_special_stats(p):
+            # Valori di default se il giocatore è nuovo
             if p not in hist or len(hist[p]['games_played']) == 0:
-                return {'ace_rate': 0.05, 'df_rate': 0.02, 'bp_faced_rate': 0.08, 'ace_allowed_rate': 0.05, 'bp_created_rate': 0.08}
+                return {'ace_rate': 0.05, 'df_rate': 0.02, 'bp_faced_rate': 0.08, 'hold_pct': 0.80, 
+                        'ace_allowed_rate': 0.05, 'bp_created_rate': 0.08, 'ret_2nd_win_pct': 0.50}
+            
             h = hist[p]
             t_sv = sum(h['games_played']) or 1
             t_ret = sum(h['games_return']) or 1
+            t_2nd_ret = sum(h.get('ret_2nd_played', [1])) or 1
+            
             return {
-                'ace_rate': sum(h['ace_for'])/t_sv, 'df_rate': sum(h['df_for'])/t_sv, 'bp_faced_rate': sum(h['bp_faced'])/t_sv,
-                'ace_allowed_rate': sum(h['ace_against'])/t_ret, 'bp_created_rate': sum(h['bp_created'])/t_ret
+                'ace_rate': sum(h['ace_for']) / t_sv,
+                'df_rate': sum(h['df_for']) / t_sv,
+                'bp_faced_rate': sum(h['bp_faced']) / t_sv,
+                'hold_pct': 1.0 - (sum(h.get('bp_lost', [0])) / t_sv),
+                'ace_allowed_rate': sum(h['ace_against']) / t_ret,
+                'bp_created_rate': sum(h['bp_created']) / t_ret,
+                'ret_2nd_win_pct': sum(h.get('ret_2nd_won', [0])) / t_2nd_ret
             }
 
         s1, s2 = get_special_stats(nombre1), get_special_stats(nombre2)
         exp_games = 22 if best_of == 3 else 38
         
+        # Dizionario feature nello STESSO identico ordine del file di addestramento!
         feat_dict = {
             'surface': SURFACE_MAP.get(superficie, 0),
             'court_speed': court_spd,
             'best_of': best_of,
             'sum_ht': h1 + h2,
+            'diff_ht': abs(h1 - h2), # NUOVA 1
+            'prob_tb': s1['hold_pct'] * s2['hold_pct'], # NUOVA 2
+            'avg_pressure': (s1['ret_2nd_win_pct'] + s2['ret_2nd_win_pct']) / 2.0, # NUOVA 3
             'proj_total_aces': (s1['ace_rate'] * s2['ace_allowed_rate'] + s2['ace_rate'] * s1['ace_allowed_rate']) * (exp_games/2),
             'proj_total_dfs': (s1['df_rate'] + s2['df_rate']) * (exp_games/2),
             'proj_total_bps': (s1['bp_faced_rate'] * s2['bp_created_rate'] + s2['bp_faced_rate'] * s1['bp_created_rate']) * (exp_games/2),
