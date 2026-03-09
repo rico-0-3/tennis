@@ -14,3 +14,7 @@ __pycache__/
 # Si son livianos, puedes borrarlos de esta lista para subirlos.
 # *.pkl
 # *.csvtrain_ann_backup.py
+
+# Game prediction model (too large for GitHub)
+prediccion/modelo_games.pkl
+prediccion/game_tracker.pkl
