@@ -18,6 +18,11 @@ on:
         required: false
         type: boolean
         default: true
+      esegui_bio:  # <--- AGGIUNTO QUI
+        description: 'Bio Giocatori (DOB + altezza da tennisstats.com)'
+        required: false
+        type: boolean
+        default: false
       esegui_court_speed:
         description: 'Court Speed (scraping + arricchimento)'
         required: false
@@ -79,9 +84,10 @@ jobs:
             ${{ inputs.esegui_scraping == true && '--scraping' || '' }} \
             ${{ inputs.esegui_fusione == true && '--fusione' || '' }} \
             ${{ inputs.esegui_profili == true && '--profili' || '' }} \
+            ${{ inputs.esegui_bio == true && '--bio' || '' }} \
             ${{ inputs.esegui_court_speed == true && '--court-speed' || '' }} \
             ${{ inputs.esegui_modelli == true && '--modelli' || '' }} \
-            ${{ inputs.esegui_ann == true && '--ann' || '' }}
+            ${{ inputs.esegui_ann == true && '--ann' || '' }} \
             ${{ inputs.esegui_special_bets == true && '--special-bets' || '' }}
 
       - name: 📤 Commit & Push risultati
