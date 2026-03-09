@@ -33,6 +33,11 @@ on:
         required: false
         type: boolean
         default: false
+      esegui_special_bets:
+        description: 'Training Special Bets (Ace, DF, Break)'
+        required: false
+        type: boolean
+        default: false
       esegui_test_redeploy:
         description: 'Test redeploy Streamlit (solo commit dummy)'
         required: false
@@ -77,6 +82,7 @@ jobs:
             ${{ inputs.esegui_court_speed == true && '--court-speed' || '' }} \
             ${{ inputs.esegui_modelli == true && '--modelli' || '' }} \
             ${{ inputs.esegui_ann == true && '--ann' || '' }}
+            ${{ inputs.esegui_special_bets == true && '--special-bets' || '' }}
 
       - name: 📤 Commit & Push risultati
         run: |
