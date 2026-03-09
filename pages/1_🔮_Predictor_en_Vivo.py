@@ -142,29 +142,6 @@ ROUND_MAP_STR = {'Finale': 7, 'Semifinale': 6, 'Quarti': 5, '16mi': 4,
                  '32mi': 3, '64mi': 2, '128mi': 1, 'Round Robin': 4}
 
 
-# ─── Definizione ANN per Scommesse Speciali ──────────────────────────────────
-class TennisANN_Reg(nn.Module):
-    """Wide & Deep ANN per Regressione (Scommesse Speciali)."""
-    def __init__(self, input_dim, hidden_layers=[64, 32], dropout=0.3):
-        super().__init__()
-        self.wide = nn.Linear(input_dim, 1)
-        
-        layers = []
-        in_dim = input_dim
-        for h in hidden_layers:
-            layers.append(nn.Linear(in_dim, h))
-            layers.append(nn.ReLU())
-            layers.append(nn.BatchNorm1d(h))
-            layers.append(nn.Dropout(dropout))
-            in_dim = h
-        self.deep = nn.Sequential(*layers)
-        self.deep_out = nn.Linear(in_dim, 1)
-        
-    def forward(self, x):
-        wide_out = self.wide(x)
-        deep_out = self.deep_out(self.deep(x))
-        return wide_out + deep_out
-# ─────────────────────────────────────────────────────────────────────────────
 
 # ─── Caricamento risorse ─────────────────────────────────────────────────────
 
@@ -745,6 +722,35 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         
 # ─── SCOMMESSE SPECIALI (VALUE BET) ──────────────────────────────────────────
 from scipy.stats import poisson
+import sys
+import __main__
+
+# 1. Mettiamo la classe ESATTAMENTE dove serve
+class TennisANN_Reg(nn.Module):
+    """Wide & Deep ANN per Regressione (Scommesse Speciali)."""
+    def __init__(self, input_dim, hidden_layers=[64, 32], dropout=0.3):
+        super().__init__()
+        self.wide = nn.Linear(input_dim, 1)
+        layers = []
+        in_dim = input_dim
+        for h in hidden_layers:
+            layers.append(nn.Linear(in_dim, h))
+            layers.append(nn.ReLU())
+            layers.append(nn.BatchNorm1d(h))
+            layers.append(nn.Dropout(dropout))
+            in_dim = h
+        self.deep = nn.Sequential(*layers)
+        self.deep_out = nn.Linear(in_dim, 1)
+        
+    def forward(self, x):
+        wide_out = self.wide(x)
+        deep_out = self.deep_out(self.deep(x))
+        return wide_out + deep_out
+
+# 2. IL TRUCCO MAGICO: leghiamo la classe a tutti i moduli che Streamlit potrebbe usare
+setattr(__main__, 'TennisANN_Reg', TennisANN_Reg)
+if 'main' in sys.modules:
+    setattr(sys.modules['main'], 'TennisANN_Reg', TennisANN_Reg)
 
 st.divider()
 st.header("🎲 Value Bet: Ace, Doppi Falli, Break")
