@@ -812,11 +812,12 @@ try:
         feat_dict = {
             'surface': SURFACE_MAP.get(superficie, 0),
             'court_speed': court_spd,
+            'court_ace_pct': court_ace, # 🌟 AGGIUNTA QUI (usiamo court_ace diretto per coerenza col training)
             'best_of': best_of,
             'sum_ht': h1 + h2,
-            'diff_ht': abs(h1 - h2), # NUOVA 1
-            'prob_tb': s1['hold_pct'] * s2['hold_pct'], # NUOVA 2
-            'avg_pressure': (s1['ret_2nd_win_pct'] + s2['ret_2nd_win_pct']) / 2.0, # NUOVA 3
+            'diff_ht': abs(h1 - h2),
+            'prob_tb': s1['hold_pct'] * s2['hold_pct'], 
+            'avg_pressure': (s1['ret_2nd_win_pct'] + s2['ret_2nd_win_pct']) / 2.0,
             'proj_total_aces': ((s1['ace_rate'] + s2['ace_allowed_rate'])/2.0 + (s2['ace_rate'] + s1['ace_allowed_rate'])/2.0) * (exp_games/2),
             'proj_total_dfs': (s1['df_rate'] + s2['df_rate']) * (exp_games/2),
             'proj_total_bps': ((s1['bp_faced_rate'] + s2['bp_created_rate'])/2.0 + (s2['bp_faced_rate'] + s1['bp_created_rate'])/2.0) * (exp_games/2),

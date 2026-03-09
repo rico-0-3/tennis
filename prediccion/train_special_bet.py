@@ -167,7 +167,9 @@ def load_and_process(csv_path):
             
             surface_code = {'Hard': 0, 'Clay': 1, 'Grass': 2, 'Carpet': 3}.get(surf, 0)
             year = int(t_date[:4]) if len(t_date) >= 4 else 2024
-            _, court_spd = get_court_stats(row.get('tourney_name', ''), surf, year)
+            
+            # RECUPERIAMO ANCHE LA PERCENTUALE ACE DEL CAMPO
+            court_ace, court_spd = get_court_stats(row.get('tourney_name', ''), surf, year)
             
             expected_games = 22 if best_of == 3 else 38
             
@@ -179,6 +181,8 @@ def load_and_process(csv_path):
             feat = {
                 'surface': surface_code,
                 'court_speed': court_spd,
+                'court_ace_pct': court_ace, # 🌟 AGGIUNTA QUI
+                
                 'best_of': best_of,
                 'sum_ht': w_ht + l_ht,
                 
