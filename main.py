@@ -1,6 +1,32 @@
 import streamlit as st
 from PIL import Image
 
+import torch.nn as nn  # <--- AGGIUNGI QUESTO IMPORT
+
+# ─── INCOLLA QUESTA CLASSE QUI IN CIMA AL TUO main.py ──────────────
+class TennisANN_Reg(nn.Module):
+    """Wide & Deep ANN per Regressione (Scommesse Speciali)."""
+    def __init__(self, input_dim, hidden_layers=[64, 32], dropout=0.3):
+        super().__init__()
+        self.wide = nn.Linear(input_dim, 1)
+        
+        layers = []
+        in_dim = input_dim
+        for h in hidden_layers:
+            layers.append(nn.Linear(in_dim, h))
+            layers.append(nn.ReLU())
+            layers.append(nn.BatchNorm1d(h))
+            layers.append(nn.Dropout(dropout))
+            in_dim = h
+        self.deep = nn.Sequential(*layers)
+        self.deep_out = nn.Linear(in_dim, 1)
+        
+    def forward(self, x):
+        wide_out = self.wide(x)
+        deep_out = self.deep_out(self.deep(x))
+        return wide_out + deep_out
+# ───────────────────────────────────────────────────────────────────
+
 st.set_page_config(
     page_title="ATP Predictor Pro",
     page_icon="🎾",
