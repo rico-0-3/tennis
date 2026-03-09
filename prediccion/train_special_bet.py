@@ -37,8 +37,10 @@ sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '
 try:
     from court_speed_helper import get_court_stats
     HAS_COURT_SPEED = True
+    print("✅ court_speed_helper importato con successo.")
 except ImportError:
     HAS_COURT_SPEED = False
+    print("⚠️ court_speed_helper non trovato.")
     def get_court_stats(name, surface, year): return 0.0, 0.5 # Default dummy
 
 # ─── CONFIGURAZIONE ──────────────────────────────────────────────────────────
@@ -58,11 +60,11 @@ torch.manual_seed(SEED)
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"🖥️  Device: {device}")
 
-TRIALS = 2        # Trial Optuna per ANN (come richiesto)
-TRIALS_GBM = 10   # Trial Optuna per XGB/LGB (come richiesto)
+TRIALS = 30        # Trial Optuna per ANN (come richiesto)
+TRIALS_GBM = 50   # Trial Optuna per XGB/LGB (come richiesto)
 
 BO3 = True        # Abilita/Disabilita Best of 3
-BO5 = False        # Abilita/Disabilita Best of 5
+BO5 = True        # Abilita/Disabilita Best of 5
 
 # Gestione librerie opzionali
 try:
@@ -108,7 +110,7 @@ def load_and_process(csv_path):
     df = df.sort_values(['tourney_date', 'match_num']).reset_index(drop=True)
     
     # 1. Calcolo Target
-    print("   Calcolo target (Ace, DF, Break, TB)...")
+    print("   Calcolo target (Ace, DF, Breaks)...")
     df['total_aces'] = df['w_ace'] + df['l_ace']
     df['total_dfs']  = df['w_df'] + df['l_df']
     df['total_breaks'] = df.apply(calculate_breaks, axis=1)
@@ -120,7 +122,7 @@ def load_and_process(csv_path):
     history = {}
     features_list = []
     
-    print("   Generazione feature storiche (con incrocio Attacco vs Difesa)...")
+    print("   Generazione feature storiche (con Tie-Break, Pressione DF e Altezze)...")
     for idx, row in df.iterrows():
         w, l = row['winner_name'], row['loser_name']
         surf = row['surface']
@@ -128,49 +130,49 @@ def load_and_process(csv_path):
         
         def get_stats(p):
             if p not in history or len(history[p]['games_played']) < 5: 
-                return None # Vogliamo un minimo di storico
+                return None
             h = history[p]
-            tot_games_sv = sum(h['games_played'])
-            tot_games_ret = sum(h['games_return'])
+            tot_sv_gms = sum(h['games_played']) or 1
+            tot_ret_gms = sum(h['games_return']) or 1
+            tot_2nd_ret = sum(h['ret_2nd_played']) or 1
             
-            # Tassi offensivi (quando il giocatore serve)
-            ace_rate = sum(h['ace_for']) / tot_games_sv if tot_games_sv > 0 else 0
-            df_rate = sum(h['df_for']) / tot_games_sv if tot_games_sv > 0 else 0
-            bp_faced_rate = sum(h['bp_faced']) / tot_games_sv if tot_games_sv > 0 else 0
+            # Tassi offensivi
+            ace_rate = sum(h['ace_for']) / tot_sv_gms
+            df_rate = sum(h['df_for']) / tot_sv_gms
+            bp_faced_rate = sum(h['bp_faced']) / tot_sv_gms
             
-            # Tassi difensivi (quando il giocatore riceve)
-            ace_allowed_rate = sum(h['ace_against']) / tot_games_ret if tot_games_ret > 0 else 0
-            bp_created_rate = sum(h['bp_created']) / tot_games_ret if tot_games_ret > 0 else 0
+            # 🎾 NUOVO: Service Hold % (per calcolare probabilità Tie-Break)
+            hold_pct = 1.0 - (sum(h['bp_lost']) / tot_sv_gms)
+            
+            # Tassi difensivi
+            ace_allowed_rate = sum(h['ace_against']) / tot_ret_gms
+            bp_created_rate = sum(h['bp_created']) / tot_ret_gms
+            
+            # 🎾 NUOVO: Pressione in risposta (Punti vinti sulla 2a dell'avversario)
+            ret_2nd_win_pct = sum(h['ret_2nd_won']) / tot_2nd_ret
 
             return {
-                'ace_rate': ace_rate, 'df_rate': df_rate, 'bp_faced_rate': bp_faced_rate,
-                'ace_allowed_rate': ace_allowed_rate, 'bp_created_rate': bp_created_rate
+                'ace_rate': ace_rate, 'df_rate': df_rate, 'bp_faced_rate': bp_faced_rate, 'hold_pct': hold_pct,
+                'ace_allowed_rate': ace_allowed_rate, 'bp_created_rate': bp_created_rate, 'ret_2nd_win_pct': ret_2nd_win_pct
             }
 
         s_w = get_stats(w)
         s_l = get_stats(l)
         
         if s_w and s_l:
-            # ─── VARIABILI RIPRISTINATE ───
             best_of = 5 if str(row.get('best_of')) == '5' else 3
             
-            # Feature Fisiche (Altezza)
             w_ht = float(row['winner_ht']) if pd.notna(row.get('winner_ht')) else 185
             l_ht = float(row['loser_ht']) if pd.notna(row.get('loser_ht')) else 185
             
-            # Feature Campo
             surface_code = {'Hard': 0, 'Clay': 1, 'Grass': 2, 'Carpet': 3}.get(surf, 0)
             year = int(t_date[:4]) if len(t_date) >= 4 else 2024
             _, court_spd = get_court_stats(row.get('tourney_name', ''), surf, year)
-            # ──────────────────────────────
             
-            # Calcolo dei Game Stimati per incrociare i tassi
             expected_games = 22 if best_of == 3 else 38
             
-            # L'INCROCIO MAGICO (Attacco vs Difesa)
             w_exp_aces = s_w['ace_rate'] * s_l['ace_allowed_rate'] * (expected_games / 2)
             l_exp_aces = s_l['ace_rate'] * s_w['ace_allowed_rate'] * (expected_games / 2)
-            
             w_exp_bps = s_w['bp_faced_rate'] * s_l['bp_created_rate'] * (expected_games / 2)
             l_exp_bps = s_l['bp_faced_rate'] * s_w['bp_created_rate'] * (expected_games / 2)
 
@@ -180,52 +182,65 @@ def load_and_process(csv_path):
                 'best_of': best_of,
                 'sum_ht': w_ht + l_ht,
                 
-                # Le nuove feature dinamiche
+                # 🌟 LE 3 NUOVE FEATURE 🌟
+                'diff_ht': abs(w_ht - l_ht), # 1. Vantaggio Fisico al servizio
+                'prob_tb': s_w['hold_pct'] * s_l['hold_pct'], # 2. Probabilità Tie-Break (moltiplicatore Ace)
+                'avg_pressure': (s_w['ret_2nd_win_pct'] + s_l['ret_2nd_win_pct']) / 2.0, # 3. Pressione sulla 2a (moltiplicatore DF)
+                
                 'proj_total_aces': w_exp_aces + l_exp_aces,
                 'proj_total_dfs': (s_w['df_rate'] + s_l['df_rate']) * (expected_games / 2),
                 'proj_total_bps': w_exp_bps + l_exp_bps,
                 
-                # Differenziali per capire il dominio in campo
                 'diff_ace_rate': abs(s_w['ace_rate'] - s_l['ace_rate']),
                 'diff_def_rate': abs(s_w['ace_allowed_rate'] - s_l['ace_allowed_rate']),
                 
-                # Target
                 'total_aces': row['total_aces'],
                 'total_dfs': row['total_dfs'],
                 'total_breaks': row['total_breaks']
             }
             features_list.append(feat)
         
-        # Aggiorna storico
+        # Aggiorna storico con i nuovi dati (Punti sulla 2a e Break subiti)
         try:
-            # Gestione sicura dei game al servizio (evita divisioni per zero storiche)
             w_sv_gms = float(row['w_SvGms']) if pd.notna(row.get('w_SvGms')) else 1.0
             l_sv_gms = float(row['l_SvGms']) if pd.notna(row.get('l_SvGms')) else 1.0
             
-            def update(p, ace_f, df_f, bp_f, gms_sv, ace_a, bp_c, gms_ret):
+            # Calcolo Palle Break Perse
+            w_bp_lost = max(0.0, float(row['w_bpFaced']) - float(row['w_bpSaved']))
+            l_bp_lost = max(0.0, float(row['l_bpFaced']) - float(row['l_bpSaved']))
+            
+            # Calcolo Punti giocati e persi sulla 2a
+            w_2nd_played = max(1.0, float(row['w_svpt']) - float(row['w_1stIn']))
+            w_2nd_lost = w_2nd_played - float(row['w_2ndWon']) # Vinti dal ricevitore (L)
+            
+            l_2nd_played = max(1.0, float(row['l_svpt']) - float(row['l_1stIn']))
+            l_2nd_lost = l_2nd_played - float(row['l_2ndWon']) # Vinti dal ricevitore (W)
+
+            def update(p, ace_f, df_f, bp_f, bp_l, gms_sv, ace_a, bp_c, gms_ret, ret_2nd_w, ret_2nd_p):
                 if p not in history:
-                    history[p] = {'ace_for':[], 'df_for':[], 'bp_faced':[], 'games_played':[],
-                                  'ace_against':[], 'bp_created':[], 'games_return':[]}
+                    history[p] = {'ace_for':[], 'df_for':[], 'bp_faced':[], 'bp_lost':[], 'games_played':[],
+                                  'ace_against':[], 'bp_created':[], 'games_return':[], 'ret_2nd_won':[], 'ret_2nd_played':[]}
                 h = history[p]
-                h['ace_for'].append(ace_f); h['df_for'].append(df_f); h['bp_faced'].append(bp_f)
+                h['ace_for'].append(ace_f); h['df_for'].append(df_f); h['bp_faced'].append(bp_f); h['bp_lost'].append(bp_l)
                 h['games_played'].append(gms_sv)
-                # Dati Difensivi/Risposta
+                
                 h['ace_against'].append(ace_a); h['bp_created'].append(bp_c)
-                h['games_return'].append(gms_ret)
+                h['games_return'].append(gms_ret); h['ret_2nd_won'].append(ret_2nd_w); h['ret_2nd_played'].append(ret_2nd_p)
                 
                 if len(h['ace_for']) > 30: 
                     for k in h: h[k].pop(0)
 
-            # Il ricevitore subisce gli ace e crea le palle break affrontate dal battitore
-            update(w, float(row['w_ace']), float(row['w_df']), float(row['w_bpFaced']), w_sv_gms,
-                      float(row['l_ace']), float(row['l_bpFaced']), l_sv_gms)
+            # W riceve il servizio di L (quindi W vince i l_2nd_lost)
+            update(w, float(row['w_ace']), float(row['w_df']), float(row['w_bpFaced']), w_bp_lost, w_sv_gms,
+                      float(row['l_ace']), float(row['l_bpFaced']), l_sv_gms, l_2nd_lost, l_2nd_played)
                       
-            update(l, float(row['l_ace']), float(row['l_df']), float(row['l_bpFaced']), l_sv_gms,
-                                float(row['w_ace']), float(row['w_bpFaced']), w_sv_gms)
+            # L riceve il servizio di W (quindi L vince i w_2nd_lost)
+            update(l, float(row['l_ace']), float(row['l_df']), float(row['l_bpFaced']), l_bp_lost, l_sv_gms,
+                      float(row['w_ace']), float(row['w_bpFaced']), w_sv_gms, w_2nd_lost, w_2nd_played)
         except:
-            continue
-                    
-    return pd.DataFrame(features_list)
+            continue  
+                          
+    return pd.DataFrame(features_list), history
 
 # ─── MODELLO ANN (Regressione) ───────────────────────────────────────────────
 
@@ -348,8 +363,8 @@ def optimize_xgb(X_tr, y_tr, X_val, y_val, n_trials=TRIALS_GBM):
     
     def objective(trial):
         params = {
-                    'objective': 'count:poisson',    # Fondamentale per i conteggi!
-                    'eval_metric': 'poisson-nll',    # Negative Log-Likelihood
+                    'objective': 'reg:tweedie',           # Abbandoniamo Poisson per Tweedie
+                    'tweedie_variance_power': 1.5,        # 1.5 è perfetto per conteggi sovrdispersi
                     'n_estimators': trial.suggest_int('n_estimators', 100, 800),
                     'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.2),
                     'max_depth': trial.suggest_int('max_depth', 3, 8),
@@ -380,8 +395,8 @@ def optimize_lgb(X_tr, y_tr, X_val, y_val, n_trials=TRIALS_GBM):
     
     def objective(trial):
         params = {
-                    'objective': 'poisson',          # Fondamentale!
-                    'metric': 'poisson',
+                    'objective': 'tweedie',
+                    'tweedie_variance_power': 1.5,
                     'n_estimators': trial.suggest_int('n_estimators', 100, 800),
                     'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.2),
                     'num_leaves': trial.suggest_int('num_leaves', 20, 100),
@@ -588,10 +603,12 @@ if __name__ == "__main__":
     
     for ds_name, df_curr in datasets:
         if ds_name == 'Best of 3' and not BO3:
-                print(f"\n⚠️ Salto {ds_name}: disabilitato per configurazione.")    
+                print(f"\n⚠️ Salto {ds_name}: disabilitato per configurazione.")
+                continue    
                 
         if ds_name == 'Best of 5' and not BO5:
                 print(f"\n⚠️ Salto {ds_name}: disabilitato per configurazione.")
+                continue
                 
         if len(df_curr) < 100:
             print(f"\n⚠️ Salto {ds_name}: troppi pochi dati ({len(df_curr)}).")
