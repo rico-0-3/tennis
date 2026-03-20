@@ -912,170 +912,194 @@ tourney_id,tourney_name,surface,tourney_date,winner_name,loser_name,score,round,
 2026-santiago-16,santiago,Clay,20260302,Henrique Rocha,Orlando Luz,6-3 6-2,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,180.0,POR,22,0,0,0,R,180.0,BRA,29,0,131.0,0,278.0,0
 2026-santiago-16,santiago,Clay,20260302,Alex Barrena,Daniel Antonio Nunez,6-0 6-3,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,175.0,UNK,24,0,0,0,R,185.0,UNK,25,0,173.0,0,150.0,0
 2026-santiago-16,santiago,Clay,20260302,Daniel Elahi Galan,Facundo Mena,7-6 7-5,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,191.0,COL,30,0,0,0,R,183.0,ARG,34,0,224.0,0,329.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Daniil Medvedev,7-6 7-6,Final ,100,2026-03-18,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,198.0,RUS,30,0,2.0,0,10.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Carlos Alcaraz,6-3 7-6,Semifinals ,100,2026-03-18,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,183.0,ESP,23,0,10.0,0,1.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Alexander Zverev,6-2 6-4,Semifinals ,100,2026-03-18,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,198.0,GER,29,0,2.0,0,4.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Carlos Alcaraz,Cameron Norrie,6-3 6-4,Quarterfinals ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,188.0,GBR,31,0,1.0,0,24.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Learner Tien,6-1 6-2,Quarterfinals ,100,2026-03-18,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,180.0,USA,21,0,2.0,0,21.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Zverev,Arthur Fils,6-2 6-3,Quarterfinals ,100,2026-03-18,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,185.0,FRA,22,0,4.0,0,31.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Jack Draper,6-1 7-5,Quarterfinals ,100,2026-03-18,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,193.0,GBR,25,0,10.0,0,26.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Carlos Alcaraz,Casper Ruud,6-1 7-6,Round of 16 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,183.0,NOR,28,0,1.0,0,12.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jack Draper,Novak Djokovic,4-6 6-4 7-6,Round of 16 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,GBR,25,0,0,0,R,188.0,SRB,39,0,26.0,0,3.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Alex Michelsen,6-2 6-4,Round of 16 ,100,2026-03-18,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,193.0,USA,22,0,10.0,0,40.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Cameron Norrie,Rinky Hijikata,6-4 6-2,Round of 16 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,178.0,AUS,25,0,24.0,0,98.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Joao Fonseca,7-6 7-6,Round of 16 ,100,2026-03-18,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,185.0,BRA,20,0,2.0,0,39.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Zverev,Frances Tiafoe,6-3 6-4,Round of 16 ,100,2026-03-18,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,188.0,USA,28,0,4.0,0,20.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Arthur Fils,Felix Auger-Aliassime,6-3 7-6,Round of 16 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,185.0,UNK,25,0,31.0,0,150.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Learner Tien,Alejandro Davidovich Fokina,4-6 6-1 7-6,Round of 16 ,100,2026-03-18,0,0,0,0,0,0,R,180.0,USA,21,0,0,0,R,183.0,ESP,27,0,21.0,0,17.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Carlos Alcaraz,Arthur Rinderknech,6-7 6-3 6-2,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,196.0,FRA,31,0,1.0,0,27.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Novak Djokovic,Aleksandar Kovacevic,6-4 1-6 6-4,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,SRB,39,0,0,0,R,183.0,USA,28,0,3.0,0,92.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Cameron Norrie,Alex de Minaur,6-4 6-4,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,185.0,UNK,25,0,24.0,0,150.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alex Michelsen,Taylor Fritz,6-4 7-6,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,USA,22,0,0,0,R,196.0,USA,29,0,40.0,0,7.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Alexander Bublik,6-7 3-6 7-3 6-3,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,196.0,KAZ,29,0,98.0,0,11.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Sebastian Baez,6-4 6-0,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,170.0,ARG,26,0,10.0,0,52.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Casper Ruud,Valentin Vacherot,3-6 6-3 6-4,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,NOR,28,0,0,0,R,193.0,MON,28,0,12.0,0,25.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jack Draper,Francisco Cerundolo,6-1 7-5,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,GBR,25,0,0,0,R,185.0,ARG,28,0,26.0,0,19.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Denis Shapovalov,6-3 6-2,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,185.0,CAN,27,0,2.0,0,38.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Zverev,Brandon Nakashima,7-6 5-2 6-7,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,188.0,USA,25,0,4.0,0,30.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Learner Tien,Ben Shelton,7-6 4-3 6-6,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,180.0,USA,21,0,0,0,R,193.0,USA,24,0,21.0,0,9.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Felix Auger-Aliassime,Gabriel Diallo,6-7 5-3 6-3,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,203.0,CAN,25,0,150.0,0,37.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alejandro Davidovich Fokina,Jakub Mensik,6-2 4-6 6-2,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ESP,27,0,0,0,R,193.0,CZE,21,0,17.0,0,13.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Frances Tiafoe,Flavio Cobolli,6-1 6-2,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,USA,28,0,0,0,R,183.0,ITA,24,0,20.0,0,14.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Joao Fonseca,Tommy Paul,6-2 6-3,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,185.0,USA,29,0,39.0,0,23.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Arthur Fils,Marton Fucsovics,6-3 7-5,Round of 32 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,HUN,34,0,31.0,0,54.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Carlos Alcaraz,Grigor Dimitrov,6-2 6-3,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,191.0,BUL,35,0,1.0,0,44.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Novak Djokovic,Kamil Majchrzak,4-6 6-1 6-2,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,SRB,39,0,0,0,R,180.0,POL,30,0,3.0,0,57.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alex de Minaur,Sebastian Korda,4-6 6-4 6-4,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,196.0,USA,26,0,150.0,0,36.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Taylor Fritz,Jacob Fearnley,6-3 6-7 8-1,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,196.0,USA,29,0,0,0,R,183.0,GBR,25,0,7.0,0,83.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Bublik,Vit Kopriva,3-6 7-6 6-3,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,196.0,KAZ,29,0,0,0,R,178.0,CZE,29,0,11.0,0,60.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Alejandro Tabilo,6-4 6-2,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,188.0,CHI,29,0,10.0,0,41.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Casper Ruud,Alexander Shevchenko,6-1 7-6,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,NOR,28,0,0,0,R,185.0,KAZ,26,0,12.0,0,84.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jack Draper,Roberto Bautista Agut,3-6 6-3 6-2,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,GBR,25,0,0,0,R,183.0,ESP,38,0,26.0,0,89.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Joao Fonseca,Karen Khachanov,4-6 7-6 6-7,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,198.0,RUS,30,0,39.0,0,15.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Gabriel Diallo,Andrey Rublev,6-7 4-6 7-1 6-3,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,203.0,CAN,25,0,0,0,R,188.0,RUS,29,0,37.0,0,16.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Francisco Cerundolo,Benjamin Bonzi,6-4 5-7 7-6,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,ARG,28,0,0,0,R,183.0,FRA,30,0,19.0,0,103.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Luciano Darderi,4-6 6-2 6-4,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,183.0,ITA,24,0,98.0,0,18.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Sebastian Baez,Jiri Lehecka,6-4 6-1,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,170.0,ARG,26,0,0,0,R,185.0,CZE,25,0,52.0,0,22.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Valentin Vacherot,Nuno Borges,7-5 7-5,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,MON,28,0,0,0,R,185.0,POR,29,0,25.0,0,50.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Arthur Rinderknech,Juan Manuel Cerundolo,,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,196.0,FRA,31,0,0,0,R,183.0,ARG,25,0,27.0,0,71.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Cameron Norrie,Mackenzie McDonald,6-2 6-3,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,185.0,UNK,25,0,24.0,0,150.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Aleksandar Kovacevic,Corentin Moutet,6-1 6-4,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,USA,28,0,0,0,R,180.0,FRA,27,0,92.0,0,33.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alex Michelsen,Ugo Humbert,7-5 6-7 5-6 7-6,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,USA,22,0,0,0,R,188.0,FRA,28,0,40.0,0,34.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Dalibor Svrcina,6-1 6-1,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,178.0,CZE,24,0,2.0,0,100.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Zverev,Matteo Berrettini,6-3 6-4,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,196.0,ITA,30,0,4.0,0,68.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Marton Fucsovics,Lorenzo Musetti,7-5 6-1,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,HUN,34,0,0,0,R,185.0,ITA,24,0,54.0,0,5.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Ben Shelton,Reilly Opelka,6-7 3-6 7-4 6-3,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,211.0,USA,29,0,9.0,0,67.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Felix Auger-Aliassime,Gael Monfils,6-7 5-3 6-4,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,193.0,FRA,40,0,150.0,0,153.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jakub Mensik,Marcos Giron,7-5 7-6,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,CZE,21,0,0,0,R,180.0,USA,33,0,13.0,0,70.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Flavio Cobolli,Miomir Kecmanovic,3-6 6-3 6-4,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,183.0,SRB,27,0,14.0,0,58.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alejandro Davidovich Fokina,Zachary Svajda,7-6 6-0,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ESP,27,0,0,0,R,175.0,USA,24,0,17.0,0,96.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Frances Tiafoe,Jenson Brooksby,6-4 6-2,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,USA,28,0,0,0,R,193.0,USA,26,0,20.0,0,42.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Tommy Paul,Zizou Bergs,6-1 6-2,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,USA,29,0,0,0,R,185.0,BEL,27,0,23.0,0,45.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Learner Tien,Adam Walton,7-6 7-3,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,180.0,USA,21,0,0,0,R,183.0,AUS,27,0,21.0,0,85.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Brandon Nakashima,Camilo Ugo Carabelli,6-3 6-4,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,USA,25,0,0,0,R,185.0,ARG,27,0,30.0,0,66.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Denis Shapovalov,Tomas Martin Etcheverry,6-3 2-6 7-6,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,CAN,27,0,0,0,R,196.0,ARG,27,0,38.0,0,32.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Arthur Fils,Dino Prizmic,6-2 3-2,Round of 64 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,CRO,21,0,31.0,0,108.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Sebastian Baez,Chun-Hsin Tseng,6-3 6-2,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,170.0,ARG,26,0,0,0,R,185.0,UNK,25,0,52.0,0,150.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Roberto Bautista Agut,Fabian Marozsan,6-4 6-7 2-4,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ESP,38,0,0,0,R,193.0,HUN,27,0,89.0,0,46.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Benjamin Bonzi,Valentin Royer,6-4 6-3,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,188.0,UNK,25,0,103.0,0,69.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Nuno Borges,Emilio Nava,7-6 7-9,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,POR,29,0,0,0,R,185.0,USA,25,0,50.0,0,74.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Juan Manuel Cerundolo,Botic van de Zandschulp,7-6 6-3 5-7 6-3,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ARG,25,0,0,0,R,185.0,UNK,25,0,71.0,0,150.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Grigor Dimitrov,Terence Atmane,6-4 5-7 6-4,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,191.0,BUL,35,0,0,0,R,193.0,FRA,24,0,44.0,0,53.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jacob Fearnley,Damir Dzumhur,6-3 6-3,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,GBR,25,0,0,0,R,175.0,BIH,34,0,83.0,0,76.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Francesco Maestrelli,7-6 6-5,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,196.0,ITA,24,0,98.0,0,112.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Vit Kopriva,Michael Zheng,7-6 7-1,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,188.0,UNK,22,0,60.0,0,145.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Sebastian Korda,Francisco Comesana,7-5 6-0,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,196.0,USA,26,0,0,0,R,178.0,ARG,26,0,36.0,0,82.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Aleksandar Kovacevic,Hubert Hurkacz,7-6 7-6,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,USA,28,0,0,0,R,196.0,POL,29,0,92.0,0,75.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Kamil Majchrzak,Giovanni Mpetshi Perricard,6-3 1-6 7-5,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,180.0,POL,30,0,0,0,R,203.0,FRA,23,0,57.0,0,59.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Mackenzie McDonald,Matteo Arnaldi,6-0 6-1,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,185.0,ITA,25,0,150.0,0,101.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alex Michelsen,Daniel Merida,6-3 6-4,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,USA,22,0,0,0,R,188.0,UNK,22,0,40.0,0,135.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Shevchenko,Sho Shimabukuro,6-4 3-6 6-2,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,KAZ,26,0,0,0,R,180.0,JPN,29,0,84.0,0,110.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alejandro Tabilo,Rafael Jodar,6-1 6-2,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,CHI,29,0,0,0,R,188.0,UNK,20,0,41.0,0,109.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Zizou Bergs,Jan-Lennard Struff,6-3 6-4,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,BEL,27,0,0,0,R,185.0,UNK,25,0,45.0,0,150.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Matteo Berrettini,Adrian Mannarino,4-6 7-5 7-5,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,196.0,ITA,30,0,0,0,R,180.0,FRA,38,0,68.0,0,43.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Jenson Brooksby,Alexei Popyrin,6-3 6-4,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,USA,26,0,0,0,R,196.0,AUS,27,0,42.0,0,47.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Gabriel Diallo,Mattia Bellucci,7-6 6-5,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,203.0,CAN,25,0,0,0,R,175.0,ITA,25,0,37.0,0,77.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Joao Fonseca,Raphael Collignon,7-6 6-2,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,191.0,BEL,24,0,39.0,0,72.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Marton Fucsovics,Christopher O'Connell,7-5 6-3,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,HUN,34,0,0,0,R,183.0,UNK,32,0,54.0,0,130.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Marcos Giron,Mariano Navone,4-6 7-5 6-3,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,180.0,USA,33,0,0,0,R,178.0,ARG,25,0,70.0,0,61.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Miomir Kecmanovic,Daniel Altmaier,6-3 1-0,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,SRB,27,0,0,0,R,188.0,GER,28,0,58.0,0,55.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Gael Monfils,Alexis Galarneau,6-3 6-4,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,193.0,FRA,40,0,0,0,R,180.0,CAN,27,0,153.0,0,209.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Reilly Opelka,Ethan Quinn,7-5 7-6,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,211.0,USA,29,0,0,0,R,191.0,USA,22,0,67.0,0,56.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Dino Prizmic,Tristan Schoolkate,7-6 3-5 7-6,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,183.0,AUS,25,0,108.0,0,114.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Denis Shapovalov,Stefanos Tsitsipas,6-2 3-6 6-4,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,CAN,27,0,0,0,R,193.0,GRE,28,0,38.0,0,51.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Zachary Svajda,Marin Cilic,7-6 6-5,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,175.0,USA,24,0,0,0,R,198.0,CRO,38,0,96.0,0,49.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Dalibor Svrcina,James Duckworth,6-2 6-4,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,178.0,CZE,24,0,0,0,R,183.0,AUS,34,0,100.0,0,80.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Camilo Ugo Carabelli,Martin Damm,7-6 6-5,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,185.0,ARG,27,0,0,0,R,203.0,USA,0,0,66.0,0,133.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Adam Walton,Quentin Halys,6-3 6-3,Round of 128 ,100,2026-03-18,0,0,0,0,0,0,R,183.0,AUS,27,0,0,0,R,191.0,FRA,30,0,85.0,0,111.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Dalibor Svrcina,Vit Kopriva,7-6 6-4,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,178.0,CZE,24,0,0,0,R,178.0,CZE,29,0,100.0,0,60.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Ignacio Buse,3-6 6-3 6-4,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,185.0,PER,22,0,98.0,0,63.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Francesco Maestrelli,Thiago Agustin Tirante,7-6 6-5,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,196.0,ITA,24,0,0,0,R,185.0,ARG,25,0,112.0,0,81.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Dino Prizmic,Aleksandar Vukic,6-2 6-4,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,188.0,AUS,30,0,108.0,0,93.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Chun-Hsin Tseng,Roman Andres Burruchaga,2-6 7-6 6-3,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,183.0,ARG,24,0,150.0,0,102.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Benjamin Bonzi,Shintaro Mochizuki,6-4 5-7 6-3,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,175.0,JPN,23,0,103.0,0,129.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Christopher O'Connell,Nikoloz Basilashvili,6-4 6-4,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,UNK,32,0,0,0,R,185.0,GEO,34,0,130.0,0,134.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Tristan Schoolkate,Elias Ymer,6-4 3-1,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,AUS,25,0,0,0,R,185.0,SWE,30,0,114.0,0,169.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alexis Galarneau,Tomas Barrios Vera,6-3 6-4,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,180.0,CAN,27,0,0,0,R,191.0,CHI,29,0,209.0,0,119.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Mackenzie McDonald,Trevor Svajda,6-4 6-2,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,175.0,UNK,20,0,150.0,0,371.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Sho Shimabukuro,Martin Landaluce,6-2 6-7 3-5,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,180.0,JPN,29,0,0,0,R,193.0,ESP,20,0,110.0,0,151.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Daniel Merida,Dane Sweeny,6-3 4-6 6-3,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,170.0,AUS,25,0,135.0,0,132.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Vit Kopriva,Rei Sakamoto,6-4 7-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,193.0,UNK,20,0,60.0,0,164.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Ignacio Buse,Liam Draxl,6-4 7-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,PER,22,0,0,0,R,185.0,UNK,25,0,63.0,0,147.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Thiago Agustin Tirante,Izyan Ahmad,6-1 6-2,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,ARG,25,0,0,0,R,185.0,UNK,25,0,81.0,0,150.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Aleksandar Vukic,Stefano Travaglia,7-6 7-2,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,AUS,30,0,0,0,R,185.0,ITA,35,0,93.0,0,161.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Martin Landaluce,Alexander Blockx,6-0 6-2,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,193.0,ESP,20,0,0,0,R,191.0,BEL,21,0,151.0,0,88.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Roman Andres Burruchaga,Moez Echargui,7-6 4-4 7-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,ARG,24,0,0,0,R,178.0,TUN,33,0,102.0,0,141.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Alexis Galarneau,Luca Van Assche,7-6 6-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,180.0,CAN,27,0,0,0,R,178.0,FRA,22,0,209.0,0,106.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Daniel Merida,Patrick Kypson,3-6 6-3 7-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,188.0,USA,27,0,135.0,0,97.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Benjamin Bonzi,Jack Pinnington Jones,6-3 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,180.0,UNK,23,0,103.0,0,136.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Christopher O'Connell,Billy Harris,6-4 6-3,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,UNK,32,0,0,0,R,193.0,GBR,31,0,130.0,0,138.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Tristan Schoolkate,Alex Bolt,3-6 7-6 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,AUS,25,0,0,0,R,183.0,AUS,33,0,114.0,0,163.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Trevor Svajda,Luca Nardi,4-6 7-6 6-2,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,175.0,UNK,20,0,0,0,R,185.0,ITA,23,0,371.0,0,139.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Francesco Maestrelli,Nicolas Jarry,6-4 4-6 7-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,196.0,ITA,24,0,0,0,R,201.0,CHI,31,0,112.0,0,152.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Tomas Barrios Vera,Jagger Leach,6-3 6-3,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,191.0,CHI,29,0,0,0,R,185.0,UNK,25,0,119.0,0,150.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Leandro Riedi,7-5 6-3,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,191.0,SUI,24,0,98.0,0,168.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Shintaro Mochizuki,Federico Agustin Gomez,6-4 4-6 6-3,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,175.0,JPN,23,0,0,0,R,191.0,ARG,30,0,129.0,0,182.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Mackenzie McDonald,Vitaliy Sachko,6-2 6-1,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,188.0,UKR,29,0,150.0,0,186.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Dino Prizmic,Darwin Blanch,7-6 6-3,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,185.0,USA,19,0,108.0,0,272.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Dalibor Svrcina,Mitchell Krueger,7-6 6-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,178.0,CZE,24,0,0,0,R,188.0,USA,32,0,100.0,0,254.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Elias Ymer,Coleman Wong,6-3 3-6 7-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,SWE,30,0,0,0,R,183.0,HKG,22,0,169.0,0,120.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Chun-Hsin Tseng,David Goffin,6-4 6-1,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,180.0,BEL,36,0,150.0,0,156.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Sho Shimabukuro,Colton Smith,7-6 7-5,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,180.0,JPN,29,0,0,0,R,183.0,UNK,23,0,110.0,0,162.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Dane Sweeny,Andrew Johnson,6-2 6-1,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,170.0,AUS,25,0,0,0,R,185.0,UNK,25,0,132.0,0,150.0,0
-2026-indian-wells-17,indian-wells,Hard,20260304,Nikoloz Basilashvili,Nicolas Mejia,0-6 6-2 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,183.0,COL,26,0,134.0,0,185.0,0
-2026-miami-18,miami,Hard,20260318,Ignacio Buse,Coleman Wong,6-2 3-6 6-3,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,PER,22,0,0,0,R,183.0,HKG,22,0,63.0,0,120.0,0
-2026-miami-18,miami,Hard,20260318,Yannick Hanfmann,Luca Van Assche,6-1 5-7 6-3,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,193.0,GER,35,0,0,0,R,178.0,FRA,22,0,64.0,0,106.0,0
-2026-miami-18,miami,Hard,20260318,Martin Landaluce,Thiago Agustin Tirante,3-6 7-5 6-4,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,193.0,ESP,20,0,0,0,R,185.0,ARG,25,0,151.0,0,81.0,0
-2026-miami-18,miami,Hard,20260318,Tomas Barrios Vera,Aleksandar Vukic,6-3 7-6,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,191.0,CHI,29,0,0,0,R,188.0,AUS,30,0,119.0,0,93.0,0
-2026-miami-18,miami,Hard,20260318,Adam Walton,Rinky Hijikata,6-3 6-7 2-1,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,AUS,27,0,0,0,R,178.0,AUS,25,0,85.0,0,98.0,0
-2026-miami-18,miami,Hard,20260318,Mattia Bellucci,Murphy Cassone,3-6 7-6 6-5,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,175.0,ITA,25,0,0,0,R,188.0,UNK,24,0,77.0,0,256.0,0
-2026-miami-18,miami,Hard,20260318,Christopher O'Connell,Alexander Blockx,4-6 6-4 6-4,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,UNK,32,0,0,0,R,191.0,BEL,21,0,130.0,0,88.0,0
-2026-miami-18,miami,Hard,20260318,Zachary Svajda,Daniel Merida,6-0 6-7 2-2,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,175.0,USA,24,0,0,0,R,188.0,UNK,22,0,96.0,0,135.0,0
-2026-miami-18,miami,Hard,20260318,Rafael Jodar,Benjamin Bonzi,6-4 6-4,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,183.0,FRA,30,0,109.0,0,103.0,0
-2026-miami-18,miami,Hard,20260318,Nikoloz Basilashvili,Sho Shimabukuro,6-2 6-1,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,180.0,JPN,29,0,134.0,0,110.0,0
-2026-miami-18,miami,Hard,20260318,Liam Draxl,Jay Clarke,6-3 3-6 6-4,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,183.0,GBR,28,0,147.0,0,179.0,0
-2026-miami-18,miami,Hard,20260318,Arthur Fery,Yunchaokete Bu,6-3 3-6 7-5,2nd Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,175.0,GBR,24,0,0,0,R,185.0,UNK,24,0,174.0,0,150.0,0
-2026-miami-18,miami,Hard,20260318,Ignacio Buse,Moez Echargui,6-3 6-7 4-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,PER,22,0,0,0,R,178.0,TUN,33,0,63.0,0,141.0,0
-2026-miami-18,miami,Hard,20260318,Yannick Hanfmann,Leandro Riedi,6-3 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,193.0,GER,35,0,0,0,R,191.0,SUI,24,0,64.0,0,168.0,0
-2026-miami-18,miami,Hard,20260318,Thiago Agustin Tirante,Diego Dedura,6-2 6-3,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,ARG,25,0,0,0,R,185.0,UNK,18,0,81.0,0,259.0,0
-2026-miami-18,miami,Hard,20260318,Aleksandar Vukic,Billy Harris,7-6 6-3,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,AUS,30,0,0,0,R,193.0,GBR,31,0,93.0,0,138.0,0
-2026-miami-18,miami,Hard,20260318,Liam Draxl,Cristian Garin,4-6 6-4 6-2,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,185.0,CHI,30,0,147.0,0,95.0,0
-2026-miami-18,miami,Hard,20260318,Adam Walton,Chris Rodesch,6-2 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,AUS,27,0,0,0,R,198.0,LUX,25,0,85.0,0,142.0,0
-2026-miami-18,miami,Hard,20260318,Mattia Bellucci,Nicolas Jarry,6-3 6-1,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,175.0,ITA,25,0,0,0,R,201.0,CHI,31,0,77.0,0,152.0,0
-2026-miami-18,miami,Hard,20260318,Nikoloz Basilashvili,Patrick Kypson,6-3 6-1,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,188.0,USA,27,0,134.0,0,97.0,0
-2026-miami-18,miami,Hard,20260318,Alexander Blockx,Chun-Hsin Tseng,7-6 6-5,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,191.0,BEL,21,0,0,0,R,185.0,UNK,25,0,88.0,0,150.0,0
-2026-miami-18,miami,Hard,20260318,Arthur Fery,Roman Andres Burruchaga,2-6 6-4 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,175.0,GBR,24,0,0,0,R,183.0,ARG,24,0,174.0,0,102.0,0
-2026-miami-18,miami,Hard,20260318,Zachary Svajda,Colton Smith,6-7 6-3 6-1,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,175.0,USA,24,0,0,0,R,183.0,UNK,23,0,96.0,0,162.0,0
-2026-miami-18,miami,Hard,20260318,Rafael Jodar,Manas Dhamne,6-3 7-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,188.0,IND,18,0,109.0,0,486.0,0
-2026-miami-18,miami,Hard,20260318,Luca Van Assche,Benjamin Willwerth,6-3 6-1,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,178.0,FRA,22,0,0,0,R,185.0,UNK,25,0,106.0,0,150.0,0
-2026-miami-18,miami,Hard,20260318,Daniel Merida,Dalibor Svrcina,6-7 1-4 6-6 7-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,178.0,CZE,24,0,135.0,0,100.0,0
-2026-miami-18,miami,Hard,20260318,Benjamin Bonzi,Guto Miguel,6-2 7-6,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,185.0,UNK,25,0,103.0,0,150.0,0
-2026-miami-18,miami,Hard,20260318,Sho Shimabukuro,Alex Bolt,6-2 6-7 3-3,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,180.0,JPN,29,0,0,0,R,183.0,AUS,33,0,110.0,0,163.0,0
-2026-miami-18,miami,Hard,20260318,Murphy Cassone,Francesco Maestrelli,7-6 6-1,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,188.0,UNK,24,0,0,0,R,196.0,ITA,24,0,256.0,0,112.0,0
-2026-miami-18,miami,Hard,20260318,Tomas Barrios Vera,Nishesh Basavareddy,6-3 6-2,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,191.0,CHI,29,0,0,0,R,180.0,USA,21,0,119.0,0,198.0,0
-2026-miami-18,miami,Hard,20260318,Rinky Hijikata,Dane Sweeny,6-3 6-2,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,170.0,AUS,25,0,98.0,0,132.0,0
-2026-miami-18,miami,Hard,20260318,Yunchaokete Bu,Tristan Schoolkate,7-5 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,185.0,UNK,24,0,0,0,R,183.0,AUS,25,0,150.0,0,114.0,0
-2026-miami-18,miami,Hard,20260318,Coleman Wong,Jack Pinnington Jones,5-7 7-6 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,HKG,22,0,0,0,R,180.0,UNK,23,0,120.0,0,136.0,0
-2026-miami-18,miami,Hard,20260318,Martin Landaluce,Mackenzie McDonald,6-3 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,193.0,ESP,20,0,0,0,R,185.0,UNK,25,0,151.0,0,150.0,0
-2026-miami-18,miami,Hard,20260318,Christopher O'Connell,Nicolas Mejia,7-6 6-4,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,UNK,32,0,0,0,R,183.0,COL,26,0,130.0,0,185.0,0
-2026-miami-18,miami,Hard,20260318,Jay Clarke,Shintaro Mochizuki,6-4 3-6 6-1,1st Round Qualifying ,100,2026-03-18,0,0,0,0,0,0,R,183.0,GBR,28,0,0,0,R,175.0,JPN,23,0,179.0,0,129.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Daniil Medvedev,7-6 7-6,Final ,100,2026-03-20,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,198.0,RUS,30,0,2.0,0,10.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Carlos Alcaraz,6-3 7-6,Semifinals ,100,2026-03-20,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,183.0,ESP,23,0,10.0,0,1.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Alexander Zverev,6-2 6-4,Semifinals ,100,2026-03-20,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,198.0,GER,29,0,2.0,0,4.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Carlos Alcaraz,Cameron Norrie,6-3 6-4,Quarterfinals ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,188.0,GBR,31,0,1.0,0,24.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Learner Tien,6-1 6-2,Quarterfinals ,100,2026-03-20,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,180.0,USA,21,0,2.0,0,21.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Zverev,Arthur Fils,6-2 6-3,Quarterfinals ,100,2026-03-20,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,185.0,FRA,22,0,4.0,0,31.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Jack Draper,6-1 7-5,Quarterfinals ,100,2026-03-20,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,193.0,GBR,25,0,10.0,0,26.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Carlos Alcaraz,Casper Ruud,6-1 7-6,Round of 16 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,183.0,NOR,28,0,1.0,0,12.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jack Draper,Novak Djokovic,4-6 6-4 7-6,Round of 16 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,GBR,25,0,0,0,R,188.0,SRB,39,0,26.0,0,3.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Alex Michelsen,6-2 6-4,Round of 16 ,100,2026-03-20,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,193.0,USA,22,0,10.0,0,40.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Cameron Norrie,Rinky Hijikata,6-4 6-2,Round of 16 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,178.0,AUS,25,0,24.0,0,98.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Joao Fonseca,7-6 7-6,Round of 16 ,100,2026-03-20,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,185.0,BRA,20,0,2.0,0,39.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Zverev,Frances Tiafoe,6-3 6-4,Round of 16 ,100,2026-03-20,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,188.0,USA,28,0,4.0,0,20.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Arthur Fils,Felix Auger-Aliassime,6-3 7-6,Round of 16 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,185.0,UNK,25,0,31.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Learner Tien,Alejandro Davidovich Fokina,4-6 6-1 7-6,Round of 16 ,100,2026-03-20,0,0,0,0,0,0,R,180.0,USA,21,0,0,0,R,183.0,ESP,27,0,21.0,0,17.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Carlos Alcaraz,Arthur Rinderknech,6-7 6-3 6-2,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,196.0,FRA,31,0,1.0,0,27.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Novak Djokovic,Aleksandar Kovacevic,6-4 1-6 6-4,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,SRB,39,0,0,0,R,183.0,USA,28,0,3.0,0,92.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Cameron Norrie,Alex de Minaur,6-4 6-4,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,185.0,UNK,25,0,24.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alex Michelsen,Taylor Fritz,6-4 7-6,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,USA,22,0,0,0,R,196.0,USA,29,0,40.0,0,7.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Alexander Bublik,6-7 3-6 7-3 6-3,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,196.0,KAZ,29,0,98.0,0,11.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Sebastian Baez,6-4 6-0,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,170.0,ARG,26,0,10.0,0,52.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Casper Ruud,Valentin Vacherot,3-6 6-3 6-4,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,NOR,28,0,0,0,R,193.0,MON,28,0,12.0,0,25.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jack Draper,Francisco Cerundolo,6-1 7-5,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,GBR,25,0,0,0,R,185.0,ARG,28,0,26.0,0,19.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Denis Shapovalov,6-3 6-2,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,185.0,CAN,27,0,2.0,0,38.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Zverev,Brandon Nakashima,7-6 5-2 6-7,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,188.0,USA,25,0,4.0,0,30.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Learner Tien,Ben Shelton,7-6 4-3 6-6,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,180.0,USA,21,0,0,0,R,193.0,USA,24,0,21.0,0,9.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Felix Auger-Aliassime,Gabriel Diallo,6-7 5-3 6-3,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,203.0,CAN,25,0,150.0,0,37.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alejandro Davidovich Fokina,Jakub Mensik,6-2 4-6 6-2,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ESP,27,0,0,0,R,193.0,CZE,21,0,17.0,0,13.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Frances Tiafoe,Flavio Cobolli,6-1 6-2,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,USA,28,0,0,0,R,183.0,ITA,24,0,20.0,0,14.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Joao Fonseca,Tommy Paul,6-2 6-3,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,185.0,USA,29,0,39.0,0,23.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Arthur Fils,Marton Fucsovics,6-3 7-5,Round of 32 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,HUN,34,0,31.0,0,54.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Carlos Alcaraz,Grigor Dimitrov,6-2 6-3,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,191.0,BUL,35,0,1.0,0,44.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Novak Djokovic,Kamil Majchrzak,4-6 6-1 6-2,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,SRB,39,0,0,0,R,180.0,POL,30,0,3.0,0,57.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alex de Minaur,Sebastian Korda,4-6 6-4 6-4,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,196.0,USA,26,0,150.0,0,36.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Taylor Fritz,Jacob Fearnley,6-3 6-7 8-1,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,196.0,USA,29,0,0,0,R,183.0,GBR,25,0,7.0,0,83.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Bublik,Vit Kopriva,3-6 7-6 6-3,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,196.0,KAZ,29,0,0,0,R,178.0,CZE,29,0,11.0,0,60.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Daniil Medvedev,Alejandro Tabilo,6-4 6-2,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,188.0,CHI,29,0,10.0,0,41.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Casper Ruud,Alexander Shevchenko,6-1 7-6,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,NOR,28,0,0,0,R,185.0,KAZ,26,0,12.0,0,84.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jack Draper,Roberto Bautista Agut,3-6 6-3 6-2,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,GBR,25,0,0,0,R,183.0,ESP,38,0,26.0,0,89.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Joao Fonseca,Karen Khachanov,4-6 7-6 6-7,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,198.0,RUS,30,0,39.0,0,15.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Gabriel Diallo,Andrey Rublev,6-7 4-6 7-1 6-3,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,203.0,CAN,25,0,0,0,R,188.0,RUS,29,0,37.0,0,16.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Francisco Cerundolo,Benjamin Bonzi,6-4 5-7 7-6,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,ARG,28,0,0,0,R,183.0,FRA,30,0,19.0,0,103.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Luciano Darderi,4-6 6-2 6-4,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,183.0,ITA,24,0,98.0,0,18.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Sebastian Baez,Jiri Lehecka,6-4 6-1,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,170.0,ARG,26,0,0,0,R,185.0,CZE,25,0,52.0,0,22.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Valentin Vacherot,Nuno Borges,7-5 7-5,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,MON,28,0,0,0,R,185.0,POR,29,0,25.0,0,50.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Arthur Rinderknech,Juan Manuel Cerundolo,,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,196.0,FRA,31,0,0,0,R,183.0,ARG,25,0,27.0,0,71.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Cameron Norrie,Mackenzie McDonald,6-2 6-3,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,185.0,UNK,25,0,24.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Aleksandar Kovacevic,Corentin Moutet,6-1 6-4,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,USA,28,0,0,0,R,180.0,FRA,27,0,92.0,0,33.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alex Michelsen,Ugo Humbert,7-5 6-7 5-6 7-6,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,USA,22,0,0,0,R,188.0,FRA,28,0,40.0,0,34.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jannik Sinner,Dalibor Svrcina,6-1 6-1,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,178.0,CZE,24,0,2.0,0,100.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Zverev,Matteo Berrettini,6-3 6-4,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,196.0,ITA,30,0,4.0,0,68.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Marton Fucsovics,Lorenzo Musetti,7-5 6-1,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,HUN,34,0,0,0,R,185.0,ITA,24,0,54.0,0,5.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Ben Shelton,Reilly Opelka,6-7 3-6 7-4 6-3,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,211.0,USA,29,0,9.0,0,67.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Felix Auger-Aliassime,Gael Monfils,6-7 5-3 6-4,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,193.0,FRA,40,0,150.0,0,153.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jakub Mensik,Marcos Giron,7-5 7-6,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,CZE,21,0,0,0,R,180.0,USA,33,0,13.0,0,70.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Flavio Cobolli,Miomir Kecmanovic,3-6 6-3 6-4,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,183.0,SRB,27,0,14.0,0,58.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alejandro Davidovich Fokina,Zachary Svajda,7-6 6-0,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ESP,27,0,0,0,R,175.0,USA,24,0,17.0,0,96.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Frances Tiafoe,Jenson Brooksby,6-4 6-2,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,USA,28,0,0,0,R,193.0,USA,26,0,20.0,0,42.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Tommy Paul,Zizou Bergs,6-1 6-2,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,USA,29,0,0,0,R,185.0,BEL,27,0,23.0,0,45.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Learner Tien,Adam Walton,7-6 7-3,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,180.0,USA,21,0,0,0,R,183.0,AUS,27,0,21.0,0,85.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Brandon Nakashima,Camilo Ugo Carabelli,6-3 6-4,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,USA,25,0,0,0,R,185.0,ARG,27,0,30.0,0,66.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Denis Shapovalov,Tomas Martin Etcheverry,6-3 2-6 7-6,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,CAN,27,0,0,0,R,196.0,ARG,27,0,38.0,0,32.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Arthur Fils,Dino Prizmic,6-2 3-2,Round of 64 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,CRO,21,0,31.0,0,108.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Sebastian Baez,Chun-Hsin Tseng,6-3 6-2,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,170.0,ARG,26,0,0,0,R,185.0,UNK,25,0,52.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Roberto Bautista Agut,Fabian Marozsan,6-4 6-7 2-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ESP,38,0,0,0,R,193.0,HUN,27,0,89.0,0,46.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Benjamin Bonzi,Valentin Royer,6-4 6-3,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,188.0,UNK,25,0,103.0,0,69.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Nuno Borges,Emilio Nava,7-6 7-9,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,POR,29,0,0,0,R,185.0,USA,25,0,50.0,0,74.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Juan Manuel Cerundolo,Botic van de Zandschulp,7-6 6-3 5-7 6-3,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ARG,25,0,0,0,R,185.0,UNK,25,0,71.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Grigor Dimitrov,Terence Atmane,6-4 5-7 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,191.0,BUL,35,0,0,0,R,193.0,FRA,24,0,44.0,0,53.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jacob Fearnley,Damir Dzumhur,6-3 6-3,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,GBR,25,0,0,0,R,175.0,BIH,34,0,83.0,0,76.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Francesco Maestrelli,7-6 6-5,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,196.0,ITA,24,0,98.0,0,112.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Vit Kopriva,Michael Zheng,7-6 7-1,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,188.0,UNK,22,0,60.0,0,145.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Sebastian Korda,Francisco Comesana,7-5 6-0,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,196.0,USA,26,0,0,0,R,178.0,ARG,26,0,36.0,0,82.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Aleksandar Kovacevic,Hubert Hurkacz,7-6 7-6,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,USA,28,0,0,0,R,196.0,POL,29,0,92.0,0,75.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Kamil Majchrzak,Giovanni Mpetshi Perricard,6-3 1-6 7-5,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,180.0,POL,30,0,0,0,R,203.0,FRA,23,0,57.0,0,59.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Mackenzie McDonald,Matteo Arnaldi,6-0 6-1,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,185.0,ITA,25,0,150.0,0,101.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alex Michelsen,Daniel Merida,6-3 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,USA,22,0,0,0,R,188.0,UNK,22,0,40.0,0,135.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alexander Shevchenko,Sho Shimabukuro,6-4 3-6 6-2,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,KAZ,26,0,0,0,R,180.0,JPN,29,0,84.0,0,110.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alejandro Tabilo,Rafael Jodar,6-1 6-2,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,CHI,29,0,0,0,R,188.0,UNK,20,0,41.0,0,109.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Zizou Bergs,Jan-Lennard Struff,6-3 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,BEL,27,0,0,0,R,185.0,UNK,25,0,45.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Matteo Berrettini,Adrian Mannarino,4-6 7-5 7-5,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,196.0,ITA,30,0,0,0,R,180.0,FRA,38,0,68.0,0,43.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Jenson Brooksby,Alexei Popyrin,6-3 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,USA,26,0,0,0,R,196.0,AUS,27,0,42.0,0,47.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Gabriel Diallo,Mattia Bellucci,7-6 6-5,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,203.0,CAN,25,0,0,0,R,175.0,ITA,25,0,37.0,0,77.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Joao Fonseca,Raphael Collignon,7-6 6-2,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,191.0,BEL,24,0,39.0,0,72.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Marton Fucsovics,Christopher O'Connell,7-5 6-3,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,HUN,34,0,0,0,R,183.0,UNK,32,0,54.0,0,130.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Marcos Giron,Mariano Navone,4-6 7-5 6-3,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,180.0,USA,33,0,0,0,R,178.0,ARG,25,0,70.0,0,61.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Miomir Kecmanovic,Daniel Altmaier,6-3 1-0,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,SRB,27,0,0,0,R,188.0,GER,28,0,58.0,0,55.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Gael Monfils,Alexis Galarneau,6-3 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,FRA,40,0,0,0,R,180.0,CAN,27,0,153.0,0,209.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Reilly Opelka,Ethan Quinn,7-5 7-6,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,211.0,USA,29,0,0,0,R,191.0,USA,22,0,67.0,0,56.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Dino Prizmic,Tristan Schoolkate,7-6 3-5 7-6,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,183.0,AUS,25,0,108.0,0,114.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Denis Shapovalov,Stefanos Tsitsipas,6-2 3-6 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,CAN,27,0,0,0,R,193.0,GRE,28,0,38.0,0,51.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Zachary Svajda,Marin Cilic,7-6 6-5,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,175.0,USA,24,0,0,0,R,198.0,CRO,38,0,96.0,0,49.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Dalibor Svrcina,James Duckworth,6-2 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,178.0,CZE,24,0,0,0,R,183.0,AUS,34,0,100.0,0,80.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Camilo Ugo Carabelli,Martin Damm,7-6 6-5,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,ARG,27,0,0,0,R,203.0,USA,0,0,66.0,0,133.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Adam Walton,Quentin Halys,6-3 6-3,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,AUS,27,0,0,0,R,191.0,FRA,30,0,85.0,0,111.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Dalibor Svrcina,Vit Kopriva,7-6 6-4,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,178.0,CZE,24,0,0,0,R,178.0,CZE,29,0,100.0,0,60.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Ignacio Buse,3-6 6-3 6-4,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,185.0,PER,22,0,98.0,0,63.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Francesco Maestrelli,Thiago Agustin Tirante,7-6 6-5,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,196.0,ITA,24,0,0,0,R,185.0,ARG,25,0,112.0,0,81.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Dino Prizmic,Aleksandar Vukic,6-2 6-4,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,188.0,AUS,30,0,108.0,0,93.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Chun-Hsin Tseng,Roman Andres Burruchaga,2-6 7-6 6-3,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,183.0,ARG,24,0,150.0,0,102.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Benjamin Bonzi,Shintaro Mochizuki,6-4 5-7 6-3,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,175.0,JPN,23,0,103.0,0,129.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Christopher O'Connell,Nikoloz Basilashvili,6-4 6-4,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,UNK,32,0,0,0,R,185.0,GEO,34,0,130.0,0,134.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Tristan Schoolkate,Elias Ymer,6-4 3-1,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,AUS,25,0,0,0,R,185.0,SWE,30,0,114.0,0,169.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alexis Galarneau,Tomas Barrios Vera,6-3 6-4,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,180.0,CAN,27,0,0,0,R,191.0,CHI,29,0,209.0,0,119.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Mackenzie McDonald,Trevor Svajda,6-4 6-2,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,175.0,UNK,20,0,150.0,0,371.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Sho Shimabukuro,Martin Landaluce,6-2 6-7 3-5,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,180.0,JPN,29,0,0,0,R,193.0,ESP,20,0,110.0,0,151.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Daniel Merida,Dane Sweeny,6-3 4-6 6-3,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,170.0,AUS,25,0,135.0,0,132.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Vit Kopriva,Rei Sakamoto,6-4 7-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,193.0,UNK,20,0,60.0,0,164.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Ignacio Buse,Liam Draxl,6-4 7-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,PER,22,0,0,0,R,185.0,UNK,25,0,63.0,0,147.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Thiago Agustin Tirante,Izyan Ahmad,6-1 6-2,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,ARG,25,0,0,0,R,185.0,UNK,25,0,81.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Aleksandar Vukic,Stefano Travaglia,7-6 7-2,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,AUS,30,0,0,0,R,185.0,ITA,35,0,93.0,0,161.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Martin Landaluce,Alexander Blockx,6-0 6-2,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,193.0,ESP,20,0,0,0,R,191.0,BEL,21,0,151.0,0,88.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Roman Andres Burruchaga,Moez Echargui,7-6 4-4 7-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ARG,24,0,0,0,R,178.0,TUN,33,0,102.0,0,141.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Alexis Galarneau,Luca Van Assche,7-6 6-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,180.0,CAN,27,0,0,0,R,178.0,FRA,22,0,209.0,0,106.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Daniel Merida,Patrick Kypson,3-6 6-3 7-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,188.0,USA,27,0,135.0,0,97.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Benjamin Bonzi,Jack Pinnington Jones,6-3 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,180.0,UNK,23,0,103.0,0,136.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Christopher O'Connell,Billy Harris,6-4 6-3,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,UNK,32,0,0,0,R,193.0,GBR,31,0,130.0,0,138.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Tristan Schoolkate,Alex Bolt,3-6 7-6 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,AUS,25,0,0,0,R,183.0,AUS,33,0,114.0,0,163.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Trevor Svajda,Luca Nardi,4-6 7-6 6-2,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,175.0,UNK,20,0,0,0,R,185.0,ITA,23,0,371.0,0,139.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Francesco Maestrelli,Nicolas Jarry,6-4 4-6 7-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,196.0,ITA,24,0,0,0,R,201.0,CHI,31,0,112.0,0,152.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Tomas Barrios Vera,Jagger Leach,6-3 6-3,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,191.0,CHI,29,0,0,0,R,185.0,UNK,25,0,119.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Rinky Hijikata,Leandro Riedi,7-5 6-3,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,191.0,SUI,24,0,98.0,0,168.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Shintaro Mochizuki,Federico Agustin Gomez,6-4 4-6 6-3,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,175.0,JPN,23,0,0,0,R,191.0,ARG,30,0,129.0,0,182.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Mackenzie McDonald,Vitaliy Sachko,6-2 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,188.0,UKR,29,0,150.0,0,186.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Dino Prizmic,Darwin Blanch,7-6 6-3,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,185.0,USA,19,0,108.0,0,272.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Dalibor Svrcina,Mitchell Krueger,7-6 6-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,178.0,CZE,24,0,0,0,R,188.0,USA,32,0,100.0,0,254.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Elias Ymer,Coleman Wong,6-3 3-6 7-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,SWE,30,0,0,0,R,183.0,HKG,22,0,169.0,0,120.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Chun-Hsin Tseng,David Goffin,6-4 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,180.0,BEL,36,0,150.0,0,156.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Sho Shimabukuro,Colton Smith,7-6 7-5,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,180.0,JPN,29,0,0,0,R,183.0,UNK,23,0,110.0,0,162.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Dane Sweeny,Andrew Johnson,6-2 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,170.0,AUS,25,0,0,0,R,185.0,UNK,25,0,132.0,0,150.0,0
+2026-indian-wells-17,indian-wells,Hard,20260304,Nikoloz Basilashvili,Nicolas Mejia,0-6 6-2 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,183.0,COL,26,0,134.0,0,185.0,0
+2026-miami-18,miami,Hard,20260318,Alex Michelsen,Mattia Bellucci,6-2 6-1,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,USA,22,0,0,0,R,175.0,ITA,25,0,40.0,0,77.0,0
+2026-miami-18,miami,Hard,20260318,Roberto Bautista Agut,James Duckworth,7-6 7-3,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,ESP,38,0,0,0,R,183.0,AUS,34,0,89.0,0,80.0,0
+2026-miami-18,miami,Hard,20260318,Zizou Bergs,Jenson Brooksby,7-5 6-2,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,BEL,27,0,0,0,R,193.0,USA,26,0,45.0,0,42.0,0
+2026-miami-18,miami,Hard,20260318,Matteo Berrettini,Alexandre Muller,6-4 6-2,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,196.0,ITA,30,0,0,0,R,183.0,FRA,29,0,68.0,0,90.0,0
+2026-miami-18,miami,Hard,20260318,Darwin Blanch,Jan-Lennard Struff,6-3 3-6 6-3,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,USA,19,0,0,0,R,185.0,UNK,25,0,272.0,0,150.0,0
+2026-miami-18,miami,Hard,20260318,Marin Cilic,Alexei Popyrin,6-4 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,198.0,CRO,38,0,0,0,R,196.0,AUS,27,0,49.0,0,47.0,0
+2026-miami-18,miami,Hard,20260318,Raphael Collignon,Grigor Dimitrov,7-6 4-3 7-6,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,191.0,BEL,24,0,0,0,R,191.0,BUL,35,0,72.0,0,44.0,0
+2026-miami-18,miami,Hard,20260318,Martin Damm,Jacob Fearnley,6-0,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,203.0,USA,0,0,0,0,R,183.0,GBR,25,0,133.0,0,83.0,0
+2026-miami-18,miami,Hard,20260318,Damir Dzumhur,Ignacio Buse,6-7 6-6 7-6 6-1,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,175.0,BIH,34,0,0,0,R,185.0,PER,22,0,76.0,0,63.0,0
+2026-miami-18,miami,Hard,20260318,Joao Fonseca,Fabian Marozsan,6-4 3-6 6-2,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,193.0,HUN,27,0,39.0,0,46.0,0
+2026-miami-18,miami,Hard,20260318,Quentin Halys,Liam Draxl,6-7 4-1 6-1,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,191.0,FRA,30,0,0,0,R,185.0,UNK,25,0,111.0,0,147.0,0
+2026-miami-18,miami,Hard,20260318,Rafael Jodar,Yannick Hanfmann,6-4 4-6 6-1,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,193.0,GER,35,0,109.0,0,64.0,0
+2026-miami-18,miami,Hard,20260318,Moise Kouame,Zachary Svajda,5-7 6-4 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,175.0,USA,24,0,385.0,0,96.0,0
+2026-miami-18,miami,Hard,20260318,Martin Landaluce,Marcos Giron,6-3 7-6,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,ESP,20,0,0,0,R,180.0,USA,33,0,151.0,0,70.0,0
+2026-miami-18,miami,Hard,20260318,Tomas Machac,Emilio Nava,2-6 6-4 6-1,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,183.0,CZE,26,0,0,0,R,185.0,USA,25,0,48.0,0,74.0,0
+2026-miami-18,miami,Hard,20260318,Kamil Majchrzak,Miomir Kecmanovic,4-6 6-3 6-1,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,180.0,POL,30,0,0,0,R,183.0,SRB,27,0,57.0,0,58.0,0
+2026-miami-18,miami,Hard,20260318,Adrian Mannarino,Zhizhen Zhang,6-3 6-2,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,180.0,FRA,38,0,0,0,R,193.0,CHN,30,0,43.0,0,270.0,0
+2026-miami-18,miami,Hard,20260318,Mariano Navone,Nikoloz Basilashvili,7-6 6-7,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,178.0,ARG,25,0,0,0,R,185.0,GEO,34,0,61.0,0,134.0,0
+2026-miami-18,miami,Hard,20260318,Reilly Opelka,Nuno Borges,6-7 6-2 6-6 7-5,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,211.0,USA,29,0,0,0,R,185.0,POR,29,0,67.0,0,50.0,0
+2026-miami-18,miami,Hard,20260318,Ethan Quinn,Hubert Hurkacz,6-2 6-4,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,191.0,USA,22,0,0,0,R,196.0,POL,29,0,56.0,0,75.0,0
+2026-miami-18,miami,Hard,20260318,Alejandro Tabilo,Francisco Comesana,6-4 6-2,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,188.0,CHI,29,0,0,0,R,178.0,ARG,26,0,41.0,0,82.0,0
+2026-miami-18,miami,Hard,20260318,Stefanos Tsitsipas,Arthur Fery,6-1 7-6,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,193.0,GRE,28,0,0,0,R,175.0,GBR,24,0,51.0,0,174.0,0
+2026-miami-18,miami,Hard,20260318,Camilo Ugo Carabelli,Giovanni Mpetshi Perricard,2-6 6-3 7-6,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,ARG,27,0,0,0,R,203.0,FRA,23,0,66.0,0,59.0,0
+2026-miami-18,miami,Hard,20260318,Botic van de Zandschulp,Denis Shapovalov,7-5 6-3,Round of 128 ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,185.0,CAN,27,0,150.0,0,38.0,0
+2026-miami-18,miami,Hard,20260318,Ignacio Buse,Coleman Wong,6-2 3-6 6-3,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,PER,22,0,0,0,R,183.0,HKG,22,0,63.0,0,120.0,0
+2026-miami-18,miami,Hard,20260318,Yannick Hanfmann,Luca Van Assche,6-1 5-7 6-3,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,193.0,GER,35,0,0,0,R,178.0,FRA,22,0,64.0,0,106.0,0
+2026-miami-18,miami,Hard,20260318,Martin Landaluce,Thiago Agustin Tirante,3-6 7-5 6-4,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,193.0,ESP,20,0,0,0,R,185.0,ARG,25,0,151.0,0,81.0,0
+2026-miami-18,miami,Hard,20260318,Tomas Barrios Vera,Aleksandar Vukic,6-3 7-6,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,191.0,CHI,29,0,0,0,R,188.0,AUS,30,0,119.0,0,93.0,0
+2026-miami-18,miami,Hard,20260318,Adam Walton,Rinky Hijikata,6-3 6-7 2-1,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,AUS,27,0,0,0,R,178.0,AUS,25,0,85.0,0,98.0,0
+2026-miami-18,miami,Hard,20260318,Mattia Bellucci,Murphy Cassone,3-6 7-6 6-5,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,175.0,ITA,25,0,0,0,R,188.0,UNK,24,0,77.0,0,256.0,0
+2026-miami-18,miami,Hard,20260318,Christopher O'Connell,Alexander Blockx,4-6 6-4 6-4,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,UNK,32,0,0,0,R,191.0,BEL,21,0,130.0,0,88.0,0
+2026-miami-18,miami,Hard,20260318,Zachary Svajda,Daniel Merida,6-0 6-7 2-2,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,175.0,USA,24,0,0,0,R,188.0,UNK,22,0,96.0,0,135.0,0
+2026-miami-18,miami,Hard,20260318,Rafael Jodar,Benjamin Bonzi,6-4 6-4,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,183.0,FRA,30,0,109.0,0,103.0,0
+2026-miami-18,miami,Hard,20260318,Nikoloz Basilashvili,Sho Shimabukuro,6-2 6-1,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,180.0,JPN,29,0,134.0,0,110.0,0
+2026-miami-18,miami,Hard,20260318,Liam Draxl,Jay Clarke,6-3 3-6 6-4,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,183.0,GBR,28,0,147.0,0,179.0,0
+2026-miami-18,miami,Hard,20260318,Arthur Fery,Yunchaokete Bu,6-3 3-6 7-5,2nd Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,175.0,GBR,24,0,0,0,R,185.0,UNK,24,0,174.0,0,150.0,0
+2026-miami-18,miami,Hard,20260318,Ignacio Buse,Moez Echargui,6-3 6-7 4-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,PER,22,0,0,0,R,178.0,TUN,33,0,63.0,0,141.0,0
+2026-miami-18,miami,Hard,20260318,Yannick Hanfmann,Leandro Riedi,6-3 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,193.0,GER,35,0,0,0,R,191.0,SUI,24,0,64.0,0,168.0,0
+2026-miami-18,miami,Hard,20260318,Thiago Agustin Tirante,Diego Dedura,6-2 6-3,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,ARG,25,0,0,0,R,185.0,UNK,18,0,81.0,0,259.0,0
+2026-miami-18,miami,Hard,20260318,Aleksandar Vukic,Billy Harris,7-6 6-3,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,AUS,30,0,0,0,R,193.0,GBR,31,0,93.0,0,138.0,0
+2026-miami-18,miami,Hard,20260318,Liam Draxl,Cristian Garin,4-6 6-4 6-2,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,185.0,CHI,30,0,147.0,0,95.0,0
+2026-miami-18,miami,Hard,20260318,Adam Walton,Chris Rodesch,6-2 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,AUS,27,0,0,0,R,198.0,LUX,25,0,85.0,0,142.0,0
+2026-miami-18,miami,Hard,20260318,Mattia Bellucci,Nicolas Jarry,6-3 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,175.0,ITA,25,0,0,0,R,201.0,CHI,31,0,77.0,0,152.0,0
+2026-miami-18,miami,Hard,20260318,Nikoloz Basilashvili,Patrick Kypson,6-3 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,188.0,USA,27,0,134.0,0,97.0,0
+2026-miami-18,miami,Hard,20260318,Alexander Blockx,Chun-Hsin Tseng,7-6 6-5,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,191.0,BEL,21,0,0,0,R,185.0,UNK,25,0,88.0,0,150.0,0
+2026-miami-18,miami,Hard,20260318,Arthur Fery,Roman Andres Burruchaga,2-6 6-4 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,175.0,GBR,24,0,0,0,R,183.0,ARG,24,0,174.0,0,102.0,0
+2026-miami-18,miami,Hard,20260318,Zachary Svajda,Colton Smith,6-7 6-3 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,175.0,USA,24,0,0,0,R,183.0,UNK,23,0,96.0,0,162.0,0
+2026-miami-18,miami,Hard,20260318,Rafael Jodar,Manas Dhamne,6-3 7-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,188.0,IND,18,0,109.0,0,486.0,0
+2026-miami-18,miami,Hard,20260318,Luca Van Assche,Benjamin Willwerth,6-3 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,178.0,FRA,22,0,0,0,R,185.0,UNK,25,0,106.0,0,150.0,0
+2026-miami-18,miami,Hard,20260318,Daniel Merida,Dalibor Svrcina,6-7 1-4 6-6 7-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,178.0,CZE,24,0,135.0,0,100.0,0
+2026-miami-18,miami,Hard,20260318,Benjamin Bonzi,Guto Miguel,6-2 7-6,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,185.0,UNK,25,0,103.0,0,150.0,0
+2026-miami-18,miami,Hard,20260318,Sho Shimabukuro,Alex Bolt,6-2 6-7 3-3,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,180.0,JPN,29,0,0,0,R,183.0,AUS,33,0,110.0,0,163.0,0
+2026-miami-18,miami,Hard,20260318,Murphy Cassone,Francesco Maestrelli,7-6 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,188.0,UNK,24,0,0,0,R,196.0,ITA,24,0,256.0,0,112.0,0
+2026-miami-18,miami,Hard,20260318,Tomas Barrios Vera,Nishesh Basavareddy,6-3 6-2,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,191.0,CHI,29,0,0,0,R,180.0,USA,21,0,119.0,0,198.0,0
+2026-miami-18,miami,Hard,20260318,Rinky Hijikata,Dane Sweeny,6-3 6-2,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,178.0,AUS,25,0,0,0,R,170.0,AUS,25,0,98.0,0,132.0,0
+2026-miami-18,miami,Hard,20260318,Yunchaokete Bu,Tristan Schoolkate,7-5 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,185.0,UNK,24,0,0,0,R,183.0,AUS,25,0,150.0,0,114.0,0
+2026-miami-18,miami,Hard,20260318,Coleman Wong,Jack Pinnington Jones,5-7 7-6 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,HKG,22,0,0,0,R,180.0,UNK,23,0,120.0,0,136.0,0
+2026-miami-18,miami,Hard,20260318,Martin Landaluce,Mackenzie McDonald,6-3 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,193.0,ESP,20,0,0,0,R,185.0,UNK,25,0,151.0,0,150.0,0
+2026-miami-18,miami,Hard,20260318,Christopher O'Connell,Nicolas Mejia,7-6 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,UNK,32,0,0,0,R,183.0,COL,26,0,130.0,0,185.0,0
+2026-miami-18,miami,Hard,20260318,Jay Clarke,Shintaro Mochizuki,6-4 3-6 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,R,183.0,GBR,28,0,0,0,R,175.0,JPN,23,0,179.0,0,129.0,0
