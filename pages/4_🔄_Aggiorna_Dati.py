@@ -1,5 +1,6 @@
+import os
 """
-4_🔄_Aggiorna_Dati.py  —  Pagina Streamlit per aggiornare i dati
+4__Aggiorna_Dati.py  —  Pagina Streamlit per aggiornare i dati
 ================================================================
 Lancia la pipeline di aggiornamento tramite GitHub Actions,
 direttamente dal sito web con un bottone.
@@ -10,12 +11,20 @@ import requests
 import time
 from datetime import datetime, timezone
 
-st.set_page_config(page_title="Aggiorna Dati", page_icon="🔄", layout="wide")
+st.set_page_config(page_title="Aggiorna Dati", page_icon="", layout="wide")
+
+# Carica CSS custom
+css_path = os.path.join(os.path.dirname(__file__), "../assets/style.css")
+if os.path.exists(css_path):
+    with open(css_path, "r", encoding="utf-8") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
 
 hide_st_style = """
     <style>
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
+            header {visibility: hidden;}
     </style>
 """
 st.markdown(hide_st_style, unsafe_allow_html=True)
@@ -28,11 +37,11 @@ senza dover accendere il PC. L'aggiornamento viene eseguito su **GitHub Actions*
 
 st.divider()
 
-# ─── Protezione con password ─────────────────────────────────────────────────
+#  Protezione con password 
 ADMIN_PASSWORD = "Tennis2026"
 
 if not ADMIN_PASSWORD:
-    st.error("⚠️ **ADMIN_PASSWORD** non configurata nei Secrets di Streamlit Cloud.")
+    st.error(" **ADMIN_PASSWORD** non configurata nei Secrets di Streamlit Cloud.")
     st.stop()
 
 if "admin_auth" not in st.session_state:
@@ -41,15 +50,15 @@ if "admin_auth" not in st.session_state:
 if not st.session_state.admin_auth:
     st.markdown("### 🔐 Accesso riservato")
     pwd = st.text_input("Inserisci la password amministratore:", type="password")
-    if st.button("🔓 Accedi", use_container_width=True):
+    if st.button(" Accedi", use_container_width=True):
         if pwd == ADMIN_PASSWORD:
             st.session_state.admin_auth = True
             st.rerun()
         else:
-            st.error("❌ Password errata.")
+            st.error(" Password errata.")
     st.stop()
 
-# ─── Configurazione GitHub ────────────────────────────────────────────────────
+#  Configurazione GitHub 
 # Il token va messo nei Secrets di Streamlit Cloud come GITHUB_TOKEN
 # Il repo va configurato qui sotto
 
@@ -59,7 +68,7 @@ WORKFLOW_FILE = "update_pipeline.yml"
 
 if not GITHUB_TOKEN or not GITHUB_REPO:
     st.error("""
-    ⚠️ **Configurazione mancante!**
+     **Configurazione mancante!**
 
     Per usare questa pagina, devi aggiungere questi **Secrets** nelle impostazioni di Streamlit Cloud:
 
@@ -80,7 +89,7 @@ HEADERS = {
     "Accept": "application/vnd.github.v3+json",
 }
 
-# ─── Funzioni GitHub API ─────────────────────────────────────────────────────
+#  Funzioni GitHub API 
 
 def avvia_workflow(inputs: dict) -> tuple[bool, str]:
     """Avvia il workflow su GitHub Actions tramite API."""
@@ -137,37 +146,37 @@ def get_job_logs(job_id: int) -> str:
     return ""
 
 
-# ─── Sezione: Seleziona le fasi ──────────────────────────────────────────────
+#  Sezione: Seleziona le fasi 
 
-st.subheader("⚙️ Seleziona le fasi da eseguire")
+st.subheader(" Seleziona le fasi da eseguire")
 
 col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("##### 📡 Dati")
-    scraping    = st.checkbox("🌐 Scraping ATP (Ranking + Partite + Elaborazione)", value=True)
-    fusione     = st.checkbox("📎 Fusione Storico", value=True)
-    profili     = st.checkbox("👤 Profili Giocatori", value=True)
-    bio         = st.checkbox("🧬 Bio Giocatori (DOB + altezza da tennisstats.com)", value=False)
-    court_speed = st.checkbox("🏟️ Court Speed (scraping + arricchimento)", value=True)
+    scraping    = st.checkbox(" Scraping ATP (Ranking + Partite + Elaborazione)", value=True)
+    fusione     = st.checkbox(" Fusione Storico", value=True)
+    profili     = st.checkbox(" Profili Giocatori", value=True)
+    bio         = st.checkbox(" Bio Giocatori (DOB + altezza da tennisstats.com)", value=False)
+    court_speed = st.checkbox(" Court Speed (scraping + arricchimento)", value=True)
 
     if bio:
-        st.info("ℹ️ Lo scraping bio fa ~400 richieste HTTP. Solo se i profili sono sbagliati.")
+        st.info("ℹ Lo scraping bio fa ~400 richieste HTTP. Solo se i profili sono sbagliati.")
 
 with col2:
     st.markdown("##### 🧠 Modelli")
-    modelli_base = st.checkbox("📈 Training Modelli Base (XGBoost, Ensemble, LR)", value=False)
-    ann          = st.checkbox("🧠 Training ANN Testa a Testa (lento ~1-2h su CPU)", value=False)
-    special_bets = st.checkbox("🎲 Training Special Bets (Ace, DF, Break)", value=False)
+    modelli_base = st.checkbox(" Training Modelli Base (XGBoost, Ensemble, LR)", value=False)
+    ann          = st.checkbox(" Training ANN Testa a Testa (lento ~1-2h su CPU)", value=False)
+    special_bets = st.checkbox(" Training Special Bets (Ace, DF, Break)", value=False)
 
     if ann or special_bets:
-        st.warning("⚠️ Il training esteso può richiedere molto tempo. Il runner di GitHub Actions ha un timeout di 3 ore.")
+        st.warning(" Il training esteso può richiedere molto tempo. Il runner di GitHub Actions ha un timeout di 3 ore.")
 
 st.divider()
 
-# ─── Bottone Avvia ────────────────────────────────────────────────────────────
+#  Bottone Avvia 
 
-if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=True):
+if st.button(" Avvia Aggiornamento", type="primary", use_container_width=True):
     inputs = {
         "esegui_scraping":    scraping,
         "esegui_fusione":     fusione,
@@ -179,17 +188,17 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
         "esegui_special_bets": special_bets, # Nuova variabile!
     }
 
-    with st.spinner("📡 Invio richiesta a GitHub Actions..."):
+    with st.spinner(" Invio richiesta a GitHub Actions..."):
         ok, errore = avvia_workflow(inputs)
 
     if ok:
-        st.success("✅ **Workflow avviato con successo!** Puoi seguire il progresso qui sotto.")
+        st.success(" **Workflow avviato con successo!** Puoi seguire il progresso qui sotto.")
         st.balloons()
 
         # Aspetta qualche secondo che GitHub crei il run
         time.sleep(5)
 
-        # ─── Monitoring in tempo reale ────────────────────────────────────
+        #  Monitoring in tempo reale 
         status_container = st.empty()
         progress_bar = st.progress(0, text="In attesa...")
         log_container = st.empty()
@@ -229,27 +238,27 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
                             s_status = s.get("status", "?")
                             s_conclusion = s.get("conclusion")
                             if s_conclusion == "success":
-                                steps_md += f"- ✅ {name}\n"
+                                steps_md += f"-  {name}\n"
                             elif s_conclusion == "failure":
-                                steps_md += f"- ❌ {name}\n"
+                                steps_md += f"-  {name}\n"
                             elif s_status == "in_progress":
                                 steps_md += f"- ⏳ **{name}** (in corso...)\n"
                             else:
-                                steps_md += f"- ⬜ {name}\n"
+                                steps_md += f"-  {name}\n"
 
                         steps_info = steps_md
 
-                status_container.warning(f"⚙️ **In esecuzione...** ([vedi su GitHub]({run_url}))")
+                status_container.warning(f" **In esecuzione...** ([vedi su GitHub]({run_url}))")
                 if steps_info:
-                    log_container.markdown(f"### 📋 Progresso Step\n{steps_info}")
+                    log_container.markdown(f"###  Progresso Step\n{steps_info}")
 
             elif status == "completed":
                 progress_bar.progress(100, text="Completato!")
 
                 if conclusion == "success":
-                    status_container.success(f"🎉 **Aggiornamento completato con successo!** ([vedi dettagli]({run_url}))")
+                    status_container.success(f" **Aggiornamento completato con successo!** ([vedi dettagli]({run_url}))")
                     log_container.markdown("""
-                    ### ✅ Cosa succede ora?
+                    ###  Cosa succede ora?
                     I dati aggiornati sono stati **committati nel repo**.
                     Streamlit Cloud rileverà automaticamente le modifiche
                     e **riavvierà l'app** con i dati nuovi entro pochi minuti.
@@ -257,9 +266,9 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
                     Per applicare subito: **ricarica la pagina** (F5).
                     """)
                 elif conclusion == "failure":
-                    status_container.error(f"❌ **Aggiornamento fallito!** ([vedi log su GitHub]({run_url}))")
+                    status_container.error(f" **Aggiornamento fallito!** ([vedi log su GitHub]({run_url}))")
                 else:
-                    status_container.warning(f"⚠️ **Completato con esito: {conclusion}** ([dettagli]({run_url}))")
+                    status_container.warning(f" **Completato con esito: {conclusion}** ([dettagli]({run_url}))")
                 break
 
             time.sleep(10)
@@ -268,7 +277,7 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
 
     else:
         st.error(f"""
-        ❌ **Impossibile avviare il workflow.**
+         **Impossibile avviare il workflow.**
 
         **Errore:** `{errore}`
 
@@ -284,10 +293,10 @@ if st.button("🚀 Avvia Aggiornamento", type="primary", use_container_width=Tru
         - Il file workflow non esiste nel branch `main`
         """)
 
-# ─── Sezione: Ultimo aggiornamento ───────────────────────────────────────────
+#  Sezione: Ultimo aggiornamento 
 
 st.divider()
-st.subheader("📜 Ultimo Aggiornamento")
+st.subheader(" Ultimo Aggiornamento")
 
 run = get_ultimo_run()
 if run:
@@ -305,17 +314,17 @@ if run:
 
     # Icona stato
     if status == "completed" and conclusion == "success":
-        icona = "✅"
+        icona = ""
     elif status == "completed" and conclusion == "failure":
-        icona = "❌"
+        icona = ""
     elif status in ("queued", "in_progress"):
         icona = "⏳"
     else:
-        icona = "❔"
+        icona = ""
 
     col_info1, col_info2, col_info3 = st.columns(3)
     col_info1.metric("Stato", f"{icona} {conclusion or status}")
     col_info2.metric("Data", data_str)
-    col_info3.markdown(f"[🔗 Vedi su GitHub]({run_url})")
+    col_info3.markdown(f"[ Vedi su GitHub]({run_url})")
 else:
     st.info("Nessun aggiornamento precedente trovato.")

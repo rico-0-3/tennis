@@ -1,0 +1,427 @@
+/* ============================================
+   ATP TENNIS PREDICTOR - CUSTOM THEME
+   Design moderno e pulito per app Streamlit
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* -------- VARIABILI CSS -------- */
+:root {
+    --tennis-green: #1B5E20;
+    --tennis-light: #4CAF50;
+    --tennis-dark: #0D3310;
+    --clay-orange: #D84315;
+    --clay-light: #FF8A65;
+    --hard-blue: #1565C0;
+    --hard-light: #42A5F5;
+    --accent-gold: #FFD700;
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+}
+
+/* -------- RESET E BASE -------- */
+* {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.main .block-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    max-width: 1200px;
+}
+
+/* -------- HEADER PRINCIPALE -------- */
+.tennis-header {
+    background: linear-gradient(135deg, var(--tennis-dark) 0%, var(--tennis-green) 50%, var(--tennis-light) 100%);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(27, 94, 32, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.tennis-header::before {
+    content: '🎾';
+    position: absolute;
+    font-size: 8rem;
+    opacity: 0.1;
+    right: -20px;
+    top: -20px;
+    transform: rotate(15deg);
+}
+
+.tennis-header h1 {
+    color: white !important;
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    margin: 0 !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.tennis-header h3 {
+    color: rgba(255,255,255,0.9) !important;
+    font-size: 1.1rem !important;
+    font-weight: 400 !important;
+    margin: 0.5rem 0 0 0 !important;
+}
+
+/* -------- CARD MODERNE -------- */
+.tennis-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.tennis-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.tennis-card h3 {
+    color: var(--tennis-dark);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* -------- BOTTONI STYLIZZATI -------- */
+.stButton > button {
+    background: linear-gradient(135deg, var(--tennis-green) 0%, var(--tennis-light) 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(27, 94, 32, 0.3) !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(27, 94, 32, 0.4) !important;
+}
+
+.stButton > button[kind="secondary"] {
+    background: white !important;
+    color: var(--tennis-green) !important;
+    border: 2px solid var(--tennis-green) !important;
+}
+
+/* -------- METRICHE STYLIZZATE -------- */
+[data-testid="stMetric"] {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 16px;
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-left: 4px solid var(--tennis-green);
+}
+
+[data-testid="stMetric"] label {
+    color: var(--tennis-dark) !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+}
+
+[data-testid="stMetric"] .css-1xare5h {
+    color: var(--tennis-green) !important;
+    font-weight: 700 !important;
+    font-size: 1.8rem !important;
+}
+
+/* -------- SIDEBAR -------- */
+.css-1d391kg {
+    background: linear-gradient(180deg, var(--tennis-dark) 0%, #1a1a2e 100%);
+}
+
+.css-1d391kg .css-17lntk1 {
+    color: white !important;
+}
+
+.css-1d391kg [data-testid="stSidebarNav"] {
+    background: transparent;
+}
+
+/* -------- SELEZIONE GIOCATORI -------- */
+.player-select {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 2px solid rgba(27, 94, 32, 0.1);
+}
+
+.player-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+.player-card:hover {
+    transform: scale(1.02);
+}
+
+.player-card.winner {
+    border: 3px solid var(--accent-gold);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+/* -------- PREDICTION RESULT -------- */
+.prediction-result {
+    background: linear-gradient(135deg, var(--tennis-dark) 0%, var(--tennis-green) 100%);
+    border-radius: 20px;
+    padding: 2rem;
+    color: white;
+    text-align: center;
+    margin: 1.5rem 0;
+    box-shadow: 0 10px 40px rgba(27, 94, 32, 0.4);
+}
+
+.prediction-result .winner-name {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0.5rem 0;
+}
+
+.prediction-result .probability {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+}
+
+/* -------- GRIGLIE MODELLI -------- */
+.model-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.model-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    border-top: 4px solid var(--hard-blue);
+    transition: transform 0.3s ease;
+}
+
+.model-card.ann {
+    border-top-color: var(--clay-orange);
+}
+
+.model-card.ensemble {
+    border-top-color: var(--accent-gold);
+}
+
+.model-card:hover {
+    transform: translateY(-5px);
+}
+
+.model-card h4 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+}
+
+.model-card .accuracy {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--tennis-green);
+}
+
+/* -------- TABELLE -------- */
+.stDataFrame {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.stDataFrame th {
+    background: var(--tennis-dark) !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+.stDataFrame tr:nth-child(even) {
+    background: rgba(27, 94, 32, 0.05) !important;
+}
+
+.stDataFrame tr:hover {
+    background: rgba(27, 94, 32, 0.1) !important;
+}
+
+/* -------- CHARTS -------- */
+.js-plotly-plot {
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    background: white;
+}
+
+/* -------- INFO BOXES -------- */
+.stInfo {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    border-radius: 12px !important;
+    border-left: 4px solid var(--hard-blue) !important;
+}
+
+.stSuccess {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+    border-radius: 12px !important;
+    border-left: 4px solid var(--tennis-green) !important;
+}
+
+.stWarning {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%) !important;
+    border-radius: 12px !important;
+    border-left: 4px solid #ff9800 !important;
+}
+
+.stError {
+    background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%) !important;
+    border-radius: 12px !important;
+    border-left: 4px solid #f44336 !important;
+}
+
+/* -------- DIVIDER -------- */
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--tennis-green) 50%, transparent 100%);
+    margin: 2rem 0;
+}
+
+/* -------- FOOTER -------- */
+.tennis-footer {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.tennis-footer a {
+    color: var(--tennis-light);
+    text-decoration: none;
+}
+
+.tennis-footer a:hover {
+    text-decoration: underline;
+}
+
+/* -------- ANIMATION -------- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tennis-card, .tennis-header, .prediction-result {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* -------- TABS -------- */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background: white;
+    border-radius: 8px 8px 0 0;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+}
+
+.stTabs [aria-selected="true"] {
+    background: var(--tennis-green) !important;
+    color: white !important;
+}
+
+/* -------- PROGRESS BARS -------- */
+.stProgress > div > div {
+    background: linear-gradient(90deg, var(--tennis-green) 0%, var(--tennis-light) 100%) !important;
+    border-radius: 10px;
+}
+
+/* -------- SPINNER -------- */
+.stSpinner > div {
+    border-top-color: var(--tennis-green) !important;
+}
+
+/* -------- INPUT FIELDS -------- */
+.stTextInput > div > div > input {
+    border-radius: 10px !important;
+    border: 2px solid rgba(27, 94, 32, 0.2) !important;
+}
+
+.stTextInput > div > div > input:focus {
+    border-color: var(--tennis-green) !important;
+    box-shadow: 0 0 0 3px rgba(27, 94, 32, 0.1) !important;
+}
+
+/* -------- SELECT BOX -------- */
+.stSelectbox > div > div > div {
+    border-radius: 10px !important;
+    border: 2px solid rgba(27, 94, 32, 0.2) !important;
+}
+
+/* -------- SLIDER -------- */
+.stSlider > div > div > div > div {
+    background: var(--tennis-green) !important;
+}
+
+/* -------- SURFACE BADGES -------- */
+.surface-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.surface-clay {
+    background: #ffccbc;
+    color: #bf360c;
+}
+
+.surface-grass {
+    background: #c8e6c9;
+    color: #1b5e20;
+}
+
+.surface-hard {
+    background: #bbdefb;
+    color: #0d47a1;
+}
+
+/* -------- RESPONSIVE -------- */
+@media (max-width: 768px) {
+    .tennis-header h1 {
+        font-size: 1.75rem !important;
+    }
+    
+    .prediction-result .probability {
+        font-size: 2rem;
+    }
+    
+    .model-grid {
+        grid-template-columns: 1fr;
+    }
+}

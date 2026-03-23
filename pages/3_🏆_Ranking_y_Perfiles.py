@@ -8,7 +8,14 @@ ruta_scraping = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 's
 if ruta_scraping not in sys.path:
     sys.path.append(ruta_scraping)
 
-st.set_page_config(page_title="Classifica ATP", page_icon="🏆", layout="wide")
+st.set_page_config(page_title="Classifica ATP", page_icon="", layout="wide")
+
+# Carica CSS custom
+css_path = os.path.join(os.path.dirname(__file__), "../assets/style.css")
+if os.path.exists(css_path):
+    with open(css_path, "r", encoding="utf-8") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
 
 st.title("🏆 Classifica ATP & Profili Giocatori")
 
@@ -21,21 +28,21 @@ hide_st_style = """
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
-# ── Pulsante aggiornamento ────────────────────────────────────────────────────
+#  Pulsante aggiornamento 
 from actualizador_maestro import ejecutar_pipeline
 
-if st.button("🔄 Cerca Nuove Partite e Aggiorna Classifica", type="primary"):
+if st.button(" Cerca Nuove Partite e Aggiorna Classifica", type="primary"):
     with st.spinner("I robot stanno lavorando... Potrebbe richiedere alcuni minuti."):
         exito = ejecutar_pipeline()
         if exito:
-            st.success("✅ Database aggiornato con successo!")
+            st.success(" Database aggiornato con successo!")
             st.rerun()
         else:
             st.error("Si è verificato un errore nell'aggiornamento. Controlla la console.")
 
 st.markdown("---")
 
-# ── Caricamento dati ──────────────────────────────────────────────────────────
+#  Caricamento dati 
 ruta_scraping  = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'scraping'))
 ruta_ranking   = os.path.join(ruta_scraping, "ranking_2026.csv")
 ruta_perfiles  = os.path.join(ruta_scraping, "perfiles_jugadores.pkl")
@@ -59,16 +66,16 @@ def extraer_nombre_real(url):
 
 df_ranking['Nome Completo'] = df_ranking['url_perfil'].apply(extraer_nombre_real)
 
-# ── Colonna 1: Classifica ─────────────────────────────────────────────────────
+#  Colonna 1: Classifica 
 with col1:
-    st.subheader("📋 Classifica Mondiale")
+    st.subheader(" Classifica Mondiale")
     df_mostrar = df_ranking[['rank', 'Nome Completo', 'points']].copy()
     df_mostrar.columns = ['Pos.', 'Giocatore', 'Punti']
     st.dataframe(df_mostrar.set_index('Pos.'), height=600, use_container_width=True)
 
-# ── Colonna 2: Profilo giocatore ──────────────────────────────────────────────
+#  Colonna 2: Profilo giocatore 
 with col2:
-    st.subheader("🔍 Analizzatore Profilo")
+    st.subheader(" Analizzatore Profilo")
     lista_jugadores = [j for j in df_ranking['Nome Completo'].tolist() if j != ""]
     jugador_sel = st.selectbox("Cerca giocatore:", lista_jugadores)
 

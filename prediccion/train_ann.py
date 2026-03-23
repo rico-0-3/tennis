@@ -1,5 +1,5 @@
 """
-train_ann.py v4.0  —  ANN Avanzata per Tennis Predictor
+train_ann.py v4.1  —  ANN Avanzata per Tennis Predictor
 ========================================================
 Funzionalità v4 rispetto v3:
   ✅ Rating Elo per superficie  (più accurato del ranking ATP)
@@ -15,6 +15,7 @@ Funzionalità v4 rispetto v3:
   ✅ Best-of-5 indicator        (Slam favorisce il più forte)
   ✅ Days since last match      (riposo vs ruggine)
   ✅ H2H per superficie         (scontri diretti surface-specific)
+  ✅ Opponent Quality Score     (qualità avversari ultimi 5 match)
   🔧 Rimosse feature ridondanti (diff_rank, diff_rank_points, diff_seed, draw_size, diff_hand)
 
 UTILIZZO:
@@ -29,6 +30,7 @@ OUTPUT:
     streak_players.pkl           ← striscia attiva per giocatore
     momentum_surface.pkl         ← momentum per (giocatore, superficie)
     recent_form.pkl              ← recent form per giocatore (ultimi 10)
+    opp_quality.pkl              ← qualità avversari ultimi 5 match per giocatore
     last_match_date.pkl          ← data ultimo match per giocatore
     h2h_surface.pkl              ← H2H per superficie
     resultados_comparacion_finale.csv  ← confronto modelli
@@ -194,6 +196,7 @@ def carica_e_prepara(csv_path: str):
     streak_t  = {}   # {player: int}  +N=N vittorie consecutive, -N=sconfitte
     recent_form_t = {}  # {player: [last 10 results across all surfaces]}
     last_match_date_t = {}  # {player: int (YYYYMMDD)}  — data ultimo match
+    opp_quality_t = {}  # {player: [(result, r_me, r_opp), ...]} last 5 matches
 
     ELO_DEFAULT = 1500.0
     K_BASE      = 32.0
@@ -311,6 +314,8 @@ def carica_e_prepara(csv_path: str):
         streak_t[w] = max(0, str_w) + 1 if str_w >= 0 else 1
         streak_t[l] = min(0, str_l) - 1 if str_l <= 0 else -1
 
+
+
         # --- Statistiche servizio medie ---
         def get_sa(player):
             s = serve_t.get(player, {})
@@ -391,6 +396,32 @@ def carica_e_prepara(csv_path: str):
         rk_l = float(row['loser_rank']) if pd.notna(row.get('loser_rank')) else 500
         lev_w  = LEVEL_MULT.get(str(row.get('tourney_level','')), 1.0)
 
+        # --- Opponent Quality Score (ultimi 5 match) — dopo rk_w/rk_l ---
+        def _oq_score(history, my_rank):
+            """Media pesata per qualità avversari: win vs top vale di più, loss vs scarso penalizza."""
+            if not history:
+                return 0.0
+            total = 0.0
+            r_me = max(1.0, float(my_rank))
+            for result, r_opp in history:
+                r_opp = max(1.0, float(r_opp))
+                if result == 1:  # vittoria
+                    contrib = np.log1p(r_opp) / np.log1p(r_me)
+                else:            # sconfitta
+                    contrib = -(np.log1p(r_me) / np.log1p(r_opp))
+                total += np.clip(contrib, -3.0, 3.0)
+            return total / len(history)
+
+        oq_hist_w = opp_quality_t.get(w, [])
+        oq_hist_l = opp_quality_t.get(l, [])
+        oq_w = _oq_score(oq_hist_w, rk_w)
+        oq_l = _oq_score(oq_hist_l, rk_l)
+        # Aggiornamento DOPO aver letto i valori (no leakage)
+        oq_hist_w = oq_hist_w + [(1, rk_l)]   # w ha vinto contro l
+        oq_hist_l = oq_hist_l + [(0, rk_w)]   # l ha perso contro w
+        opp_quality_t[w] = oq_hist_w[-5:]
+        opp_quality_t[l] = oq_hist_l[-5:]
+
         # Best-of-5 indicator (Grand Slam)
         best_of_val = row.get('best_of', 3)
         is_bo5 = 1.0 if best_of_val == 5 or best_of_val == '5' else 0.0
@@ -416,6 +447,7 @@ def carica_e_prepara(csv_path: str):
             'diff_home':         home_w - home_l,
             'diff_fatigue':      f_w - f_l,
             'diff_momentum':     mw - ml,
+            'diff_opponent_quality': oq_w - oq_l,
             'diff_h2h':          h2h_w - h2h_l,
             'diff_h2h_surface':  h2h_s_w - h2h_s_l,         # H2H per superficie
             'diff_days_since_last': days_since_w - days_since_l,  # riposo vs ruggine
@@ -469,13 +501,15 @@ def carica_e_prepara(csv_path: str):
     # Salva H2H per superficie e data ultimo match
     joblib.dump(h2h_surf_t, 'h2h_surface.pkl')
     print("   → h2h_surface.pkl salvato")
+    joblib.dump(opp_quality_t, 'opp_quality.pkl')
+    print("   → opp_quality.pkl salvato")
     joblib.dump(last_match_date_t, 'last_match_date.pkl')
     print("   → last_match_date.pkl salvato")
 
     return df_out, stats_dict, elo_surf, streak_t
 
 
-# ── Lista feature (29) — v4.0: rimossi 5 ridondanti, aggiunti bo5/days/h2h_surf/1st_pct
+# ── Lista feature (30) — v4.1: aggiunto diff_opponent_quality
 FEATURES = [
     'log_rank_ratio', 'log_pts_ratio',                    # 0-1   (ranking, compressi)
     'diff_age', 'diff_ht',                                # 2-3
@@ -491,7 +525,8 @@ FEATURES = [
     'diff_2nd_won', 'diff_bp_saved',                      # 22-23
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st', # 24-25-26 (ritorno)
     'court_ace_pct', 'court_speed',                       # 27-28
-]  # totale: 29 feature
+    'diff_opponent_quality',                              # 29    (qualità avversari ultimi 5 match)
+]  # totale: 30 feature
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -697,7 +732,7 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
 
     USE_CUDA    = device.type == 'cuda'
     PIN_MEM     = USE_CUDA
-    N_WORKERS   = 2 if USE_CUDA else 0
+    N_WORKERS   = 0  # Windows: num_workers>0 causa re-import infinito del modulo (spawn)
 
     risultati = []
 
@@ -1238,7 +1273,7 @@ if __name__ == '__main__':
 
     USE_CUDA = device.type == 'cuda'
     PIN_MEM  = USE_CUDA
-    N_WORK   = 2 if USE_CUDA else 0
+    N_WORK   = 0
     bs_eff   = bs * 2 if USE_CUDA and bs < 2048 else bs
 
     ldr_tr  = DataLoader(TensorDataset(X_tr_t, y_tr_t),

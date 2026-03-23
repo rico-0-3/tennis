@@ -18,12 +18,20 @@ except:
 
 st.set_page_config(page_title="ATP Predittore 2026", page_icon="🎾", layout="wide")
 
+# # Carica CSS custom
+# css_path = os.path.join(os.path.dirname(__file__), "../assets/style.css")
+# if os.path.exists(css_path):
+#     with open(css_path, "r", encoding="utf-8") as f:
+#         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+
 st.title("🎾 ATP Prediction Pro 2026")
 
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;} /* Oculta los 3 puntitos de arriba a la derecha */
-            footer {visibility: hidden;} /* Oculta el "Made with Streamlit" de abajo */
+            footer {visibility: hidden;}
+            header {visibility: hidden;} /* Oculta el "Made with Streamlit" de abajo */
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
@@ -41,18 +49,19 @@ in fase di addestramento come il **migliore** tra diverse strategie:
 | 📊 **Ensemble Avg** | Media ANN+LGB+XGB | Media semplice delle probabilità dei 3 modelli |
 | 🎯 **Ensemble Stacking** | Meta-Learner | Regressione logistica che combina i 3 modelli con pesi ottimali |
 
-Il sistema analizza **29 feature** tra cui:
+Il sistema analizza **30 feature** tra cui:
 * 📊 **Gerarchia:** Ranking (log), Punti (log), Elo (globale e per superficie).
 * ⚔️ **Storico:** Scontri diretti (H2H globale e per superficie), forma recente.
 * 🧠 **Momento:** Striscia, momentum, fatica, giorni dall'ultimo match.
 * 🎯 **Tecnica:** Ace, servizio (1st pct, 1st won, 2nd won), break point, resa al ritorno.
 * 🏆 **Contesto:** Superficie, livello torneo, turno, best-of-3/5.
+* 🎯 **Qualità avversari:** Score pesato sugli ultimi 5 match (win vs top = valore alto, loss vs debole = penalità).
 """)
 
 st.write("---")
 
 
-# ─── Definizione ANN v3 (stessa architettura di train_ann.py) ────────────────
+# â”€â”€â”€ Definizione ANN v3 (stessa architettura di train_ann.py) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 DEFAULT_INTERACTION_PAIRS = [
     (4, 12), (0, 15), (4, 15), (12, 15), (0, 1),
     (4, 16), (6, 15), (12, 14), (14, 15), (1, 12),
@@ -134,7 +143,9 @@ ANN_FEATURES = [
     'diff_2nd_won', 'diff_bp_saved',
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',
     'court_ace_pct', 'court_speed',
-]  # 29 feature (v4.0)
+    'diff_opponent_quality',
+]  # 30 feature (v4.1)
+
 
 SURFACE_MAP   = {'Hard': 0, 'Clay': 1, 'Grass': 2}
 LEVEL_MAP     = {'G': 5, 'M': 4, 'A': 3, 'F': 4, 'C': 2, 'S': 1, 'E': 0}
@@ -143,7 +154,7 @@ ROUND_MAP_STR = {'Finale': 7, 'Semifinale': 6, 'Quarti': 5, '16mi': 4,
 
 
 
-# ─── Caricamento risorse ─────────────────────────────────────────────────────
+# â”€â”€â”€ Caricamento risorse â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 def get_version():
     try:
@@ -172,7 +183,7 @@ def cargar_todo(_version: str):
         st.error(f"Mancano file fondamentali. Errore: {e}")
         st.stop()
 
-    # ── Modello finale (selezionato automaticamente in training) ─────────────
+    # â”€â”€ Modello finale (selezionato automaticamente in training) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     modelo_finale = None
     finale_path = pp('modelo_finale.pkl')
     if os.path.exists(finale_path):
@@ -214,10 +225,13 @@ def cargar_todo(_version: str):
 
     h2h_surface_dict = {}  # {(p1, p2, surface): [w1, w2]}
     last_match_date_dict = {}  # {player: int (YYYYMMDD)}
-    h2h_s_path = pp('h2h_surface.pkl')
-    lmd_path   = pp('last_match_date.pkl')
-    if os.path.exists(h2h_s_path): h2h_surface_dict  = joblib.load(h2h_s_path)
-    if os.path.exists(lmd_path):   last_match_date_dict = joblib.load(lmd_path)
+    opp_quality_dict = {}  # {player: [(result, r_opp), ...]} last 5 matches
+    h2h_s_path  = pp('h2h_surface.pkl')
+    lmd_path    = pp('last_match_date.pkl')
+    oq_path     = pp('opp_quality.pkl')
+    if os.path.exists(h2h_s_path):  h2h_surface_dict   = joblib.load(h2h_s_path)
+    if os.path.exists(lmd_path):    last_match_date_dict = joblib.load(lmd_path)
+    if os.path.exists(oq_path):     opp_quality_dict   = joblib.load(oq_path)
 
     # Storico e Ranking
     try:
@@ -235,14 +249,15 @@ def cargar_todo(_version: str):
             modelo_finale,
             elo_surface, streak_players,
             momentum_surface, elo_overall, recent_form,
-            h2h_surface_dict, last_match_date_dict)
+            h2h_surface_dict, last_match_date_dict, opp_quality_dict)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
  modelo_finale,
  elo_surface, streak_players,
  momentum_surface, elo_overall, recent_form,
- h2h_surface_dict, last_match_date_dict) = cargar_todo(_version=get_version()) 
+ h2h_surface_dict, last_match_date_dict,
+ opp_quality_dict) = cargar_todo(_version=get_version())
 
 if modelo_finale is None:
     st.error("❌ Modello non trovato. Assicurati che `modelo_finale.pkl` sia nella cartella `prediccion/`.")
@@ -388,7 +403,9 @@ def grafico_radar(j1, j2, perfiles, stats_sup):
                                   hovertext=hv2, hoverinfo="text+name", line_color='#AB63FA'))
     fig.update_layout(
         polar=dict(radialaxis=dict(visible=False, range=[0, 1]), bgcolor='rgba(0,0,0,0)'),
-        paper_bgcolor='rgba(0,0,0,0)', showlegend=True, height=450,
+        paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)',
+        showlegend=True, height=450,
+        font=dict(color='white'),
         legend=dict(orientation="h", yanchor="bottom", y=1.05, xanchor="center", x=0.5)
     )
     return fig
@@ -417,12 +434,12 @@ def actualizar_j2():
     st.session_state.l5_2 = datos.get('last_5', [])
 
 
-# ─── SIDEBAR ─────────────────────────────────────────────────────────────────
+# â”€â”€â”€ SIDEBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 with st.sidebar:
     st.header("⚙️ Configurazione")
 
     st.subheader("🧠 Cervello dell'IA")
-    st.info("Usando: **ANN v4.0** — Wide&Deep + Residual + GBM Ensemble (29 feature, calibrato) 🔥")
+    st.info("Usando: **ANN v4.1** — Wide&Deep + Residual + GBM Ensemble (30 feature, calibrato) 🔥")
 
     st.divider()
 
@@ -460,7 +477,7 @@ with st.sidebar:
     LEVEL_LABEL = {'Grand Slam': 5, 'Masters 1000': 4, 'ATP 500': 3, 'ATP 250': 2}
 
 
-# ─── GIOCATORI ────────────────────────────────────────────────────────────────
+# â”€â”€â”€ GIOCATORI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 col1, col2 = st.columns(2)
 
 with col1:
@@ -489,7 +506,7 @@ with col1:
     h1   = st.number_input("Altezza (cm)", 150, 230, key="h1")
     seed1 = st.number_input("Testa di serie", 0, 32, 0, help="0 = non è testa di serie")
 
-    st.markdown("##### ⚡ Stato")
+    st.markdown("##### âš¡ Stato")
     mom1 = st.slider("Momento (%)", 0, 100, key="m1") / 100
 
     with st.expander("Ultimi 5 partiti"):
@@ -523,7 +540,7 @@ with col2:
     h2   = st.number_input("Altezza (cm)", 150, 230, key="h2")
     seed2 = st.number_input("Testa di serie", 0, 32, 0, help="0 = non è testa di serie", key="seed2_input")
 
-    st.markdown("##### ⚡ Stato")
+    st.markdown("##### âš¡ Stato")
     mom2 = st.slider("Momento (%)", 0, 100, key="m2") / 100
 
     with st.expander("Ultimi 5 partiti"):
@@ -532,7 +549,7 @@ with col2:
     fat2 = st.number_input("Fatica (min)", 0, 1000, 0, key="f2")
 
 
-# ─── H2H + RADAR ─────────────────────────────────────────────────────────────
+# â”€â”€â”€ H2H + RADAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 st.divider()
 c_h2h, c_radar = st.columns([1, 2])
 
@@ -554,8 +571,28 @@ with c_radar:
 st.divider()
 
 
-# ─── PREDIZIONE ──────────────────────────────────────────────────────────────
-if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True):
+# â”€â”€â”€ Helper: Opponent Quality Score â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+def _calc_oq(history, my_rank):
+    """Media pesata qualità avversari: win vs top vale di più, loss vs scarso penalizza.
+    history: [(result 1/0, r_opp), ...] — ultimi 5 match
+    my_rank: ranking attuale del giocatore
+    """
+    if not history:
+        return 0.0
+    total = 0.0
+    r_me = max(1.0, float(my_rank))
+    for result, r_opp in history:
+        r_opp = max(1.0, float(r_opp))
+        if result == 1:  # vittoria
+            contrib = np.log1p(r_opp) / np.log1p(r_me)
+        else:            # sconfitta
+            contrib = -(np.log1p(r_me) / np.log1p(r_opp))
+        total += float(np.clip(contrib, -3.0, 3.0))
+    return total / len(history)
+
+
+# â”€â”€â”€ PREDIZIONE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+if st.button("🔮 PREDICI con ANN v4.1", type="primary", use_container_width=True):
 
     skill1  = get_skill(nombre1, superficie)
     skill2  = get_skill(nombre2, superficie)
@@ -676,15 +713,18 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         'diff_return_1st':  rtn_1st1 - rtn_1st2,
         'court_ace_pct':    court_ace,
         'court_speed':      court_spd,
+        # Opponent Quality Score (ultimi 5 match)
+        'diff_opponent_quality': _calc_oq(opp_quality_dict.get(nombre1, []), r1)
+                                - _calc_oq(opp_quality_dict.get(nombre2, []), r2),
     }])
 
     input_sc = finale_scaler.transform(ann_input[ANN_FEATURES])
     input_t  = torch.tensor(input_sc.astype(np.float32))
 
-    # ─── Predizione con modello finale (strategia auto-selezionata) ──────────
+    # â”€â”€â”€ Predizione con modello finale (strategia auto-selezionata) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     prob_j1, modello_usato = predici(input_sc, input_t)
 
-    # ─── Risultato ───────────────────────────────────────────────────────────
+    # â”€â”€â”€ Risultato â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     st.divider()
     col_res_izq, col_res_der = st.columns([1, 3])
 
@@ -720,7 +760,7 @@ if st.button("🔮 PREDICI con ANN v3", type="primary", use_container_width=True
         st.plotly_chart(fig_bar, use_container_width=True)
         
         
-# ─── SCOMMESSE SPECIALI (VALUE BET) ──────────────────────────────────────────
+# â”€â”€â”€ SCOMMESSE SPECIALI (VALUE BET) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 from scipy.stats import poisson
 import sys
 import __main__
@@ -812,7 +852,7 @@ try:
         feat_dict = {
             'surface': SURFACE_MAP.get(superficie, 0),
             'court_speed': court_spd,
-            'court_ace_pct': court_ace, # 🌟 AGGIUNTA QUI (usiamo court_ace diretto per coerenza col training)
+            'court_ace_pct': court_ace,  # court ace % per il torneo
             'best_of': best_of,
             'sum_ht': h1 + h2,
             'diff_ht': abs(h1 - h2),
