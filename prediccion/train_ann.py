@@ -91,7 +91,8 @@ MAX_EPOCHS  = 3   if QUICK_TEST else 120
 
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
               'D': 1.0, 'C': 0.8, 'S': 0.7, 'E': 0.5}
-N_WORKERS  = 0   # Windows: num_workers>0 causa re-import infinito (spawn)
+import platform as _platform
+N_WORKERS  = 2 if (USE_CUDA and _platform.system() == 'Linux') else 0
 
 
 def parse_total_games(score_str):
