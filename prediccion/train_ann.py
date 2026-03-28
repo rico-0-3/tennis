@@ -92,8 +92,9 @@ MAX_EPOCHS  = 3   if QUICK_TEST else 120
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
               'D': 1.0, 'C': 0.8, 'S': 0.7, 'E': 0.5}
 import platform as _platform
-N_WORKERS  = 2 if (USE_CUDA and _platform.system() == 'Linux') else 0
+N_WORKERS  = 2 if (torch.cuda.is_available() and _platform.system() == 'Linux') else 0
 
+print(f"\n⚙️  Configurazione: TRIALS={TRIALS}, MAX_EPOCHS={MAX_EPOCHS}, QUICK_TEST={QUICK_TEST}, n_workers={N_WORKERS}")
 
 def parse_total_games(score_str):
     """Estrae totale game e set da score string. Es: '7-6 6-2' → (21, 2)"""
