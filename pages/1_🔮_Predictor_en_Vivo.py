@@ -130,27 +130,31 @@ class TennisANNv3(nn.Module):
 
 ANN_FEATURES = [
     'log_rank_ratio', 'log_pts_ratio',
-    'diff_age', 'diff_ht',
     'diff_elo', 'diff_elo_overall',
     'diff_streak', 'diff_recent_form',
     'surface_enc', 'tourney_level', 'round_enc',
     'is_best_of_5',
-    'diff_skill', 'diff_home',
-    'diff_fatigue', 'diff_momentum',
     'diff_h2h', 'diff_h2h_surface',
-    'diff_days_since_last',
+    'diff_skill', 'diff_momentum',
+    'diff_fatigue', 'diff_days_since_last',
+    'diff_weeks_load',
     'diff_ace', 'diff_1st_pct', 'diff_1st_won',
     'diff_2nd_won', 'diff_bp_saved',
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',
-    'court_ace_pct', 'court_speed',
+    'diff_home',
     'diff_opponent_quality',
-]  # 30 feature (v4.1)
+    'diff_upset_tendency',
+    'diff_late_round_wr',
+    'level_weight',
+]  # 30 feature (v5.1)
 
 
 SURFACE_MAP   = {'Hard': 0, 'Clay': 1, 'Grass': 2}
 LEVEL_MAP     = {'G': 5, 'M': 4, 'A': 3, 'F': 4, 'C': 2, 'S': 1, 'E': 0}
 ROUND_MAP_STR = {'Finale': 7, 'Semifinale': 6, 'Quarti': 5, '16mi': 4,
                  '32mi': 3, '64mi': 2, '128mi': 1, 'Round Robin': 4}
+LEVEL_MULT_LABEL = {'Grand Slam': 2.0, 'Masters 1000': 1.5, 'ATP 500': 1.0,
+                    'ATP 250': 1.0, 'Challenger': 0.8}
 
 
 
@@ -226,12 +230,21 @@ def cargar_todo(_version: str):
     h2h_surface_dict = {}  # {(p1, p2, surface): [w1, w2]}
     last_match_date_dict = {}  # {player: int (YYYYMMDD)}
     opp_quality_dict = {}  # {player: [(result, r_opp), ...]} last 5 matches
+    match_load_dict  = {}  # {player: [days, ...]} — last 80 match days
+    upset_hist_dict  = {}  # {player: [(result, rank_diff), ...]} — last 20
+    late_round_hist_dict = {}  # {player: [1/0, ...]} — QF/SF/F results
     h2h_s_path  = pp('h2h_surface.pkl')
     lmd_path    = pp('last_match_date.pkl')
     oq_path     = pp('opp_quality.pkl')
-    if os.path.exists(h2h_s_path):  h2h_surface_dict   = joblib.load(h2h_s_path)
+    ml_path     = pp('match_load.pkl')
+    uh_path     = pp('upset_hist.pkl')
+    lrh_path    = pp('late_round_hist.pkl')
+    if os.path.exists(h2h_s_path):  h2h_surface_dict     = joblib.load(h2h_s_path)
     if os.path.exists(lmd_path):    last_match_date_dict = joblib.load(lmd_path)
-    if os.path.exists(oq_path):     opp_quality_dict   = joblib.load(oq_path)
+    if os.path.exists(oq_path):     opp_quality_dict     = joblib.load(oq_path)
+    if os.path.exists(ml_path):     match_load_dict      = joblib.load(ml_path)
+    if os.path.exists(uh_path):     upset_hist_dict      = joblib.load(uh_path)
+    if os.path.exists(lrh_path):    late_round_hist_dict = joblib.load(lrh_path)
 
     # Storico e Ranking
     try:
@@ -249,7 +262,8 @@ def cargar_todo(_version: str):
             modelo_finale,
             elo_surface, streak_players,
             momentum_surface, elo_overall, recent_form,
-            h2h_surface_dict, last_match_date_dict, opp_quality_dict)
+            h2h_surface_dict, last_match_date_dict, opp_quality_dict,
+            match_load_dict, upset_hist_dict, late_round_hist_dict)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
@@ -257,7 +271,9 @@ def cargar_todo(_version: str):
  elo_surface, streak_players,
  momentum_surface, elo_overall, recent_form,
  h2h_surface_dict, last_match_date_dict,
- opp_quality_dict) = cargar_todo(_version=get_version())
+ opp_quality_dict,
+ match_load_dict, upset_hist_dict,
+ late_round_hist_dict) = cargar_todo(_version=get_version())
 
 if modelo_finale is None:
     st.error("❌ Modello non trovato. Assicurati che `modelo_finale.pkl` sia nella cartella `prediccion/`.")
@@ -468,13 +484,13 @@ with st.sidebar:
     
     pais_torneo   = st.selectbox("Paese Sede", ["NEUTRAL", "ARG", "ESP", "FRA", "USA", "GBR", "AUS"])
     turno         = st.selectbox("Turno", list(ROUND_MAP_STR.keys()), index=0)
-    livello       = st.selectbox("Livello Torneo", ["Grand Slam", "Masters 1000", "ATP 500", "ATP 250"],
-                                  help="G=Grand Slam | M=Masters | A=500 | C=250")
+    livello       = st.selectbox("Livello Torneo", ["Grand Slam", "Masters 1000", "ATP 500", "ATP 250", "Challenger"],
+                                  help="G=Grand Slam | M=Masters | A=500/250 | C=Challenger")
     draw_sz       = st.selectbox("Tabellone", [128, 96, 64, 32, 16], index=2)
     best_of       = st.selectbox("Formato", [3, 5], index=0,
                                   help="3 = best-of-3 (ATP normali) | 5 = best-of-5 (Grand Slam)")
 
-    LEVEL_LABEL = {'Grand Slam': 5, 'Masters 1000': 4, 'ATP 500': 3, 'ATP 250': 2}
+    LEVEL_LABEL = {'Grand Slam': 5, 'Masters 1000': 4, 'ATP 500': 3, 'ATP 250': 3, 'Challenger': 2}
 
 
 # â”€â”€â”€ GIOCATORI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -592,7 +608,7 @@ def _calc_oq(history, my_rank):
 
 
 # â”€â”€â”€ PREDIZIONE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-if st.button("🔮 PREDICI con ANN v4.1", type="primary", use_container_width=True):
+if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=True):
 
     skill1  = get_skill(nombre1, superficie)
     skill2  = get_skill(nombre2, superficie)
@@ -683,11 +699,37 @@ if st.button("🔮 PREDICI con ANN v4.1", type="primary", use_container_width=Tr
             _days2 = max(0.0, min(180.0, (_dt.date.today() - _last2).days))
         except: pass
 
+    # --- Weeks load (match ultime 8 settimane = 56 giorni, stessa logica di train_ann) ---
+    import datetime as _dt2
+    _today = _dt2.date.today()
+    _today_days = _today.year * 365 + _today.month * 30 + _today.day
+    def _weeks_load(player):
+        dates = match_load_dict.get(player, [])
+        return float(sum(1 for d in dates if _today_days - d <= 56))
+    wload1 = _weeks_load(nombre1)
+    wload2 = _weeks_load(nombre2)
+
+    # --- Upset tendency (frequenza sconfitte vs rank peggiori, ultimi 20) ---
+    def _upset_tendency(hist):
+        vs_lower = [(r, rk) for r, rk in hist if rk < 0]
+        if not vs_lower:
+            return 0.2
+        return sum(1 for r, _ in vs_lower if r == 0) / len(vs_lower)
+    upt1 = _upset_tendency(upset_hist_dict.get(nombre1, []))
+    upt2 = _upset_tendency(upset_hist_dict.get(nombre2, []))
+
+    # --- Late round win rate (QF/SF/F) ---
+    def _late_round_wr(hist):
+        return float(np.mean(hist)) if hist else 0.5
+    lrwr1 = _late_round_wr(late_round_hist_dict.get(nombre1, []))
+    lrwr2 = _late_round_wr(late_round_hist_dict.get(nombre2, []))
+
+    # --- Level weight ---
+    lev_w = LEVEL_MULT_LABEL.get(livello, 1.0)
+
     ann_input = pd.DataFrame([{
         'log_rank_ratio':   np.log1p(r2) - np.log1p(r1),
         'log_pts_ratio':    np.log1p(pts1) - np.log1p(pts2),
-        'diff_age':         a1 - a2,
-        'diff_ht':          h1 - h2,
         'diff_elo':         elo1 - elo2,
         'diff_elo_overall':  elo_ov1 - elo_ov2,
         'diff_streak':      float(strk1 - strk2),
@@ -703,6 +745,7 @@ if st.button("🔮 PREDICI con ANN v4.1", type="primary", use_container_width=Tr
         'diff_h2h':         diff_h2h,
         'diff_h2h_surface': float(_h2h_s1 - _h2h_s2),
         'diff_days_since_last': float(_days1 - _days2),
+        'diff_weeks_load':  wload1 - wload2,
         'diff_ace':         sa1.get('aces', 0) - sa2.get('aces', 0),
         'diff_1st_pct':     (sa1.get('first_serve_pct', 62) - sa2.get('first_serve_pct', 62)) / 100,
         'diff_1st_won':     (sa1.get('serve_win', 65) - sa2.get('serve_win', 65)) / 100,
@@ -711,11 +754,12 @@ if st.button("🔮 PREDICI con ANN v4.1", type="primary", use_container_width=Tr
         'diff_return_pct':  rtn_pct1 - rtn_pct2,
         'diff_bp_conv':     bp_conv1 - bp_conv2,
         'diff_return_1st':  rtn_1st1 - rtn_1st2,
-        'court_ace_pct':    court_ace,
-        'court_speed':      court_spd,
         # Opponent Quality Score (ultimi 5 match)
         'diff_opponent_quality': _calc_oq(opp_quality_dict.get(nombre1, []), r1)
                                 - _calc_oq(opp_quality_dict.get(nombre2, []), r2),
+        'diff_upset_tendency':  upt1 - upt2,
+        'diff_late_round_wr':   lrwr1 - lrwr2,
+        'level_weight':         lev_w,
     }])
 
     input_sc = finale_scaler.transform(ann_input[ANN_FEATURES])
