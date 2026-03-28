@@ -1140,6 +1140,14 @@ if __name__ == '__main__':
     # ── 1. Feature engineering ────────────────────────────────────────────────
     df_ml, wrate_final, elo_surf, streak_t = carica_e_prepara(csv_path)
 
+    # ── 1b. Escludi Challenger dal training ML ────────────────────────────────
+    # I challenger vengono usati per calcolare elo/form/streak (feature quality),
+    # ma NON come esempi di addestramento: sono meno prevedibili e abbassano l'accuracy.
+    n_before = len(df_ml)
+    df_ml = df_ml[df_ml['level_weight'] != 0.8].copy()
+    print(f"   → Challenger esclusi dal training ML: "
+          f"{n_before - len(df_ml):,} righe rimosse | {len(df_ml):,} righe rimaste")
+
     # ── 2. [BUG2+BUG3 FIX] Temporal split per data cronologica ───────────────
     # Mirrored pairs (d1, d0) dello stesso match hanno la stessa data
     # → finiscono automaticamente nello stesso fold (no leakage)
