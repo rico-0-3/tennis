@@ -1043,127 +1043,133 @@ tourney_id,tourney_name,surface,tourney_date,winner_name,loser_name,score,round,
 2026-indian-wells-17,indian-wells,Hard,20260304,Sho Shimabukuro,Colton Smith,7-6 7-5,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 2026-indian-wells-17,indian-wells,Hard,20260304,Dane Sweeny,Andrew Johnson,6-2 6-1,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 2026-indian-wells-17,indian-wells,Hard,20260304,Nikoloz Basilashvili,Nicolas Mejia,0-6 6-2 6-4,1st Round Qualifying ,100,2026-03-20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alexander Zverev,Quentin Halys,7-6 7-4,Round of 16 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Jannik Sinner,Alex Michelsen,7-5 7-6,Round of 16 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Jiri Lehecka,Taylor Fritz,6-4 6-7 4-2,Round of 16 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Francisco Cerundolo,Ugo Humbert,6-4 6-3,Round of 16 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Frances Tiafoe,Terence Atmane,6-4 1-6 6-4,Round of 16 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Tommy Paul,Tomas Martin Etcheverry,6-1 6-3,Round of 16 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Arthur Fils,Valentin Vacherot,6-4 6-7 4-4,Round of 16 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Martin Landaluce,Sebastian Korda,2-6 7-6 6-6,Round of 16 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Jannik Sinner,Corentin Moutet,6-1 6-4,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alexander Zverev,Marin Cilic,6-2 5-7 6-4,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Terence Atmane,Felix Auger-Aliassime,6-3 1-6 6-3,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Francisco Cerundolo,Daniil Medvedev,6-0 4-6 7-5,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Frances Tiafoe,Jakub Mensik,7-6 4-4 7-6,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Ugo Humbert,Alexander Shevchenko,6-4 7-6,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Quentin Halys,Kamil Majchrzak,7-6 6-4,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alex Michelsen,Alejandro Tabilo,3-6 6-3 6-4,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Sebastian Korda,Carlos Alcaraz,6-3 5-7 6-4,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Taylor Fritz,Reilly Opelka,6-3 6-4,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Martin Landaluce,Karen Khachanov,6-3 7-6,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Jiri Lehecka,Ethan Quinn,6-3 7-6,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Tommy Paul,Raphael Collignon,6-2 3-6 7-6,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Valentin Vacherot,Matteo Berrettini,7-6 6-5,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Arthur Fils,Stefanos Tsitsipas,6-0 6-1,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Tomas Martin Etcheverry,Rafael Jodar,7-5 6-4,Round of 32 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Jannik Sinner,Damir Dzumhur,6-3 6-3,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alexander Zverev,Martin Damm,6-2 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Felix Auger-Aliassime,Marton Fucsovics,7-6 7-3,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alexander Shevchenko,Ben Shelton,6-7 3-6 7-3 6-3,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Daniil Medvedev,Rei Sakamoto,6-7 10-3 6-1,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Jakub Mensik,Adam Walton,3-6 6-2 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alejandro Tabilo,Andrey Rublev,6-7 5-2 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Quentin Halys,Alejandro Davidovich Fokina,7-6 6-8,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Francisco Cerundolo,Thiago Agustin Tirante,6-4 6-2,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Frances Tiafoe,Arthur Cazaux,7-6 6-1,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Kamil Majchrzak,Learner Tien,6-2 4-6 6-2,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alex Michelsen,Cameron Norrie,7-5 6-7 4-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Terence Atmane,Arthur Rinderknech,7-6 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Marin Cilic,Brandon Nakashima,2-6 6-4 7-6,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Tomas Martin Etcheverry,Zizou Bergs,7-6 7-5,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Corentin Moutet,Tomas Machac,6-0 1-6 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Ugo Humbert,Gabriel Diallo,6-1 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Rafael Jodar,Aleksandar Vukic,6-1 6-2,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Carlos Alcaraz,Joao Fonseca,6-4 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Stefanos Tsitsipas,Alex de Minaur,6-3 7-6,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Taylor Fritz,Botic van de Zandschulp,6-3 6-7 2-3,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Matteo Berrettini,Alexander Bublik,6-4 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Ethan Quinn,Casper Ruud,6-4 7-6,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Raphael Collignon,Flavio Cobolli,7-5 6-3,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Karen Khachanov,Roberto Bautista Agut,6-3 6-3,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Martin Landaluce,Luciano Darderi,6-3 6-7 4-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Jiri Lehecka,Moise Kouame,6-2 7-5,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Tommy Paul,Adrian Mannarino,6-2 2-6 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Valentin Vacherot,Mariano Navone,6-3 6-4,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Reilly Opelka,Jack Draper,7-6 7-3,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Arthur Fils,Darwin Blanch,6-2 6-3,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Sebastian Korda,Camilo Ugo Carabelli,6-0 6-3,Round of 64 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Terence Atmane,Daniel Altmaier,6-4 6-2,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Arthur Cazaux,Tomas Barrios Vera,7-5 6-4,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Gabriel Diallo,Yibing Wu,6-2 7-6,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Marton Fucsovics,Christopher O'Connell,7-6 6-6,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Rei Sakamoto,Aleksandar Kovacevic,6-4 3-6 7-6,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alexander Shevchenko,Matteo Arnaldi,7-6 6-5 5-7 6-2,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Thiago Agustin Tirante,Valentin Royer,7-5 6-7 9-6 7-5,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Adam Walton,Sebastian Baez,6-2 6-2,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Roberto Bautista Agut,James Duckworth,7-6 7-3,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Zizou Bergs,Jenson Brooksby,7-5 6-2,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Matteo Berrettini,Alexandre Muller,6-4 6-2,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Darwin Blanch,Jan-Lennard Struff,6-3 3-6 6-3,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Marin Cilic,Alexei Popyrin,6-4 6-4,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Raphael Collignon,Grigor Dimitrov,7-6 4-3 7-6,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Martin Damm,Jacob Fearnley,6-0,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Damir Dzumhur,Ignacio Buse,6-7 6-6 7-6 6-1,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Joao Fonseca,Fabian Marozsan,6-4 3-6 6-2,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Quentin Halys,Liam Draxl,6-7 4-1 6-1,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Rafael Jodar,Yannick Hanfmann,6-4 4-6 6-1,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Moise Kouame,Zachary Svajda,5-7 6-4 6-4,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Martin Landaluce,Marcos Giron,6-3 7-6,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Tomas Machac,Emilio Nava,2-6 6-4 6-1,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Kamil Majchrzak,Miomir Kecmanovic,4-6 6-3 6-1,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Adrian Mannarino,Zhizhen Zhang,6-3 6-2,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alex Michelsen,Mattia Bellucci,6-2 6-1,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Mariano Navone,Nikoloz Basilashvili,7-6 6-7,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Reilly Opelka,Nuno Borges,6-7 6-2 6-6 7-5,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Ethan Quinn,Hubert Hurkacz,6-2 6-4,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alejandro Tabilo,Francisco Comesana,6-4 6-2,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Stefanos Tsitsipas,Arthur Fery,6-1 7-6,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Camilo Ugo Carabelli,Giovanni Mpetshi Perricard,2-6 6-3 7-6,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Botic van de Zandschulp,Denis Shapovalov,7-5 6-3,Round of 128 ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Ignacio Buse,Coleman Wong,6-2 3-6 6-3,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Yannick Hanfmann,Luca Van Assche,6-1 5-7 6-3,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Martin Landaluce,Thiago Agustin Tirante,3-6 7-5 6-4,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Tomas Barrios Vera,Aleksandar Vukic,6-3 7-6,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Adam Walton,Rinky Hijikata,6-3 6-7 2-1,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Mattia Bellucci,Murphy Cassone,3-6 7-6 6-5,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Christopher O'Connell,Alexander Blockx,4-6 6-4 6-4,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Zachary Svajda,Daniel Merida,6-0 6-7 2-2,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Rafael Jodar,Benjamin Bonzi,6-4 6-4,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Nikoloz Basilashvili,Sho Shimabukuro,6-2 6-1,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Liam Draxl,Jay Clarke,6-3 3-6 6-4,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Arthur Fery,Yunchaokete Bu,6-3 3-6 7-5,2nd Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Ignacio Buse,Moez Echargui,6-3 6-7 4-4,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Yannick Hanfmann,Leandro Riedi,6-3 6-4,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Thiago Agustin Tirante,Diego Dedura,6-2 6-3,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Aleksandar Vukic,Billy Harris,7-6 6-3,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Liam Draxl,Cristian Garin,4-6 6-4 6-2,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Adam Walton,Chris Rodesch,6-2 6-4,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Mattia Bellucci,Nicolas Jarry,6-3 6-1,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Nikoloz Basilashvili,Patrick Kypson,6-3 6-1,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Alexander Blockx,Chun-Hsin Tseng,7-6 6-5,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Arthur Fery,Roman Andres Burruchaga,2-6 6-4 6-4,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Zachary Svajda,Colton Smith,6-7 6-3 6-1,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Rafael Jodar,Manas Dhamne,6-3 7-6,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Luca Van Assche,Benjamin Willwerth,6-3 6-1,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Daniel Merida,Dalibor Svrcina,6-7 1-4 6-6 7-6,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Benjamin Bonzi,Guto Miguel,6-2 7-6,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Sho Shimabukuro,Alex Bolt,6-2 6-7 3-3,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Murphy Cassone,Francesco Maestrelli,7-6 6-1,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Tomas Barrios Vera,Nishesh Basavareddy,6-3 6-2,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Rinky Hijikata,Dane Sweeny,6-3 6-2,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Yunchaokete Bu,Tristan Schoolkate,7-5 6-4,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Coleman Wong,Jack Pinnington Jones,5-7 7-6 6-4,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Martin Landaluce,Mackenzie McDonald,6-3 6-4,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Christopher O'Connell,Nicolas Mejia,7-6 6-4,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-2026-miami-18,miami,Hard,20260318,Jay Clarke,Shintaro Mochizuki,6-4 3-6 6-1,1st Round Qualifying ,100,2026-03-25,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jannik Sinner,Alexander Zverev,6-3 7-6,Semifinals ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jiri Lehecka,Arthur Fils,6-2 6-2,Semifinals ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jannik Sinner,Frances Tiafoe,6-2 6-2,Quarterfinals ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alexander Zverev,Francisco Cerundolo,6-1 6-2,Quarterfinals ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jiri Lehecka,Martin Landaluce,7-6 7-1,Quarterfinals ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Arthur Fils,Tommy Paul,6-7 3-6 7-4 7-6,Quarterfinals ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jannik Sinner,Alex Michelsen,7-5 7-6,Round of 16 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alexander Zverev,Quentin Halys,7-6 7-4,Round of 16 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jiri Lehecka,Taylor Fritz,6-4 6-7 4-2,Round of 16 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Francisco Cerundolo,Ugo Humbert,6-4 6-3,Round of 16 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Frances Tiafoe,Terence Atmane,6-4 1-6 6-4,Round of 16 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Tommy Paul,Tomas Martin Etcheverry,6-1 6-3,Round of 16 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Arthur Fils,Valentin Vacherot,6-4 6-7 4-4,Round of 16 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Martin Landaluce,Sebastian Korda,2-6 7-6 6-6,Round of 16 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jannik Sinner,Corentin Moutet,6-1 6-4,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alexander Zverev,Marin Cilic,6-2 5-7 6-4,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Terence Atmane,Felix Auger-Aliassime,6-3 1-6 6-3,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Francisco Cerundolo,Daniil Medvedev,6-0 4-6 7-5,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Frances Tiafoe,Jakub Mensik,7-6 4-4 7-6,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Ugo Humbert,Alexander Shevchenko,6-4 7-6,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Quentin Halys,Kamil Majchrzak,7-6 6-4,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alex Michelsen,Alejandro Tabilo,3-6 6-3 6-4,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Sebastian Korda,Carlos Alcaraz,6-3 5-7 6-4,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Taylor Fritz,Reilly Opelka,6-3 6-4,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Martin Landaluce,Karen Khachanov,6-3 7-6,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jiri Lehecka,Ethan Quinn,6-3 7-6,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Tommy Paul,Raphael Collignon,6-2 3-6 7-6,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Valentin Vacherot,Matteo Berrettini,7-6 6-5,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Arthur Fils,Stefanos Tsitsipas,6-0 6-1,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Tomas Martin Etcheverry,Rafael Jodar,7-5 6-4,Round of 32 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jannik Sinner,Damir Dzumhur,6-3 6-3,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alexander Zverev,Martin Damm,6-2 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Felix Auger-Aliassime,Marton Fucsovics,7-6 7-3,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alexander Shevchenko,Ben Shelton,6-7 3-6 7-3 6-3,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Daniil Medvedev,Rei Sakamoto,6-7 10-3 6-1,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jakub Mensik,Adam Walton,3-6 6-2 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alejandro Tabilo,Andrey Rublev,6-7 5-2 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Quentin Halys,Alejandro Davidovich Fokina,7-6 6-8,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Francisco Cerundolo,Thiago Agustin Tirante,6-4 6-2,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Frances Tiafoe,Arthur Cazaux,7-6 6-1,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Kamil Majchrzak,Learner Tien,6-2 4-6 6-2,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alex Michelsen,Cameron Norrie,7-5 6-7 4-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Terence Atmane,Arthur Rinderknech,7-6 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Marin Cilic,Brandon Nakashima,2-6 6-4 7-6,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Tomas Martin Etcheverry,Zizou Bergs,7-6 7-5,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Corentin Moutet,Tomas Machac,6-0 1-6 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Ugo Humbert,Gabriel Diallo,6-1 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Rafael Jodar,Aleksandar Vukic,6-1 6-2,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Carlos Alcaraz,Joao Fonseca,6-4 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Stefanos Tsitsipas,Alex de Minaur,6-3 7-6,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Taylor Fritz,Botic van de Zandschulp,6-3 6-7 2-3,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Matteo Berrettini,Alexander Bublik,6-4 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Ethan Quinn,Casper Ruud,6-4 7-6,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Raphael Collignon,Flavio Cobolli,7-5 6-3,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Karen Khachanov,Roberto Bautista Agut,6-3 6-3,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Martin Landaluce,Luciano Darderi,6-3 6-7 4-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jiri Lehecka,Moise Kouame,6-2 7-5,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Tommy Paul,Adrian Mannarino,6-2 2-6 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Valentin Vacherot,Mariano Navone,6-3 6-4,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Reilly Opelka,Jack Draper,7-6 7-3,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Arthur Fils,Darwin Blanch,6-2 6-3,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Sebastian Korda,Camilo Ugo Carabelli,6-0 6-3,Round of 64 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Terence Atmane,Daniel Altmaier,6-4 6-2,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Arthur Cazaux,Tomas Barrios Vera,7-5 6-4,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Gabriel Diallo,Yibing Wu,6-2 7-6,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Marton Fucsovics,Christopher O'Connell,7-6 6-6,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Rei Sakamoto,Aleksandar Kovacevic,6-4 3-6 7-6,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alexander Shevchenko,Matteo Arnaldi,7-6 6-5 5-7 6-2,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Thiago Agustin Tirante,Valentin Royer,7-5 6-7 9-6 7-5,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Adam Walton,Sebastian Baez,6-2 6-2,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Roberto Bautista Agut,James Duckworth,7-6 7-3,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Zizou Bergs,Jenson Brooksby,7-5 6-2,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Matteo Berrettini,Alexandre Muller,6-4 6-2,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Darwin Blanch,Jan-Lennard Struff,6-3 3-6 6-3,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Marin Cilic,Alexei Popyrin,6-4 6-4,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Raphael Collignon,Grigor Dimitrov,7-6 4-3 7-6,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Martin Damm,Jacob Fearnley,6-0,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Damir Dzumhur,Ignacio Buse,6-7 6-6 7-6 6-1,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Joao Fonseca,Fabian Marozsan,6-4 3-6 6-2,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Quentin Halys,Liam Draxl,6-7 4-1 6-1,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Rafael Jodar,Yannick Hanfmann,6-4 4-6 6-1,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Moise Kouame,Zachary Svajda,5-7 6-4 6-4,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Martin Landaluce,Marcos Giron,6-3 7-6,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Tomas Machac,Emilio Nava,2-6 6-4 6-1,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Kamil Majchrzak,Miomir Kecmanovic,4-6 6-3 6-1,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Adrian Mannarino,Zhizhen Zhang,6-3 6-2,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alex Michelsen,Mattia Bellucci,6-2 6-1,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Mariano Navone,Nikoloz Basilashvili,7-6 6-7,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Reilly Opelka,Nuno Borges,6-7 6-2 6-6 7-5,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Ethan Quinn,Hubert Hurkacz,6-2 6-4,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alejandro Tabilo,Francisco Comesana,6-4 6-2,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Stefanos Tsitsipas,Arthur Fery,6-1 7-6,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Camilo Ugo Carabelli,Giovanni Mpetshi Perricard,2-6 6-3 7-6,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Botic van de Zandschulp,Denis Shapovalov,7-5 6-3,Round of 128 ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Ignacio Buse,Coleman Wong,6-2 3-6 6-3,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Yannick Hanfmann,Luca Van Assche,6-1 5-7 6-3,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Martin Landaluce,Thiago Agustin Tirante,3-6 7-5 6-4,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Tomas Barrios Vera,Aleksandar Vukic,6-3 7-6,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Adam Walton,Rinky Hijikata,6-3 6-7 2-1,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Mattia Bellucci,Murphy Cassone,3-6 7-6 6-5,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Christopher O'Connell,Alexander Blockx,4-6 6-4 6-4,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Zachary Svajda,Daniel Merida,6-0 6-7 2-2,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Rafael Jodar,Benjamin Bonzi,6-4 6-4,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Nikoloz Basilashvili,Sho Shimabukuro,6-2 6-1,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Liam Draxl,Jay Clarke,6-3 3-6 6-4,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Arthur Fery,Yunchaokete Bu,6-3 3-6 7-5,2nd Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Ignacio Buse,Moez Echargui,6-3 6-7 4-4,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Yannick Hanfmann,Leandro Riedi,6-3 6-4,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Thiago Agustin Tirante,Diego Dedura,6-2 6-3,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Aleksandar Vukic,Billy Harris,7-6 6-3,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Liam Draxl,Cristian Garin,4-6 6-4 6-2,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Adam Walton,Chris Rodesch,6-2 6-4,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Mattia Bellucci,Nicolas Jarry,6-3 6-1,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Nikoloz Basilashvili,Patrick Kypson,6-3 6-1,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Alexander Blockx,Chun-Hsin Tseng,7-6 6-5,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Arthur Fery,Roman Andres Burruchaga,2-6 6-4 6-4,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Zachary Svajda,Colton Smith,6-7 6-3 6-1,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Rafael Jodar,Manas Dhamne,6-3 7-6,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Luca Van Assche,Benjamin Willwerth,6-3 6-1,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Daniel Merida,Dalibor Svrcina,6-7 1-4 6-6 7-6,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Benjamin Bonzi,Guto Miguel,6-2 7-6,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Sho Shimabukuro,Alex Bolt,6-2 6-7 3-3,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Murphy Cassone,Francesco Maestrelli,7-6 6-1,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Tomas Barrios Vera,Nishesh Basavareddy,6-3 6-2,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Rinky Hijikata,Dane Sweeny,6-3 6-2,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Yunchaokete Bu,Tristan Schoolkate,7-5 6-4,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Coleman Wong,Jack Pinnington Jones,5-7 7-6 6-4,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Martin Landaluce,Mackenzie McDonald,6-3 6-4,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Christopher O'Connell,Nicolas Mejia,7-6 6-4,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+2026-miami-18,miami,Hard,20260318,Jay Clarke,Shintaro Mochizuki,6-4 3-6 6-1,1st Round Qualifying ,100,2026-03-28,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

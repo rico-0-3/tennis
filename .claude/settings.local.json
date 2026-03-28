@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/riccardo/Desktop/**)",
+      "Bash(npx create-expo-app@latest fingerprint-app --template blank)",
+      "Bash(npx expo:*)",
+      "Bash(node -e \"const p = require\\(''./package.json''\\); console.log\\(''expo:'', p.dependencies.expo\\)\")",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "WebSearch"
+    ]
+  }
+}

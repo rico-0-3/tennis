@@ -8,6 +8,7 @@ def ejecutar_pipeline():
     scripts = [
         "scraper_ranking.py",
         "scraper_2026_final.py",
+        "scraper_challenger.py",        # Challenger: storico 2022-2025 (solo 1a volta) + 2026
         "enriquecer_2026.py",
         "corregir_superficie_ranking.py",
         "juntar_scrapings.py",

@@ -13,8 +13,9 @@ import re
 IS_CI = os.environ.get("CI", "").lower() == "true"
 
 def _get_chrome_version():
-    """Auto-detect della versione di Chrome installata."""
+    """Auto-detect della versione di Chrome installata (Linux + Windows)."""
     import subprocess as _sp
+    # Linux / Mac
     for cmd in ['google-chrome', 'google-chrome-stable', 'chromium-browser', 'chromium']:
         try:
             out = _sp.check_output([cmd, '--version'], text=True, stderr=_sp.DEVNULL)
@@ -23,6 +24,23 @@ def _get_chrome_version():
             return ver
         except Exception:
             continue
+    # Windows: registro di sistema (stabile, esclude beta/canary)
+    try:
+        import winreg
+        for hive in (winreg.HKEY_CURRENT_USER, winreg.HKEY_LOCAL_MACHINE):
+            for sub in (r'SOFTWARE\Google\Chrome\BLBeacon',
+                        r'SOFTWARE\WOW6432Node\Google\Chrome\BLBeacon'):
+                try:
+                    key = winreg.OpenKey(hive, sub)
+                    ver_str, _ = winreg.QueryValueEx(key, 'version')
+                    winreg.CloseKey(key)
+                    ver = int(ver_str.split('.')[0])
+                    print(f"   ℹ️  Chrome (registro): {ver_str} → version_main={ver}")
+                    return ver
+                except Exception:
+                    continue
+    except ImportError:
+        pass
     return None
 
 CHROME_VERSION = _get_chrome_version()

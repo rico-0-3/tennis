@@ -3,9 +3,12 @@ import os
 import re
 
 # --- CONFIGURACIÓN ---
-ARCHIVO_HISTORICO  = "historial_tenis.csv"          # Storico originale 2000-2024
-ARCHIVO_2025       = "atp_matches_2025.csv"          # Partite 2025
-ARCHIVO_2026       = "atp_matches_2026_corregido.csv"  # Partite 2026 corrette (output FASE3)
+ARCHIVO_HISTORICO  = "historial_tenis.csv"                  # Storico originale 2000-2024
+ARCHIVO_2025       = "atp_matches_2025.csv"                 # Partite ATP 2025
+ARCHIVO_2026       = "atp_matches_2026_corregido.csv"       # Partite ATP 2026 corrette
+CHALL_SACKMANN     = "challenger_matches_sackmann.csv"      # Challenger 2022-2024 (Sackmann)
+CHALL_2025         = "challenger_matches_2025.csv"          # Challenger 2025 (scrapato)
+CHALL_2026         = "challenger_matches_2026.csv"          # Challenger 2026+ (incrementale)
 ARCHIVO_SALIDA     = "historialTenis.csv"
 
 print("🧬 INICIANDO FUSIÓN FINAL...")
@@ -17,7 +20,13 @@ if not os.path.exists(ARCHIVO_HISTORICO):
 
 # Costruisce df_new da 2025 + 2026 disponibili
 partes_nuevas = []
-for f, label in [(ARCHIVO_2025, "2025"), (ARCHIVO_2026, "2026")]:
+for f, label in [
+    (ARCHIVO_2025,   "ATP 2025"),
+    (ARCHIVO_2026,   "ATP 2026"),
+    (CHALL_SACKMANN, "Challenger 2022-2024 (Sackmann)"),
+    (CHALL_2025,     "Challenger 2025 (scraping)"),
+    (CHALL_2026,     "Challenger 2026+ (scraping)"),
+]:
     if os.path.exists(f):
         partes_nuevas.append(pd.read_csv(f))
         print(f"   📂 {label}: {f} caricato ({len(partes_nuevas[-1])} partite)")
@@ -78,7 +87,14 @@ try:
     print("⏳ Pulizia e ordinamento...")
     df_total['tourney_date'] = pd.to_numeric(df_total['tourney_date'], errors='coerce').fillna(0).astype(int)
 
-    # ── Correggi tourney_date=0 usando le date storiche ──────────────────────
+    # ── Correggi tourney_date=0 e YYYY0101 (fallback scraper) ────────────────
+    # YYYY0101 = 1 gennaio di un anno = data fittizia usata come fallback
+    mask_jan1 = (df_total['tourney_date'] % 10000 == 101) & (df_total['tourney_date'] > 20000000)
+    df_total.loc[mask_jan1, 'tourney_date'] = 0
+    n_jan1 = mask_jan1.sum()
+    if n_jan1 > 0:
+        print(f"   ⚠️  {n_jan1} partite con data 1-Jan fittizia → azzerate per correzione")
+
     date_zero = (df_total['tourney_date'] == 0).sum()
     if date_zero > 0:
         print(f"   ⚠️  {date_zero} partite con tourney_date=0 — provo a correggere...")
@@ -135,6 +151,10 @@ try:
                 anno_ref = data_ref // 10000
                 data_nuova = data_ref - anno_ref * 10000 + anno_match * 10000
                 df_total.at[idx, 'tourney_date'] = data_nuova
+                fixed += 1
+            elif anno_match > 0:
+                # Fallback: nome torneo sconosciuto ma anno noto → 1 luglio dell'anno
+                df_total.at[idx, 'tourney_date'] = anno_match * 10000 + 701
                 fixed += 1
 
         date_zero_after = (df_total['tourney_date'] == 0).sum()

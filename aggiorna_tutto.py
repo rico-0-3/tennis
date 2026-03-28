@@ -35,13 +35,13 @@ PREDICCION = os.path.join(ROOT, "prediccion")
 PYTHON = VENV_PY if os.path.exists(VENV_PY) else sys.executable
 
 # ─── Flag opzionali ───────────────────────────────────────────────────────────
-ESEGUI_SCRAPING    = False    # Scarica nuovi dati ATP (richiede Chrome installato)
-ESEGUI_FUSIONE     = False     # Fonde storico + nuovi dati
+ESEGUI_SCRAPING    = True    # Scarica nuovi dati ATP (richiede Chrome installato)
+ESEGUI_FUSIONE     = True     # Fonde storico + nuovi dati
 ESEGUI_BIO         = True  # True = scraping bio (DOB + altezza) da tennisstats.com
-ESEGUI_PROFILI     = False    # Rigenera profili giocatori
-ESEGUI_COURT_SPEED = False    # Scraping velocità campo + arricchimento CSV
+ESEGUI_PROFILI     = True    # Rigenera profili giocatori
+ESEGUI_COURT_SPEED = True    # Scraping velocità campo + arricchimento CSV
 ESEGUI_MODELLI     = False    # Riaddestra XGBoost, Ensemble, LR
-ESEGUI_ANN         = True   # True = addestra la rete neurale (lento su CPU ~1-2h)
+ESEGUI_ANN         = False   # True = addestra la rete neurale (lento su CPU ~1-2h)
 ESEGUI_SPECIAL_BETS = False  # True = addestra i modelli Poisson/Tweedie per Ace, DF e Break
 
 # ─── Helper ───────────────────────────────────────────────────────────────────
@@ -166,11 +166,26 @@ def main():
         scraping_ok["RANK"] = esegui("scraper_ranking.py", SCRAPING, "Ranking ATP")
 
     # ══════════════════════════════════════════════════════════════════════════
-    # FASE 2 — Scraping Partite
+    # FASE 2 — Scraping Partite ATP
     # ══════════════════════════════════════════════════════════════════════════
     if ESEGUI_SCRAPING:
         sezione("2️⃣  FASE 2 — Scraping Partite ATP")
         scraping_ok["MATCH"] = esegui("scraper_2026_final.py", SCRAPING, "Partite ATP 2025-2026")
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # FASE 2b — Normalizzazione Challenger Sackmann 2022-2024 (una tantum)
+    # ══════════════════════════════════════════════════════════════════════════
+    if ESEGUI_SCRAPING:
+        sezione("2\u20e3b  FASE 2b \u2014 Normalizzazione Challenger Sackmann 2022-2024")
+        esegui("normalizza_challenger_sackmann.py", SCRAPING, "Challenger Sackmann 2022-2024")
+
+    # ══════════════════════════════════════════════════════════════════════════
+    # FASE 2c — Scraping Challenger ATP
+    # Prima esecuzione: scarica 2025 (poi skip) + 2026 ogni run
+    # ══════════════════════════════════════════════════════════════════════════
+    if ESEGUI_SCRAPING:
+        sezione("2\u20e3c  FASE 2c \u2014 Scraping Challenger ATP")
+        scraping_ok["CHALLENGER"] = esegui("scraper_challenger.py", SCRAPING, "Challenger 2025 (1a volta) + 2026")
 
     # ══════════════════════════════════════════════════════════════════════════
     # FASE 3 — Elaborazione dati
