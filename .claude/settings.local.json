@@ -13,7 +13,10 @@
       "Bash(python3 -c ':*)",
       "Bash(python -c ':*)",
       "Bash(python3:*)",
-      "Bash(python -W ignore -c ':*)"
+      "Bash(python -W ignore -c ':*)",
+      "Bash(dir \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\prediccion\\\\\" 2>&1 | head -20:*)",
+      "Bash(cmd:*)",
+      "Bash(python:*)"
     ]
   }
 }
