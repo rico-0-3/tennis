@@ -1256,6 +1256,40 @@ if __name__ == '__main__':
     top5_ann_ll  = log_loss(y_test_np, top5_ann_probs_test)
     print(f"\n   ANN Top-5 ensemble: acc={top5_ann_acc:.4f} | log_loss={top5_ann_ll:.4f}")
 
+    # ── Salva top-5 state dicts per uncertainty estimation (sempre, indipendente da strategy) ──
+    top5_for_uncertainty = [
+        {'state_dict': r['_model'].state_dict(), 'config': r['_config']}
+        for r in risultati[:min(5, len(risultati))]
+    ]
+    print(f"   → {len(top5_for_uncertainty)} modelli salvati per uncertainty estimation")
+
+    # ── Calibrazione isotonica su test set ────────────────────────────────────
+    # Fittiamo su top5_ann_probs_test (le migliori probabilità disponibili)
+    # Il test set è l'ultimo 15% per data → nessun leakage
+    from sklearn.isotonic import IsotonicRegression
+    from sklearn.calibration import calibration_curve as sk_calibration_curve
+
+    raw_probs_test = top5_ann_probs_test.flatten()
+    calibrator = IsotonicRegression(out_of_bounds='clip')
+    calibrator.fit(raw_probs_test, y_test_np)
+    calibrated_probs_test = calibrator.predict(raw_probs_test)
+    ll_calibrated = log_loss(y_test_np, calibrated_probs_test)
+    acc_calibrated = accuracy_score(y_test_np, (calibrated_probs_test >= 0.5).astype(int))
+    print(f"   Calibrated (isotonic): acc={acc_calibrated:.4f} | log_loss={ll_calibrated:.4f}")
+
+    # Curva di calibrazione (per reliability diagram nel dashboard)
+    try:
+        frac_pos, mean_pred = sk_calibration_curve(y_test_np, raw_probs_test, n_bins=10, strategy='quantile')
+        calibration_curve_data = {
+            'fraction_pos': frac_pos.tolist(),
+            'mean_pred':    mean_pred.tolist(),
+        }
+    except Exception:
+        calibration_curve_data = {}
+
+    joblib.dump(calibrator, 'calibrator_ann.pkl')
+    print(f"   → calibrator_ann.pkl salvato")
+
     val_probs  = {'ANN': ann_probs_val}
     test_probs = {'ANN': ann_probs_test}
     val_probs_top5  = {'ANN5': top5_ann_probs_val}
@@ -1321,6 +1355,17 @@ if __name__ == '__main__':
     best_strategy = winner['_strategy']
     print(f"\n🏆 Strategia migliore: {winner['Modello']} "
           f"(acc={winner['Accuracy']:.2%}, ll={winner['Log Loss']:.4f})")
+
+    # ── Persisti test set con predizioni per error analysis ───────────────────
+    os.makedirs('error_analysis_output', exist_ok=True)
+    test_analysis_df = df_test[FEATURES + ['target', 'tourney_date']].copy()
+    test_analysis_df['p_raw']       = raw_probs_test
+    test_analysis_df['p_calibrated'] = calibrated_probs_test
+    test_analysis_df['predicted']   = (calibrated_probs_test >= 0.5).astype(int)
+    test_analysis_df['correct']     = (test_analysis_df['predicted'] == test_analysis_df['target']).astype(int)
+    test_predictions_path = os.path.join('error_analysis_output', 'test_predictions.csv')
+    test_analysis_df.to_csv(test_predictions_path, index=False)
+    print(f"   → {test_predictions_path} salvato ({len(test_analysis_df):,} righe)")
 
     # ── 8. Re-training finale su tutti i dati ─────────────────────────────────
     print(f"\n🚀 Re-training modello finale su TUTTI i dati...")
@@ -1414,14 +1459,18 @@ if __name__ == '__main__':
     # ── 9. Costruzione modelo_finale.pkl ──────────────────────────────────────
     from datetime import datetime
     modelo_finale = {
-        'strategy':     best_strategy,
-        'model_name':   winner['Modello'],
-        'accuracy':     winner['Accuracy'],
-        'score':        winner['_score'],
-        'features':     FEATURES,
-        'scaler':       scaler_final,
-        'trained_date': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-        'ann': {'state_dict': model_final.state_dict(), 'config': best_hp},
+        'strategy':             best_strategy,
+        'model_name':           winner['Modello'],
+        'accuracy':             winner['Accuracy'],
+        'score':                winner['_score'],
+        'features':             FEATURES,
+        'scaler':               scaler_final,
+        'trained_date':         datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        'ann':                  {'state_dict': model_final.state_dict(), 'config': best_hp},
+        # Moduli di supporto (sempre presenti, indipendenti da strategy)
+        'calibrator':           calibrator,
+        'calibration_curve':    calibration_curve_data,
+        'ann_top5_uncertainty': top5_for_uncertainty,
     }
     if best_strategy == 'ann_top5':
         modelo_finale['ann_top5'] = [{'state_dict': sd, 'config': c}

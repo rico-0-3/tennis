@@ -16,6 +16,20 @@ try:
 except:
     def get_court_stats_latest(name, surf): return (11.5, 1.10) if surf != 'Clay' else (6.5, 0.65)
 
+# Import moduli di supporto
+_pred_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'prediccion')
+sys.path.insert(0, _pred_dir)
+try:
+    from uncertainty import predict_with_uncertainty
+    HAS_UNCERTAINTY = True
+except ImportError:
+    HAS_UNCERTAINTY = False
+try:
+    from meta_confidence import MetaConfidenceScorer, color_for_label
+    HAS_META = True
+except ImportError:
+    HAS_META = False
+
 st.set_page_config(page_title="ATP Predittore 2026", page_icon="🎾", layout="wide")
 
 # # Carica CSS custom
@@ -61,7 +75,7 @@ Il sistema analizza **30 feature** tra cui:
 st.write("---")
 
 
-# â”€â”€â”€ Definizione ANN v3 (stessa architettura di train_ann.py) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# â"€â"€â"€ Definizione ANN v3 (stessa architettura di train_ann.py) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 DEFAULT_INTERACTION_PAIRS = [
     (4, 12), (0, 15), (4, 15), (12, 15), (0, 1),
     (4, 16), (6, 15), (12, 14), (14, 15), (1, 12),
@@ -159,7 +173,7 @@ LEVEL_MULT_LABEL = {'Grand Slam': 2.0, 'Masters 1000': 1.5, 'ATP 500': 1.0,
 
 
 
-# â”€â”€â”€ Caricamento risorse â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# â"€â"€â"€ Caricamento risorse â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 
 def get_version():
     try:
@@ -188,7 +202,7 @@ def cargar_todo(_version: str):
         st.error(f"Mancano file fondamentali. Errore: {e}")
         st.stop()
 
-    # â”€â”€ Modello finale (selezionato automaticamente in training) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # â"€â"€ Modello finale (selezionato automaticamente in training) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
     modelo_finale = None
     finale_path = pp('modelo_finale.pkl')
     if os.path.exists(finale_path):
@@ -283,6 +297,13 @@ if modelo_finale is None:
 # Estrai componenti dal modello finale
 finale_strategy = modelo_finale['strategy']
 finale_scaler   = modelo_finale['scaler']
+
+# Carica MetaConfidenceScorer con dati storici (se disponibili)
+_analysis_dir = os.path.join(_pred_dir, 'error_analysis_output')
+if HAS_META:
+    meta_scorer = MetaConfidenceScorer.from_files(_analysis_dir)
+else:
+    meta_scorer = None
 finale_name     = modelo_finale['model_name']
 finale_accuracy = modelo_finale.get('accuracy', 0)
 finale_score    = modelo_finale.get('score', 0)
@@ -451,7 +472,7 @@ def actualizar_j2():
     st.session_state.l5_2 = datos.get('last_5', [])
 
 
-# â”€â”€â”€ SIDEBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# â"€â"€â"€ SIDEBAR â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 with st.sidebar:
     st.header("⚙️ Configurazione")
 
@@ -494,7 +515,7 @@ with st.sidebar:
     LEVEL_LABEL = {'Grand Slam': 5, 'Masters 1000': 4, 'ATP 500': 3, 'ATP 250': 3, 'Challenger': 2}
 
 
-# â”€â”€â”€ GIOCATORI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# â"€â"€â"€ GIOCATORI â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 col1, col2 = st.columns(2)
 
 with col1:
@@ -566,7 +587,7 @@ with col2:
     fat2 = st.number_input("Fatica (min)", 0, 1000, 0, key="f2")
 
 
-# â”€â”€â”€ H2H + RADAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# â"€â"€â"€ H2H + RADAR â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 st.divider()
 c_h2h, c_radar = st.columns([1, 2])
 
@@ -588,7 +609,7 @@ with c_radar:
 st.divider()
 
 
-# â”€â”€â”€ Helper: Opponent Quality Score â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# â"€â"€â"€ Helper: Opponent Quality Score â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 def _calc_oq(history, my_rank):
     """Media pesata qualità avversari: win vs top vale di più, loss vs scarso penalizza.
     history: [(result 1/0, r_opp), ...] — ultimi 5 match
@@ -608,7 +629,7 @@ def _calc_oq(history, my_rank):
     return total / len(history)
 
 
-# â”€â”€â”€ PREDIZIONE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# â"€â"€â"€ PREDIZIONE â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=True):
 
     skill1  = get_skill(nombre1, superficie)
@@ -766,10 +787,52 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
     input_sc = finale_scaler.transform(ann_input[ANN_FEATURES])
     input_t  = torch.tensor(input_sc.astype(np.float32))
 
-    # â”€â”€â”€ Predizione con modello finale (strategia auto-selezionata) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # â"€â"€â"€ Predizione con modello finale (strategia auto-selezionata) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
     prob_j1, modello_usato = predici(input_sc, input_t)
 
-    # â”€â”€â”€ Risultato â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    # Calibrazione (se calibratore disponibile nel modelo_finale)
+    calibrator = modelo_finale.get('calibrator', None)
+    if calibrator is not None:
+        try:
+            prob_j1 = float(calibrator.predict([prob_j1])[0])
+        except Exception:
+            pass
+
+    # Uncertainty: top-5 ANN ensemble
+    uncertainty_result = None
+    ann_std = 0.0
+    if HAS_UNCERTAINTY:
+        top5_data = modelo_finale.get('ann_top5_uncertainty') or modelo_finale.get('ann_top5')
+        if top5_data:
+            try:
+                top5_models = [_build_ann(c) for c in top5_data]
+                uncertainty_result = predict_with_uncertainty(input_t, top5_models)
+                ann_std = uncertainty_result['p_std']
+                raw_top5_mean = uncertainty_result['p_mean']
+                if calibrator is not None:
+                    try:
+                        prob_j1 = float(calibrator.predict([raw_top5_mean])[0])
+                    except Exception:
+                        prob_j1 = raw_top5_mean
+                else:
+                    prob_j1 = raw_top5_mean
+            except Exception:
+                pass
+
+    # Meta-Confidence
+    meta_result = None
+    if meta_scorer is not None:
+        try:
+            feat_dict = ann_input.iloc[0].to_dict()
+            meta_result = meta_scorer.score(
+                prob_calibrated=prob_j1,
+                ann_std=ann_std,
+                features=feat_dict,
+            )
+        except Exception:
+            pass
+
+    # Risultato
     st.divider()
     col_res_izq, col_res_der = st.columns([1, 3])
 
@@ -803,9 +866,41 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
             margin=dict(l=0, r=0, t=10, b=10), showlegend=False
         )
         st.plotly_chart(fig_bar, use_container_width=True)
-        
-        
-# â”€â”€â”€ SCOMMESSE SPECIALI (VALUE BET) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+        # Uncertainty band
+        if uncertainty_result is not None:
+            uf = uncertainty_result['uncertain_flag']
+            uf_icon = {'LOW': '🟢', 'MEDIUM': '🟡', 'HIGH': '🔴'}.get(uf, '⚪')
+            ci_lo = uncertainty_result['ci_low']
+            ci_hi = uncertainty_result['ci_high']
+            if prob_j1 >= 0.5:
+                ci_show = f"{ci_lo:.0%} – {ci_hi:.0%}"
+            else:
+                ci_show = f"{1-ci_hi:.0%} – {1-ci_lo:.0%}"
+            n_mod = uncertainty_result['n_models']
+            st.caption(
+                f"{uf_icon} **Concordanza modelli** ({n_mod} ANN): "
+                f"intervallo {ci_show}  |  std={uncertainty_result['p_std']:.3f}"
+            )
+
+        # Meta-Confidence Score
+        if meta_result is not None:
+            score = meta_result['score']
+            label = meta_result['label']
+            label_icon = {'HIGH': '🟢', 'MEDIUM': '🟡', 'LOW': '🔴'}.get(label, '⚪')
+            with st.expander(f"{label_icon} Meta-Confidence: **{score}/100 — {label}**"):
+                for reason in meta_result['reasons']:
+                    st.markdown(f"- {reason}")
+                bd = meta_result['breakdown']
+                st.caption(
+                    f"Forza pred: {bd['prediction_strength']}/30 · "
+                    f"Concordanza: {bd['model_agreement']}/30 · "
+                    f"Storico: {bd['historical_context']}/25 · "
+                    f"Struttura: {bd['match_structure']}/15"
+                )
+
+
+# SCOMMESSE SPECIALI (VALUE BET) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 from scipy.stats import poisson
 import sys
 import __main__
