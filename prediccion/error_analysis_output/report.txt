@@ -1,0 +1,64 @@
+======================================================================
+REPORT ANALISI ERRORI — MODELLO TENNIS ANN
+======================================================================
+
+Accuracy complessiva (test set): 73.89%
+Campioni nel test set: 12,320
+
+── ACCURACY PER SUPERFICIE ──
+  Hard    : 74.44%  (n=9504)
+  Clay    : 73.17%  (n=1908)
+  Grass   : 69.60%  (n=908)
+
+── ACCURACY PER ROUND ──
+  128mi             : 66.13%  (n=62)
+  64mi              : 66.36%  (n=110)
+  32mi              : 74.76%  (n=11464)
+  Ottavi            : 62.55%  (n=494)
+  Quarti            : 49.00%  (n=100)
+  Semifinale        : 70.00%  (n=60)
+  Finale            : 60.00%  (n=30)
+
+── ACCURACY PER BUCKET CONFIDENZA ──
+  50-55%    : 71.84%  (n=6836)
+  55-60%    : 59.90%  (n=197)
+  60-65%    : 62.83%  (n=452)
+  65-70%    : 67.37%  (n=1189)
+  70-75%    : 73.45%  (n=885)
+  75-80%    : 77.44%  (n=328)
+  80-90%    : 82.26%  (n=1934)
+  90%+      : 99.00%  (n=499)
+
+── PATTERN PER BUCKET (TOP-2 FOGLIE AFFIDABILI) ──
+
+  Bucket 50-55% (acc=72%, n=6836):
+    🔴 diff_fatigue ≤ 84.00 & diff_fatigue ≤ -99.00 & diff_elo ≤ 15.02 → 0%
+    🔴 diff_fatigue ≤ 84.00 & diff_fatigue ≤ -99.00 & diff_elo > 15.02 → 0%
+
+  Bucket 55-60% (acc=60%, n=197):
+    🔴 diff_fatigue ≤ -50.00 & diff_streak ≤ -0.50 → 0%
+    🔴 diff_fatigue ≤ -50.00 & diff_streak > -0.50 & diff_elo ≤ 17.63 → 0%
+
+  Bucket 60-65% (acc=63%, n=452):
+    🔴 diff_fatigue ≤ -96.50 & diff_skill ≤ -0.08 → 0%
+    🔴 diff_fatigue ≤ -96.50 & diff_skill > -0.08 & diff_elo ≤ -16.21 → 0%
+
+  Bucket 65-70% (acc=67%, n=1189):
+    🔴 diff_fatigue ≤ 61.00 & diff_fatigue ≤ -97.00 & diff_streak ≤ -0.50 → 0%
+    🔴 diff_fatigue ≤ 61.00 & diff_fatigue ≤ -97.00 & diff_streak > -0.50 → 0%
+
+  Bucket 70-75% (acc=73%, n=885):
+    🔴 diff_fatigue ≤ -17.50 & diff_streak ≤ -0.50 → 0%
+    🔴 diff_fatigue ≤ -17.50 & diff_streak > -0.50 & diff_elo ≤ 53.97 → 0%
+
+  Bucket 75-80% (acc=77%, n=328):
+    🔴 diff_fatigue ≤ -89.00 & diff_upset_tendency ≤ 0.04 → 0%
+    🔴 diff_fatigue ≤ -89.00 & diff_upset_tendency > 0.04 → 0%
+
+  Bucket 80-90% (acc=82%, n=1934):
+    🔴 diff_fatigue ≤ -97.00 & tourney_level ≤ 2.50 & diff_weeks_load ≤ -7.50 → 0%
+    🔴 diff_fatigue ≤ -97.00 & tourney_level ≤ 2.50 & diff_weeks_load > -7.50 → 0%
+
+  Bucket 90%+ (acc=99%, n=499):
+    🔴 diff_skill ≤ 0.11 → 0%
+    🔴 diff_skill > 0.11 & diff_streak ≤ 16.50 & diff_fatigue ≤ 2.50 → 0%

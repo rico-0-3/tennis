@@ -1,0 +1,450 @@
+{
+  "overall_accuracy": 0.7388798701298701,
+  "n_samples": 12320,
+  "by_surface": {
+    "Hard": {
+      "accuracy": 0.7444234006734006,
+      "n": 9504
+    },
+    "Clay": {
+      "accuracy": 0.7316561844863732,
+      "n": 1908
+    },
+    "Grass": {
+      "accuracy": 0.6960352422907489,
+      "n": 908
+    }
+  },
+  "by_round": {
+    "128mi": {
+      "accuracy": 0.6612903225806451,
+      "n": 62
+    },
+    "64mi": {
+      "accuracy": 0.6636363636363637,
+      "n": 110
+    },
+    "32mi": {
+      "accuracy": 0.7476448011165387,
+      "n": 11464
+    },
+    "Ottavi": {
+      "accuracy": 0.6255060728744939,
+      "n": 494
+    },
+    "Quarti": {
+      "accuracy": 0.49,
+      "n": 100
+    },
+    "Semifinale": {
+      "accuracy": 0.7,
+      "n": 60
+    },
+    "Finale": {
+      "accuracy": 0.6,
+      "n": 30
+    }
+  },
+  "by_level": {
+    "C": {
+      "accuracy": 0.75,
+      "n": 11112
+    },
+    "A": {
+      "accuracy": 0.6229508196721312,
+      "n": 854
+    },
+    "M/F": {
+      "accuracy": 0.6694915254237288,
+      "n": 354
+    }
+  },
+  "by_confidence_bucket": {
+    "50-55%": {
+      "accuracy": 0.7184025746050322,
+      "n": 6836,
+      "p_low": 0.5,
+      "p_high": 0.55
+    },
+    "55-60%": {
+      "accuracy": 0.5989847715736041,
+      "n": 197,
+      "p_low": 0.55,
+      "p_high": 0.6
+    },
+    "60-65%": {
+      "accuracy": 0.6283185840707964,
+      "n": 452,
+      "p_low": 0.6,
+      "p_high": 0.65
+    },
+    "65-70%": {
+      "accuracy": 0.6736753574432296,
+      "n": 1189,
+      "p_low": 0.65,
+      "p_high": 0.7
+    },
+    "70-75%": {
+      "accuracy": 0.7344632768361582,
+      "n": 885,
+      "p_low": 0.7,
+      "p_high": 0.75
+    },
+    "75-80%": {
+      "accuracy": 0.774390243902439,
+      "n": 328,
+      "p_low": 0.75,
+      "p_high": 0.8
+    },
+    "80-90%": {
+      "accuracy": 0.8226473629782833,
+      "n": 1934,
+      "p_low": 0.8,
+      "p_high": 0.9
+    },
+    "90%+": {
+      "accuracy": 0.9899799599198397,
+      "n": 499,
+      "p_low": 0.9,
+      "p_high": 1.01
+    }
+  },
+  "by_surface_round": {
+    "0_1": 0.6612903225806451,
+    "0_2": 0.6636363636363637,
+    "0_3": 0.7558647654093836,
+    "0_4": 0.625560538116592,
+    "0_5": 0.49,
+    "0_6": 0.7,
+    "0_7": 0.6,
+    "1_3": 0.7344086021505376,
+    "1_4": 0.625,
+    "2_3": 0.6960352422907489
+  },
+  "bucket_patterns": {
+    "50-55%": {
+      "n": 6836,
+      "accuracy": 0.7184025746050322,
+      "tree_text": "|--- diff_fatigue <= 84.00\n|   |--- diff_fatigue <= -99.00\n|   |   |--- diff_elo <= 15.02\n|   |   |   |--- class: 1\n|   |   |--- diff_elo >  15.02\n|   |   |   |--- class: 1\n|   |--- diff_fatigue >  -99.00\n|   |   |--- diff_elo <= -93.50\n|   |   |   |--- class: 1\n|   |   |--- diff_elo >  -93.50\n|   |   |   |--- class: 1\n|--- diff_fatigue >  84.00\n|   |--- diff_streak <= -25.50\n|   |   |--- class: 1\n|   |--- diff_streak >  -25.50\n|   |   |--- tourney_level <= 2.50\n|   |   |   |--- class: 0\n|   |   |--- tourney_level >  2.50\n|   |   |   |--- class: 1\n",
+      "reliable_leaves": [],
+      "unreliable_leaves": [
+        {
+          "path": "diff_fatigue \u2264 84.00 & diff_fatigue \u2264 -99.00 & diff_elo \u2264 15.02",
+          "n": 3226,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 84.00 & diff_fatigue \u2264 -99.00 & diff_elo > 15.02",
+          "n": 842,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 84.00 & diff_fatigue > -99.00 & diff_elo \u2264 -93.50",
+          "n": 350,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 84.00 & diff_fatigue > -99.00 & diff_elo > -93.50",
+          "n": 459,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > 84.00 & diff_streak > -25.50 & tourney_level \u2264 2.50",
+          "n": 1612,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > 84.00 & diff_streak > -25.50 & tourney_level > 2.50",
+          "n": 94,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > 84.00 & diff_streak \u2264 -25.50",
+          "n": 253,
+          "accuracy": 0.003952569169960474
+        }
+      ]
+    },
+    "55-60%": {
+      "n": 197,
+      "accuracy": 0.5989847715736041,
+      "tree_text": "|--- diff_fatigue <= -50.00\n|   |--- diff_streak <= -0.50\n|   |   |--- class: 0\n|   |--- diff_streak >  -0.50\n|   |   |--- diff_elo <= 17.63\n|   |   |   |--- class: 0\n|   |   |--- diff_elo >  17.63\n|   |   |   |--- class: 0\n|--- diff_fatigue >  -50.00\n|   |--- diff_fatigue <= 74.50\n|   |   |--- class: 1\n|   |--- diff_fatigue >  74.50\n|   |   |--- diff_streak <= 1.50\n|   |   |   |--- class: 1\n|   |   |--- diff_streak >  1.50\n|   |   |   |--- class: 1\n",
+      "reliable_leaves": [],
+      "unreliable_leaves": [
+        {
+          "path": "diff_fatigue \u2264 -50.00 & diff_streak \u2264 -0.50",
+          "n": 20,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 -50.00 & diff_streak > -0.50 & diff_elo \u2264 17.63",
+          "n": 32,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 -50.00 & diff_streak > -0.50 & diff_elo > 17.63",
+          "n": 20,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -50.00 & diff_fatigue \u2264 74.50",
+          "n": 20,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -50.00 & diff_fatigue > 74.50 & diff_streak > 1.50",
+          "n": 29,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -50.00 & diff_fatigue > 74.50 & diff_streak \u2264 1.50",
+          "n": 76,
+          "accuracy": 0.013157894736842105
+        }
+      ]
+    },
+    "60-65%": {
+      "n": 452,
+      "accuracy": 0.6283185840707964,
+      "tree_text": "|--- diff_fatigue <= -96.50\n|   |--- diff_skill <= -0.08\n|   |   |--- class: 0\n|   |--- diff_skill >  -0.08\n|   |   |--- diff_elo <= -16.21\n|   |   |   |--- class: 0\n|   |   |--- diff_elo >  -16.21\n|   |   |   |--- class: 0\n|--- diff_fatigue >  -96.50\n|   |--- diff_fatigue <= 91.50\n|   |   |--- log_rank_ratio <= 0.02\n|   |   |   |--- class: 0\n|   |   |--- log_rank_ratio >  0.02\n|   |   |   |--- class: 1\n|   |--- diff_fatigue >  91.50\n|   |   |--- diff_skill <= 0.10\n|   |   |   |--- class: 1\n|   |   |--- diff_skill >  0.10\n|   |   |   |--- class: 1\n",
+      "reliable_leaves": [],
+      "unreliable_leaves": [
+        {
+          "path": "diff_fatigue \u2264 -96.50 & diff_skill \u2264 -0.08",
+          "n": 20,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 -96.50 & diff_skill > -0.08 & diff_elo \u2264 -16.21",
+          "n": 29,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 -96.50 & diff_skill > -0.08 & diff_elo > -16.21",
+          "n": 97,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -96.50 & diff_fatigue \u2264 91.50 & log_rank_ratio \u2264 0.02",
+          "n": 30,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -96.50 & diff_fatigue \u2264 91.50 & log_rank_ratio > 0.02",
+          "n": 24,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -96.50 & diff_fatigue > 91.50 & diff_skill > 0.10",
+          "n": 33,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -96.50 & diff_fatigue > 91.50 & diff_skill \u2264 0.10",
+          "n": 219,
+          "accuracy": 0.0045662100456621
+        }
+      ]
+    },
+    "65-70%": {
+      "n": 1189,
+      "accuracy": 0.6736753574432296,
+      "tree_text": "|--- diff_fatigue <= 61.00\n|   |--- diff_fatigue <= -97.00\n|   |   |--- diff_streak <= -0.50\n|   |   |   |--- class: 0\n|   |   |--- diff_streak >  -0.50\n|   |   |   |--- class: 0\n|   |--- diff_fatigue >  -97.00\n|   |   |--- diff_skill <= -0.03\n|   |   |   |--- class: 0\n|   |   |--- diff_skill >  -0.03\n|   |   |   |--- class: 1\n|--- diff_fatigue >  61.00\n|   |--- diff_streak <= 1.50\n|   |   |--- diff_streak <= 0.50\n|   |   |   |--- class: 1\n|   |   |--- diff_streak >  0.50\n|   |   |   |--- class: 1\n|   |--- diff_streak >  1.50\n|   |   |--- diff_weeks_load <= -0.50\n|   |   |   |--- class: 1\n|   |   |--- diff_weeks_load >  -0.50\n|   |   |   |--- class: 1\n",
+      "reliable_leaves": [],
+      "unreliable_leaves": [
+        {
+          "path": "diff_fatigue \u2264 61.00 & diff_fatigue \u2264 -97.00 & diff_streak \u2264 -0.50",
+          "n": 76,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 61.00 & diff_fatigue \u2264 -97.00 & diff_streak > -0.50",
+          "n": 249,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 61.00 & diff_fatigue > -97.00 & diff_skill \u2264 -0.03",
+          "n": 36,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 61.00 & diff_fatigue > -97.00 & diff_skill > -0.03",
+          "n": 87,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > 61.00 & diff_streak \u2264 1.50 & diff_streak \u2264 0.50",
+          "n": 482,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > 61.00 & diff_streak \u2264 1.50 & diff_streak > 0.50",
+          "n": 64,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > 61.00 & diff_streak > 1.50 & diff_weeks_load \u2264 -0.50",
+          "n": 26,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > 61.00 & diff_streak > 1.50 & diff_weeks_load > -0.50",
+          "n": 169,
+          "accuracy": 0.0
+        }
+      ]
+    },
+    "70-75%": {
+      "n": 885,
+      "accuracy": 0.7344632768361582,
+      "tree_text": "|--- diff_fatigue <= -17.50\n|   |--- diff_streak <= -0.50\n|   |   |--- class: 0\n|   |--- diff_streak >  -0.50\n|   |   |--- diff_elo <= 53.97\n|   |   |   |--- class: 0\n|   |   |--- diff_elo >  53.97\n|   |   |   |--- class: 0\n|--- diff_fatigue >  -17.50\n|   |--- diff_fatigue <= 83.50\n|   |   |--- diff_skill <= 0.10\n|   |   |   |--- class: 1\n|   |   |--- diff_skill >  0.10\n|   |   |   |--- class: 1\n|   |--- diff_fatigue >  83.50\n|   |   |--- diff_upset_tendency <= -0.34\n|   |   |   |--- class: 1\n|   |   |--- diff_upset_tendency >  -0.34\n|   |   |   |--- class: 1\n",
+      "reliable_leaves": [],
+      "unreliable_leaves": [
+        {
+          "path": "diff_fatigue \u2264 -17.50 & diff_streak \u2264 -0.50",
+          "n": 34,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 -17.50 & diff_streak > -0.50 & diff_elo \u2264 53.97",
+          "n": 55,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 -17.50 & diff_streak > -0.50 & diff_elo > 53.97",
+          "n": 108,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -17.50 & diff_fatigue \u2264 83.50 & diff_skill \u2264 0.10",
+          "n": 67,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -17.50 & diff_fatigue \u2264 83.50 & diff_skill > 0.10",
+          "n": 21,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -17.50 & diff_fatigue > 83.50 & diff_upset_tendency \u2264 -0.34",
+          "n": 84,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -17.50 & diff_fatigue > 83.50 & diff_upset_tendency > -0.34",
+          "n": 516,
+          "accuracy": 0.0
+        }
+      ]
+    },
+    "75-80%": {
+      "n": 328,
+      "accuracy": 0.774390243902439,
+      "tree_text": "|--- diff_fatigue <= -89.00\n|   |--- diff_upset_tendency <= 0.04\n|   |   |--- class: 0\n|   |--- diff_upset_tendency >  0.04\n|   |   |--- class: 0\n|--- diff_fatigue >  -89.00\n|   |--- diff_fatigue <= 16.00\n|   |   |--- diff_elo <= 93.61\n|   |   |   |--- class: 1\n|   |   |--- diff_elo >  93.61\n|   |   |   |--- class: 1\n|   |--- diff_fatigue >  16.00\n|   |   |--- diff_weeks_load <= 3.50\n|   |   |   |--- class: 1\n|   |   |--- diff_weeks_load >  3.50\n|   |   |   |--- class: 1\n",
+      "reliable_leaves": [],
+      "unreliable_leaves": [
+        {
+          "path": "diff_fatigue \u2264 -89.00 & diff_upset_tendency \u2264 0.04",
+          "n": 35,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 -89.00 & diff_upset_tendency > 0.04",
+          "n": 20,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -89.00 & diff_fatigue \u2264 16.00 & diff_elo \u2264 93.61",
+          "n": 23,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -89.00 & diff_fatigue \u2264 16.00 & diff_elo > 93.61",
+          "n": 21,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -89.00 & diff_fatigue > 16.00 & diff_weeks_load \u2264 3.50",
+          "n": 132,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -89.00 & diff_fatigue > 16.00 & diff_weeks_load > 3.50",
+          "n": 97,
+          "accuracy": 0.010309278350515464
+        }
+      ]
+    },
+    "80-90%": {
+      "n": 1934,
+      "accuracy": 0.8226473629782833,
+      "tree_text": "|--- diff_fatigue <= -97.00\n|   |--- tourney_level <= 2.50\n|   |   |--- diff_weeks_load <= -7.50\n|   |   |   |--- class: 1\n|   |   |--- diff_weeks_load >  -7.50\n|   |   |   |--- class: 0\n|   |--- tourney_level >  2.50\n|   |   |--- class: 1\n|--- diff_fatigue >  -97.00\n|   |--- diff_fatigue <= 74.00\n|   |   |--- diff_elo <= 64.67\n|   |   |   |--- class: 1\n|   |   |--- diff_elo >  64.67\n|   |   |   |--- class: 1\n|   |--- diff_fatigue >  74.00\n|   |   |--- diff_upset_tendency <= -0.44\n|   |   |   |--- class: 1\n|   |   |--- diff_upset_tendency >  -0.44\n|   |   |   |--- class: 1\n",
+      "reliable_leaves": [],
+      "unreliable_leaves": [
+        {
+          "path": "diff_fatigue \u2264 -97.00 & tourney_level \u2264 2.50 & diff_weeks_load \u2264 -7.50",
+          "n": 20,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 -97.00 & tourney_level \u2264 2.50 & diff_weeks_load > -7.50",
+          "n": 241,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue \u2264 -97.00 & tourney_level > 2.50",
+          "n": 36,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -97.00 & diff_fatigue \u2264 74.00 & diff_elo \u2264 64.67",
+          "n": 45,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -97.00 & diff_fatigue \u2264 74.00 & diff_elo > 64.67",
+          "n": 218,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -97.00 & diff_fatigue > 74.00 & diff_upset_tendency \u2264 -0.44",
+          "n": 122,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_fatigue > -97.00 & diff_fatigue > 74.00 & diff_upset_tendency > -0.44",
+          "n": 1252,
+          "accuracy": 0.0
+        }
+      ]
+    },
+    "90%+": {
+      "n": 499,
+      "accuracy": 0.9899799599198397,
+      "tree_text": "|--- diff_skill <= 0.11\n|   |--- class: 1\n|--- diff_skill >  0.11\n|   |--- diff_streak <= 16.50\n|   |   |--- diff_fatigue <= 2.50\n|   |   |   |--- class: 1\n|   |   |--- diff_fatigue >  2.50\n|   |   |   |--- class: 1\n|   |--- diff_streak >  16.50\n|   |   |--- class: 1\n",
+      "reliable_leaves": [],
+      "unreliable_leaves": [
+        {
+          "path": "diff_skill \u2264 0.11",
+          "n": 20,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_skill > 0.11 & diff_streak \u2264 16.50 & diff_fatigue \u2264 2.50",
+          "n": 24,
+          "accuracy": 0.0
+        },
+        {
+          "path": "diff_skill > 0.11 & diff_streak > 16.50",
+          "n": 353,
+          "accuracy": 0.0028328611898017
+        },
+        {
+          "path": "diff_skill > 0.11 & diff_streak \u2264 16.50 & diff_fatigue > 2.50",
+          "n": 102,
+          "accuracy": 0.00980392156862745
+        }
+      ]
+    }
+  }
+}
