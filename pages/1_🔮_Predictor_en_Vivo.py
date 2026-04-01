@@ -892,10 +892,10 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
                 for reason in meta_result['reasons']:
                     st.markdown(f"- {reason}")
                 bd = meta_result['breakdown']
+                hist_str = f"{bd['bucket_accuracy']}/60" if bd['has_historical'] else "N/D"
                 st.caption(
-                    f"Forza pred: {bd['prediction_strength']}/30 · "
-                    f"Storico: {bd['historical_context']}/25 · "
-                    f"Struttura: {bd['match_structure']}/15"
+                    f"Bucket storico: {hist_str} · "
+                    f"Upset tendency: {bd['upset_tendency']}/40"
                 )
 
 
