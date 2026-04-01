@@ -867,19 +867,20 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
         )
         st.plotly_chart(fig_bar, use_container_width=True)
 
-        # Quote ideali (quota equa senza margine bookmaker)
-        q_ideale_v = 1 / prob_display          # vincitore
-        q_ideale_p = 1 / (1 - prob_display)    # perdente
+        # Quote ideali con margine bookmaker (overround ~8.1%, come 1.85 su 50/50)
+        BK_OVERROUND = 2 / 1.85  # ≈ 1.0811
+        q_ideale_v = 1 / (prob_display * BK_OVERROUND)
+        q_ideale_p = 1 / ((1 - prob_display) * BK_OVERROUND)
         cq1, cq2 = st.columns(2)
         cq1.metric(
             label=f"📊 Quota Ideale — {vincitore}",
             value=f"{q_ideale_v:.2f}",
-            help="1 / probabilità predetta. Quota sotto questo valore = no value."
+            help="Quota già scontata del margine bookmaker (~8%). Se trovi una quota superiore, hai un edge."
         )
         cq2.metric(
             label=f"📊 Quota Ideale — {perdente}",
             value=f"{q_ideale_p:.2f}",
-            help="1 / probabilità predetta. Quota sotto questo valore = no value."
+            help="Quota già scontata del margine bookmaker (~8%). Se trovi una quota superiore, hai un edge."
         )
 
         # Uncertainty band
