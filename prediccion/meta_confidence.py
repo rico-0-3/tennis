@@ -57,20 +57,32 @@ class MetaConfidenceScorer:
             seg_acc = {}
         return cls(segment_accuracy=seg_acc)
 
-    def score(self, prob_calibrated: float, ann_std: float, features: dict) -> dict:
+    def score(self, prob_calibrated: float, ann_std: float = 0.0, features: dict = None) -> dict:
         """
-        Calcola il meta-confidence score.
+        Calcola il meta-confidence score (0-100, riscalato da 70 punti reali).
+
+        Componenti attive (max 70 pt grezzo → riscalato a 100):
+          A. Forza della predizione  (0-30 pt)
+          C. Contesto storico        (0-25 pt)
+          D. Struttura del match     (0-15 pt)
+
+        Nota: la Componente B (concordanza modelli) è stata rimossa perché i 5
+        modelli Optuna sono addestrati sullo stesso dataset e risultano troppo
+        correlati per fornire un segnale di incertezza affidabile.
+        ann_std è mantenuto come parametro per compatibilità ma non influenza il punteggio.
 
         Args:
             prob_calibrated: probabilità calibrata del giocatore 1 (0-1)
-            ann_std: deviazione standard tra i top-5 ANN (0-1)
+            ann_std: ignorato (mantenuto per compatibilità)
             features: dict con le 30 feature (valori originali non scalati)
 
         Returns:
             dict con score (0-100), label, reasons (lista str), avoid (bool)
         """
+        if features is None:
+            features = {}
         reasons = []
-        total   = 0
+        raw     = 0  # punteggio grezzo su 70
 
         # ── Componente A: Forza della predizione (0-30 pt) ─────────────────────
         margin = abs(prob_calibrated - 0.5)
@@ -86,22 +98,7 @@ class MetaConfidenceScorer:
         else:
             pts_a = 0
             reasons.append(f"🔴 Match equilibratissimo: {prob_calibrated:.0%} — quasi coin flip")
-        total += pts_a
-
-        # ── Componente B: Concordanza modelli (0-30 pt) ────────────────────────
-        if ann_std < 0.04:
-            pts_b = 30
-            reasons.append(f"✅ Tutti i modelli concordano (std={ann_std:.3f})")
-        elif ann_std < 0.08:
-            pts_b = 20
-            reasons.append(f"✅ Buona concordanza tra modelli (std={ann_std:.3f})")
-        elif ann_std < 0.12:
-            pts_b = 10
-            reasons.append(f"⚠️  Concordanza parziale tra modelli (std={ann_std:.3f})")
-        else:
-            pts_b = 0
-            reasons.append(f"🔴 I modelli divergono (std={ann_std:.3f}) — alta incertezza")
-        total += pts_b
+        raw += pts_a
 
         # ── Componente C: Contesto storico (0-25 pt) ──────────────────────────
         surf_enc  = int(features.get('surface_enc', 0))
@@ -127,7 +124,7 @@ class MetaConfidenceScorer:
         else:
             pts_c = 0
             reasons.append(f"🔴 Segmento problematico: {surf_name}/{round_name} acc {seg_acc:.0%}")
-        total += pts_c
+        raw += pts_c
 
         # ── Componente D: Struttura del match (0-15 pt) ────────────────────────
         pts_d = 0
@@ -145,15 +142,15 @@ class MetaConfidenceScorer:
             pts_d += 4
             reasons.append("✅ Nessun giocatore ha tendenza agli upset")
         elif abs(upset_t) > 0.25:
-            reasons.append(f"⚠️  Elevata tendenza agli upset (diff={upset_t:.2f})")
+            reasons.append(f"⚠️  Tendenza agli upset rilevata (diff={upset_t:.2f})")
 
         if wload < 3.0:
             pts_d += 3
 
-        total += pts_d
+        raw += pts_d
 
-        # ── Label e avoid ──────────────────────────────────────────────────────
-        total = min(100, max(0, total))
+        # ── Riscala 0-70 → 0-100 e calcola label ──────────────────────────────
+        total = round(min(100, max(0, raw / 70 * 100)))
         if total >= 70:
             label = 'HIGH'
             avoid = False
@@ -171,7 +168,6 @@ class MetaConfidenceScorer:
             'avoid':   avoid,
             'breakdown': {
                 'prediction_strength': pts_a,
-                'model_agreement':     pts_b,
                 'historical_context':  pts_c,
                 'match_structure':     pts_d,
             }

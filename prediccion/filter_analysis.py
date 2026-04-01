@@ -117,50 +117,32 @@ def run():
                 'Lift vs base': r['lift'],
             })
 
-    # ── Filtro B: soglia su ann_std (concordanza modelli) ─────────────────────
-    if df['ann_std'].max() > 0:
-        print("\n── FILTRO B: Concordanza modelli (ann_std) ───────────────────────")
-        thresholds_std = [0.12, 0.10, 0.08, 0.06, 0.04]
-        for thr in thresholds_std:
-            mask = df['ann_std'] <= thr
-            r    = analyze_filter(df, mask, f"std ≤ {thr:.2f}")
-            if r['n'] > 0:
-                lift_str = f"+{r['lift']:+.2%}" if r['lift'] >= 0 else f"{r['lift']:+.2%}"
-                print(f"  std ≤ {thr:.2f}:  {r['n']:5d} match ({r['pct_kept']:5.1f}%)  "
-                      f"acc={r['accuracy']:.2%}  lift={lift_str}")
-                rows.append({
-                    'Filtro': f"B: ann_std <= {thr:.2f}",
-                    'N match': r['n'],
-                    '% kept': round(r['pct_kept'], 1),
-                    'Accuracy': r['accuracy'],
-                    'Lift vs base': r['lift'],
-                })
-
-    # ── Filtro C: combinato p + std ───────────────────────────────────────────
-    if df['ann_std'].max() > 0:
-        print("\n── FILTRO C: Combinato (|p-0.5| + std) ──────────────────────────")
+    # ── Filtro B: combinato forza predizione + upset tendency ────────────────
+    # (filtro B semplificato: non usa ann_std che è poco informativo sui modelli correlati)
+    if 'diff_upset_tendency' in df.columns:
+        print("\n── FILTRO B: Combinato (|p-0.5| + upset tendency) ───────────────")
         combos = [
-            (0.10, 0.10), (0.10, 0.08), (0.15, 0.10), (0.15, 0.08),
-            (0.20, 0.10), (0.20, 0.08), (0.25, 0.08),
+            (0.10, 0.25), (0.15, 0.25), (0.20, 0.25),
+            (0.10, 0.15), (0.15, 0.15),
         ]
-        for p_thr, s_thr in combos:
-            mask = ((df['p_fav'] - 0.5) >= p_thr) & (df['ann_std'] <= s_thr)
-            r    = analyze_filter(df, mask, f"|p|≥{p_thr:.0%} & std≤{s_thr:.2f}")
+        for p_thr, u_thr in combos:
+            mask = ((df['p_fav'] - 0.5) >= p_thr) & (df['diff_upset_tendency'].abs() <= u_thr)
+            r    = analyze_filter(df, mask, f"|p|≥{p_thr:.0%} & upset≤{u_thr:.2f}")
             if r['n'] >= 30:
                 lift_str = f"+{r['lift']:+.2%}" if r['lift'] >= 0 else f"{r['lift']:+.2%}"
-                print(f"  |p|≥{p_thr:.0%} & std≤{s_thr:.2f}:  {r['n']:5d} match ({r['pct_kept']:5.1f}%)  "
+                print(f"  |p|≥{p_thr:.0%} & upset≤{u_thr:.2f}:  {r['n']:5d} match ({r['pct_kept']:5.1f}%)  "
                       f"acc={r['accuracy']:.2%}  lift={lift_str}")
                 rows.append({
-                    'Filtro': f"C: |p|>={p_thr:.0%} & std<={s_thr:.2f}",
+                    'Filtro': f"B: |p|>={p_thr:.0%} & upset<={u_thr:.2f}",
                     'N match': r['n'],
                     '% kept': round(r['pct_kept'], 1),
                     'Accuracy': r['accuracy'],
                     'Lift vs base': r['lift'],
                 })
 
-    # ── Filtro D: Meta-Confidence score (se disponibile) ─────────────────────
+    # ── Filtro C: Meta-Confidence score (se disponibile) ─────────────────────
     if HAS_META:
-        print("\n── FILTRO D: Meta-Confidence Score ──────────────────────────────")
+        print("\n── FILTRO C: Meta-Confidence Score ──────────────────────────────")
         seg_acc = {}
         if os.path.exists(SEGMENT_JSON):
             with open(SEGMENT_JSON) as f:
@@ -181,7 +163,7 @@ def run():
                 print(f"  meta ≥ {thr:3d}:  {r['n']:5d} match ({r['pct_kept']:5.1f}%)  "
                       f"acc={r['accuracy']:.2%}  lift={lift_str}")
                 rows.append({
-                    'Filtro': f"D: meta_score >= {thr}",
+                    'Filtro': f"C: meta_score >= {thr}",
                     'N match': r['n'],
                     '% kept': round(r['pct_kept'], 1),
                     'Accuracy': r['accuracy'],

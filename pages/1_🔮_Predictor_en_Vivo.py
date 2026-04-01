@@ -894,7 +894,6 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
                 bd = meta_result['breakdown']
                 st.caption(
                     f"Forza pred: {bd['prediction_strength']}/30 · "
-                    f"Concordanza: {bd['model_agreement']}/30 · "
                     f"Storico: {bd['historical_context']}/25 · "
                     f"Struttura: {bd['match_structure']}/15"
                 )
