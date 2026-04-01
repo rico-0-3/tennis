@@ -151,8 +151,9 @@ ANN_FEATURES = [
 
 SURFACE_MAP   = {'Hard': 0, 'Clay': 1, 'Grass': 2}
 LEVEL_MAP     = {'G': 5, 'M': 4, 'A': 3, 'F': 4, 'C': 2, 'S': 1, 'E': 0}
-ROUND_MAP_STR = {'Finale': 7, 'Semifinale': 6, 'Quarti': 5, '16mi': 4,
-                 '32mi': 3, '64mi': 2, '128mi': 1, 'Round Robin': 4}
+ROUND_MAP_STR = {'Finale': 7, 'Semifinale': 6, 'Quarti': 5,
+                 'Ottavi di finale (16mi)': 4, '32mi': 3,
+                 '64mi': 2, '128mi': 1, 'Round Robin': 4}
 LEVEL_MULT_LABEL = {'Grand Slam': 2.0, 'Masters 1000': 1.5, 'ATP 500': 1.0,
                     'ATP 250': 1.0, 'Challenger': 0.8}
 

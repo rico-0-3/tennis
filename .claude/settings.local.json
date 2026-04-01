@@ -7,7 +7,8 @@
       "Bash(node -e \"const p = require\\(''./package.json''\\); console.log\\(''expo:'', p.dependencies.expo\\)\")",
       "Skill(update-config)",
       "Skill(update-config:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(python3 -c \"import joblib; cal = joblib.load\\('/c/Users/riccardo/Desktop/tennis/prediccion/calibrator_ann.pkl'\\); print\\(type\\(cal\\)\\); print\\(cal\\)\")"
     ]
   }
 }
