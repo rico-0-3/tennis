@@ -1251,7 +1251,10 @@ if __name__ == '__main__':
     ann_probs_test = get_ann_probs(best_ann, X_te_sc)
 
     top5_ann_probs_val  = np.mean([get_ann_probs(r['_model'], X_val_sc)  for r in risultati[:5]], axis=0)
-    top5_ann_probs_test = np.mean([get_ann_probs(r['_model'], X_te_sc)   for r in risultati[:5]], axis=0)
+    # Salva matrice (5 x n_test) per calcolare std per-match
+    _top5_matrix_test = np.array([get_ann_probs(r['_model'], X_te_sc).flatten() for r in risultati[:min(5, len(risultati))]])
+    top5_ann_probs_test = np.mean(_top5_matrix_test, axis=0)
+    top5_ann_std_test   = np.std(_top5_matrix_test, axis=0)   # std per-match (per filter_analysis)
     top5_ann_acc = accuracy_score(y_test_np, (top5_ann_probs_test >= 0.5).astype(int))
     top5_ann_ll  = log_loss(y_test_np, top5_ann_probs_test)
     print(f"\n   ANN Top-5 ensemble: acc={top5_ann_acc:.4f} | log_loss={top5_ann_ll:.4f}")
@@ -1359,10 +1362,11 @@ if __name__ == '__main__':
     # ── Persisti test set con predizioni per error analysis ───────────────────
     os.makedirs('error_analysis_output', exist_ok=True)
     test_analysis_df = df_test[FEATURES + ['target', 'tourney_date']].copy()
-    test_analysis_df['p_raw']       = raw_probs_test
+    test_analysis_df['p_raw']        = raw_probs_test
     test_analysis_df['p_calibrated'] = calibrated_probs_test
-    test_analysis_df['predicted']   = (calibrated_probs_test >= 0.5).astype(int)
-    test_analysis_df['correct']     = (test_analysis_df['predicted'] == test_analysis_df['target']).astype(int)
+    test_analysis_df['ann_std']      = top5_ann_std_test   # std top-5 per-match
+    test_analysis_df['predicted']    = (calibrated_probs_test >= 0.5).astype(int)
+    test_analysis_df['correct']      = (test_analysis_df['predicted'] == test_analysis_df['target']).astype(int)
     test_predictions_path = os.path.join('error_analysis_output', 'test_predictions.csv')
     test_analysis_df.to_csv(test_predictions_path, index=False)
     print(f"   → {test_predictions_path} salvato ({len(test_analysis_df):,} righe)")
