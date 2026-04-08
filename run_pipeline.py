@@ -251,6 +251,13 @@ def main():
     else:
         print("   ⚠️   historialTenis.csv non trovato in scraping/ — nessuna copia")
 
+    # ══════════════════════════════════════════════════════════════════════════
+    # FASE 10 — Predizioni Prossime Partite (sempre)
+    # ══════════════════════════════════════════════════════════════════════════
+    sezione("🔟  FASE 10 — Predizioni Prossime Partite")
+    esegui("scraper_proximas_partidas.py", SCRAPING,   "Scraping partite upcoming")
+    esegui("predecir_proximas.py",         PREDICCION, "Predizioni batch prossime partite")
+
     # ── Riepilogo ────────────────────────────────────────────────────────────
     fine   = time.time()
     minuti = (fine - inizio) / 60
