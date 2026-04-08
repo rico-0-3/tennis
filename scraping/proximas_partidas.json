@@ -1,20 +1,11 @@
 [
   {
-    "p1": "Lehecka J.",
-    "p2": "Tabilo A.",
-    "torneo": "Monte Carlo",
-    "livello": "Masters 1000",
-    "superficie": "Clay",
-    "turno": "1° Turno",
-    "data": "2026-04-08"
-  },
-  {
     "p1": "Garin C.",
     "p2": "Zverev A.",
     "torneo": "Monte Carlo",
     "livello": "Masters 1000",
     "superficie": "Clay",
-    "turno": "1° Turno",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-08"
   },
   {
@@ -23,7 +14,7 @@
     "torneo": "Monte Carlo",
     "livello": "Masters 1000",
     "superficie": "Clay",
-    "turno": "1° Turno",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-08"
   },
   {
@@ -32,7 +23,7 @@
     "torneo": "Monte Carlo",
     "livello": "Masters 1000",
     "superficie": "Clay",
-    "turno": "1° Turno",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-08"
   },
   {
@@ -41,7 +32,7 @@
     "torneo": "Monte Carlo",
     "livello": "Masters 1000",
     "superficie": "Clay",
-    "turno": "1° Turno",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-08"
   },
   {
@@ -50,7 +41,7 @@
     "torneo": "Monte Carlo",
     "livello": "Masters 1000",
     "superficie": "Clay",
-    "turno": "1° Turno",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-08"
   },
   {
@@ -59,7 +50,7 @@
     "torneo": "Monte Carlo",
     "livello": "Masters 1000",
     "superficie": "Clay",
-    "turno": "1° Turno",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-08"
   },
   {
@@ -68,7 +59,7 @@
     "torneo": "Monte Carlo",
     "livello": "Masters 1000",
     "superficie": "Clay",
-    "turno": "1° Turno",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-08"
   },
   {
@@ -77,7 +68,7 @@
     "torneo": "Monte Carlo",
     "livello": "Masters 1000",
     "superficie": "Clay",
-    "turno": "1° Turno",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-08"
   },
   {
@@ -86,178 +77,160 @@
     "torneo": "Monte Carlo",
     "livello": "Masters 1000",
     "superficie": "Clay",
-    "turno": "1° Turno",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-08"
   },
   {
     "p1": "Soto M.",
     "p2": "Napolitano S.",
     "torneo": "Mexico City challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Zhukayev B.",
     "p2": "Denolly C.",
     "torneo": "Mexico City challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Polmans M.",
     "p2": "Schoolkate T.",
     "torneo": "Mexico City challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
-    "data": "2026-04-08"
-  },
-  {
-    "p1": "Sakamoto R.",
-    "p2": "Van Assche L.",
-    "torneo": "Monza challenger",
-    "livello": "ATP 500",
-    "superficie": "Grass",
-    "turno": "1° Turno",
-    "data": "2026-04-08"
-  },
-  {
-    "p1": "Collignon R.",
-    "p2": "Bertola R.",
-    "torneo": "Monza challenger",
-    "livello": "ATP 500",
-    "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Guerrieri A.",
     "p2": "Bellucci M.",
     "torneo": "Monza challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Villanueva G.",
     "p2": "Varillas J.",
     "torneo": "Campinas challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Midon L.",
     "p2": "Ambrogi L.",
     "torneo": "Campinas challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Sakamoto P.",
     "p2": "Guillen Meza A.",
     "torneo": "Campinas challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Boscardin Dias P.",
     "p2": "Dellien M.",
     "torneo": "Campinas challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Dellien H.",
     "p2": "Olivieri G.",
     "torneo": "Sarasota challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "N/D",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Ajdukovic D.",
     "p2": "Gueymard Wayenburg S.",
     "torneo": "Sarasota challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "N/D",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Basavareddy N.",
     "p2": "Barton H.",
     "torneo": "Sarasota challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Glinka D.",
     "p2": "Kirchheimer S.",
     "torneo": "Sarasota challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Andrade A.",
     "p2": "Zink T.",
     "torneo": "Sarasota challenger",
-    "livello": "ATP 500",
+    "livello": "Challenger",
     "superficie": "Grass",
-    "turno": "1° Turno",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Rodionov J.",
     "p2": "Perez Contri S.",
     "torneo": "Madrid challenger",
-    "livello": "Masters 1000",
-    "superficie": "Clay",
-    "turno": "1° Turno",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Roca Batalla O.",
     "p2": "Sanchez Izquierdo N.",
     "torneo": "Madrid challenger",
-    "livello": "Masters 1000",
-    "superficie": "Clay",
-    "turno": "1° Turno",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Llamas Ruiz P.",
     "p2": "Moro Canas A.",
     "torneo": "Madrid challenger",
-    "livello": "Masters 1000",
-    "superficie": "Clay",
-    "turno": "1° Turno",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
     "data": "2026-04-08"
   },
   {
     "p1": "Hemery C.",
     "p2": "Piros Z.",
     "torneo": "Madrid challenger",
-    "livello": "Masters 1000",
-    "superficie": "Clay",
-    "turno": "1° Turno",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
     "data": "2026-04-08"
   }
 ]

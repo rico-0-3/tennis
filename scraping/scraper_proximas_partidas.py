@@ -41,7 +41,7 @@ SKIP_KEYWORDS = ["utr", "itf", "futures", "wta", "fed cup", "davis", "billie jea
 SUPERFICIE_MAP = {
     "australian open": "Hard", "roland garros": "Clay", "wimbledon": "Grass",
     "us open": "Hard", "indian wells": "Hard", "miami": "Hard",
-    "monte carlo": "Clay", "monte-carlo": "Clay", "madrid": "Clay", "rome": "Clay",
+    "monte carlo": "Clay", "monte-carlo": "Clay", "rome": "Clay",
     "canada": "Hard", "montreal": "Hard", "toronto": "Hard",
     "cincinnati": "Hard", "shanghai": "Hard", "paris": "Hard",
     "rotterdam": "Hard", "dubai": "Hard", "acapulco": "Hard",
@@ -50,6 +50,7 @@ SUPERFICIE_MAP = {
     "geneva": "Clay", "lyon": "Clay", "marrakech": "Clay",
     "estoril": "Clay", "bastad": "Clay", "kitzbuhel": "Clay",
     "umag": "Clay", "gstaad": "Clay", "cordoba": "Clay",
+    "florence": "Clay", "bucharest": "Clay", "belgrade": "Clay",
     "halle": "Grass", "queens": "Grass", "queen": "Grass",
     "stuttgart": "Grass", "mallorca": "Grass", "eastbourne": "Grass",
     "newport": "Grass", "hertogenbosch": "Grass",
@@ -59,15 +60,51 @@ SUPERFICIE_MAP = {
     "antwerp": "Hard", "stockholm": "Hard", "adelaide": "Hard",
     "brisbane": "Hard", "auckland": "Hard", "doha": "Hard",
     "montpellier": "Hard", "dallas": "Hard", "delray": "Hard",
-    "winston-salem": "Hard", "zhuhai": "Hard", "florence": "Hard",
+    "winston-salem": "Hard", "zhuhai": "Hard",
     "marseille": "Hard", "sofia": "Hard", "astana": "Hard",
-    "belgrade": "Clay", "bucharest": "Clay",
+    "sarasota": "Hard", "wuning": "Hard",
+    # Challenger city → surface (aggiunte per challenger comuni)
+    "campinas": "Clay", "buenos": "Clay", "monza": "Clay",
+    "mexico city": "Hard",
+}
+
+# ── Dimensione draw per torneo (usata per mappare 1R/2R al turno corretto) ────
+# Masters 1000 hanno draw da 96 (i top seeds entrano al 2° turno)
+# → il "1R" reale è la partita tra le posizioni 33-96 = Ottavi di finale (16esimi)
+DRAW_SIZE_MAP = {
+    "grand slam":    128,   # 128 draw — 1R=128mi, 2R=64mi, 3R=32mi, 4R=16mi
+    "masters 1000":   96,   # 96 draw  — 1R=Ottavi (16mi), 2R=Quarti... seeds entrano al 2R
+    "atp 500":        48,   # 48/32 draw — 1R=32mi, 2R=16mi, 3R=Quarti
+    "atp 250":        32,   # 32 draw — 1R=32mi, 2R=16mi
+    "challenger":     32,   # 32 draw — 1R=32mi
+}
+
+# Round map per dimensione draw: DRAW_SIZE → {codice_round → turno_canonico}
+ROUND_MAP_BY_DRAW = {
+    128: {"1R": "128mi",  "2R": "64mi", "3R": "32mi",
+          "4R": "Ottavi di finale (16mi)", "QF": "Quarti",
+          "SF": "Semifinale", "F": "Finale", "RR": "Round Robin"},
+    96:  {"1R": "Ottavi di finale (16mi)", "2R": "Quarti",
+          "SF": "Semifinale", "F": "Finale", "RR": "Round Robin"},
+    48:  {"1R": "32mi", "2R": "Ottavi di finale (16mi)",
+          "QF": "Quarti", "SF": "Semifinale", "F": "Finale"},
+    32:  {"1R": "32mi", "2R": "Ottavi di finale (16mi)",
+          "QF": "Quarti", "SF": "Semifinale", "F": "Finale"},
 }
 
 ROUND_MAP = {
-    "1R": "1° Turno", "2R": "2° Turno", "3R": "3° Turno", "4R": "Ottavi",
-    "QF": "Quarti", "SF": "Semifinale", "F": "Finale",
-    "RR": "Round Robin", "Q1": "Qualif. 1°", "Q2": "Qualif. 2°",
+    # Codici ATP → chiavi CANONICHE di ROUND_MAP_STR (prediction_engine.py)
+    # Questi sono i default se non conosciamo il draw size del torneo
+    "1R": "64mi",
+    "2R": "32mi",
+    "3R": "Ottavi di finale (16mi)",
+    "4R": "Quarti",
+    "QF": "Quarti",
+    "SF": "Semifinale",
+    "F":  "Finale",
+    "RR": "Round Robin",
+    "Q1": "128mi",
+    "Q2": "64mi",
 }
 
 LIVELLO_MAP = {
@@ -75,7 +112,7 @@ LIVELLO_MAP = {
     "wimbledon": "Grand Slam", "us open": "Grand Slam",
     "indian wells": "Masters 1000", "miami": "Masters 1000",
     "monte carlo": "Masters 1000", "monte-carlo": "Masters 1000",
-    "madrid": "Masters 1000", "rome": "Masters 1000",
+    "rome": "Masters 1000",
     "canada": "Masters 1000", "montreal": "Masters 1000", "toronto": "Masters 1000",
     "cincinnati": "Masters 1000", "shanghai": "Masters 1000", "paris": "Masters 1000",
     "rotterdam": "ATP 500", "dubai": "ATP 500", "acapulco": "ATP 500",
@@ -85,23 +122,47 @@ LIVELLO_MAP = {
     "basel": "ATP 500",
 }
 
+# Madrid è sia Masters 1000 che Challenger — deve essere controllato per primo
+# nel contesto del nome torneo completo.
+MADRID_MASTERS_KEYWORDS = ["madrid masters", "mutua madrid", "madrid open"]
+
 
 def _superficie(name: str) -> str:
     n = name.lower()
     for key, surf in SUPERFICIE_MAP.items():
         if key in n:
             return surf
+    # Default challenger → Clay (la maggior parte è su terra)
+    if "challenger" in n:
+        return "Clay"
     return "Hard"
 
 
 def _livello(name: str) -> str:
     n = name.lower()
+    # ⚠️ Controlla PRIMA se è un challenger (evita falsi match su "madrid", ecc.)
+    if "challenger" in n:
+        return "Challenger"
+    # Poi controlla madrid masters specificamente
+    if "madrid" in n:
+        return "Masters 1000"
     for key, liv in LIVELLO_MAP.items():
         if key in n:
             return liv
-    if "challenger" in n:
-        return "Challenger"
     return "ATP 250"
+
+
+def _draw_size(livello: str) -> int:
+    """Restituisce la dimensione standard del tabellone per livello torneo."""
+    return DRAW_SIZE_MAP.get(livello.lower(), 64)
+
+
+def _map_round(raw_code: str, livello: str) -> str:
+    """Mappa il codice round (es. '1R') al turno canonico in base al draw size."""
+    draw = _draw_size(livello)
+    rmap = ROUND_MAP_BY_DRAW.get(draw, ROUND_MAP)
+    return rmap.get(raw_code, ROUND_MAP.get(raw_code, "N/D"))
+
 
 
 def _clean_name(raw: str) -> str:
@@ -115,10 +176,10 @@ def _is_atp(torneo_name: str) -> bool:
     return not any(kw in t for kw in SKIP_KEYWORDS)
 
 
-def _fetch_round_map(tournament_url: str) -> dict:
+def _fetch_round_map(tournament_url: str, livello: str) -> dict:
     """
-    Visita la pagina del torneo e restituisce {nome_giocatore_pulito: turno_it}.
-    tournament_url è relativo, es. '/monte-carlo/2026/atp-men/'
+    Visita la pagina del torneo e restituisce {cognome_giocatore: turno_canonico}.
+    Usa _map_round() con il livello torneo per il mapping corretto del draw size.
     """
     base = "https://www.tennisexplorer.com"
     url  = base + tournament_url
@@ -137,14 +198,12 @@ def _fetch_round_map(tournament_url: str) -> dict:
                 continue
             # td[1] contiene il codice round (es. "2R", "QF")
             round_code = tds[1].get_text(strip=True)
-            round_it   = ROUND_MAP.get(round_code, round_code)
+            round_it   = _map_round(round_code, livello)  # draw-size aware!
             # td con class "t-name" contiene il nome del giocatore
             td_name = row.find("td", class_="t-name")
             if td_name:
                 name = _clean_name(td_name.get_text(strip=True))
                 if name:
-                    # Indicizza per cognome (prima parola) per matchare sia
-                    # "Lastname" (pagina torneo) che "Lastname F." (pagina /next/)
                     result[name.split()[0].lower()] = round_it
     except Exception:
         pass
@@ -183,8 +242,9 @@ def fetch_upcoming() -> list:
     round_maps = {}   # torneo_name → {player → turno_it}
     for tname, turl in torneo_urls.items():
         if _is_atp(tname):
-            print(f"   🔍  Round info: {tname}")
-            round_maps[tname] = _fetch_round_map(turl)
+            lv = _livello(tname)
+            print(f"   🔍  Round info: {tname} [{lv}]")
+            round_maps[tname] = _fetch_round_map(turl, lv)
             time.sleep(0.5)
 
     # ── Seconda passata: costruisci le partite ────────────────────────────────
@@ -239,18 +299,21 @@ def fetch_upcoming() -> list:
             p2 = _clean_name(p2_raw)
 
             if p1 and p2 and p1 != p2 and _is_atp(torneo) and is_upcoming:
-                # Round: cerca per cognome (prima parola, lowercase)
-                rmap  = round_maps.get(torneo, {})
-                turno = (rmap.get(p1.split()[0].lower())
-                         or rmap.get(p2.split()[0].lower())
-                         or "N/D")
+                lv    = _livello(torneo)
+                surf  = _superficie(torneo)
+                # Round: cerca nella round map per cognome; fallback a _map_round con default 1R
+                rmap   = round_maps.get(torneo, {})
+                r_code = (rmap.get(p1.split()[0].lower())
+                          or rmap.get(p2.split()[0].lower()))
+                # Se non trovato nella round map, usa il default per il livello
+                turno = r_code if r_code else _map_round("1R", lv)
 
                 partite.append({
                     "p1":         p1,
                     "p2":         p2,
                     "torneo":     torneo,
-                    "livello":    _livello(torneo),
-                    "superficie": _superficie(torneo),
+                    "livello":    lv,
+                    "superficie": surf,
                     "turno":      turno,
                     "data":       datetime.date.today().strftime("%Y-%m-%d"),
                 })

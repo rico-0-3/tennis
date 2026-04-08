@@ -9,6 +9,16 @@ import torch
 import torch.nn as nn
 import plotly.graph_objects as go
 
+# ── Import shared prediction engine ──────────────────────────────────────────
+_pred_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'prediccion')
+sys.path.insert(0, _pred_dir)
+from prediction_engine import (
+    ANN_FEATURES, SURFACE_MAP, LEVEL_LABEL, LEVEL_MULT_LABEL, ROUND_MAP_STR,
+    BK_OVERROUND, TennisANNv3, _build_ann, _ann_prob, predici,
+    calc_oq, days_since_last, weeks_load as weeks_load_fn,
+    upset_tendency as upset_tendency_fn, late_round_wr as late_round_wr_fn,
+)
+
 # Import court speed helper
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scraping'))
 try:
@@ -16,9 +26,7 @@ try:
 except:
     def get_court_stats_latest(name, surf): return (11.5, 1.10) if surf != 'Clay' else (6.5, 0.65)
 
-# Import moduli di supporto
-_pred_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'prediccion')
-sys.path.insert(0, _pred_dir)
+# Import moduli di supporto opzionali
 try:
     from uncertainty import predict_with_uncertainty
     HAS_UNCERTAINTY = True
@@ -313,81 +321,10 @@ st.sidebar.success(f"🎯 Modello attivo: **{finale_name}**\n\nAcc: {finale_accu
 
 def get_skill(p, s): return stats_dict.get((p, s), 0.5)
 
-def _build_ann(cfg):
-    """Costruisce un modello ANN da un dict {'state_dict': ..., 'config': ...}."""
-    hp = cfg['config']
-    hl  = hp['hidden_layers']
-    dr  = hp['dropout']
-    ipairs = hp.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
-    ninter = hp.get('n_interactions', len(ipairs))
-    
-    # Prova con le interaction_pairs salvate
-    m = TennisANNv3(len(ANN_FEATURES), hl, dr, ninter, ipairs)
-    try:
-        m.load_state_dict(cfg['state_dict'])
-    except RuntimeError:
-        # Fallback: prova con vecchie interaction_pairs (per modelli legacy)
-        old_ipairs = [
-            (4, 12), (0, 15), (4, 15), (12, 14), (0, 1),
-            (4, 16), (12, 16), (6, 15), (14, 15), (1, 12),
-        ]
-        m = TennisANNv3(len(ANN_FEATURES), hl, dr, len(old_ipairs), old_ipairs)
-        m.load_state_dict(cfg['state_dict'])
-    
-    m.eval()
-    return m
-
-def _ann_prob(model, input_t):
-    """Probabilità sigmoid da un modello ANN."""
-    model.eval()
-    with torch.no_grad():
-        logit = model(input_t).item()
-    return 1 / (1 + np.exp(-logit))
-
-def predici(input_sc, input_t):
-    """Produce probabilità J1 usando la strategia in modelo_finale."""
-    s = finale_strategy
-
-    if s == 'ann_best':
-        ann = _build_ann(modelo_finale['ann'])
-        return _ann_prob(ann, input_t), finale_name
-
-    elif s == 'ann_top5':
-        anns = [_build_ann(c) for c in modelo_finale['ann_top5']]
-        probs = [_ann_prob(a, input_t) for a in anns]
-        return float(np.mean(probs)), finale_name
-
-    elif s == 'lgb':
-        return modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0], finale_name
-
-    elif s == 'xgb':
-        return modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0], finale_name
-
-    elif s == 'ensemble_avg':
-        ann = _build_ann(modelo_finale['ann'])
-        p_ann = _ann_prob(ann, input_t)
-        p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
-        p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
-        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name
-
-    elif s == 'ensemble_avg_top5':
-        anns = [_build_ann(c) for c in modelo_finale['ann_top5']]
-        probs_ann = [_ann_prob(a, input_t) for a in anns]
-        p_ann = float(np.mean(probs_ann))
-        p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
-        p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
-        return float(np.mean([p_ann, p_lgb, p_xgb])), finale_name
-
-    elif s == 'ensemble_stacking':
-        ann = _build_ann(modelo_finale['ann'])
-        p_ann = _ann_prob(ann, input_t)
-        p_lgb = modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]
-        p_xgb = modelo_finale['xgb_model'].predict_proba(input_sc)[:, 1][0]
-        meta_input = np.array([[p_ann, p_lgb, p_xgb]])
-        return modelo_finale['meta_model'].predict_proba(meta_input)[0, 1], finale_name
-
-    else:
-        raise ValueError(f"Strategia sconosciuta: {s}")
+# Wrapper locale: predici() dal shared engine richiede modelo_finale come argomento esplicito
+def _predici_locale(input_sc, input_t):
+    """Chiama predici() dal shared engine passando il modelo_finale caricato."""
+    return predici(input_sc, input_t, modelo_finale)
 
 def mostrar_historial_detallado(lista_partidos):
     if not lista_partidos:
@@ -701,52 +638,26 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
     else:
         _h2h_s1, _h2h_s2 = rec_s[1] - rec_s[0], rec_s[0] - rec_s[1]
 
-    # Days since last match (dal pkl, default 14 se non disponibile)
-    _lmd1 = last_match_date_dict.get(nombre1)
-    _lmd2 = last_match_date_dict.get(nombre2)
-    _days1 = 14.0  # default
-    _days2 = 14.0
-    if _lmd1 is not None:
-        _y, _rest = divmod(_lmd1, 10000); _m, _d = divmod(_rest, 100)
-        import datetime as _dt
-        try:
-            _last1 = _dt.date(_y, max(1,_m), max(1,_d))
-            _days1 = max(0.0, min(180.0, (_dt.date.today() - _last1).days))
-        except: pass
-    if _lmd2 is not None:
-        _y, _rest = divmod(_lmd2, 10000); _m, _d = divmod(_rest, 100)
-        import datetime as _dt
-        try:
-            _last2 = _dt.date(_y, max(1,_m), max(1,_d))
-            _days2 = max(0.0, min(180.0, (_dt.date.today() - _last2).days))
-        except: pass
-
-    # --- Weeks load (match ultime 8 settimane = 56 giorni, stessa logica di train_ann) ---
+    # Days since last match — usa la funzione condivisa dal shared engine
     import datetime as _dt2
-    _today = _dt2.date.today()
+    _today      = _dt2.date.today()
     _today_days = _today.year * 365 + _today.month * 30 + _today.day
-    def _weeks_load(player):
-        dates = match_load_dict.get(player, [])
-        return float(sum(1 for d in dates if _today_days - d <= 56))
-    wload1 = _weeks_load(nombre1)
-    wload2 = _weeks_load(nombre2)
+    _days1 = days_since_last(last_match_date_dict.get(nombre1))
+    _days2 = days_since_last(last_match_date_dict.get(nombre2))
 
-    # --- Upset tendency (frequenza sconfitte vs rank peggiori, ultimi 20) ---
-    def _upset_tendency(hist):
-        vs_lower = [(r, rk) for r, rk in hist if rk < 0]
-        if not vs_lower:
-            return 0.2
-        return sum(1 for r, _ in vs_lower if r == 0) / len(vs_lower)
-    upt1 = _upset_tendency(upset_hist_dict.get(nombre1, []))
-    upt2 = _upset_tendency(upset_hist_dict.get(nombre2, []))
+    # Weeks load — usa la funzione condivisa dal shared engine
+    wload1 = weeks_load_fn(nombre1, match_load_dict, _today_days)
+    wload2 = weeks_load_fn(nombre2, match_load_dict, _today_days)
 
-    # --- Late round win rate (QF/SF/F) ---
-    def _late_round_wr(hist):
-        return float(np.mean(hist)) if hist else 0.5
-    lrwr1 = _late_round_wr(late_round_hist_dict.get(nombre1, []))
-    lrwr2 = _late_round_wr(late_round_hist_dict.get(nombre2, []))
+    # Upset tendency — usa la funzione condivisa dal shared engine
+    upt1 = upset_tendency_fn(upset_hist_dict.get(nombre1, []))
+    upt2 = upset_tendency_fn(upset_hist_dict.get(nombre2, []))
 
-    # --- Level weight ---
+    # Late round win rate — usa la funzione condivisa dal shared engine
+    lrwr1 = late_round_wr_fn(late_round_hist_dict.get(nombre1, []))
+    lrwr2 = late_round_wr_fn(late_round_hist_dict.get(nombre2, []))
+
+    # Level weight
     lev_w = LEVEL_MULT_LABEL.get(livello, 1.0)
 
     ann_input = pd.DataFrame([{
@@ -776,9 +687,9 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
         'diff_return_pct':  rtn_pct1 - rtn_pct2,
         'diff_bp_conv':     bp_conv1 - bp_conv2,
         'diff_return_1st':  rtn_1st1 - rtn_1st2,
-        # Opponent Quality Score (ultimi 5 match)
-        'diff_opponent_quality': _calc_oq(opp_quality_dict.get(nombre1, []), r1)
-                                - _calc_oq(opp_quality_dict.get(nombre2, []), r2),
+        # Opponent Quality Score (ultimi 5 match) — usa calc_oq dal shared engine
+        'diff_opponent_quality': calc_oq(opp_quality_dict.get(nombre1, []), r1)
+                                - calc_oq(opp_quality_dict.get(nombre2, []), r2),
         'diff_upset_tendency':  upt1 - upt2,
         'diff_late_round_wr':   lrwr1 - lrwr2,
         'level_weight':         lev_w,
@@ -787,8 +698,8 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
     input_sc = finale_scaler.transform(ann_input[ANN_FEATURES])
     input_t  = torch.tensor(input_sc.astype(np.float32))
 
-    # â"€â"€â"€ Predizione con modello finale (strategia auto-selezionata) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-    prob_j1, modello_usato = predici(input_sc, input_t)
+    # ── Predizione con modello finale (usa wrapper che passa modelo_finale) ──
+    prob_j1, modello_usato = _predici_locale(input_sc, input_t)
 
     # Calibrazione (se calibratore disponibile nel modelo_finale)
     calibrator = modelo_finale.get('calibrator', None)
