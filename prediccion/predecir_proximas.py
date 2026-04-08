@@ -237,7 +237,51 @@ def load_resources():
     except Exception:
         res['df_history'] = pd.DataFrame()
 
+    # ── Indice cognome+iniziale → nome completo ──────────────────────────────
+    # Gestisce nomi scraper tipo "Lehecka J." → perfiles "Jiri Lehecka"
+    name_index = {}  # "lehecka_j" → "Jiri Lehecka"
+    for full in res['perfiles']:
+        words = full.split()
+        if not words:
+            continue
+        first_initial = words[0][0].lower()
+        # Indicizza ogni parola del cognome (tutto tranne la prima parola)
+        for w in words[1:]:
+            key = w.lower().rstrip('-') + "_" + first_initial
+            if key not in name_index:
+                name_index[key] = full
+    res['name_index'] = name_index
+
     return res
+
+
+def _resolve_player(raw: str, res: dict) -> str:
+    """
+    Converte "Lastname F." o "Lastname1 Lastname2 F." nel nome completo
+    del database (es. "Jiri Lehecka"). Restituisce raw se non trova match.
+    """
+    perfiles   = res['perfiles']
+    name_index = res.get('name_index', {})
+
+    if raw in perfiles:
+        return raw
+
+    parts = raw.split()
+    if len(parts) < 2:
+        return raw
+
+    # L'ultimo token è l'iniziale (es. "J." o "J")
+    initial = parts[-1].rstrip('.').lower()
+    if not initial:
+        return raw
+
+    # Prova ogni parola che potrebbe essere il cognome
+    for word in parts[:-1]:
+        key = word.lower().rstrip('-') + "_" + initial
+        if key in name_index:
+            return name_index[key]
+
+    return raw
 
 
 def build_features(p1, p2, superficie, livello, turno, res):
@@ -350,8 +394,8 @@ def build_features(p1, p2, superficie, livello, turno, res):
 
 
 def predici_partita(partita: dict, res: dict) -> dict:
-    p1  = partita['p1']
-    p2  = partita['p2']
+    p1  = _resolve_player(partita['p1'], res)
+    p2  = _resolve_player(partita['p2'], res)
     perfiles = res['perfiles']
 
     if p1 not in perfiles or p2 not in perfiles:

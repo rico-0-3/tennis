@@ -1,14 +1,26 @@
 # scraping/scraper_proximas_partidas.py
 """
-Scarica le partite ATP upcoming (prossimi 7 giorni) da SofaScore API.
+Scarica le partite ATP/Challenger upcoming da tennisexplorer.com/next/.
 Output: scraping/proximas_partidas.json
+
+Struttura HTML TennisExplorer:
+  - row class "head flags"   → nome torneo (td class "t-name")
+  - row con "bott" in class  → prima riga di un match (p1, td class "t-name")
+  - riga successiva          → seconda riga dello stesso match (p2)
+  - Upcoming: td[2] class "nbr" | Completato: td[2] class "result" con testo
 """
 
 import json
 import os
+import re
+import sys
 import time
 import datetime
 import requests
+from bs4 import BeautifulSoup
+
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 SCRAPING = os.path.dirname(os.path.abspath(__file__))
 OUTPUT   = os.path.join(SCRAPING, "proximas_partidas.json")
@@ -16,160 +28,247 @@ OUTPUT   = os.path.join(SCRAPING, "proximas_partidas.json")
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                   "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    "Accept": "application/json",
-    "Referer": "https://www.sofascore.com/",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
+    "Connection": "keep-alive",
 }
+
+# Tornei da saltare (non ATP, non Challenger)
+SKIP_KEYWORDS = ["utr", "itf", "futures", "wta", "fed cup", "davis", "billie jean",
+                 "wheelchair", "junior", "boys", "girls", "doubles"]
 
 # ── Mapping torneo → superficie ───────────────────────────────────────────────
 SUPERFICIE_MAP = {
-    "Australian Open": "Hard", "Roland Garros": "Clay", "Wimbledon": "Grass",
-    "US Open": "Hard", "Indian Wells": "Hard", "Miami": "Hard",
-    "Monte Carlo": "Clay", "Madrid": "Clay", "Rome": "Clay",
-    "Canada": "Hard", "Montreal": "Hard", "Toronto": "Hard",
-    "Cincinnati": "Hard", "Shanghai": "Hard", "Paris": "Hard",
-    "Rotterdam": "Hard", "Dubai": "Hard", "Acapulco": "Hard",
-    "Rio": "Clay", "Buenos Aires": "Clay", "Santiago": "Clay",
-    "Barcelona": "Clay", "Hamburg": "Clay", "Munich": "Clay",
-    "Geneva": "Clay", "Lyon": "Clay", "Marrakech": "Clay",
-    "Estoril": "Clay", "Bastad": "Clay", "Kitzbuhel": "Clay",
-    "Umag": "Clay", "Gstaad": "Clay", "Cordova": "Clay",
-    "Halle": "Grass", "Queens": "Grass",
-    "Stuttgart": "Grass", "Mallorca": "Grass", "Eastbourne": "Grass",
-    "Newport": "Grass", "Hertogenbosch": "Grass",
-    "Washington": "Hard", "Atlanta": "Hard", "Los Cabos": "Hard",
-    "Beijing": "Hard", "Tokyo": "Hard", "Vienna": "Hard",
-    "Basel": "Hard", "Metz": "Hard", "Chengdu": "Hard",
-    "Antwerp": "Hard", "Stockholm": "Hard", "Adelaide": "Hard",
-    "Brisbane": "Hard", "Auckland": "Hard", "Doha": "Hard",
-    "Montpellier": "Hard", "Dallas": "Hard", "Delray Beach": "Hard",
-    "Winston-Salem": "Hard", "Zhuhai": "Hard", "Florence": "Hard",
+    "australian open": "Hard", "roland garros": "Clay", "wimbledon": "Grass",
+    "us open": "Hard", "indian wells": "Hard", "miami": "Hard",
+    "monte carlo": "Clay", "monte-carlo": "Clay", "madrid": "Clay", "rome": "Clay",
+    "canada": "Hard", "montreal": "Hard", "toronto": "Hard",
+    "cincinnati": "Hard", "shanghai": "Hard", "paris": "Hard",
+    "rotterdam": "Hard", "dubai": "Hard", "acapulco": "Hard",
+    "rio": "Clay", "buenos aires": "Clay", "santiago": "Clay",
+    "barcelona": "Clay", "hamburg": "Clay", "munich": "Clay",
+    "geneva": "Clay", "lyon": "Clay", "marrakech": "Clay",
+    "estoril": "Clay", "bastad": "Clay", "kitzbuhel": "Clay",
+    "umag": "Clay", "gstaad": "Clay", "cordoba": "Clay",
+    "halle": "Grass", "queens": "Grass", "queen": "Grass",
+    "stuttgart": "Grass", "mallorca": "Grass", "eastbourne": "Grass",
+    "newport": "Grass", "hertogenbosch": "Grass",
+    "washington": "Hard", "atlanta": "Hard", "los cabos": "Hard",
+    "beijing": "Hard", "tokyo": "Hard", "vienna": "Hard",
+    "basel": "Hard", "metz": "Hard", "chengdu": "Hard",
+    "antwerp": "Hard", "stockholm": "Hard", "adelaide": "Hard",
+    "brisbane": "Hard", "auckland": "Hard", "doha": "Hard",
+    "montpellier": "Hard", "dallas": "Hard", "delray": "Hard",
+    "winston-salem": "Hard", "zhuhai": "Hard", "florence": "Hard",
+    "marseille": "Hard", "sofia": "Hard", "astana": "Hard",
+    "belgrade": "Clay", "bucharest": "Clay",
 }
 
-# ── Mapping torneo → livello ──────────────────────────────────────────────────
-LIVELLO_MAP = {
-    "Australian Open": "Grand Slam", "Roland Garros": "Grand Slam",
-    "Wimbledon": "Grand Slam", "US Open": "Grand Slam",
-    "Indian Wells": "Masters 1000", "Miami": "Masters 1000",
-    "Monte Carlo": "Masters 1000", "Madrid": "Masters 1000",
-    "Rome": "Masters 1000", "Canada": "Masters 1000",
-    "Montreal": "Masters 1000", "Toronto": "Masters 1000",
-    "Cincinnati": "Masters 1000", "Shanghai": "Masters 1000",
-    "Paris": "Masters 1000",
-    "Rotterdam": "ATP 500", "Dubai": "ATP 500", "Acapulco": "ATP 500",
-    "Rio": "ATP 500", "Barcelona": "ATP 500", "Halle": "ATP 500",
-    "Queens": "ATP 500", "Hamburg": "ATP 500", "Washington": "ATP 500",
-    "Beijing": "ATP 500", "Tokyo": "ATP 500", "Vienna": "ATP 500",
-    "Basel": "ATP 500",
-}
-
-# ── Mapping round SofaScore → label italiano ─────────────────────────────────
 ROUND_MAP = {
-    "Final": "Finale", "Finals": "Finale",
-    "Semifinal": "Semifinale", "Semifinals": "Semifinale", "Semi-finals": "Semifinale",
-    "Quarterfinal": "Quarti", "Quarterfinals": "Quarti", "Quarter-finals": "Quarti",
-    "Round of 16": "Ottavi di finale (16mi)",
-    "Round of 32": "32mi", "Round of 64": "64mi", "Round of 128": "128mi",
-    "Round Robin": "Round Robin",
-    "1st Round": "128mi", "2nd Round": "64mi", "3rd Round": "32mi",
-    "4th Round": "Ottavi di finale (16mi)",
+    "1R": "1° Turno", "2R": "2° Turno", "3R": "3° Turno", "4R": "Ottavi",
+    "QF": "Quarti", "SF": "Semifinale", "F": "Finale",
+    "RR": "Round Robin", "Q1": "Qualif. 1°", "Q2": "Qualif. 2°",
+}
+
+LIVELLO_MAP = {
+    "australian open": "Grand Slam", "roland garros": "Grand Slam",
+    "wimbledon": "Grand Slam", "us open": "Grand Slam",
+    "indian wells": "Masters 1000", "miami": "Masters 1000",
+    "monte carlo": "Masters 1000", "monte-carlo": "Masters 1000",
+    "madrid": "Masters 1000", "rome": "Masters 1000",
+    "canada": "Masters 1000", "montreal": "Masters 1000", "toronto": "Masters 1000",
+    "cincinnati": "Masters 1000", "shanghai": "Masters 1000", "paris": "Masters 1000",
+    "rotterdam": "ATP 500", "dubai": "ATP 500", "acapulco": "ATP 500",
+    "rio": "ATP 500", "barcelona": "ATP 500", "halle": "ATP 500",
+    "queens": "ATP 500", "hamburg": "ATP 500", "washington": "ATP 500",
+    "beijing": "ATP 500", "tokyo": "ATP 500", "vienna": "ATP 500",
+    "basel": "ATP 500",
 }
 
 
-def _superficie(torneo_name: str) -> str:
+def _superficie(name: str) -> str:
+    n = name.lower()
     for key, surf in SUPERFICIE_MAP.items():
-        if key.lower() in torneo_name.lower():
+        if key in n:
             return surf
     return "Hard"
 
 
-def _livello(torneo_name: str, categoria: str) -> str:
+def _livello(name: str) -> str:
+    n = name.lower()
     for key, liv in LIVELLO_MAP.items():
-        if key.lower() in torneo_name.lower():
+        if key in n:
             return liv
-    cat_lower = categoria.lower()
-    if "challenger" in cat_lower:
+    if "challenger" in n:
         return "Challenger"
     return "ATP 250"
 
 
-def _round_ita(round_name: str) -> str:
-    return ROUND_MAP.get(round_name, round_name or "N/D")
+def _clean_name(raw: str) -> str:
+    """Rimuove il seed "(N)" dal nome giocatore."""
+    return re.sub(r'\(\d+\)\s*$', '', raw).strip()
 
 
-def fetch_day(date_str: str) -> list:
-    url = f"https://api.sofascore.com/api/v1/sport/tennis/scheduled-events/{date_str}"
+def _is_atp(torneo_name: str) -> bool:
+    """True se è un torneo ATP/Challenger (non ITF/Futures/WTA)."""
+    t = torneo_name.lower()
+    return not any(kw in t for kw in SKIP_KEYWORDS)
+
+
+def _fetch_round_map(tournament_url: str) -> dict:
+    """
+    Visita la pagina del torneo e restituisce {nome_giocatore_pulito: turno_it}.
+    tournament_url è relativo, es. '/monte-carlo/2026/atp-men/'
+    """
+    base = "https://www.tennisexplorer.com"
+    url  = base + tournament_url
+    result = {}
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=15)
+        resp = requests.get(url, headers=HEADERS, timeout=20)
         if resp.status_code != 200:
-            print(f"   ⚠️  SofaScore {date_str}: HTTP {resp.status_code}")
+            return result
+        soup = BeautifulSoup(resp.text, "html.parser")
+        for row in soup.select("tr"):
+            cls = " ".join(row.get("class", []))
+            if "bott" not in cls:
+                continue
+            tds = row.find_all("td")
+            if len(tds) < 3:
+                continue
+            # td[1] contiene il codice round (es. "2R", "QF")
+            round_code = tds[1].get_text(strip=True)
+            round_it   = ROUND_MAP.get(round_code, round_code)
+            # td con class "t-name" contiene il nome del giocatore
+            td_name = row.find("td", class_="t-name")
+            if td_name:
+                name = _clean_name(td_name.get_text(strip=True))
+                if name:
+                    # Indicizza per cognome (prima parola) per matchare sia
+                    # "Lastname" (pagina torneo) che "Lastname F." (pagina /next/)
+                    result[name.split()[0].lower()] = round_it
+    except Exception:
+        pass
+    return result
+
+
+def fetch_upcoming() -> list:
+    """Scarica le prossime partite ATP da tennisexplorer.com/next/."""
+    url = "https://www.tennisexplorer.com/next/"
+    try:
+        resp = requests.get(url, headers=HEADERS, timeout=20)
+        if resp.status_code != 200:
+            print(f"   ⚠️  TennisExplorer: HTTP {resp.status_code}")
             return []
-        data = resp.json()
     except Exception as e:
-        print(f"   ⚠️  SofaScore {date_str}: {e}")
+        print(f"   ⚠️  TennisExplorer: {e}")
         return []
 
-    partite = []
-    for ev in data.get("events", []):
-        try:
-            if ev.get("status", {}).get("type") != "notstarted":
-                continue
+    soup  = BeautifulSoup(resp.text, "html.parser")
+    rows  = soup.select("tr")
 
-            torneo    = ev.get("tournament", {})
-            cat_name  = torneo.get("category", {}).get("name", "")
+    # ── Prima passata: raccogli URL torneo dalle righe "head" ──────────────────
+    torneo_urls = {}   # torneo_name → url_relativo
+    current_name = "Unknown"
+    for row in rows:
+        cls = " ".join(row.get("class", []))
+        if "head" in cls:
+            td = row.find("td", class_="t-name")
+            if td:
+                current_name = td.get_text(strip=True)
+                a = td.find("a")
+                if a and a.get("href"):
+                    torneo_urls[current_name] = a["href"]
 
-            if not any(x in cat_name.upper() for x in ["ATP", "CHALLENGER"]):
-                continue
+    # ── Pre-carica le round map per ogni torneo ATP ────────────────────────────
+    round_maps = {}   # torneo_name → {player → turno_it}
+    for tname, turl in torneo_urls.items():
+        if _is_atp(tname):
+            print(f"   🔍  Round info: {tname}")
+            round_maps[tname] = _fetch_round_map(turl)
+            time.sleep(0.5)
 
-            torneo_name = torneo.get("uniqueTournament", {}).get("name") \
-                          or torneo.get("name", "Unknown")
-            p1 = ev.get("homeTeam", {}).get("name", "")
-            p2 = ev.get("awayTeam", {}).get("name", "")
-            if not p1 or not p2:
-                continue
+    # ── Seconda passata: costruisci le partite ────────────────────────────────
+    partite  = []
+    torneo   = "Unknown"
+    i = 0
 
-            round_name = ev.get("roundInfo", {}).get("name", "")
-            ts = ev.get("startTimestamp", 0)
-            data_partita = datetime.datetime.utcfromtimestamp(ts).strftime("%Y-%m-%d") \
-                           if ts else date_str
+    while i < len(rows):
+        row = rows[i]
+        cls = " ".join(row.get("class", []))
 
-            partite.append({
-                "p1":         p1,
-                "p2":         p2,
-                "torneo":     torneo_name,
-                "livello":    _livello(torneo_name, cat_name),
-                "superficie": _superficie(torneo_name),
-                "turno":      _round_ita(round_name),
-                "data":       data_partita,
-            })
-        except Exception:
+        # ── Riga torneo (header) ──────────────────────────────────────────────
+        if "head" in cls:
+            td = row.find("td", class_="t-name")
+            if td:
+                torneo = td.get_text(strip=True)
+            i += 1
             continue
+
+        # ── Prima riga di un match (contiene "bott") ──────────────────────────
+        if "bott" in cls:
+            tds = row.find_all("td")
+            if len(tds) < 2:
+                i += 1
+                continue
+
+            # Cerca il td con il nome del giocatore (class "t-name")
+            td_name = row.find("td", class_="t-name")
+            if not td_name:
+                i += 1
+                continue
+            p1_raw = td_name.get_text(strip=True)
+
+            # Controlla se è upcoming: td con class "nbr" (senza risultato)
+            # vs "result" (con risultato = già giocato)
+            td_result = row.find("td", class_=re.compile(r'\bnbr\b|\bresult\b'))
+            is_upcoming = td_result is not None and "nbr" in (td_result.get("class") or [])
+
+            # Guarda la riga successiva per p2
+            p2_raw = ""
+            if i + 1 < len(rows):
+                next_row = rows[i + 1]
+                next_cls = " ".join(next_row.get("class", []))
+                # La riga di p2 NON ha "bott" e NON ha "head"
+                if "bott" not in next_cls and "head" not in next_cls:
+                    td2 = next_row.find("td", class_="t-name")
+                    if td2:
+                        p2_raw = td2.get_text(strip=True)
+                    i += 1  # consuma anche la riga di p2
+
+            p1 = _clean_name(p1_raw)
+            p2 = _clean_name(p2_raw)
+
+            if p1 and p2 and p1 != p2 and _is_atp(torneo) and is_upcoming:
+                # Round: cerca per cognome (prima parola, lowercase)
+                rmap  = round_maps.get(torneo, {})
+                turno = (rmap.get(p1.split()[0].lower())
+                         or rmap.get(p2.split()[0].lower())
+                         or "N/D")
+
+                partite.append({
+                    "p1":         p1,
+                    "p2":         p2,
+                    "torneo":     torneo,
+                    "livello":    _livello(torneo),
+                    "superficie": _superficie(torneo),
+                    "turno":      turno,
+                    "data":       datetime.date.today().strftime("%Y-%m-%d"),
+                })
+
+        i += 1
 
     return partite
 
 
 def main():
-    print("🌐  Scraping prossime partite ATP (SofaScore)...")
-    today = datetime.date.today()
-    tutte = []
-    viste = set()
+    print("🌐  Scraping prossime partite ATP (TennisExplorer)...")
 
-    for delta in range(8):
-        day = today + datetime.timedelta(days=delta)
-        day_str = day.strftime("%Y-%m-%d")
-        print(f"   📅  {day_str}...")
-        giornata = fetch_day(day_str)
-        for p in giornata:
-            key = (p["p1"], p["p2"], p["torneo"], p["turno"])
-            if key not in viste:
-                viste.add(key)
-                tutte.append(p)
-        time.sleep(0.5)
+    partite = fetch_upcoming()
 
-    tutte.sort(key=lambda x: (x["data"], x["torneo"], x["turno"]))
     with open(OUTPUT, "w", encoding="utf-8") as f:
-        json.dump(tutte, f, ensure_ascii=False, indent=2)
+        json.dump(partite, f, ensure_ascii=False, indent=2)
 
-    print(f"   ✅  {len(tutte)} partite salvate → {OUTPUT}")
+    print(f"   ✅  {len(partite)} partite salvate → {OUTPUT}")
 
 
 if __name__ == "__main__":

@@ -16,7 +16,10 @@
       "Bash(python -W ignore -c ':*)",
       "Bash(dir \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\prediccion\\\\\" 2>&1 | head -20:*)",
       "Bash(cmd:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(xargs grep:*)"
     ]
   }
 }

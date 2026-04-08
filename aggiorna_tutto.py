@@ -260,6 +260,13 @@ def main():
             print("   ⚠️   Court Speed fallito — court_speed_dict.pkl non aggiornato")
 
     # ══════════════════════════════════════════════════════════════════════════
+    # FASE 10 — Predizioni Prossime Partite (sempre)
+    # ══════════════════════════════════════════════════════════════════════════
+    sezione("🔟  FASE 10 — Predizioni Prossime Partite")
+    esegui("scraper_proximas_partidas.py", SCRAPING,   "Scraping partite upcoming")
+    esegui("predecir_proximas.py",         PREDICCION, "Predizioni batch prossime partite")
+
+    # ══════════════════════════════════════════════════════════════════════════
     # FASE 7 — Training modelli (sequenziale)
     # ══════════════════════════════════════════════════════════════════════════
     if ESEGUI_MODELLI:
@@ -301,13 +308,6 @@ def main():
         print("   ℹ️   Saltato (ESEGUI_SPECIAL_BETS = False).")
     
     
-    # ══════════════════════════════════════════════════════════════════════════
-    # FASE 10 — Predizioni Prossime Partite (sempre)
-    # ══════════════════════════════════════════════════════════════════════════
-    sezione("🔟  FASE 10 — Predizioni Prossime Partite")
-    esegui("scraper_proximas_partidas.py", SCRAPING,   "Scraping partite upcoming")
-    esegui("predecir_proximas.py",         PREDICCION, "Predizioni batch prossime partite")
-
     # ── Sincronizzazione finale (sempre) ──────────────────────────────────────
     sezione('��  SINCRONIZZAZIONE FINALE')
     src_hist = os.path.join(SCRAPING,   'historialTenis.csv')

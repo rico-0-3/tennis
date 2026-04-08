@@ -1291,9 +1291,11 @@ tourney_id,tourney_name,surface,tourney_date,winner_name,loser_name,score,round,
 2026-bucharest-21,bucharest,Hard,20260408,Joel Schwaerzler,Stefan Horia Haita,6-3 3-6 7-6,1st Round Qualifying ,100,2026-04-08,0,0,0,0,0,0,R,185.0,AUT,21,0,0,0,R,185.0,UNK,25,0,174.0,0,150.0,0
 2026-bucharest-21,bucharest,Hard,20260408,Jurij Rodionov,George Loffhagen,4-6 7-6 6-5,1st Round Qualifying ,100,2026-04-08,0,0,0,0,0,0,R,191.0,AUT,27,0,0,0,R,188.0,GBR,25,0,176.0,0,245.0,0
 2026-bucharest-21,bucharest,Hard,20260408,Jay Clarke,Gabriel Ghetu,6-4 6-3,1st Round Qualifying ,100,2026-04-08,0,0,0,0,0,0,R,183.0,GBR,28,0,0,0,R,185.0,ROU,19,0,191.0,0,500.0,0
-2026-monte-carlo-22,monte-carlo,Hard,20260405,Alex De Minaur,Cameron Norrie,7-6 2-5 6-6,Round of 32 ,100,2026-04-08,0,0,0,0,0,0,R,183.0,AUS,27,0,0,0,R,188.0,GBR,31,0,6.0,0,24.0,0
+2026-monte-carlo-22,monte-carlo,Hard,20260405,Zizou Bergs,Andrey Rublev,6-4 6-1,Round of 32 ,100,2026-04-08,0,0,0,0,0,0,R,185.0,BEL,27,0,0,0,R,188.0,RUS,29,0,47.0,0,15.0,0
+2026-monte-carlo-22,monte-carlo,Hard,20260405,Matteo Berrettini,Daniil Medvedev,6-0 6-0,Round of 32 ,100,2026-04-08,0,0,0,0,0,0,R,196.0,ITA,30,0,0,0,R,198.0,RUS,30,0,90.0,0,10.0,0
 2026-monte-carlo-22,monte-carlo,Hard,20260405,Carlos Alcaraz,Sebastian Baez,6-1 6-3,Round of 32 ,100,2026-04-08,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,170.0,ARG,26,0,1.0,0,65.0,0
 2026-monte-carlo-22,monte-carlo,Hard,20260405,Jannik Sinner,Ugo Humbert,6-3 6-0,Round of 32 ,100,2026-04-08,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,188.0,FRA,28,0,2.0,0,34.0,0
+2026-monte-carlo-22,monte-carlo,Hard,20260405,Alex de Minaur,Cameron Norrie,7-6 2-5 6-6,Round of 32 ,100,2026-04-08,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,188.0,GBR,31,0,150.0,0,24.0,0
 2026-monte-carlo-22,monte-carlo,Hard,20260405,Alexander Bublik,Gael Monfils,6-4 6-4,Round of 32 ,100,2026-04-08,0,0,0,0,0,0,R,196.0,KAZ,29,0,0,0,R,193.0,FRA,40,0,11.0,0,199.0,0
 2026-monte-carlo-22,monte-carlo,Hard,20260405,Casper Ruud,Alexei Popyrin,6-3 6-4,Round of 64 ,100,2026-04-08,0,0,0,0,0,0,R,183.0,NOR,28,0,0,0,R,196.0,AUS,27,0,12.0,0,44.0,0
 2026-monte-carlo-22,monte-carlo,Hard,20260405,Hubert Hurkacz,Luciano Darderi,7-6 5-4 6-7,Round of 64 ,100,2026-04-08,0,0,0,0,0,0,R,196.0,POL,29,0,0,0,R,183.0,ITA,24,0,74.0,0,21.0,0

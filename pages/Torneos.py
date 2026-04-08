@@ -110,8 +110,8 @@ for torneo_name, matches in tornei.items():
 
             with c1:
                 prob_p1 = p["prob_p1"]
-                fav     = p["favorito"]
-                sfav    = p["p2"] if fav == p["p1"] else p["p1"]
+                fav     = p["p1"] if prob_p1 >= 0.5 else p["p2"]
+                sfav    = p["p2"] if prob_p1 >= 0.5 else p["p1"]
 
                 fig = go.Figure(go.Bar(
                     x=[prob_p1, 1 - prob_p1],

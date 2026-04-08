@@ -216,6 +216,13 @@ def main():
         else:
             print("   ⚠️   Court Speed fallito — court_speed_dict.pkl non aggiornato")
 
+    # ══════════════════════════════════════════════════════════════════════════
+    # FASE 10 — Predizioni Prossime Partite (sempre)
+    # ══════════════════════════════════════════════════════════════════════════
+    sezione("🔟  FASE 10 — Predizioni Prossime Partite")
+    esegui("scraper_proximas_partidas.py", SCRAPING,   "Scraping partite upcoming")
+    esegui("predecir_proximas.py",         PREDICCION, "Predizioni batch prossime partite")
+
     # ═══ FASE 7 — Training modelli ═══════════════════════════════════════════
     if args.modelli:
         sezione("7️⃣  FASE 7 — Training modelli")
@@ -250,13 +257,6 @@ def main():
         print("   ✅  historialTenis.csv filtrato e sincronizzato: scraping/ → prediccion/")
     else:
         print("   ⚠️   historialTenis.csv non trovato in scraping/ — nessuna copia")
-
-    # ══════════════════════════════════════════════════════════════════════════
-    # FASE 10 — Predizioni Prossime Partite (sempre)
-    # ══════════════════════════════════════════════════════════════════════════
-    sezione("🔟  FASE 10 — Predizioni Prossime Partite")
-    esegui("scraper_proximas_partidas.py", SCRAPING,   "Scraping partite upcoming")
-    esegui("predecir_proximas.py",         PREDICCION, "Predizioni batch prossime partite")
 
     # ── Riepilogo ────────────────────────────────────────────────────────────
     fine   = time.time()
