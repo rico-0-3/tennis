@@ -10,7 +10,6 @@ import time
 import datetime
 import requests
 
-ROOT     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRAPING = os.path.dirname(os.path.abspath(__file__))
 OUTPUT   = os.path.join(SCRAPING, "proximas_partidas.json")
 
@@ -94,7 +93,7 @@ def _livello(torneo_name: str, categoria: str) -> str:
 
 
 def _round_ita(round_name: str) -> str:
-    return ROUND_MAP.get(round_name, round_name or "Ottavi di finale (16mi)")
+    return ROUND_MAP.get(round_name, round_name or "N/D")
 
 
 def fetch_day(date_str: str) -> list:
