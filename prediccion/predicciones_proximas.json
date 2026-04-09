@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-09T06:59:32.277599",
+  "updated_at": "2026-04-09T07:05:20.423177",
   "partite": [
     {
       "p1": "Berrettini M.",
@@ -515,21 +515,21 @@
       "skipped": false
     },
     {
-      "p1": "Chidekh C.",
-      "p2": "Gadamauri B.",
+      "p1": "Fomin S.",
+      "p2": "Wendelken H.",
       "torneo": "Wuning challenger",
       "livello": "Challenger",
       "superficie": "Grass",
       "turno": "32mi",
       "data": "2026-04-09",
-      "prob_p1": 0.7112,
-      "prob_p2": 0.2888,
-      "favorito": "Clement Chidekh",
-      "confidenza": 0.7112,
-      "h2h_p1": 1,
+      "prob_p1": 0.4631,
+      "prob_p2": 0.5369,
+      "favorito": "Harry Wendelken",
+      "confidenza": 0.5369,
+      "h2h_p1": 0,
       "h2h_p2": 0,
-      "quota_fav": 1.3,
-      "quota_sfav": 3.2,
+      "quota_fav": 1.72,
+      "quota_sfav": 2.0,
       "modello": "ANN Top-5 Avg",
       "skipped": false
     }
