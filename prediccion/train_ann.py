@@ -123,8 +123,37 @@ def parse_total_games(score_str):
 def carica_e_prepara(csv_path: str):
     print(f"\n📂 Caricamento: {csv_path}")
     df = pd.read_csv(csv_path, low_memory=False)
-    df['tourney_date'] = pd.to_numeric(df['tourney_date'], errors='coerce')
+    df.columns = df.columns.str.strip()          # rimuove spazi extra nei nomi colonna
+    # Strip whitespace from string columns only (don't touch numeric)
+    str_cols = [c for c in df.columns if df[c].dtype == object]
+    df[str_cols] = df[str_cols].apply(lambda c: c.str.strip())
+    # Columns that should be numeric but may have been read as object
+    numeric_cols = [
+        'tourney_date', 'minutes', 'match_num',
+        'winner_rank', 'loser_rank', 'winner_rank_points', 'loser_rank_points',
+        'w_ace', 'w_df', 'w_svpt', 'w_1stIn', 'w_1stWon', 'w_2ndWon',
+        'w_SvGms', 'w_bpSaved', 'w_bpFaced',
+        'l_ace', 'l_df', 'l_svpt', 'l_1stIn', 'l_1stWon', 'l_2ndWon',
+        'l_SvGms', 'l_bpSaved', 'l_bpFaced',
+    ]
+    for col in numeric_cols:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors='coerce')
     df = df.sort_values(by=['tourney_date', 'match_num']).reset_index(drop=True)
+    # Per i dati 2025+ dal scraper ATP, i minuti sono fake (0 o 100 hardcoded)
+    # → sostituisci con stima da score (games × 4.5 + set_bonus)
+    mask_recent = df['tourney_date'] >= 20250101
+    df.loc[mask_recent & (df['minutes'] <= 0),  'minutes'] = np.nan
+    df.loc[mask_recent & (df['minutes'] == 100), 'minutes'] = np.nan
+    if 'score' in df.columns:
+        mask_fix = mask_recent & df['minutes'].isna()
+        def _score_to_min(s):
+            games, sets = parse_total_games(s)
+            if np.isnan(games): return np.nan
+            return games * 4.5 + (sets - 1) * 2
+        df.loc[mask_fix, 'minutes'] = df.loc[mask_fix, 'score'].apply(_score_to_min)
+        n_fixed = mask_fix.sum()
+        print(f"   → {n_fixed:,} minuti stimati da score (2025+)")
     df['minutes'] = df['minutes'].fillna(90)
     print(f"   → {len(df):,} partite caricate")
 
@@ -857,14 +886,14 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
 
             model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs)
             model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
-            acc_v, _ = valuta(model, X_val_sc, y_val_np)
+            acc_v, ll_v = valuta(model, X_val_sc, y_val_np)
             trial.set_user_attr('model', model)
             trial.set_user_attr('hl', hl)
             trial.set_user_attr('hp', {'hidden_layers': hl, 'dropout': dr, 'lr': lr,
                                        'batch_size': bs, 'epochs': ep, 'lambda_decay': lam,
                                        'label_smoothing': sm, 'interaction_set': iset,
                                        'interaction_pairs': i_pairs, 'n_interactions': n_inter})
-            return acc_v
+            return acc_v - 0.3 * ll_v  # accuracy + penalità calibrazione (evita modelli "pavidi")
 
         study = optuna.create_study(direction='maximize',
                                     sampler=optuna.samplers.TPESampler(seed=SEED))
@@ -929,7 +958,7 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
                               'interaction_set': iset, 'val_acc': acc_v, 'test_acc': acc_t,
                               'log_loss': ll, '_model': model, '_config': hp})
 
-    return sorted(risultati, key=lambda x: x['test_acc'], reverse=True)
+    return sorted(risultati, key=lambda x: x['val_acc'], reverse=True)  # top-5 su val, non test
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1266,19 +1295,18 @@ if __name__ == '__main__':
     ]
     print(f"   → {len(top5_for_uncertainty)} modelli salvati per uncertainty estimation")
 
-    # ── Calibrazione isotonica su test set ────────────────────────────────────
-    # Fittiamo su top5_ann_probs_test (le migliori probabilità disponibili)
-    # Il test set è l'ultimo 15% per data → nessun leakage
-    from sklearn.isotonic import IsotonicRegression
+    # ── Calibrazione Platt (LogisticRegression) su validation set ────────────
+    # Fittato su val set (non test) → nessun leakage; produce output continui (no scalini)
     from sklearn.calibration import calibration_curve as sk_calibration_curve
 
+    raw_probs_val_flat  = top5_ann_probs_val.flatten()
     raw_probs_test = top5_ann_probs_test.flatten()
-    calibrator = IsotonicRegression(out_of_bounds='clip')
-    calibrator.fit(raw_probs_test, y_test_np)
-    calibrated_probs_test = calibrator.predict(raw_probs_test)
+    calibrator = LogisticRegression(C=1.0, random_state=SEED, max_iter=1000)
+    calibrator.fit(raw_probs_val_flat.reshape(-1, 1), y_val_np)
+    calibrated_probs_test = calibrator.predict_proba(raw_probs_test.reshape(-1, 1))[:, 1]
     ll_calibrated = log_loss(y_test_np, calibrated_probs_test)
     acc_calibrated = accuracy_score(y_test_np, (calibrated_probs_test >= 0.5).astype(int))
-    print(f"   Calibrated (isotonic): acc={acc_calibrated:.4f} | log_loss={ll_calibrated:.4f}")
+    print(f"   Calibrated (Platt/LR): acc={acc_calibrated:.4f} | log_loss={ll_calibrated:.4f}")
 
     # Curva di calibrazione (per reliability diagram nel dashboard)
     try:
@@ -1354,10 +1382,10 @@ if __name__ == '__main__':
 
     for r in results_list:
         r['_score'] = r['Accuracy'] - r['Log Loss']
-    winner        = max(results_list, key=lambda r: r['Accuracy'])
+    winner        = max(results_list, key=lambda r: r['_score'])  # acc - log_loss
     best_strategy = winner['_strategy']
     print(f"\n🏆 Strategia migliore: {winner['Modello']} "
-          f"(acc={winner['Accuracy']:.2%}, ll={winner['Log Loss']:.4f})")
+          f"(acc={winner['Accuracy']:.2%}, ll={winner['Log Loss']:.4f}, score={winner['_score']:.4f})")
 
     # ── Persisti test set con predizioni per error analysis ───────────────────
     os.makedirs('error_analysis_output', exist_ok=True)

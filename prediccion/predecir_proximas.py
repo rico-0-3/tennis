@@ -5,7 +5,7 @@ Legge:  scraping/proximas_partidas.json
 Scrive: prediccion/predicciones_proximas.json
 """
 
-import os, sys, json, datetime
+import os, sys, json, datetime, re
 import numpy as np
 import pandas as pd
 import joblib
@@ -19,7 +19,7 @@ SCRAP_DIR = os.path.join(ROOT, "scraping")
 sys.path.insert(0, PRED_DIR)
 from prediction_engine import (
     ANN_FEATURES, SURFACE_MAP, LEVEL_LABEL, LEVEL_MULT_LABEL, ROUND_MAP_STR,
-    BK_OVERROUND, TennisANNv3, _build_ann, _ann_prob, predici,
+    BK_OVERROUND, TennisANNv3, _build_ann, _ann_prob, predici, predici_con_cal,
     calc_oq, days_since_last, weeks_load, upset_tendency, late_round_wr,
 )
 
@@ -28,6 +28,29 @@ OUTPUT_JSON = os.path.join(PRED_DIR,  "predicciones_proximas.json")
 
 
 # ── Helper feature ─────────────────────────────────────────────────────────────
+
+def _stima_minuti(score: str) -> float:
+    """Stima la durata in minuti di un match dal punteggio.
+    Formula: games_totali × 4.5 + bonus_set × 2 (changeover tra set).
+    Fallback a 90 se score non parsabile.
+    """
+    if not isinstance(score, str) or not score.strip():
+        return 90.0
+    total_games = 0
+    n_sets = 0
+    for set_score in score.strip().split():
+        m = re.match(r'(\d+)-(\d+)', set_score)
+        if m:
+            g1, g2 = int(m.group(1)), int(m.group(2))
+            # Tiebreak: conta come un game extra (7-6 → 13 games effettivi)
+            games = g1 + g2
+            total_games += games
+            n_sets += 1
+    if n_sets == 0:
+        return 90.0
+    # ~4.5 min/game + 2 min per ogni cambio set
+    return round(total_games * 4.5 + (n_sets - 1) * 2)
+
 
 def _get_skill(stats_dict, player, superficie):
     return stats_dict.get((player, superficie), 0.5)
@@ -77,10 +100,24 @@ def load_resources():
     except Exception:
         res['ranking_dict'] = {}
 
+    # df_history per H2H (dati storici)
     try:
         res['df_history'] = pd.read_csv(ps('historialTenis.csv'), low_memory=False)
     except Exception:
         res['df_history'] = pd.DataFrame()
+
+    # df_2026 per fatigue torneo corrente (match già giocati quest'anno)
+    csv_2026 = os.path.join(SCRAP_DIR, 'atp_matches_2026_indetectable.csv')
+    try:
+        df26 = pd.read_csv(csv_2026, low_memory=False)
+        df26.columns = df26.columns.str.strip()
+        df26['minutes'] = pd.to_numeric(df26['minutes'], errors='coerce')
+        # Sostituisce minuti fake (NaN, 0, 100) con stima da score
+        mask_fake = df26['minutes'].isna() | (df26['minutes'] <= 0) | (df26['minutes'] == 100)
+        df26.loc[mask_fake, 'minutes'] = df26.loc[mask_fake, 'score'].apply(_stima_minuti)
+        res['df_2026'] = df26
+    except Exception:
+        res['df_2026'] = pd.DataFrame()
 
     # ── Indice cognome+iniziale → nome completo ──────────────────────────────
     # Gestisce nomi scraper tipo "Lehecka J." → perfiles "Jiri Lehecka"
@@ -126,7 +163,36 @@ def _resolve_player(raw: str, res: dict) -> str:
     return raw
 
 
-def build_features(p1, p2, superficie, livello, turno, res):
+def _norm_torneo(s: str) -> str:
+    """Normalizza nome torneo: minuscolo, trattini → spazi, strip."""
+    return s.lower().strip().replace('-', ' ').replace('_', ' ')
+
+
+def _torneo_fatigue(player: str, torneo: str, df_2026) -> float:
+    """
+    Somma i minuti già giocati dal giocatore nel torneo corrente,
+    leggendo dal CSV 2026 (match già disputati quest'anno).
+    Matching case-insensitive con normalizzazione trattini/spazi.
+    """
+    if df_2026 is None or df_2026.empty or not torneo:
+        return 0.0
+    t_norm = _norm_torneo(torneo)
+    mask_name = df_2026['tourney_name'].apply(
+        lambda x: t_norm in _norm_torneo(str(x)) or _norm_torneo(str(x)) in t_norm
+    )
+    df_t = df_2026[mask_name]
+    if df_t.empty:
+        return 0.0
+    # Prendi solo l'edizione più recente del torneo
+    if 'tourney_date' in df_t.columns:
+        max_date = pd.to_numeric(df_t['tourney_date'], errors='coerce').max()
+        df_t = df_t[pd.to_numeric(df_t['tourney_date'], errors='coerce') == max_date]
+    mask_player = (df_t['winner_name'] == player) | (df_t['loser_name'] == player)
+    mins = df_t.loc[mask_player, 'minutes'].fillna(90)
+    return float(mins.sum())
+
+
+def build_features(p1, p2, superficie, livello, turno, res, torneo: str = ''):
     """Costruisce le 30 feature per una coppia di giocatori."""
     perfiles         = res['perfiles']
     stats_dict       = res['stats_dict']
@@ -143,6 +209,7 @@ def build_features(p1, p2, superficie, livello, turno, res):
     late_round_hist  = res['late_round_hist']
     ranking_dict     = res['ranking_dict']
     df_history       = res['df_history']
+    df_2026          = res.get('df_2026', pd.DataFrame())
 
     sa1 = perfiles.get(p1, {}); sa2 = perfiles.get(p2, {})
     r1  = ranking_dict.get(p1, int(sa1.get('rank', 500)))
@@ -196,7 +263,13 @@ def build_features(p1, p2, superficie, livello, turno, res):
     rtn_pct2 = 1.0 - sa2.get('serve_win', 65) / 100
     bp_conv1 = 1.0 - sa1.get('bp_saved', 60) / 100
     bp_conv2 = 1.0 - sa2.get('bp_saved', 60) / 100
-    # diff_return_1st: 0.30 per entrambi → differenza = 0.0 (identico al predictor manuale)
+    # return_1st: approssimato da bp_saved (chi fa più break ritorna meglio le prime)
+    rtn_1st1 = float(np.clip(0.75 * (1.0 - sa1.get('bp_saved', 60) / 100), 0.15, 0.45))
+    rtn_1st2 = float(np.clip(0.75 * (1.0 - sa2.get('bp_saved', 60) / 100), 0.15, 0.45))
+
+    # fatica torneo corrente: minuti già giocati in questo torneo (dal CSV 2026)
+    fat1 = _torneo_fatigue(p1, torneo, df_2026)
+    fat2 = _torneo_fatigue(p2, torneo, df_2026)
 
     best_of = 5 if livello == "Grand Slam" else 3
     lev_w   = LEVEL_MULT_LABEL.get(livello, 1.0)
@@ -216,7 +289,7 @@ def build_features(p1, p2, superficie, livello, turno, res):
         'diff_h2h_surface':      float(h2h_s1 - h2h_s2),
         'diff_skill':            skill1 - skill2,
         'diff_momentum':         mom1 - mom2,
-        'diff_fatigue':          0.0,           # non disponibile da scraper
+        'diff_fatigue':          fat1 - fat2,
         'diff_days_since_last':  days1 - days2,
         'diff_weeks_load':       wload1 - wload2,
         'diff_ace':              sa1.get('aces', 0) - sa2.get('aces', 0),
@@ -226,7 +299,7 @@ def build_features(p1, p2, superficie, livello, turno, res):
         'diff_bp_saved':         (sa1.get('bp_saved', 60) - sa2.get('bp_saved', 60)) / 100,
         'diff_return_pct':       rtn_pct1 - rtn_pct2,
         'diff_bp_conv':          bp_conv1 - bp_conv2,
-        'diff_return_1st':       0.0,           # 0.30 - 0.30 = 0.0, identico al predictor manuale
+        'diff_return_1st':       rtn_1st1 - rtn_1st2,
         'diff_home':             0.0,           # paese torneo non disponibile da scraper
         'diff_opponent_quality': calc_oq(opp_quality.get(p1, []), r1)
                                  - calc_oq(opp_quality.get(p2, []), r2),
@@ -234,7 +307,7 @@ def build_features(p1, p2, superficie, livello, turno, res):
         'diff_late_round_wr':    lrwr1 - lrwr2,
         'level_weight':          lev_w,
     }
-    return row, h2h_w1, h2h_w2
+    return row, h2h_w1, h2h_w2, fat1, fat2
 
 
 def predici_partita(partita: dict, res: dict) -> dict:
@@ -248,40 +321,16 @@ def predici_partita(partita: dict, res: dict) -> dict:
                 "motivo": f"Giocatori non nel database: {', '.join(mancanti)}"}
 
     try:
-        row, h2h_w1, h2h_w2 = build_features(
-            p1, p2, partita['superficie'], partita['livello'], partita['turno'], res
+        row, h2h_w1, h2h_w2, fat1, fat2 = build_features(
+            p1, p2, partita['superficie'], partita['livello'], partita['turno'], res,
+            torneo=partita.get('torneo', ''),
         )
         modelo   = res['modelo']
         scaler   = modelo['scaler']
         df_row   = pd.DataFrame([row])
         input_sc = scaler.transform(df_row[ANN_FEATURES])
         input_t  = torch.tensor(input_sc.astype(np.float32))
-        prob_p1, modello_usato = predici(input_sc, input_t, modelo)
-
-        # Calibrazione base
-        cal = modelo.get('calibrator')
-        if cal is not None:
-            try:
-                prob_p1 = float(cal.predict([prob_p1])[0])
-            except Exception:
-                pass
-
-        # Top-5 uncertainty ensemble (identico al predictor live)
-        top5_data = modelo.get('ann_top5_uncertainty') or modelo.get('ann_top5')
-        if top5_data:
-            try:
-                top5_models   = [_build_ann(c) for c in top5_data]
-                probs_top5    = [_ann_prob(m, input_t) for m in top5_models]
-                raw_top5_mean = float(np.mean(probs_top5))
-                if cal is not None:
-                    try:
-                        prob_p1 = float(cal.predict([raw_top5_mean])[0])
-                    except Exception:
-                        prob_p1 = raw_top5_mean
-                else:
-                    prob_p1 = raw_top5_mean
-            except Exception:
-                pass
+        prob_p1, modello_usato, _ = predici_con_cal(input_sc, input_t, modelo)
 
         prob_p1    = float(np.clip(prob_p1, 0.01, 0.99))
         favorito   = p1 if prob_p1 >= 0.5 else p2
@@ -297,6 +346,8 @@ def predici_partita(partita: dict, res: dict) -> dict:
             "confidenza": round(confidenza, 4),
             "h2h_p1":     h2h_w1,
             "h2h_p2":     h2h_w2,
+            "fat_p1":     round(fat1),
+            "fat_p2":     round(fat2),
             "quota_fav":  quota_fav,
             "quota_sfav": quota_sfav,
             "modello":    modello_usato,

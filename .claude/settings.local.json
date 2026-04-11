@@ -19,7 +19,12 @@
       "Bash(python:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(PYTHONIOENCODING=utf-8 python test_minuti.py)",
+      "Bash(PYTHONIOENCODING=utf-8 python predecir_proximas.py)",
+      "Bash(PYTHONIOENCODING=utf-8 python scraper_proximas_partidas.py)",
+      "Bash(PYTHONIOENCODING=utf-8 python \"C:\\\\Users\\\\amich\\\\desktop\\\\tennis\\\\scraping\\\\scraper_proximas_partidas.py\")",
+      "Bash(pip install:*)"
     ]
   }
 }

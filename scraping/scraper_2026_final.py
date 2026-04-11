@@ -94,6 +94,41 @@ def parse_tourney_date(text):
             return anno * 10000 + MESI_EN[mese] * 100 + giorno
     return None
 
+def estrai_minuti(match_el) -> int | None:
+    """
+    Estrae la durata reale del match in minuti dall'elemento HTML del match card.
+    Prova vari pattern comuni nelle pagine ATP Tour:
+      - class contenente 'duration' o 'time'
+      - testo con pattern '1h 23m', '83 min', '1:23'
+    Restituisce None se non trovato (il training usa fillna(90)).
+    """
+    # 1. Cerca elementi con class che contiene 'duration' o 'time'
+    for klass in ['duration', 'match-duration', 'time', 'match-time']:
+        el = match_el.find(class_=lambda c: c and klass in c.lower() if c else False)
+        if el:
+            txt = el.get_text(strip=True)
+            m = re.search(r'(\d+)\s*h[^\d]*(\d+)', txt)  # "1h 23m"
+            if m:
+                return int(m.group(1)) * 60 + int(m.group(2))
+            m = re.search(r'(\d+)\s*min', txt, re.IGNORECASE)
+            if m:
+                return int(m.group(1))
+            m = re.search(r'(\d+):(\d{2})', txt)  # "1:23"
+            if m:
+                return int(m.group(1)) * 60 + int(m.group(2))
+
+    # 2. Cerca nel testo completo del card
+    full_text = match_el.get_text(' ', strip=True)
+    m = re.search(r'(\d+)\s*h[^\d]*(\d+)\s*m', full_text, re.IGNORECASE)
+    if m:
+        return int(m.group(1)) * 60 + int(m.group(2))
+    m = re.search(r'(\d{2,3})\s*min', full_text, re.IGNORECASE)
+    if m:
+        return int(m.group(1))
+
+    return None
+
+
 def estrai_tourney_date_da_pagina(soup):
     """Estrae la data del torneo dalla pagina ATP results.
     L'HTML ha: <div class="date-location"><span>City</span> | <span>4-11 Jan, 2026</span></div>
@@ -318,16 +353,18 @@ for i, url in enumerate(urls):
                     v1, v2 = sw[k].get_text(strip=True), sl[k].get_text(strip=True)
                     if v1 and v2: score_parts.append(f"{v1}-{v2}")
 
+                minuti = estrai_minuti(m)
+
                 all_matches.append({
                     'tourney_id':   f"{ANIO}-{torneo}-{i}",
                     'tourney_name': torneo,
                     'surface':      'Hard',
-                    'tourney_date': tourney_date,   # ← data YYYYMMDD corretta
+                    'tourney_date': tourney_date,
                     'winner_name':  winner,
                     'loser_name':   loser,
                     'score':        " ".join(score_parts),
                     'round':        round_txt,
-                    'minutes':      100,
+                    'minutes':      minuti,   # None se non disponibile → fillna(90) in training
                     'scraping_date': str(OGGI)
                 })
                 count += 1

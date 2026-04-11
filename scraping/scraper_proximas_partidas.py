@@ -185,7 +185,7 @@ def _fetch_round_map(tournament_url: str, livello: str) -> dict:
     url  = base + tournament_url
     result = {}
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=20)
+        resp = requests.get(url, headers=HEADERS, timeout=5)
         if resp.status_code != 200:
             return result
         soup = BeautifulSoup(resp.text, "html.parser")
@@ -210,115 +210,129 @@ def _fetch_round_map(tournament_url: str, livello: str) -> dict:
     return result
 
 
-def fetch_upcoming() -> list:
-    """Scarica le prossime partite ATP da tennisexplorer.com/next/."""
-    url = "https://www.tennisexplorer.com/next/"
+def _fetch_soup(url: str) -> BeautifulSoup | None:
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=20)
+        resp = requests.get(url, headers=HEADERS, timeout=10)
         if resp.status_code != 200:
-            print(f"   ⚠️  TennisExplorer: HTTP {resp.status_code}")
-            return []
-    except Exception as e:
-        print(f"   ⚠️  TennisExplorer: {e}")
+            return None
+        return BeautifulSoup(resp.text, "html.parser")
+    except Exception:
+        return None
+
+
+def fetch_upcoming() -> list:
+    """Scarica le prossime partite ATP da tennisexplorer.com/next/ per oggi + 3 giorni."""
+    today = datetime.date.today()
+    soups = []
+    for delta in range(4):
+        d = today + datetime.timedelta(days=delta)
+        url = (f"https://www.tennisexplorer.com/next/"
+               f"?type=atp-single&year={d.year}&month={d.month:02d}&day={d.day:02d}")
+        print(f"   📅  Scarico {d}...", flush=True)
+        s = _fetch_soup(url)
+        if s:
+            soups.append((d, s))
+        time.sleep(0.5)
+
+    if not soups:
+        s = _fetch_soup("https://www.tennisexplorer.com/next/")
+        if s:
+            soups = [(today, s)]
+
+    if not soups:
+        print("   ⚠️  TennisExplorer: nessuna risposta valida")
         return []
 
-    soup  = BeautifulSoup(resp.text, "html.parser")
-    rows  = soup.select("tr")
+    # ── Raccogli URL torneo da tutti i soup ───────────────────────────────────
+    torneo_urls = {}
+    for _d, soup in soups:
+        for row in soup.select("tr"):
+            cls = " ".join(row.get("class", []))
+            if "head" in cls:
+                td = row.find("td", class_="t-name")
+                if td:
+                    name = td.get_text(strip=True)
+                    a = td.find("a")
+                    if a and a.get("href") and name not in torneo_urls:
+                        torneo_urls[name] = a["href"]
 
-    # ── Prima passata: raccogli URL torneo dalle righe "head" ──────────────────
-    torneo_urls = {}   # torneo_name → url_relativo
-    current_name = "Unknown"
-    for row in rows:
-        cls = " ".join(row.get("class", []))
-        if "head" in cls:
-            td = row.find("td", class_="t-name")
-            if td:
-                current_name = td.get_text(strip=True)
-                a = td.find("a")
-                if a and a.get("href"):
-                    torneo_urls[current_name] = a["href"]
-
-    # ── Pre-carica le round map per ogni torneo ATP ────────────────────────────
-    round_maps = {}   # torneo_name → {player → turno_it}
+    # ── Pre-carica le round map (una richiesta per torneo ATP) ────────────────
+    round_maps = {}
     for tname, turl in torneo_urls.items():
         if _is_atp(tname):
             lv = _livello(tname)
-            print(f"   🔍  Round info: {tname} [{lv}]")
+            print(f"   🔍  Round info: {tname} [{lv}]", flush=True)
             round_maps[tname] = _fetch_round_map(turl, lv)
-            time.sleep(0.5)
+            print(f"       → {len(round_maps[tname])} giocatori mappati", flush=True)
+            time.sleep(0.3)
 
-    # ── Seconda passata: costruisci le partite ────────────────────────────────
-    partite  = []
-    torneo   = "Unknown"
-    i = 0
+    # ── Costruisci partite con deduplicazione ─────────────────────────────────
+    seen    = set()
+    partite = []
 
-    while i < len(rows):
-        row = rows[i]
-        cls = " ".join(row.get("class", []))
+    for match_date, soup in soups:
+        rows   = soup.select("tr")
+        torneo = "Unknown"
+        i = 0
+        while i < len(rows):
+            row = rows[i]
+            cls = " ".join(row.get("class", []))
 
-        # ── Riga torneo (header) ──────────────────────────────────────────────
-        if "head" in cls:
-            td = row.find("td", class_="t-name")
-            if td:
-                torneo = td.get_text(strip=True)
+            if "head" in cls:
+                td = row.find("td", class_="t-name")
+                if td:
+                    torneo = td.get_text(strip=True)
+                i += 1
+                continue
+
+            if "bott" in cls:
+                tds = row.find_all("td")
+                if len(tds) < 2:
+                    i += 1
+                    continue
+                td_name = row.find("td", class_="t-name")
+                if not td_name:
+                    i += 1
+                    continue
+                p1_raw = td_name.get_text(strip=True)
+
+                td_result = row.find("td", class_=re.compile(r'\bnbr\b|\bresult\b'))
+                is_upcoming = td_result is not None and "nbr" in (td_result.get("class") or [])
+
+                p2_raw = ""
+                if i + 1 < len(rows):
+                    next_row = rows[i + 1]
+                    next_cls = " ".join(next_row.get("class", []))
+                    if "bott" not in next_cls and "head" not in next_cls:
+                        td2 = next_row.find("td", class_="t-name")
+                        if td2:
+                            p2_raw = td2.get_text(strip=True)
+                        i += 1
+
+                p1 = _clean_name(p1_raw)
+                p2 = _clean_name(p2_raw)
+
+                if p1 and p2 and p1 != p2 and _is_atp(torneo) and is_upcoming:
+                    key = (min(p1, p2), max(p1, p2), torneo.lower())
+                    if key not in seen:
+                        seen.add(key)
+                        lv   = _livello(torneo)
+                        surf = _superficie(torneo)
+                        rmap = round_maps.get(torneo, {})
+                        r_code = (rmap.get(p1.split()[0].lower())
+                                  or rmap.get(p2.split()[0].lower()))
+                        turno = r_code if r_code else _map_round("1R", lv)
+                        partite.append({
+                            "p1":         p1,
+                            "p2":         p2,
+                            "torneo":     torneo,
+                            "livello":    lv,
+                            "superficie": surf,
+                            "turno":      turno,
+                            "data":       match_date.strftime("%Y-%m-%d"),
+                        })
+
             i += 1
-            continue
-
-        # ── Prima riga di un match (contiene "bott") ──────────────────────────
-        if "bott" in cls:
-            tds = row.find_all("td")
-            if len(tds) < 2:
-                i += 1
-                continue
-
-            # Cerca il td con il nome del giocatore (class "t-name")
-            td_name = row.find("td", class_="t-name")
-            if not td_name:
-                i += 1
-                continue
-            p1_raw = td_name.get_text(strip=True)
-
-            # Controlla se è upcoming: td con class "nbr" (senza risultato)
-            # vs "result" (con risultato = già giocato)
-            td_result = row.find("td", class_=re.compile(r'\bnbr\b|\bresult\b'))
-            is_upcoming = td_result is not None and "nbr" in (td_result.get("class") or [])
-
-            # Guarda la riga successiva per p2
-            p2_raw = ""
-            if i + 1 < len(rows):
-                next_row = rows[i + 1]
-                next_cls = " ".join(next_row.get("class", []))
-                # La riga di p2 NON ha "bott" e NON ha "head"
-                if "bott" not in next_cls and "head" not in next_cls:
-                    td2 = next_row.find("td", class_="t-name")
-                    if td2:
-                        p2_raw = td2.get_text(strip=True)
-                    i += 1  # consuma anche la riga di p2
-
-            p1 = _clean_name(p1_raw)
-            p2 = _clean_name(p2_raw)
-
-            if p1 and p2 and p1 != p2 and _is_atp(torneo) and is_upcoming:
-                lv    = _livello(torneo)
-                surf  = _superficie(torneo)
-                # Round: cerca nella round map per cognome; fallback a _map_round con default 1R
-                rmap   = round_maps.get(torneo, {})
-                r_code = (rmap.get(p1.split()[0].lower())
-                          or rmap.get(p2.split()[0].lower()))
-                # Se non trovato nella round map, usa il default per il livello
-                turno = r_code if r_code else _map_round("1R", lv)
-
-                partite.append({
-                    "p1":         p1,
-                    "p2":         p2,
-                    "torneo":     torneo,
-                    "livello":    lv,
-                    "superficie": surf,
-                    "turno":      turno,
-                    "data":       datetime.date.today().strftime("%Y-%m-%d"),
-                })
-
-        i += 1
 
     return partite
 

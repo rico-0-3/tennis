@@ -139,6 +139,16 @@ for torneo_name, matches in tornei.items():
                 st.markdown(
                     f"**Quote ideali:** {fav} `{p['quota_fav']}` · {sfav} `{p['quota_sfav']}`"
                 )
+                fat1 = p.get("fat_p1", 0)
+                fat2 = p.get("fat_p2", 0)
+                def _fat_label(min_val):
+                    if min_val == 0:   return "🟢 fresco"
+                    if min_val < 150:  return f"🟡 {int(min_val)} min"
+                    if min_val < 300:  return f"🟠 {int(min_val)} min"
+                    return f"🔴 {int(min_val)} min"
+                st.caption(
+                    f"Fatica — {p['p1']}: {_fat_label(fat1)} · {p['p2']}: {_fat_label(fat2)}"
+                )
                 st.caption(f"Modello: {p.get('modello', 'N/D')} · Confidenza: {p['confidenza']:.0%}")
 
         st.divider()
