@@ -1,421 +1,7 @@
 [
   {
-    "p1": "Johnson A.",
-    "p2": "Basavareddy N.",
-    "torneo": "Savannah challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-21"
-  },
-  {
-    "p1": "Wolf J.",
-    "p2": "Faurel T.",
-    "torneo": "Savannah challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-21"
-  },
-  {
-    "p1": "Andrade A.",
-    "p2": "Crawford O.",
-    "torneo": "Savannah challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-21"
-  },
-  {
-    "p1": "Dostanic S.",
-    "p2": "Gomez F.",
-    "torneo": "Savannah challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-21"
-  },
-  {
-    "p1": "Geerts M.",
-    "p2": "Bittoun Kouzmine C.",
-    "torneo": "Abidjan challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-21"
-  },
-  {
-    "p1": "Zhang Z.",
-    "p2": "Kopriva V.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Bergs Z.",
-    "p2": "Cilic M.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Brooksby J.",
-    "p2": "Nava E.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Prizmic D.",
-    "p2": "Berrettini M.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Buse I.",
-    "p2": "Mannarino A.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Dzumhur D.",
-    "p2": "Bellucci M.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Bautista-Agut R.",
-    "p2": "Tirante T.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Muller A.",
-    "p2": "Struff J.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Sonego L.",
-    "p2": "Lajovic D.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Machac T.",
-    "p2": "Comesana F.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Moller E.",
-    "p2": "Cina F.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Basilashvili N.",
-    "p2": "Ofner S.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Faria J.",
-    "p2": "Hurkacz H.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Tabilo A.",
-    "p2": "Royer V.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Bonzi B.",
-    "p2": "Droguet T.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Jodar R.",
-    "p2": "De Jong J.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Lajal M.",
-    "p2": "Hsu Y.",
-    "torneo": "Gwangju challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Chung H.",
-    "p2": "Chidekh C.",
-    "torneo": "Gwangju challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Simakin I.",
-    "p2": "Kwon S.",
-    "torneo": "Gwangju challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Broady L.",
-    "p2": "Schoolkate T.",
-    "torneo": "Gwangju challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Kozlov S.",
-    "p2": "Hardt N.",
-    "torneo": "Savannah challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Sanchez Izquierdo N.",
-    "p2": "Sakellaridis S.",
-    "torneo": "Rome 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Clay",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Martin Tiffon P.",
-    "p2": "Fatic N.",
-    "torneo": "Rome 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Clay",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Guerrieri A.",
-    "p2": "Fery A.",
-    "torneo": "Rome 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Clay",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Djere L.",
-    "p2": "Vavassori A.",
-    "torneo": "Rome 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Clay",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Cadenasso G.",
-    "p2": "Vasami J.",
-    "torneo": "Rome 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Clay",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Cretu C.",
-    "p2": "Herbert P.",
-    "torneo": "Rome 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Clay",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Svrcina D.",
-    "p2": "Bernet H.",
-    "torneo": "Rome 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Clay",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Kopp S.",
-    "p2": "Fomin S.",
-    "torneo": "Shymkent challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Albot R.",
-    "p2": "Ghibaudo A.",
-    "torneo": "Shymkent challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Wiskandt M.",
-    "p2": "Bailly G.",
-    "torneo": "Shymkent challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Ostapenkov D.",
-    "p2": "Gadamauri B.",
-    "torneo": "Shymkent challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Skatov T.",
-    "p2": "Gulin S.",
-    "torneo": "Shymkent challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Atlangeriev B.",
-    "p2": "Nedic A.",
-    "torneo": "Shymkent challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Bar Biryukov P.",
-    "p2": "Blanch D.",
-    "torneo": "Shymkent challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Gakhov I.",
-    "p2": "Sels J.",
-    "torneo": "Shymkent challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Gima S.",
-    "p2": "Visker N.",
-    "torneo": "Abidjan challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Bax F.",
-    "p2": "Singh K.",
-    "torneo": "Abidjan challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Mukund S.",
-    "p2": "Erel Y.",
-    "torneo": "Abidjan challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
-    "p1": "Stewart H.",
-    "p2": "Coulibaly E.",
-    "torneo": "Abidjan challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-04-22"
-  },
-  {
     "p1": "Carreno-Busta P.",
     "p2": "Fucsovics M.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-23"
-  },
-  {
-    "p1": "Munar J.",
-    "p2": "Shevchenko A.",
     "torneo": "Madrid",
     "livello": "Masters 1000",
     "superficie": "Hard",
@@ -432,8 +18,8 @@
     "data": "2026-04-23"
   },
   {
-    "p1": "Altmaier D.",
-    "p2": "Cerundolo J.",
+    "p1": "Atmane T.",
+    "p2": "Kecmanovic M.",
     "torneo": "Madrid",
     "livello": "Masters 1000",
     "superficie": "Hard",
@@ -441,8 +27,17 @@
     "data": "2026-04-23"
   },
   {
-    "p1": "Van De Zandschulp B.",
+    "p1": "Garin C.",
     "p2": "Blockx A.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Munar J.",
+    "p2": "Shevchenko A.",
     "torneo": "Madrid",
     "livello": "Masters 1000",
     "superficie": "Hard",
@@ -459,80 +54,8 @@
     "data": "2026-04-23"
   },
   {
-    "p1": "Ugo Carabelli C.",
-    "p2": "Monfils G.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-23"
-  },
-  {
-    "p1": "Landaluce M.",
-    "p2": "Walton A.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-23"
-  },
-  {
-    "p1": "Atmane T.",
-    "p2": "Kecmanovic M.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-23"
-  },
-  {
     "p1": "Borges N.",
     "p2": "Navone M.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-23"
-  },
-  {
-    "p1": "Kypson P.",
-    "p2": "Tsitsipas S.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-23"
-  },
-  {
-    "p1": "Trungelliti M.",
-    "p2": "Merida Aguilar D.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-23"
-  },
-  {
-    "p1": "Gaubas V.",
-    "p2": "Baez S.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-23"
-  },
-  {
-    "p1": "Budkov Kjaer N.",
-    "p2": "Opelka R.",
-    "torneo": "Madrid",
-    "livello": "Masters 1000",
-    "superficie": "Hard",
-    "turno": "Ottavi di finale (16mi)",
-    "data": "2026-04-23"
-  },
-  {
-    "p1": "Vallejo A.",
-    "p2": "Dimitrov G.",
     "torneo": "Madrid",
     "livello": "Masters 1000",
     "superficie": "Hard",
@@ -549,12 +72,75 @@
     "data": "2026-04-23"
   },
   {
-    "p1": "Shimabukuro S.",
-    "p2": "Shimizu Y.",
-    "torneo": "Gwangju challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
+    "p1": "Kypson P.",
+    "p2": "Tsitsipas S.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Gaubas V.",
+    "p2": "Baez S.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Vallejo A.",
+    "p2": "Dimitrov G.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Altmaier D.",
+    "p2": "Cerundolo J.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Trungelliti M.",
+    "p2": "Merida Aguilar D.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Ugo Carabelli C.",
+    "p2": "Monfils G.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Budkov Kjaer N.",
+    "p2": "Opelka R.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Landaluce M.",
+    "p2": "Walton A.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
     "data": "2026-04-23"
   },
   {
@@ -567,8 +153,8 @@
     "data": "2026-04-23"
   },
   {
-    "p1": "Kukushkin M.",
-    "p2": "Riedi L.",
+    "p1": "Broady L.",
+    "p2": "Schoolkate T.",
     "torneo": "Gwangju challenger",
     "livello": "Challenger",
     "superficie": "Grass",
@@ -576,11 +162,47 @@
     "data": "2026-04-23"
   },
   {
-    "p1": "Galarneau A.",
-    "p2": "Holmgren A.",
-    "torneo": "Gwangju challenger",
+    "p1": "Roncadelli F.",
+    "p2": "Basavareddy N.",
+    "torneo": "Savannah challenger",
     "livello": "Challenger",
     "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Andrade A.",
+    "p2": "Mayo A.",
+    "torneo": "Savannah challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Galan D.",
+    "p2": "Dostanic S.",
+    "torneo": "Savannah challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Shick B.",
+    "p2": "Krueger M.",
+    "torneo": "Savannah challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Martin Tiffon P.",
+    "p2": "Fatic N.",
+    "torneo": "Rome 2 challenger",
+    "livello": "Challenger",
+    "superficie": "Clay",
     "turno": "32mi",
     "data": "2026-04-23"
   },
@@ -592,5 +214,311 @@
     "superficie": "Clay",
     "turno": "32mi",
     "data": "2026-04-23"
+  },
+  {
+    "p1": "Djere L.",
+    "p2": "Vavassori A.",
+    "torneo": "Rome 2 challenger",
+    "livello": "Challenger",
+    "superficie": "Clay",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Svrcina D.",
+    "p2": "Bernet H.",
+    "torneo": "Rome 2 challenger",
+    "livello": "Challenger",
+    "superficie": "Clay",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Guerrieri A.",
+    "p2": "Fery A.",
+    "torneo": "Rome 2 challenger",
+    "livello": "Challenger",
+    "superficie": "Clay",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Skatov T.",
+    "p2": "Ostapenkov D.",
+    "torneo": "Shymkent challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Sels J.",
+    "p2": "Ghibaudo A.",
+    "torneo": "Shymkent challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Blanch D.",
+    "p2": "Nedic A.",
+    "torneo": "Shymkent challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Fomin S.",
+    "p2": "Wiskandt M.",
+    "torneo": "Shymkent challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Bennani K.",
+    "p2": "Jubb P.",
+    "torneo": "Abidjan challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Onclin G.",
+    "p2": "Bouchelaghem C.",
+    "torneo": "Abidjan challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Hemery C.",
+    "p2": "Kasnikowski M.",
+    "torneo": "Abidjan challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Bittoun Kouzmine C.",
+    "p2": "Chazal M.",
+    "torneo": "Abidjan challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Bax F.",
+    "p2": "Visker N.",
+    "torneo": "Abidjan challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Hamza Reguig S.",
+    "p2": "Stewart H.",
+    "torneo": "Abidjan challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Giunta M.",
+    "p2": "Alkaya M.",
+    "torneo": "Abidjan challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Bicknell B.",
+    "p2": "Erel Y.",
+    "torneo": "Abidjan challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-23"
+  },
+  {
+    "p1": "Rublev A.",
+    "p2": "Kopriva V.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Nava E.",
+    "p2": "Vacherot V.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Fonseca J.",
+    "p2": "Cilic M.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Griekspoor T.",
+    "p2": "Dzumhur D.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Fils A.",
+    "p2": "Buse I.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Shelton B.",
+    "p2": "Prizmic D.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Struff J.",
+    "p2": "Michelsen A.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Lajovic D.",
+    "p2": "Rinderknech A.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Tirante T.",
+    "p2": "Paul T.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Ofner S.",
+    "p2": "Etcheverry T.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Moller E.",
+    "p2": "Diallo G.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Hurkacz H.",
+    "p2": "Musetti L.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Sinner J.",
+    "p2": "Bonzi B.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Jodar R.",
+    "p2": "De Minaur A.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Norrie C.",
+    "p2": "Machac T.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Lehecka J.",
+    "p2": "Tabilo A.",
+    "torneo": "Madrid",
+    "livello": "Masters 1000",
+    "superficie": "Hard",
+    "turno": "Ottavi di finale (16mi)",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Hardt N.",
+    "p2": "Kennedy J.",
+    "torneo": "Savannah challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Feldbausch K.",
+    "p2": "Tabur C.",
+    "torneo": "Savannah challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-04-24"
+  },
+  {
+    "p1": "Vasami J.",
+    "p2": "Sakellaridis S.",
+    "torneo": "Rome 2 challenger",
+    "livello": "Challenger",
+    "superficie": "Clay",
+    "turno": "32mi",
+    "data": "2026-04-24"
   }
 ]
