@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-23T06:33:59.714225",
+  "updated_at": "2026-04-23T06:41:59.911295",
   "partite": [
     {
       "p1": "Carreno-Busta P.",
@@ -324,27 +324,6 @@
       "fat_p2": 0,
       "quota_fav": 1.43,
       "quota_sfav": 2.61,
-      "modello": "Ensemble Stacking",
-      "skipped": false
-    },
-    {
-      "p1": "Sweeny D.",
-      "p2": "McCabe J.",
-      "torneo": "Gwangju challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-04-23",
-      "prob_p1": 0.764,
-      "prob_p2": 0.236,
-      "favorito": "Dane Sweeny",
-      "confidenza": 0.764,
-      "h2h_p1": 2,
-      "h2h_p2": 1,
-      "fat_p1": 0,
-      "fat_p2": 0,
-      "quota_fav": 1.21,
-      "quota_sfav": 3.92,
       "modello": "Ensemble Stacking",
       "skipped": false
     },
