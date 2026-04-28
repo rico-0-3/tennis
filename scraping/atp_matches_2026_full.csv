@@ -1367,203 +1367,211 @@ tourney_id,tourney_name,surface,tourney_date,winner_name,loser_name,score,round,
 2026-bucharest-21,bucharest,Hard,20260403,Joel Schwaerzler,Stefan Horia Haita,6-3 3-6 7-6,1st Round Qualifying ,,2026-04-23,0,0,0,0,0,0,R,185.0,AUT,21,0,0,0,R,185.0,UNK,25,0,172.0,0,150.0,0,4.5,0.45
 2026-bucharest-21,bucharest,Hard,20260403,Jurij Rodionov,George Loffhagen,4-6 7-6 6-5,1st Round Qualifying ,,2026-04-23,0,0,0,0,0,0,R,191.0,AUT,27,0,0,0,R,188.0,GBR,25,0,162.0,0,247.0,0,4.5,0.45
 2026-bucharest-21,bucharest,Hard,20260403,Jay Clarke,Gabriel Ghetu,6-4 6-3,1st Round Qualifying ,,2026-04-23,0,0,0,0,0,0,R,183.0,GBR,28,0,0,0,R,185.0,ROU,19,0,197.0,0,500.0,0,4.5,0.45
-2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Andrey Rublev,6-2 7-6,Final ,,2026-04-27,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,RUS,29,0,25.0,0,12.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Andrey Rublev,Hamad Medjedovic,3-6 6-2 6-2,Semifinals ,,2026-04-27,0,0,0,0,0,0,R,188.0,RUS,29,0,0,0,R,188.0,SRB,23,0,12.0,0,68.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Rafael Jodar,3-6 6-3 6-2,Semifinals ,,2026-04-27,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,UNK,20,0,25.0,0,42.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Lorenzo Musetti,6-3 6-4,Quarterfinals ,,2026-04-27,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,185.0,ITA,24,0,25.0,0,9.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Andrey Rublev,Tomas Machac,6-4 6-3,Quarterfinals ,,2026-04-27,0,0,0,0,0,0,R,188.0,RUS,29,0,0,0,R,183.0,CZE,26,0,12.0,0,41.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Rafael Jodar,Cameron Norrie,6-3 6-2,Quarterfinals ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,188.0,GBR,31,0,42.0,0,23.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Nuno Borges,7-6 6-6,Quarterfinals ,,2026-04-27,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,185.0,POR,29,0,68.0,0,49.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Lorenzo Musetti,Corentin Moutet,6-3 6-4,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ITA,24,0,0,0,R,180.0,FRA,27,0,9.0,0,30.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Andrey Rublev,Lorenzo Sonego,6-2 6-3,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,188.0,RUS,29,0,0,0,R,191.0,ITA,31,0,12.0,0,62.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Brandon Nakashima,6-2 6-3,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,USA,25,0,25.0,0,32.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Alex de Minaur,6-3 6-4,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,185.0,UNK,25,0,68.0,0,150.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Cameron Norrie,Ethan Quinn,6-3 4-6 6-4,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,191.0,USA,22,0,23.0,0,48.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Nuno Borges,Tomas Martin Etcheverry,6-3 7-6,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,185.0,POR,29,0,0,0,R,196.0,ARG,27,0,49.0,0,29.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Rafael Jodar,Camilo Ugo Carabelli,6-3 6-3,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,185.0,ARG,27,0,42.0,0,57.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Tomas Machac,Carlos Alcaraz,,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,183.0,CZE,26,0,0,0,R,183.0,ESP,23,0,41.0,0,2.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Carlos Alcaraz,Otto Virtanen,6-4 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,193.0,FIN,25,0,2.0,0,121.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Lorenzo Musetti,Martin Landaluce,7-5 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ITA,24,0,0,0,R,193.0,ESP,20,0,9.0,0,99.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Alex de Minaur,Sebastian Ofner,7-6 6-7,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,191.0,AUT,30,0,150.0,0,83.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Camilo Ugo Carabelli,Karen Khachanov,6-3 6-4,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ARG,27,0,0,0,R,198.0,RUS,30,0,57.0,0,16.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Andrey Rublev,Mariano Navone,6-4 7-5,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,188.0,RUS,29,0,0,0,R,178.0,ARG,25,0,12.0,0,45.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Terence Atmane,4-6 6-4 7-6,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,193.0,FRA,24,0,25.0,0,47.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Tomas Machac,Sebastian Baez,2-6 6-4 6-1,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,183.0,CZE,26,0,0,0,R,170.0,ARG,26,0,41.0,0,64.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Brandon Nakashima,Juan Manuel Cerundolo,6-3 7-5,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,188.0,USA,25,0,0,0,R,183.0,ARG,25,0,32.0,0,67.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Lorenzo Sonego,Pedro Martinez,6-2 2-6 6-4,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,191.0,ITA,31,0,0,0,R,185.0,ESP,29,0,62.0,0,133.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Cameron Norrie,Stan Wawrinka,6-4 6-7 5-4,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,183.0,SUI,41,0,23.0,0,106.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Tomas Martin Etcheverry,Jack Draper,3-6 6-3 4-1,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,196.0,ARG,27,0,0,0,R,193.0,GBR,25,0,29.0,0,28.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Nuno Borges,Adrian Mannarino,6-3 6-4,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,POR,29,0,0,0,R,180.0,FRA,38,0,49.0,0,46.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Rafael Jodar,Jaume Munar,6-1 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,183.0,ESP,29,0,42.0,0,38.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Marco Trungelliti,7-5 6-4,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,178.0,ARG,36,0,68.0,0,77.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Corentin Moutet,Ignacio Buse,6-4 6-4,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,180.0,FRA,27,0,0,0,R,185.0,PER,22,0,30.0,0,58.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Ethan Quinn,Reilly Opelka,7-5 7-6,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,191.0,USA,22,0,0,0,R,211.0,USA,29,0,48.0,0,70.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Ethan Quinn,Daniel Merida,6-3 6-1,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,191.0,USA,22,0,0,0,R,188.0,UNK,22,0,48.0,0,102.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Juan Manuel Cerundolo,Jesper de Jong,6-4 6-4,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,ARG,25,0,0,0,R,185.0,UNK,25,0,67.0,0,500.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Pedro Martinez,Marco Trungelliti,5-7 7-6 6-5,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,ESP,29,0,0,0,R,178.0,ARG,36,0,133.0,0,77.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Sebastian Ofner,Patrick Kypson,6-4 6-4,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,191.0,AUT,30,0,0,0,R,188.0,USA,27,0,83.0,0,90.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Quentin Halys,6-2 3-6 7-6,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,191.0,FRA,30,0,68.0,0,91.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Otto Virtanen,Alexandre Muller,6-4 6-4,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,193.0,FIN,25,0,0,0,R,183.0,FRA,29,0,121.0,0,95.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Ethan Quinn,Nikoloz Basilashvili,2-6 7-6 6-9,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,191.0,USA,22,0,0,0,R,185.0,GEO,34,0,48.0,0,120.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Juan Manuel Cerundolo,Giulio Zeppieri,6-1 7-5,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,ARG,25,0,0,0,R,183.0,ITA,25,0,67.0,0,165.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Marco Trungelliti,Nicolai Budkov Kjaer,6-4 4-6 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,178.0,ARG,36,0,0,0,R,188.0,NOR,20,0,77.0,0,140.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Sebastian Ofner,Alejo Sanchez Quilez,6-4 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,191.0,AUT,30,0,0,0,R,180.0,ESP,21,0,83.0,0,0.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Vilius Gaubas,7-6 6-13,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,178.0,LTU,22,0,68.0,0,124.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Otto Virtanen,Aleksandar Vukic,6-3 6-7 7-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,193.0,FIN,25,0,0,0,R,188.0,AUS,30,0,121.0,0,89.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Alexandre Muller,Max Alcala Gurri,6-2 6-2,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,FRA,29,0,0,0,R,178.0,ESP,24,0,95.0,0,360.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Quentin Halys,Matteo Arnaldi,6-1 6-7 1-6 7-2,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,191.0,FRA,30,0,0,0,R,185.0,ITA,25,0,91.0,0,103.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Pedro Martinez,Pablo Carreno Busta,6-3 4-3,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,ESP,29,0,0,0,R,188.0,ESP,35,0,133.0,0,94.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Patrick Kypson,Arthur Gea,6-1 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,USA,27,0,0,0,R,180.0,UNK,21,0,90.0,0,139.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Daniel Merida,Francesco Maestrelli,7-5 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,196.0,ITA,24,0,102.0,0,112.0,0,5.2,0.5
-2026-barcelona-23,barcelona,Hard,20260413,Jesper de Jong,Benjamin Bonzi,6-4 6-1,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,183.0,FRA,30,0,500.0,0,104.0,0,5.2,0.5
-2026-munich-24,munich,Hard,20260413,Ben Shelton,Flavio Cobolli,6-2 7-5,Final ,,2026-04-27,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,183.0,ITA,24,0,6.0,0,13.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Flavio Cobolli,Alexander Zverev,6-3 6-3,Semifinals ,,2026-04-27,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,198.0,GER,29,0,13.0,0,3.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Ben Shelton,Alex Molcan,6-3 6-4,Semifinals ,,2026-04-27,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,178.0,SVK,29,0,6.0,0,107.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Alexander Zverev,Francisco Cerundolo,5-7 6-0 6-2,Quarterfinals ,,2026-04-27,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,185.0,ARG,28,0,3.0,0,20.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Ben Shelton,Joao Fonseca,6-3 3-6 6-3,Quarterfinals ,,2026-04-27,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,185.0,BRA,20,0,6.0,0,31.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Flavio Cobolli,Vit Kopriva,6-3 6-2,Quarterfinals ,,2026-04-27,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,178.0,CZE,29,0,13.0,0,66.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Alex Molcan,Denis Shapovalov,6-4 6-4,Quarterfinals ,,2026-04-27,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,185.0,CAN,27,0,107.0,0,35.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Alexander Zverev,Gabriel Diallo,6-1 6-2,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,203.0,CAN,25,0,3.0,0,36.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Francisco Cerundolo,Botic van de Zandschulp,6-3 6-0,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ARG,28,0,0,0,R,185.0,UNK,25,0,20.0,0,150.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Alex Molcan,Daniel Altmaier,6-4 7-6,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,188.0,GER,28,0,107.0,0,55.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Denis Shapovalov,Fabian Marozsan,7-6 6-4,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,185.0,CAN,27,0,0,0,R,193.0,HUN,27,0,35.0,0,50.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Ben Shelton,Alexander Blockx,6-4 7-6,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,191.0,BEL,21,0,6.0,0,69.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Flavio Cobolli,Zizou Bergs,6-2 6-3,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,185.0,BEL,27,0,13.0,0,44.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Vit Kopriva,Luciano Darderi,2-6 6-4 6-1,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,183.0,ITA,24,0,66.0,0,22.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Joao Fonseca,Arthur Rinderknech,6-3 6-2,Round of 16 ,,2026-04-27,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,196.0,FRA,31,0,31.0,0,26.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Alexander Zverev,Miomir Kecmanovic,6-3 3-6 7-6,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,183.0,SRB,27,0,3.0,0,65.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Alex Molcan,Alexander Bublik,6-4 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,196.0,KAZ,29,0,107.0,0,11.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Flavio Cobolli,Diego Dedura,6-4 7-5,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,185.0,UNK,18,0,13.0,0,304.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Luciano Darderi,Zhizhen Zhang,7-6 3-5 6-6,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,193.0,CHN,30,0,22.0,0,245.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Denis Shapovalov,Tallon Griekspoor,6-4 3-6 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,CAN,27,0,0,0,R,188.0,NED,30,0,35.0,0,33.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Daniel Altmaier,Marin Cilic,6-2 6-3,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,188.0,GER,28,0,0,0,R,198.0,CRO,38,0,55.0,0,51.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Zizou Bergs,Marko Topo,6-1 6-4,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,BEL,27,0,0,0,R,185.0,GER,23,0,44.0,0,250.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Joao Fonseca,Alejandro Tabilo,7-6 6-1,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,188.0,CHI,29,0,31.0,0,43.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Vit Kopriva,Justin Engel,6-3 5-7 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,188.0,UNK,19,0,66.0,0,186.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Fabian Marozsan,Stefanos Tsitsipas,3-6 7-6 6-5,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,193.0,HUN,27,0,0,0,R,193.0,GRE,28,0,50.0,0,80.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Ben Shelton,Emilio Nava,7-6 3-4 6-6,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,185.0,USA,25,0,6.0,0,116.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Francisco Cerundolo,Sumit Nagal,6-2 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ARG,28,0,0,0,R,178.0,IND,29,0,20.0,0,277.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Arthur Rinderknech,Alex Michelsen,6-3 6-3,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,196.0,FRA,31,0,0,0,R,193.0,USA,22,0,26.0,0,37.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Alexander Blockx,Yannick Hanfmann,7-6 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,191.0,BEL,21,0,0,0,R,193.0,GER,35,0,69.0,0,60.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Gabriel Diallo,Vitaliy Sachko,6-1 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,203.0,CAN,25,0,0,0,R,188.0,UKR,29,0,36.0,0,191.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Botic van de Zandschulp,Marc-Andrea Huesler,7-6 6-7,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,185.0,UNK,25,0,150.0,0,0.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Alex Molcan,Emilio Nava,6-1 7-6,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,185.0,USA,25,0,107.0,0,116.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Diego Dedura,Sumit Nagal,6-7 8-3 6-3,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,18,0,0,0,R,178.0,IND,29,0,304.0,0,277.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Marc-Andrea Huesler,Marko Topo,6-0 6-1,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,185.0,GER,23,0,0.0,0,250.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Vitaliy Sachko,Max Hans Rehberg,6-2 7-6,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,UKR,29,0,0,0,R,183.0,GER,23,0,191.0,0,0.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Diego Dedura,Alexander Shevchenko,6-3 7-6,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,18,0,0,0,R,185.0,KAZ,26,0,304.0,0,82.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Vitaliy Sachko,Damir Dzumhur,7-5 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,UKR,29,0,0,0,R,175.0,BIH,34,0,191.0,0,84.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Emilio Nava,David Goffin,6-4 6-2,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,USA,25,0,0,0,R,180.0,BEL,36,0,116.0,0,236.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Marc-Andrea Huesler,Jan Choinski,6-4 4-6 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,196.0,GBR,30,0,0.0,0,119.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Marko Topo,Ugo Blanchet,6-3 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,GER,23,0,0,0,R,175.0,FRA,27,0,250.0,0,166.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Alex Molcan,Roberto Carballes Baena,0-6 6-3 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,183.0,ESP,33,0,107.0,0,204.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Max Hans Rehberg,Arthur Fery,6-2 7-6,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,GER,23,0,0,0,R,175.0,GBR,24,0,0.0,0,161.0,0,6.6,0.65
-2026-munich-24,munich,Hard,20260413,Sumit Nagal,Lorenzo Giustino,1-6 6-3,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,178.0,IND,29,0,0,0,R,180.0,ITA,35,0,277.0,0,209.0,0,6.6,0.65
-2026-madrid-25,madrid,Hard,20260420,Rafael Jodar,Joao Fonseca,7-6 4-4 6-6,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,185.0,BRA,20,0,42.0,0,31.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Jannik Sinner,Elmer Moller,6-2 6-3,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,183.0,DEN,23,0,1.0,0,169.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Lorenzo Musetti,Tallon Griekspoor,6-4 7-5,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ITA,24,0,0,0,R,188.0,NED,30,0,9.0,0,33.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Jiri Lehecka,Alex Michelsen,6-4 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,CZE,25,0,0,0,R,193.0,USA,22,0,14.0,0,37.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Cameron Norrie,Thiago Agustin Tirante,7-5 7-6,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,185.0,ARG,25,0,23.0,0,75.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Arthur Fils,Emilio Nava,7-6 6-2,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,185.0,USA,25,0,25.0,0,116.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Vit Kopriva,Arthur Rinderknech,6-4 3-6,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,196.0,FRA,31,0,66.0,0,26.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Tomas Martin Etcheverry,Dino Prizmic,2-6 6-4 6-3,Round of 32 ,,2026-04-27,0,0,0,0,0,0,R,196.0,ARG,27,0,0,0,R,188.0,CRO,21,0,29.0,0,87.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Alexander Zverev,Mariano Navone,6-1 3-6 6-3,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,178.0,ARG,25,0,3.0,0,45.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Felix Auger-Aliassime,Vilius Gaubas,6-3 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,178.0,LTU,22,0,150.0,0,124.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Daniil Medvedev,Fabian Marozsan,6-2 6-7 3-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,193.0,HUN,27,0,10.0,0,50.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Stefanos Tsitsipas,Alexander Bublik,6-2 7-5,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,193.0,GRE,28,0,0,0,R,196.0,KAZ,29,0,80.0,0,11.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Flavio Cobolli,Camilo Ugo Carabelli,6-7 7-1 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,185.0,ARG,27,0,13.0,0,57.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Casper Ruud,Jaume Munar,6-0 6-1,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,183.0,NOR,28,0,0,0,R,183.0,ESP,29,0,15.0,0,38.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Karen Khachanov,Adam Walton,6-2 6-3,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,183.0,AUS,27,0,16.0,0,117.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Francisco Cerundolo,Yannick Hanfmann,6-1 7-5,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ARG,28,0,0,0,R,193.0,GER,35,0,20.0,0,60.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Adolfo Daniel Vallejo,Learner Tien,6-4 6-3,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,183.0,UNK,22,0,0,0,R,180.0,USA,21,0,96.0,0,21.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Luciano Darderi,Juan Manuel Cerundolo,6-1 6-3,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,183.0,ARG,25,0,22.0,0,67.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Alejandro Davidovich Fokina,Pablo Carreno Busta,6-3 6-3,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,183.0,ESP,27,0,0,0,R,188.0,ESP,35,0,24.0,0,94.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Jakub Mensik,Martin Damm,6-3 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,193.0,CZE,21,0,0,0,R,203.0,USA,0,0,27.0,0,126.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Daniel Merida,Corentin Moutet,6-3 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,180.0,FRA,27,0,102.0,0,30.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Alexander Blockx,Brandon Nakashima,3-6 6-3 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,191.0,BEL,21,0,0,0,R,188.0,USA,25,0,69.0,0,32.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Terence Atmane,Ugo Humbert,7-6 7-3,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,193.0,FRA,24,0,0,0,R,188.0,FRA,28,0,47.0,0,34.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Nicolai Budkov Kjaer,Denis Shapovalov,6-2 6-1,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,188.0,NOR,20,0,0,0,R,185.0,CAN,27,0,140.0,0,35.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Jannik Sinner,Benjamin Bonzi,6-7 6-1 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,183.0,FRA,30,0,1.0,0,104.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Dino Prizmic,Ben Shelton,6-4 6-7 4-6 7-5,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,193.0,USA,24,0,87.0,0,6.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Rafael Jodar,Alex de Minaur,6-3 6-1,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,185.0,UNK,25,0,42.0,0,150.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Lorenzo Musetti,Hubert Hurkacz,6-4 7-6,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ITA,24,0,0,0,R,196.0,POL,29,0,9.0,0,63.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Vit Kopriva,Andrey Rublev,6-3 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,188.0,RUS,29,0,66.0,0,12.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Jiri Lehecka,Alejandro Tabilo,3-6 7-6 6-3,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,185.0,CZE,25,0,0,0,R,188.0,CHI,29,0,14.0,0,43.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Emilio Nava,Valentin Vacherot,6-7 5-6 7-1 6-3,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,185.0,USA,25,0,0,0,R,193.0,MON,28,0,116.0,0,17.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Thiago Agustin Tirante,Tommy Paul,7-5 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ARG,25,0,0,0,R,185.0,USA,29,0,75.0,0,18.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Cameron Norrie,Tomas Machac,6-2 6-7 6-6 7-5,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,183.0,CZE,26,0,23.0,0,41.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Arthur Fils,Ignacio Buse,6-7 4-6 7-3 7-5,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,185.0,PER,22,0,25.0,0,58.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Arthur Rinderknech,Dusan Lajovic,6-3 6-2,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,196.0,FRA,31,0,0,0,R,183.0,SRB,36,0,26.0,0,138.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Tomas Martin Etcheverry,Sebastian Ofner,6-4 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,196.0,ARG,27,0,0,0,R,191.0,AUT,30,0,29.0,0,83.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Joao Fonseca,Marin Cilic,,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,198.0,CRO,38,0,31.0,0,51.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Tallon Griekspoor,Damir Dzumhur,6-3 6-4,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,188.0,NED,30,0,0,0,R,175.0,BIH,34,0,33.0,0,84.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Elmer Moller,Gabriel Diallo,7-5 3-3,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,183.0,DEN,23,0,0,0,R,203.0,CAN,25,0,169.0,0,36.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Alex Michelsen,Jan-Lennard Struff,6-2 6-1,Round of 64 ,,2026-04-27,0,0,0,0,0,0,R,193.0,USA,22,0,0,0,R,185.0,UNK,25,0,37.0,0,150.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Terence Atmane,Miomir Kecmanovic,6-4 7-5,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,193.0,FRA,24,0,0,0,R,183.0,SRB,27,0,47.0,0,65.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Alexander Blockx,Cristian Garin,4-6 7-5 7-5,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,191.0,BEL,21,0,0,0,R,185.0,CHI,30,0,69.0,0,85.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Nicolai Budkov Kjaer,Reilly Opelka,5-3,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,188.0,NOR,20,0,0,0,R,211.0,USA,29,0,140.0,0,70.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Pablo Carreno Busta,Marton Fucsovics,4-6 7-6 6-5,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,188.0,ESP,35,0,0,0,R,188.0,HUN,34,0,94.0,0,54.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Juan Manuel Cerundolo,Daniel Altmaier,6-4 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,183.0,ARG,25,0,0,0,R,188.0,GER,28,0,67.0,0,55.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Martin Damm,Alexei Popyrin,7-6 6-7,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,203.0,USA,0,0,0,0,R,196.0,AUS,27,0,126.0,0,56.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Vilius Gaubas,Sebastian Baez,7-5 6-1,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,178.0,LTU,22,0,0,0,R,170.0,ARG,26,0,124.0,0,64.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Yannick Hanfmann,Marcos Giron,6-4 6-7 3-5,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,193.0,GER,35,0,0,0,R,180.0,USA,33,0,60.0,0,76.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Fabian Marozsan,Ethan Quinn,7-6 7-5,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,193.0,HUN,27,0,0,0,R,191.0,USA,22,0,50.0,0,48.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Daniel Merida,Marco Trungelliti,6-4 1-6 7-6,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,178.0,ARG,36,0,102.0,0,77.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Jaume Munar,Aleksandr Shevchenko,6-4 6-1,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,183.0,ESP,29,0,0,0,R,185.0,UNK,22,0,38.0,0,150.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Mariano Navone,Nuno Borges,6-3 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,178.0,ARG,25,0,0,0,R,185.0,POR,29,0,45.0,0,49.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Stefanos Tsitsipas,Patrick Kypson,3-6 7-6 7-6,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,193.0,GRE,28,0,0,0,R,188.0,USA,27,0,80.0,0,90.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Camilo Ugo Carabelli,Gael Monfils,6-3 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ARG,27,0,0,0,R,193.0,FRA,40,0,57.0,0,200.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Adolfo Daniel Vallejo,Grigor Dimitrov,6-4 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,183.0,UNK,22,0,0,0,R,191.0,BUL,35,0,96.0,0,137.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Adam Walton,Martin Landaluce,6-2 6-3,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,183.0,AUS,27,0,0,0,R,193.0,ESP,20,0,117.0,0,99.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Benjamin Bonzi,Titouan Droguet,6-7 4-6 7-4 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,191.0,FRA,25,0,104.0,0,113.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Ignacio Buse,Adrian Mannarino,6-4 6-2,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,185.0,PER,22,0,0,0,R,180.0,FRA,38,0,58.0,0,46.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Marin Cilic,Zizou Bergs,4-6 6-3 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,198.0,CRO,38,0,0,0,R,185.0,BEL,27,0,51.0,0,44.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Damir Dzumhur,Mattia Bellucci,6-2 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,175.0,BIH,34,0,0,0,R,175.0,ITA,25,0,84.0,0,78.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Hubert Hurkacz,Jaime Faria,6-3 6-3,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,196.0,POL,29,0,0,0,R,188.0,POR,23,0,63.0,0,136.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Rafael Jodar,Jesper de Jong,2-6 7-5 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,185.0,UNK,25,0,42.0,0,500.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Vit Kopriva,Zhizhen Zhang,6-2 6-0,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,193.0,CHN,30,0,66.0,0,245.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Dusan Lajovic,Lorenzo Sonego,6-3 7-6,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,183.0,SRB,36,0,0,0,R,191.0,ITA,31,0,138.0,0,62.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Tomas Machac,Francisco Comesana,3-6 7-6 6-3,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,183.0,CZE,26,0,0,0,R,178.0,ARG,26,0,41.0,0,105.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Elmer Moller,Federico Cina,6-4 7-6,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,183.0,DEN,23,0,0,0,R,183.0,UNK,19,0,169.0,0,205.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Emilio Nava,Jenson Brooksby,6-3 7-5,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,185.0,USA,25,0,0,0,R,193.0,USA,26,0,116.0,0,61.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Sebastian Ofner,Nikoloz Basilashvili,7-6 7-5,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,191.0,AUT,30,0,0,0,R,185.0,GEO,34,0,83.0,0,120.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Dino Prizmic,Matteo Berrettini,6-3 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,196.0,ITA,30,0,87.0,0,92.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Jan-Lennard Struff,Alexandre Muller,7-6 6-3,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,183.0,FRA,29,0,150.0,0,95.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Alejandro Tabilo,Valentin Royer,6-2 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,188.0,CHI,29,0,0,0,R,188.0,UNK,25,0,43.0,0,72.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Thiago Agustin Tirante,Roberto Bautista Agut,6-2 6-4,Round of 128 ,,2026-04-27,0,0,0,0,0,0,R,185.0,ARG,25,0,0,0,R,183.0,ESP,38,0,75.0,0,93.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Daniel Merida,Marco Trungelliti,7-6 6-4,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,178.0,ARG,36,0,102.0,0,77.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Martin Damm,Cristian Garin,2-6 6-4 7-6,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,203.0,USA,0,0,0,0,R,185.0,CHI,30,0,126.0,0,85.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Dino Prizmic,Zsombor Piros,6-3 6-2,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,180.0,HUN,27,0,87.0,0,148.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Nikoloz Basilashvili,Patrick Kypson,6-7 2-6 7-3 6-4,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,188.0,USA,27,0,120.0,0,90.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Adolfo Daniel Vallejo,Henrique Rocha,6-1 4-6 6-2,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,UNK,22,0,0,0,R,180.0,POR,22,0,96.0,0,118.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Titouan Droguet,Yibing Wu,6-0 7-6,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,191.0,FRA,25,0,0,0,R,183.0,CHN,27,0,113.0,0,100.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Benjamin Bonzi,Diego Dedura,6-2 6-1,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,185.0,UNK,18,0,104.0,0,304.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Vilius Gaubas,Rei Sakamoto,7-6 6-5 5-7 7-6,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,178.0,LTU,22,0,0,0,R,193.0,UNK,20,0,124.0,0,159.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Nicolai Budkov Kjaer,Moez Echargui,6-1 6-0,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,NOR,20,0,0,0,R,178.0,TUN,33,0,140.0,0,144.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Jaime Faria,Lloyd Harris,4-6 6-3,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,POR,23,0,0,0,R,193.0,RSA,29,0,136.0,0,155.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Dusan Lajovic,Chris Rodesch,6-4 6-4,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,SRB,36,0,0,0,R,198.0,LUX,25,0,138.0,0,171.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Elmer Moller,Pablo Llamas Ruiz,7-6 6-4,2nd Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,DEN,23,0,0,0,R,188.0,ESP,24,0,169.0,0,145.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Marco Trungelliti,Borna Gojo,6-4 6-3,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,178.0,ARG,36,0,0,0,R,196.0,CRO,28,0,77.0,0,150.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Cristian Garin,Ugo Blanchet,7-5 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,CHI,30,0,0,0,R,175.0,FRA,27,0,85.0,0,166.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Rei Sakamoto,Zachary Svajda,7-6 6-9,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,193.0,UNK,20,0,0,0,R,175.0,USA,24,0,159.0,0,88.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Dino Prizmic,Christopher O'Connell,7-6 6-9 5-7 7-6,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,183.0,UNK,32,0,87.0,0,143.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Pablo Llamas Ruiz,Aleksandar Vukic,6-4 6-2,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,ESP,24,0,0,0,R,188.0,AUS,30,0,145.0,0,89.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Jaime Faria,Quentin Halys,6-7 9-3 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,POR,23,0,0,0,R,191.0,FRA,30,0,136.0,0,91.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Patrick Kypson,Moise Kouame,6-2 6-2,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,USA,27,0,0,0,R,185.0,UNK,18,0,90.0,0,358.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Adolfo Daniel Vallejo,Pedro Martinez,6-3 6-1,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,UNK,22,0,0,0,R,185.0,ESP,29,0,96.0,0,133.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Moez Echargui,Aleksandar Kovacevic,4-6 6-4 7-6,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,178.0,TUN,33,0,0,0,R,183.0,USA,28,0,144.0,0,97.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Diego Dedura,Luca Van Assche,6-3 6-2,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,UNK,18,0,0,0,R,178.0,FRA,22,0,304.0,0,98.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Yibing Wu,Manas Dhamne,6-1 7-5,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,CHN,27,0,0,0,R,188.0,IND,18,0,100.0,0,0.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Chris Rodesch,Rinky Hijikata,7-6 6-2,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,198.0,LUX,25,0,0,0,R,178.0,AUS,25,0,171.0,0,101.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Daniel Merida,Billy Harris,6-3 7-5,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,193.0,GBR,31,0,102.0,0,153.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Dusan Lajovic,Matteo Arnaldi,6-0 3-6 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,SRB,36,0,0,0,R,185.0,ITA,25,0,138.0,0,103.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Benjamin Bonzi,Darwin Blanch,6-3 7-6,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,185.0,USA,19,0,104.0,0,244.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Nicolai Budkov Kjaer,Francesco Maestrelli,6-4 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,188.0,NOR,20,0,0,0,R,196.0,ITA,24,0,140.0,0,112.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Titouan Droguet,Otto Virtanen,2-6 6-3 6-3,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,191.0,FRA,25,0,0,0,R,193.0,FIN,25,0,113.0,0,121.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Elmer Moller,Hugo Gaston,6-3 6-3,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,183.0,DEN,23,0,0,0,R,173.0,FRA,26,0,169.0,0,115.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Henrique Rocha,Jan Choinski,7-6 6-5 5-7 7-5,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,180.0,POR,22,0,0,0,R,196.0,GBR,30,0,118.0,0,119.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Nikoloz Basilashvili,Stefano Travaglia,7-6 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,185.0,ITA,35,0,120.0,0,141.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Zsombor Piros,Tomas Barrios Vera,6-3 7-5,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,180.0,HUN,27,0,0,0,R,191.0,CHI,29,0,148.0,0,123.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Vilius Gaubas,Arthur Gea,6-2 6-4,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,178.0,LTU,22,0,0,0,R,180.0,UNK,21,0,124.0,0,139.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Lloyd Harris,Mackenzie McDonald,6-4 6-2,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,193.0,RSA,29,0,0,0,R,185.0,UNK,25,0,155.0,0,500.0,0,8.5,0.78
-2026-madrid-25,madrid,Hard,20260420,Martin Damm,Andrea Pellegrino,6-0 7-6,1st Round Qualifying ,,2026-04-27,0,0,0,0,0,0,R,203.0,USA,0,0,0,0,R,185.0,ITA,29,0,126.0,0,130.0,0,8.5,0.78
+2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Andrey Rublev,6-2 7-6,Final ,,2026-04-28,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,RUS,29,0,25.0,0,12.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Andrey Rublev,Hamad Medjedovic,3-6 6-2 6-2,Semifinals ,,2026-04-28,0,0,0,0,0,0,R,188.0,RUS,29,0,0,0,R,188.0,SRB,23,0,12.0,0,68.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Rafael Jodar,3-6 6-3 6-2,Semifinals ,,2026-04-28,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,UNK,20,0,25.0,0,42.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Lorenzo Musetti,6-3 6-4,Quarterfinals ,,2026-04-28,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,185.0,ITA,24,0,25.0,0,9.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Andrey Rublev,Tomas Machac,6-4 6-3,Quarterfinals ,,2026-04-28,0,0,0,0,0,0,R,188.0,RUS,29,0,0,0,R,183.0,CZE,26,0,12.0,0,41.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Rafael Jodar,Cameron Norrie,6-3 6-2,Quarterfinals ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,188.0,GBR,31,0,42.0,0,23.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Nuno Borges,7-6 6-6,Quarterfinals ,,2026-04-28,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,185.0,POR,29,0,68.0,0,49.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Lorenzo Musetti,Corentin Moutet,6-3 6-4,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ITA,24,0,0,0,R,180.0,FRA,27,0,9.0,0,30.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Andrey Rublev,Lorenzo Sonego,6-2 6-3,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,188.0,RUS,29,0,0,0,R,191.0,ITA,31,0,12.0,0,62.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Brandon Nakashima,6-2 6-3,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,188.0,USA,25,0,25.0,0,32.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Alex de Minaur,6-3 6-4,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,185.0,UNK,25,0,68.0,0,150.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Cameron Norrie,Ethan Quinn,6-3 4-6 6-4,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,191.0,USA,22,0,23.0,0,48.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Nuno Borges,Tomas Martin Etcheverry,6-3 7-6,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,185.0,POR,29,0,0,0,R,196.0,ARG,27,0,49.0,0,29.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Rafael Jodar,Camilo Ugo Carabelli,6-3 6-3,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,185.0,ARG,27,0,42.0,0,57.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Tomas Machac,Carlos Alcaraz,,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,183.0,CZE,26,0,0,0,R,183.0,ESP,23,0,41.0,0,2.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Carlos Alcaraz,Otto Virtanen,6-4 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ESP,23,0,0,0,R,193.0,FIN,25,0,2.0,0,121.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Lorenzo Musetti,Martin Landaluce,7-5 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ITA,24,0,0,0,R,193.0,ESP,20,0,9.0,0,99.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Alex de Minaur,Sebastian Ofner,7-6 6-7,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,191.0,AUT,30,0,150.0,0,83.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Camilo Ugo Carabelli,Karen Khachanov,6-3 6-4,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ARG,27,0,0,0,R,198.0,RUS,30,0,57.0,0,16.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Andrey Rublev,Mariano Navone,6-4 7-5,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,188.0,RUS,29,0,0,0,R,178.0,ARG,25,0,12.0,0,45.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Arthur Fils,Terence Atmane,4-6 6-4 7-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,193.0,FRA,24,0,25.0,0,47.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Tomas Machac,Sebastian Baez,2-6 6-4 6-1,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,183.0,CZE,26,0,0,0,R,170.0,ARG,26,0,41.0,0,64.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Brandon Nakashima,Juan Manuel Cerundolo,6-3 7-5,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,188.0,USA,25,0,0,0,R,183.0,ARG,25,0,32.0,0,67.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Lorenzo Sonego,Pedro Martinez,6-2 2-6 6-4,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,191.0,ITA,31,0,0,0,R,185.0,ESP,29,0,62.0,0,133.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Cameron Norrie,Stan Wawrinka,6-4 6-7 5-4,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,183.0,SUI,41,0,23.0,0,106.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Tomas Martin Etcheverry,Jack Draper,3-6 6-3 4-1,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,196.0,ARG,27,0,0,0,R,193.0,GBR,25,0,29.0,0,28.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Nuno Borges,Adrian Mannarino,6-3 6-4,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,POR,29,0,0,0,R,180.0,FRA,38,0,49.0,0,46.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Rafael Jodar,Jaume Munar,6-1 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,183.0,ESP,29,0,42.0,0,38.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Marco Trungelliti,7-5 6-4,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,178.0,ARG,36,0,68.0,0,77.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Corentin Moutet,Ignacio Buse,6-4 6-4,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,180.0,FRA,27,0,0,0,R,185.0,PER,22,0,30.0,0,58.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Ethan Quinn,Reilly Opelka,7-5 7-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,191.0,USA,22,0,0,0,R,211.0,USA,29,0,48.0,0,70.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Ethan Quinn,Daniel Merida,6-3 6-1,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,191.0,USA,22,0,0,0,R,188.0,UNK,22,0,48.0,0,102.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Juan Manuel Cerundolo,Jesper de Jong,6-4 6-4,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,ARG,25,0,0,0,R,185.0,UNK,25,0,67.0,0,500.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Pedro Martinez,Marco Trungelliti,5-7 7-6 6-5,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,ESP,29,0,0,0,R,178.0,ARG,36,0,133.0,0,77.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Sebastian Ofner,Patrick Kypson,6-4 6-4,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,191.0,AUT,30,0,0,0,R,188.0,USA,27,0,83.0,0,90.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Quentin Halys,6-2 3-6 7-6,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,191.0,FRA,30,0,68.0,0,91.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Otto Virtanen,Alexandre Muller,6-4 6-4,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,193.0,FIN,25,0,0,0,R,183.0,FRA,29,0,121.0,0,95.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Ethan Quinn,Nikoloz Basilashvili,2-6 7-6 6-9,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,191.0,USA,22,0,0,0,R,185.0,GEO,34,0,48.0,0,120.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Juan Manuel Cerundolo,Giulio Zeppieri,6-1 7-5,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,ARG,25,0,0,0,R,183.0,ITA,25,0,67.0,0,165.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Marco Trungelliti,Nicolai Budkov Kjaer,6-4 4-6 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,178.0,ARG,36,0,0,0,R,188.0,NOR,20,0,77.0,0,140.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Sebastian Ofner,Alejo Sanchez Quilez,6-4 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,191.0,AUT,30,0,0,0,R,180.0,ESP,21,0,83.0,0,0.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Hamad Medjedovic,Vilius Gaubas,7-6 6-13,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,SRB,23,0,0,0,R,178.0,LTU,22,0,68.0,0,124.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Otto Virtanen,Aleksandar Vukic,6-3 6-7 7-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,193.0,FIN,25,0,0,0,R,188.0,AUS,30,0,121.0,0,89.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Alexandre Muller,Max Alcala Gurri,6-2 6-2,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,FRA,29,0,0,0,R,178.0,ESP,24,0,95.0,0,360.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Quentin Halys,Matteo Arnaldi,6-1 6-7 1-6 7-2,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,191.0,FRA,30,0,0,0,R,185.0,ITA,25,0,91.0,0,103.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Pedro Martinez,Pablo Carreno Busta,6-3 4-3,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,ESP,29,0,0,0,R,188.0,ESP,35,0,133.0,0,94.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Patrick Kypson,Arthur Gea,6-1 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,USA,27,0,0,0,R,180.0,UNK,21,0,90.0,0,139.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Daniel Merida,Francesco Maestrelli,7-5 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,196.0,ITA,24,0,102.0,0,112.0,0,5.2,0.5
+2026-barcelona-23,barcelona,Hard,20260413,Jesper de Jong,Benjamin Bonzi,6-4 6-1,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,183.0,FRA,30,0,500.0,0,104.0,0,5.2,0.5
+2026-munich-24,munich,Hard,20260413,Ben Shelton,Flavio Cobolli,6-2 7-5,Final ,,2026-04-28,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,183.0,ITA,24,0,6.0,0,13.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Flavio Cobolli,Alexander Zverev,6-3 6-3,Semifinals ,,2026-04-28,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,198.0,GER,29,0,13.0,0,3.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Ben Shelton,Alex Molcan,6-3 6-4,Semifinals ,,2026-04-28,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,178.0,SVK,29,0,6.0,0,107.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Alexander Zverev,Francisco Cerundolo,5-7 6-0 6-2,Quarterfinals ,,2026-04-28,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,185.0,ARG,28,0,3.0,0,20.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Ben Shelton,Joao Fonseca,6-3 3-6 6-3,Quarterfinals ,,2026-04-28,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,185.0,BRA,20,0,6.0,0,31.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Flavio Cobolli,Vit Kopriva,6-3 6-2,Quarterfinals ,,2026-04-28,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,178.0,CZE,29,0,13.0,0,66.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Alex Molcan,Denis Shapovalov,6-4 6-4,Quarterfinals ,,2026-04-28,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,185.0,CAN,27,0,107.0,0,35.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Alexander Zverev,Gabriel Diallo,6-1 6-2,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,203.0,CAN,25,0,3.0,0,36.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Francisco Cerundolo,Botic van de Zandschulp,6-3 6-0,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ARG,28,0,0,0,R,185.0,UNK,25,0,20.0,0,150.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Alex Molcan,Daniel Altmaier,6-4 7-6,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,188.0,GER,28,0,107.0,0,55.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Denis Shapovalov,Fabian Marozsan,7-6 6-4,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,185.0,CAN,27,0,0,0,R,193.0,HUN,27,0,35.0,0,50.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Ben Shelton,Alexander Blockx,6-4 7-6,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,191.0,BEL,21,0,6.0,0,69.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Flavio Cobolli,Zizou Bergs,6-2 6-3,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,185.0,BEL,27,0,13.0,0,44.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Vit Kopriva,Luciano Darderi,2-6 6-4 6-1,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,183.0,ITA,24,0,66.0,0,22.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Joao Fonseca,Arthur Rinderknech,6-3 6-2,Round of 16 ,,2026-04-28,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,196.0,FRA,31,0,31.0,0,26.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Alexander Zverev,Miomir Kecmanovic,6-3 3-6 7-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,183.0,SRB,27,0,3.0,0,65.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Alex Molcan,Alexander Bublik,6-4 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,196.0,KAZ,29,0,107.0,0,11.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Flavio Cobolli,Diego Dedura,6-4 7-5,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,185.0,UNK,18,0,13.0,0,304.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Luciano Darderi,Zhizhen Zhang,7-6 3-5 6-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,193.0,CHN,30,0,22.0,0,245.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Denis Shapovalov,Tallon Griekspoor,6-4 3-6 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,CAN,27,0,0,0,R,188.0,NED,30,0,35.0,0,33.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Daniel Altmaier,Marin Cilic,6-2 6-3,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,188.0,GER,28,0,0,0,R,198.0,CRO,38,0,55.0,0,51.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Zizou Bergs,Marko Topo,6-1 6-4,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,BEL,27,0,0,0,R,185.0,GER,23,0,44.0,0,250.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Joao Fonseca,Alejandro Tabilo,7-6 6-1,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,188.0,CHI,29,0,31.0,0,43.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Vit Kopriva,Justin Engel,6-3 5-7 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,188.0,UNK,19,0,66.0,0,186.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Fabian Marozsan,Stefanos Tsitsipas,3-6 7-6 6-5,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,193.0,HUN,27,0,0,0,R,193.0,GRE,28,0,50.0,0,80.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Ben Shelton,Emilio Nava,7-6 3-4 6-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,193.0,USA,24,0,0,0,R,185.0,USA,25,0,6.0,0,116.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Francisco Cerundolo,Sumit Nagal,6-2 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ARG,28,0,0,0,R,178.0,IND,29,0,20.0,0,277.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Arthur Rinderknech,Alex Michelsen,6-3 6-3,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,196.0,FRA,31,0,0,0,R,193.0,USA,22,0,26.0,0,37.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Alexander Blockx,Yannick Hanfmann,7-6 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,191.0,BEL,21,0,0,0,R,193.0,GER,35,0,69.0,0,60.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Gabriel Diallo,Vitaliy Sachko,6-1 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,203.0,CAN,25,0,0,0,R,188.0,UKR,29,0,36.0,0,191.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Botic van de Zandschulp,Marc-Andrea Huesler,7-6 6-7,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,185.0,UNK,25,0,150.0,0,0.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Alex Molcan,Emilio Nava,6-1 7-6,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,185.0,USA,25,0,107.0,0,116.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Diego Dedura,Sumit Nagal,6-7 8-3 6-3,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,18,0,0,0,R,178.0,IND,29,0,304.0,0,277.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Marc-Andrea Huesler,Marko Topo,6-0 6-1,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,185.0,GER,23,0,0.0,0,250.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Vitaliy Sachko,Max Hans Rehberg,6-2 7-6,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,UKR,29,0,0,0,R,183.0,GER,23,0,191.0,0,0.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Diego Dedura,Alexander Shevchenko,6-3 7-6,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,18,0,0,0,R,185.0,KAZ,26,0,304.0,0,82.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Vitaliy Sachko,Damir Dzumhur,7-5 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,UKR,29,0,0,0,R,175.0,BIH,34,0,191.0,0,84.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Emilio Nava,David Goffin,6-4 6-2,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,USA,25,0,0,0,R,180.0,BEL,36,0,116.0,0,236.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Marc-Andrea Huesler,Jan Choinski,6-4 4-6 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,196.0,GBR,30,0,0.0,0,119.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Marko Topo,Ugo Blanchet,6-3 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,GER,23,0,0,0,R,175.0,FRA,27,0,250.0,0,166.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Alex Molcan,Roberto Carballes Baena,0-6 6-3 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,178.0,SVK,29,0,0,0,R,183.0,ESP,33,0,107.0,0,204.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Max Hans Rehberg,Arthur Fery,6-2 7-6,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,GER,23,0,0,0,R,175.0,GBR,24,0,0.0,0,161.0,0,6.6,0.65
+2026-munich-24,munich,Hard,20260413,Sumit Nagal,Lorenzo Giustino,1-6 6-3,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,178.0,IND,29,0,0,0,R,180.0,ITA,35,0,277.0,0,209.0,0,6.6,0.65
+2026-madrid-25,madrid,Hard,20260420,Alexander Zverev,Terence Atmane,6-3 7-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,193.0,FRA,24,0,3.0,0,47.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Alexander Blockx,Felix Auger-Aliassime,7-6 6-3,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,191.0,BEL,21,0,0,0,R,185.0,UNK,25,0,69.0,0,150.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Daniil Medvedev,Nicolai Budkov Kjaer,6-3 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,188.0,NOR,20,0,10.0,0,140.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Flavio Cobolli,Adolfo Daniel Vallejo,6-3 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,183.0,UNK,22,0,13.0,0,96.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Casper Ruud,Alejandro Davidovich Fokina,6-3 6-1,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,183.0,NOR,28,0,0,0,R,183.0,ESP,27,0,15.0,0,24.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jakub Mensik,Karen Khachanov,6-4 7-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,193.0,CZE,21,0,0,0,R,198.0,RUS,30,0,27.0,0,16.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Francisco Cerundolo,Luciano Darderi,6-2 6-3,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ARG,28,0,0,0,R,183.0,ITA,24,0,20.0,0,22.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Stefanos Tsitsipas,Daniel Merida,6-4 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,193.0,GRE,28,0,0,0,R,188.0,UNK,22,0,80.0,0,102.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jannik Sinner,Elmer Moller,6-2 6-3,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,183.0,DEN,23,0,1.0,0,169.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Lorenzo Musetti,Tallon Griekspoor,6-4 7-5,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ITA,24,0,0,0,R,188.0,NED,30,0,9.0,0,33.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jiri Lehecka,Alex Michelsen,6-4 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,CZE,25,0,0,0,R,193.0,USA,22,0,14.0,0,37.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Cameron Norrie,Thiago Agustin Tirante,7-5 7-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,185.0,ARG,25,0,23.0,0,75.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Arthur Fils,Emilio Nava,7-6 6-2,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,185.0,USA,25,0,25.0,0,116.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Vit Kopriva,Arthur Rinderknech,6-4 3-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,196.0,FRA,31,0,66.0,0,26.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Tomas Martin Etcheverry,Dino Prizmic,2-6 6-4 6-3,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,196.0,ARG,27,0,0,0,R,188.0,CRO,21,0,29.0,0,87.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Rafael Jodar,Joao Fonseca,7-6 4-4 6-6,Round of 32 ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,185.0,BRA,20,0,42.0,0,31.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Alexander Zverev,Mariano Navone,6-1 3-6 6-3,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,198.0,GER,29,0,0,0,R,178.0,ARG,25,0,3.0,0,45.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Felix Auger-Aliassime,Vilius Gaubas,6-3 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,178.0,LTU,22,0,150.0,0,124.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Daniil Medvedev,Fabian Marozsan,6-2 6-7 3-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,193.0,HUN,27,0,10.0,0,50.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Stefanos Tsitsipas,Alexander Bublik,6-2 7-5,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,193.0,GRE,28,0,0,0,R,196.0,KAZ,29,0,80.0,0,11.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Flavio Cobolli,Camilo Ugo Carabelli,6-7 7-1 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,185.0,ARG,27,0,13.0,0,57.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Casper Ruud,Jaume Munar,6-0 6-1,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,183.0,NOR,28,0,0,0,R,183.0,ESP,29,0,15.0,0,38.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Karen Khachanov,Adam Walton,6-2 6-3,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,198.0,RUS,30,0,0,0,R,183.0,AUS,27,0,16.0,0,117.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Francisco Cerundolo,Yannick Hanfmann,6-1 7-5,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ARG,28,0,0,0,R,193.0,GER,35,0,20.0,0,60.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Adolfo Daniel Vallejo,Learner Tien,6-4 6-3,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,183.0,UNK,22,0,0,0,R,180.0,USA,21,0,96.0,0,21.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Luciano Darderi,Juan Manuel Cerundolo,6-1 6-3,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ITA,24,0,0,0,R,183.0,ARG,25,0,22.0,0,67.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Alejandro Davidovich Fokina,Pablo Carreno Busta,6-3 6-3,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ESP,27,0,0,0,R,188.0,ESP,35,0,24.0,0,94.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jakub Mensik,Martin Damm,6-3 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,193.0,CZE,21,0,0,0,R,203.0,USA,0,0,27.0,0,126.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Daniel Merida,Corentin Moutet,6-3 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,180.0,FRA,27,0,102.0,0,30.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Alexander Blockx,Brandon Nakashima,3-6 6-3 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,191.0,BEL,21,0,0,0,R,188.0,USA,25,0,69.0,0,32.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Terence Atmane,Ugo Humbert,7-6 7-3,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,193.0,FRA,24,0,0,0,R,188.0,FRA,28,0,47.0,0,34.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Nicolai Budkov Kjaer,Denis Shapovalov,6-2 6-1,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,188.0,NOR,20,0,0,0,R,185.0,CAN,27,0,140.0,0,35.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jannik Sinner,Benjamin Bonzi,6-7 6-1 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,191.0,ITA,25,0,0,0,R,183.0,FRA,30,0,1.0,0,104.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Dino Prizmic,Ben Shelton,6-4 6-7 4-6 7-5,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,193.0,USA,24,0,87.0,0,6.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Rafael Jodar,Alex de Minaur,6-3 6-1,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,185.0,UNK,25,0,42.0,0,150.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Lorenzo Musetti,Hubert Hurkacz,6-4 7-6,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ITA,24,0,0,0,R,196.0,POL,29,0,9.0,0,63.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Vit Kopriva,Andrey Rublev,6-3 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,188.0,RUS,29,0,66.0,0,12.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jiri Lehecka,Alejandro Tabilo,3-6 7-6 6-3,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,185.0,CZE,25,0,0,0,R,188.0,CHI,29,0,14.0,0,43.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Emilio Nava,Valentin Vacherot,6-7 5-6 7-1 6-3,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,185.0,USA,25,0,0,0,R,193.0,MON,28,0,116.0,0,17.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Thiago Agustin Tirante,Tommy Paul,7-5 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ARG,25,0,0,0,R,185.0,USA,29,0,75.0,0,18.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Cameron Norrie,Tomas Machac,6-2 6-7 6-6 7-5,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,188.0,GBR,31,0,0,0,R,183.0,CZE,26,0,23.0,0,41.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Arthur Fils,Ignacio Buse,6-7 4-6 7-3 7-5,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,185.0,FRA,22,0,0,0,R,185.0,PER,22,0,25.0,0,58.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Arthur Rinderknech,Dusan Lajovic,6-3 6-2,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,196.0,FRA,31,0,0,0,R,183.0,SRB,36,0,26.0,0,138.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Tomas Martin Etcheverry,Sebastian Ofner,6-4 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,196.0,ARG,27,0,0,0,R,191.0,AUT,30,0,29.0,0,83.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Joao Fonseca,Marin Cilic,,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,185.0,BRA,20,0,0,0,R,198.0,CRO,38,0,31.0,0,51.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Tallon Griekspoor,Damir Dzumhur,6-3 6-4,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,188.0,NED,30,0,0,0,R,175.0,BIH,34,0,33.0,0,84.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Elmer Moller,Gabriel Diallo,7-5 3-3,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,183.0,DEN,23,0,0,0,R,203.0,CAN,25,0,169.0,0,36.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Alex Michelsen,Jan-Lennard Struff,6-2 6-1,Round of 64 ,,2026-04-28,0,0,0,0,0,0,R,193.0,USA,22,0,0,0,R,185.0,UNK,25,0,37.0,0,150.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Terence Atmane,Miomir Kecmanovic,6-4 7-5,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,193.0,FRA,24,0,0,0,R,183.0,SRB,27,0,47.0,0,65.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Alexander Blockx,Cristian Garin,4-6 7-5 7-5,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,191.0,BEL,21,0,0,0,R,185.0,CHI,30,0,69.0,0,85.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Nicolai Budkov Kjaer,Reilly Opelka,5-3,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,188.0,NOR,20,0,0,0,R,211.0,USA,29,0,140.0,0,70.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Pablo Carreno Busta,Marton Fucsovics,4-6 7-6 6-5,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,188.0,ESP,35,0,0,0,R,188.0,HUN,34,0,94.0,0,54.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Juan Manuel Cerundolo,Daniel Altmaier,6-4 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ARG,25,0,0,0,R,188.0,GER,28,0,67.0,0,55.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Martin Damm,Alexei Popyrin,7-6 6-7,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,203.0,USA,0,0,0,0,R,196.0,AUS,27,0,126.0,0,56.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Vilius Gaubas,Sebastian Baez,7-5 6-1,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,178.0,LTU,22,0,0,0,R,170.0,ARG,26,0,124.0,0,64.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Yannick Hanfmann,Marcos Giron,6-4 6-7 3-5,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,193.0,GER,35,0,0,0,R,180.0,USA,33,0,60.0,0,76.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Fabian Marozsan,Ethan Quinn,7-6 7-5,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,193.0,HUN,27,0,0,0,R,191.0,USA,22,0,50.0,0,48.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Daniel Merida,Marco Trungelliti,6-4 1-6 7-6,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,178.0,ARG,36,0,102.0,0,77.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jaume Munar,Aleksandr Shevchenko,6-4 6-1,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,183.0,ESP,29,0,0,0,R,185.0,UNK,25,0,38.0,0,82.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Mariano Navone,Nuno Borges,6-3 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,178.0,ARG,25,0,0,0,R,185.0,POR,29,0,45.0,0,49.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Stefanos Tsitsipas,Patrick Kypson,3-6 7-6 7-6,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,193.0,GRE,28,0,0,0,R,188.0,USA,27,0,80.0,0,90.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Camilo Ugo Carabelli,Gael Monfils,6-3 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ARG,27,0,0,0,R,193.0,FRA,40,0,57.0,0,200.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Adolfo Daniel Vallejo,Grigor Dimitrov,6-4 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,183.0,UNK,22,0,0,0,R,191.0,BUL,35,0,96.0,0,137.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Adam Walton,Martin Landaluce,6-2 6-3,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,183.0,AUS,27,0,0,0,R,193.0,ESP,20,0,117.0,0,99.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Benjamin Bonzi,Titouan Droguet,6-7 4-6 7-4 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,191.0,FRA,25,0,104.0,0,113.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Ignacio Buse,Adrian Mannarino,6-4 6-2,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,185.0,PER,22,0,0,0,R,180.0,FRA,38,0,58.0,0,46.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Marin Cilic,Zizou Bergs,4-6 6-3 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,198.0,CRO,38,0,0,0,R,185.0,BEL,27,0,51.0,0,44.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Damir Dzumhur,Mattia Bellucci,6-2 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,175.0,BIH,34,0,0,0,R,175.0,ITA,25,0,84.0,0,78.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Hubert Hurkacz,Jaime Faria,6-3 6-3,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,196.0,POL,29,0,0,0,R,188.0,POR,23,0,63.0,0,136.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Rafael Jodar,Jesper de Jong,2-6 7-5 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,20,0,0,0,R,185.0,UNK,25,0,42.0,0,500.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Vit Kopriva,Zhizhen Zhang,6-2 6-0,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,178.0,CZE,29,0,0,0,R,193.0,CHN,30,0,66.0,0,245.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Dusan Lajovic,Lorenzo Sonego,6-3 7-6,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,183.0,SRB,36,0,0,0,R,191.0,ITA,31,0,138.0,0,62.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Tomas Machac,Francisco Comesana,3-6 7-6 6-3,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,183.0,CZE,26,0,0,0,R,178.0,ARG,26,0,41.0,0,105.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Elmer Moller,Federico Cina,6-4 7-6,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,183.0,DEN,23,0,0,0,R,183.0,UNK,19,0,169.0,0,205.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Emilio Nava,Jenson Brooksby,6-3 7-5,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,185.0,USA,25,0,0,0,R,193.0,USA,26,0,116.0,0,61.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Sebastian Ofner,Nikoloz Basilashvili,7-6 7-5,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,191.0,AUT,30,0,0,0,R,185.0,GEO,34,0,83.0,0,120.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Dino Prizmic,Matteo Berrettini,6-3 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,196.0,ITA,30,0,87.0,0,92.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jan-Lennard Struff,Alexandre Muller,7-6 6-3,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,25,0,0,0,R,183.0,FRA,29,0,150.0,0,95.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Alejandro Tabilo,Valentin Royer,6-2 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,188.0,CHI,29,0,0,0,R,188.0,UNK,25,0,43.0,0,72.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Thiago Agustin Tirante,Roberto Bautista Agut,6-2 6-4,Round of 128 ,,2026-04-28,0,0,0,0,0,0,R,185.0,ARG,25,0,0,0,R,183.0,ESP,38,0,75.0,0,93.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Daniel Merida,Marco Trungelliti,7-6 6-4,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,178.0,ARG,36,0,102.0,0,77.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Martin Damm,Cristian Garin,2-6 6-4 7-6,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,203.0,USA,0,0,0,0,R,185.0,CHI,30,0,126.0,0,85.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Dino Prizmic,Zsombor Piros,6-3 6-2,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,180.0,HUN,27,0,87.0,0,148.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Nikoloz Basilashvili,Patrick Kypson,6-7 2-6 7-3 6-4,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,188.0,USA,27,0,120.0,0,90.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Adolfo Daniel Vallejo,Henrique Rocha,6-1 4-6 6-2,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,UNK,22,0,0,0,R,180.0,POR,22,0,96.0,0,118.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Titouan Droguet,Yibing Wu,6-0 7-6,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,191.0,FRA,25,0,0,0,R,183.0,CHN,27,0,113.0,0,100.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Benjamin Bonzi,Diego Dedura,6-2 6-1,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,185.0,UNK,18,0,104.0,0,304.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Vilius Gaubas,Rei Sakamoto,7-6 6-5 5-7 7-6,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,178.0,LTU,22,0,0,0,R,193.0,UNK,20,0,124.0,0,159.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Nicolai Budkov Kjaer,Moez Echargui,6-1 6-0,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,NOR,20,0,0,0,R,178.0,TUN,33,0,140.0,0,144.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jaime Faria,Lloyd Harris,4-6 6-3,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,POR,23,0,0,0,R,193.0,RSA,29,0,136.0,0,155.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Dusan Lajovic,Chris Rodesch,6-4 6-4,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,SRB,36,0,0,0,R,198.0,LUX,25,0,138.0,0,171.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Elmer Moller,Pablo Llamas Ruiz,7-6 6-4,2nd Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,DEN,23,0,0,0,R,188.0,ESP,24,0,169.0,0,145.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Marco Trungelliti,Borna Gojo,6-4 6-3,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,178.0,ARG,36,0,0,0,R,196.0,CRO,28,0,77.0,0,150.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Cristian Garin,Ugo Blanchet,7-5 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,CHI,30,0,0,0,R,175.0,FRA,27,0,85.0,0,166.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Rei Sakamoto,Zachary Svajda,7-6 6-9,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,193.0,UNK,20,0,0,0,R,175.0,USA,24,0,159.0,0,88.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Dino Prizmic,Christopher O'Connell,7-6 6-9 5-7 7-6,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,CRO,21,0,0,0,R,183.0,UNK,32,0,87.0,0,143.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Pablo Llamas Ruiz,Aleksandar Vukic,6-4 6-2,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,ESP,24,0,0,0,R,188.0,AUS,30,0,145.0,0,89.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Jaime Faria,Quentin Halys,6-7 9-3 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,POR,23,0,0,0,R,191.0,FRA,30,0,136.0,0,91.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Patrick Kypson,Moise Kouame,6-2 6-2,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,USA,27,0,0,0,R,185.0,UNK,18,0,90.0,0,358.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Adolfo Daniel Vallejo,Pedro Martinez,6-3 6-1,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,UNK,22,0,0,0,R,185.0,ESP,29,0,96.0,0,133.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Moez Echargui,Aleksandar Kovacevic,4-6 6-4 7-6,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,178.0,TUN,33,0,0,0,R,183.0,USA,28,0,144.0,0,97.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Diego Dedura,Luca Van Assche,6-3 6-2,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,UNK,18,0,0,0,R,178.0,FRA,22,0,304.0,0,98.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Yibing Wu,Manas Dhamne,6-1 7-5,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,CHN,27,0,0,0,R,188.0,IND,18,0,100.0,0,0.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Chris Rodesch,Rinky Hijikata,7-6 6-2,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,198.0,LUX,25,0,0,0,R,178.0,AUS,25,0,171.0,0,101.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Daniel Merida,Billy Harris,6-3 7-5,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,UNK,22,0,0,0,R,193.0,GBR,31,0,102.0,0,153.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Dusan Lajovic,Matteo Arnaldi,6-0 3-6 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,SRB,36,0,0,0,R,185.0,ITA,25,0,138.0,0,103.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Benjamin Bonzi,Darwin Blanch,6-3 7-6,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,FRA,30,0,0,0,R,185.0,USA,19,0,104.0,0,244.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Nicolai Budkov Kjaer,Francesco Maestrelli,6-4 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,188.0,NOR,20,0,0,0,R,196.0,ITA,24,0,140.0,0,112.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Titouan Droguet,Otto Virtanen,2-6 6-3 6-3,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,191.0,FRA,25,0,0,0,R,193.0,FIN,25,0,113.0,0,121.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Elmer Moller,Hugo Gaston,6-3 6-3,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,183.0,DEN,23,0,0,0,R,173.0,FRA,26,0,169.0,0,115.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Henrique Rocha,Jan Choinski,7-6 6-5 5-7 7-5,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,180.0,POR,22,0,0,0,R,196.0,GBR,30,0,118.0,0,119.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Nikoloz Basilashvili,Stefano Travaglia,7-6 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,185.0,GEO,34,0,0,0,R,185.0,ITA,35,0,120.0,0,141.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Zsombor Piros,Tomas Barrios Vera,6-3 7-5,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,180.0,HUN,27,0,0,0,R,191.0,CHI,29,0,148.0,0,123.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Vilius Gaubas,Arthur Gea,6-2 6-4,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,178.0,LTU,22,0,0,0,R,180.0,UNK,21,0,124.0,0,139.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Lloyd Harris,Mackenzie McDonald,6-4 6-2,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,193.0,RSA,29,0,0,0,R,185.0,UNK,25,0,155.0,0,500.0,0,8.5,0.78
+2026-madrid-25,madrid,Hard,20260420,Martin Damm,Andrea Pellegrino,6-0 7-6,1st Round Qualifying ,,2026-04-28,0,0,0,0,0,0,R,203.0,USA,0,0,0,0,R,185.0,ITA,29,0,126.0,0,130.0,0,8.5,0.78
