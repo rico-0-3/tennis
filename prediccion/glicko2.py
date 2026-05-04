@@ -24,7 +24,7 @@ def _E(mu: float, mu_j: float, phi_j: float) -> float:
 
 def _to_scale(r: float, rd: float):
     """Converte da scala Glicko-1 (r, RD) a scala Glicko-2 (mu, phi)."""
-    return (r - 1500.0) / GLICKO_SCALE, rd / GLICKO_SCALE
+    return (r - GLICKO_MU_0) / GLICKO_SCALE, rd / GLICKO_SCALE
 
 
 def _from_scale(mu: float, phi: float):
@@ -48,7 +48,7 @@ def update(
     # Aggiornamento vincitore (outcome = 1.0)
     g_l  = _g(phi_l)
     e_w  = _E(mu_w, mu_l, phi_l)
-    v_w  = 1.0 / (g_l**2 * e_w * (1.0 - e_w))
+    v_w  = 1.0 / (g_l**2 * max(1e-10, e_w * (1.0 - e_w)))
     phi_star_w = math.sqrt(phi_w**2 + winner_sigma**2)
     phi_w_new  = 1.0 / math.sqrt(1.0 / phi_star_w**2 + 1.0 / v_w)
     mu_w_new   = mu_w + phi_w_new**2 * g_l * (1.0 - e_w)
@@ -57,12 +57,13 @@ def update(
     # Aggiornamento perdente (outcome = 0.0)
     g_w  = _g(phi_w)
     e_l  = _E(mu_l, mu_w, phi_w)
-    v_l  = 1.0 / (g_w**2 * e_l * (1.0 - e_l))
+    v_l  = 1.0 / (g_w**2 * max(1e-10, e_l * (1.0 - e_l)))
     phi_star_l = math.sqrt(phi_l**2 + loser_sigma**2)
     phi_l_new  = 1.0 / math.sqrt(1.0 / phi_star_l**2 + 1.0 / v_l)
     mu_l_new   = mu_l + phi_l_new**2 * g_w * (0.0 - e_l)
     r_l_new, rd_l_new = _from_scale(mu_l_new, phi_l_new)
 
+    # sigma (volatility) returned unchanged — Step 5 of Glicko-2 omitted; fixed volatility assumed
     return (r_w_new, rd_w_new, winner_sigma), (r_l_new, rd_l_new, loser_sigma)
 
 
