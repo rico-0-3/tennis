@@ -48,7 +48,7 @@ def is_atp_main(filename: str) -> bool:
     """True se è un file ATP tour principale (no challenger, no special)."""
     name = filename.lower()
     return (
-        name[0].isdigit()
+        name[:1].isdigit()
         and "_challenger" not in name
         and "amateur" not in name
         and "ongoing" not in name
@@ -80,7 +80,10 @@ def get_remote_files() -> dict:
     resp = requests.get(API_URL, timeout=30)
     resp.raise_for_status()
     data = resp.json()
-    return {f["name"]: f for f in data["files"]}
+    files = data.get("files")
+    if not isinstance(files, list):
+        raise ValueError(f"API TML risposta inattesa: {data}")
+    return {f["name"]: f for f in files}
 
 
 def download_file(filename: str) -> None:
@@ -149,6 +152,11 @@ def build_master_dataset(min_year: int = FIRST_YEAR_WITH_STATS) -> pd.DataFrame:
             dfs.append(df)
         except Exception as e:
             print(f"  Errore leggendo {path.name}: {e}")
+
+    if not dfs:
+        raise FileNotFoundError(
+            "Nessun CSV leggibile trovato in scraping/. Controlla i file scaricati."
+        )
 
     master = pd.concat(dfs, ignore_index=True)
     master["tourney_date"] = pd.to_numeric(master["tourney_date"], errors="coerce")
