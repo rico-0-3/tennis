@@ -852,16 +852,16 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
 
             model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs)
             model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
-            acc_v, _ = valuta(model, X_val_sc, y_val_np)
+            _, ll_v = valuta(model, X_val_sc, y_val_np)
             trial.set_user_attr('model', model)
             trial.set_user_attr('hl', hl)
             trial.set_user_attr('hp', {'hidden_layers': hl, 'dropout': dr, 'lr': lr,
                                        'batch_size': bs, 'epochs': ep, 'lambda_decay': lam,
                                        'label_smoothing': sm, 'interaction_set': iset,
                                        'interaction_pairs': i_pairs, 'n_interactions': n_inter})
-            return acc_v
+            return ll_v
 
-        study = optuna.create_study(direction='maximize',
+        study = optuna.create_study(direction='minimize',
                                     sampler=optuna.samplers.TPESampler(seed=SEED))
         study.optimize(objective, n_trials=n_trials,
                        callbacks=[lambda s, t: print(
@@ -942,7 +942,7 @@ def train_lgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
     y_val_np  = y_val.values if hasattr(y_val,  'values') else np.array(y_val)
     y_test_np = y_test.values if hasattr(y_test,'values') else np.array(y_test)
 
-    best_model = [None]; best_acc = [0.0]
+    best_model = [None]; best_acc = [float('inf')]
 
     def objective(trial):
         params = {
@@ -963,15 +963,15 @@ def train_lgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
                   eval_set=[(X_val, y_val_np)],
                   callbacks=[lgb.early_stopping(50, verbose=False), lgb.log_evaluation(period=0)])
         probs = model.predict_proba(X_val)[:, 1]
-        acc  = accuracy_score(y_val_np, (probs >= 0.5).astype(int))
-        if acc > best_acc[0]: best_acc[0] = acc; best_model[0] = model
-        return acc
+        ll = log_loss(y_val_np, probs)
+        if ll < best_acc[0]: best_acc[0] = ll; best_model[0] = model
+        return ll
 
     if HAS_OPTUNA:
-        study = optuna.create_study(direction='maximize', sampler=optuna.samplers.TPESampler(seed=SEED))
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=SEED))
         study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
         model = best_model[0]
-        print(f"   LightGBM best val: {best_acc[0]:.4f}")
+        print(f"   LightGBM best val log-loss: {best_acc[0]:.4f}")
     else:
         model = lgb.LGBMClassifier(n_estimators=500, learning_rate=0.05, max_depth=6, seed=SEED)
         model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr, eval_set=[(X_val, y_val_np)],
@@ -1007,7 +1007,7 @@ def train_xgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
     y_val_np  = y_val.values if hasattr(y_val,  'values') else np.array(y_val)
     y_test_np = y_test.values if hasattr(y_test,'values') else np.array(y_test)
 
-    best_model = [None]; best_acc = [0.0]
+    best_model = [None]; best_acc = [float('inf')]
 
     def objective(trial):
         params = {
@@ -1027,15 +1027,15 @@ def train_xgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
         model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr,
                   eval_set=[(X_val, y_val_np)], verbose=False)
         probs = model.predict_proba(X_val)[:, 1]
-        acc   = accuracy_score(y_val_np, (probs >= 0.5).astype(int))
-        if acc > best_acc[0]: best_acc[0] = acc; best_model[0] = model
-        return acc
+        ll   = log_loss(y_val_np, probs)
+        if ll < best_acc[0]: best_acc[0] = ll; best_model[0] = model
+        return ll
 
     if HAS_OPTUNA:
-        study = optuna.create_study(direction='maximize', sampler=optuna.samplers.TPESampler(seed=SEED))
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=SEED))
         study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
         model = best_model[0]
-        print(f"   XGBoost best val: {best_acc[0]:.4f}")
+        print(f"   XGBoost best val log-loss: {best_acc[0]:.4f}")
     else:
         model = xgb_lib.XGBClassifier(n_estimators=500, learning_rate=0.05, max_depth=6, seed=SEED)
         model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr,
@@ -1046,6 +1046,52 @@ def train_xgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
     ll  = log_loss(y_test_np, y_pred)
     print(f"   XGBoost test: acc={acc:.4f} | log_loss={ll:.4f}")
     return model, acc, ll
+
+
+
+def train_lgb_surface_specific(X_tr_df, y_tr, X_val_df, y_val,
+                                X_test_df, y_test,
+                                sample_weights_tr=None, n_trials=None):
+    """Allena un LightGBM separato per Hard, Clay, Grass."""
+    if not HAS_LGB:
+        print("   LightGBM non disponibile, skip surface models")
+        return {}, {}
+    if n_trials is None:
+        n_trials = TRIALS_GBM
+
+    SURFACES = {0: 'Hard', 1: 'Clay', 2: 'Grass'}
+    models = {}
+    accs   = {}
+
+    for surf_enc, surf_name in SURFACES.items():
+        mask_tr   = X_tr_df['surface_enc'] == surf_enc
+        mask_val  = X_val_df['surface_enc'] == surf_enc
+        mask_test = X_test_df['surface_enc'] == surf_enc
+
+        n_tr = mask_tr.sum()
+        if n_tr < 200:
+            print(f"   {surf_name}: solo {n_tr} esempi train — skip")
+            continue
+
+        X_tr_s  = X_tr_df[mask_tr][FEATURES].fillna(0).values
+        y_tr_s  = y_tr[mask_tr].values if hasattr(y_tr[mask_tr], 'values') else y_tr[mask_tr]
+        X_val_s = X_val_df[mask_val][FEATURES].fillna(0).values
+        y_val_s = y_val[mask_val].values if hasattr(y_val[mask_val], 'values') else y_val[mask_val]
+        X_te_s  = X_test_df[mask_test][FEATURES].fillna(0).values
+        y_te_s  = y_test[mask_test].values if hasattr(y_test[mask_test], 'values') else y_test[mask_test]
+        w_s     = sample_weights_tr[mask_tr] if sample_weights_tr is not None else None
+
+        print(f"\n  LGB Surface: {surf_name} ({n_tr:,} train | {mask_val.sum():,} val)")
+        model, acc, ll = train_lgb_optuna(
+            X_tr_s, y_tr_s, X_val_s, y_val_s, X_te_s, y_te_s,
+            sample_weights_tr=w_s, n_trials=n_trials
+        )
+        if model is not None:
+            models[surf_name] = model
+            accs[surf_name]   = acc
+            print(f"    -> {surf_name}: acc={acc:.4f} | log_loss={ll:.4f}")
+
+    return models, accs
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1243,6 +1289,33 @@ if __name__ == '__main__':
     y_val_np  = y_val.values  if hasattr(y_val,  'values') else np.array(y_val)
     y_test_np = y_test.values if hasattr(y_test, 'values') else np.array(y_test)
 
+    # ── Surface-specific LGB ──────────────────────────────────────────────────
+    print("\n🌍 Training LGB Surface-Specific (Hard / Clay / Grass)...")
+    surf_lgb_models, surf_lgb_accs = train_lgb_surface_specific(
+        df_tr, y_tr, df_val, y_val, df_test, y_test,
+        sample_weights_tr=combined_weights, n_trials=TRIALS_GBM
+    )
+
+    # Calcola accuracy ensemble surface LGB sul test set
+    if surf_lgb_models:
+        surf_map_enc = {'Hard': 0, 'Clay': 1, 'Grass': 2}
+        surf_preds = np.full(len(y_test_np), 0.5)
+        for sname, smodel in surf_lgb_models.items():
+            smask = df_test['surface_enc'] == surf_map_enc[sname]
+            if smask.sum() > 0:
+                surf_preds[smask.values] = smodel.predict_proba(
+                    df_test[smask][FEATURES].fillna(0).values
+                )[:, 1]
+        if lgb_model is not None:
+            no_surf = ~df_test['surface_enc'].isin([0, 1, 2]).values
+            if no_surf.sum() > 0:
+                surf_preds[no_surf] = lgb_model.predict_proba(X_te_sc[no_surf])[:, 1]
+        surf_acc = accuracy_score(y_test_np, (surf_preds >= 0.5).astype(int))
+        surf_ll  = log_loss(y_test_np, surf_preds)
+        print(f"\n   LGB Surface ensemble: acc={surf_acc:.4f} | log_loss={surf_ll:.4f}")
+    else:
+        surf_acc, surf_ll = 0.0, float('inf')
+
     best_ann = best['_model']
     ann_probs_val  = get_ann_probs(best_ann, X_val_sc)
     ann_probs_test = get_ann_probs(best_ann, X_te_sc)
@@ -1263,15 +1336,14 @@ if __name__ == '__main__':
     ]
     print(f"   → {len(top5_for_uncertainty)} modelli salvati per uncertainty estimation")
 
-    # ── Calibrazione isotonica su test set ────────────────────────────────────
-    # Fittiamo su top5_ann_probs_test (le migliori probabilità disponibili)
-    # Il test set è l'ultimo 15% per data → nessun leakage
+    # ── Calibrazione isotonica su VALIDATION SET (fix: no leakage su test) ────
     from sklearn.isotonic import IsotonicRegression
     from sklearn.calibration import calibration_curve as sk_calibration_curve
 
+    raw_probs_val  = np.mean([get_ann_probs(r['_model'], X_val_sc) for r in risultati[:5]], axis=0).flatten()
     raw_probs_test = top5_ann_probs_test.flatten()
     calibrator = IsotonicRegression(out_of_bounds='clip')
-    calibrator.fit(raw_probs_test, y_test_np)
+    calibrator.fit(raw_probs_val, y_val_np)
     calibrated_probs_test = calibrator.predict(raw_probs_test)
     ll_calibrated = log_loss(y_test_np, calibrated_probs_test)
     acc_calibrated = accuracy_score(y_test_np, (calibrated_probs_test >= 0.5).astype(int))
@@ -1348,6 +1420,9 @@ if __name__ == '__main__':
     if xgb_model:
         results_list.append({'Modello': 'XGBoost',  'Accuracy': xgb_acc, 'Log Loss': xgb_ll,
                               'Note': f'Optuna {TRIALS_GBM} trials', '_strategy': 'xgb'})
+    if surf_lgb_models:
+        results_list.append({'Modello': 'LGB Surface', 'Accuracy': surf_acc, 'Log Loss': surf_ll,
+                              'Note': 'LGB Hard/Clay/Grass routing', '_strategy': 'lgb_surface'})
 
     for r in results_list:
         r['_score'] = r['Accuracy'] - r['Log Loss']
@@ -1420,7 +1495,7 @@ if __name__ == '__main__':
     model_final, _ = train_model(model_final, ldr_tr_fin, ldr_val_fin, epochs=ep, lr=lr, smoothing=sm)
 
     # Re-train GBM se la strategia vincente li richiede
-    needs_gbm  = best_strategy in ('lgb', 'xgb', 'ensemble_avg', 'ensemble_avg_top5', 'ensemble_stacking')
+    needs_gbm  = best_strategy in ('lgb', 'lgb_surface', 'xgb', 'ensemble_avg', 'ensemble_avg_top5', 'ensemble_stacking')
     needs_top5 = best_strategy in ('ann_top5', 'ensemble_avg_top5')
 
     X_all_sc = scaler_final.transform(X_all)
@@ -1472,10 +1547,26 @@ if __name__ == '__main__':
         'calibrator':           calibrator,
         'calibration_curve':    calibration_curve_data,
         'ann_top5_uncertainty': top5_for_uncertainty,
+        'lgb_surface_models':   {},
     }
     if best_strategy == 'ann_top5':
         modelo_finale['ann_top5'] = [{'state_dict': sd, 'config': c}
                                      for sd, c in zip(top5_state_dicts, top5_configs)]
+    elif best_strategy == 'lgb_surface':
+        print("   Re-training LGB Surface models su tutti i dati...")
+        surf_final_models = {}
+        for sname, sm_model in surf_lgb_models.items():
+            senc = {'Hard': 0, 'Clay': 1, 'Grass': 2}[sname]
+            mask_all_s = df_ml['surface_enc'] == senc
+            if mask_all_s.sum() > 0:
+                X_all_s = X_all_sc[mask_all_s.values]
+                y_all_s = y_all_np[mask_all_s.values]
+                w_all_s = all_weights[mask_all_s.values]
+                m_s = lgb.LGBMClassifier(**sm_model.get_params())
+                m_s.fit(X_all_s, y_all_s, sample_weight=w_all_s)
+                surf_final_models[sname] = m_s
+        modelo_finale['lgb_surface_models'] = surf_final_models
+        modelo_finale['lgb_model'] = lgb_final
     elif best_strategy == 'lgb':
         modelo_finale['lgb_model'] = lgb_final
     elif best_strategy == 'xgb':
