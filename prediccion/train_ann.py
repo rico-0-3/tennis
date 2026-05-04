@@ -35,17 +35,8 @@ import joblib
 import torch
 import torch.nn as nn
 
-# ── Court Speed helper ────────────────────────────────────────────────────────
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scraping'))
-try:
-    from court_speed_helper import get_court_stats
-    HAS_COURT_SPEED = True
-    print("   ✅ court_speed_helper caricato")
-except ImportError:
-    HAS_COURT_SPEED = False
-    print("   ⚠️  court_speed_helper non trovato — court_ace_pct / court_speed = 0")
-    def get_court_stats(name, surface='Hard', year=2025):
-        return 0.0, 0.0
+from glicko2 import Glicko2Store
 
 from torch.utils.data import DataLoader, TensorDataset, WeightedRandomSampler
 from sklearn.preprocessing import StandardScaler
@@ -157,8 +148,6 @@ def carica_e_prepara(csv_path: str):
     h2h_surf_t        = {}   # {(p1, p2, surf): [wins_p1, wins_p2]}
     serve_t           = {}   # {player: {stat: [rolling]}}
     return_t          = {}   # {player: {stat: [rolling]}}
-    elo_surf          = {}   # {(player, surf): float}
-    elo_overall       = {}   # {player: float}
     streak_t          = {}   # {player: int}
     recent_form_t     = {}   # {player: [last 10 results]}
     last_match_date_t = {}   # {player: int YYYYMMDD}
@@ -169,12 +158,13 @@ def carica_e_prepara(csv_path: str):
     late_round_t      = {}   # {player: [results in QF/SF/F]}
     match_load_t      = {}   # {player: [match days, rolling]}
 
-    ELO_DEFAULT = 1500.0
-    K_BASE      = 32.0
-    K_LEVEL_ELO = {'G': 1.25, 'M': 1.15, 'F': 1.1, 'A': 1.0,
-                   'D': 0.95, 'C': 0.9,  'S': 0.85, 'E': 0.8}
+    # Glicko-2: uno store per ogni superficie + overall
+    g2_hard  = Glicko2Store()
+    g2_clay  = Glicko2Store()
+    g2_grass = Glicko2Store()
+    g2_gen   = Glicko2Store()
 
-    def get_elo(p, s): return elo_surf.get((p, s), ELO_DEFAULT)
+    SURF_STORE = {'Hard': g2_hard, 'Clay': g2_clay, 'Grass': g2_grass}
 
     def _date_to_days(d):
         y, rest = divmod(int(d), 10000)
@@ -276,15 +266,16 @@ def carica_e_prepara(csv_path: str):
         wload_l = _weeks_load(l, td_days)
         # (aggiornamento dopo lettura)
 
-        # --- Elo superficie (PRIMA dell'aggiornamento) ---
-        elo_w    = get_elo(w, surf);     elo_l    = get_elo(l, surf)
-        elo_ov_w = elo_overall.get(w, ELO_DEFAULT)
-        elo_ov_l = elo_overall.get(l, ELO_DEFAULT)
-        expected_w  = 1.0 / (1.0 + 10.0 ** ((elo_l - elo_w) / 400.0))
-        expected_ov = 1.0 / (1.0 + 10.0 ** ((elo_ov_l - elo_ov_w) / 400.0))
-        level_code  = str(row.get('tourney_level', 'A'))
-        k_dynamic   = K_BASE * K_LEVEL_ELO.get(level_code, 1.0)
+        # --- Glicko-2 superficie (PRIMA dell'aggiornamento, no leakage) ---
+        store_s = SURF_STORE.get(surf, g2_gen)
+        g2_r_w,  g2_rd_w,  _ = store_s.get(w)
+        g2_r_l,  g2_rd_l,  _ = store_s.get(l)
+        g2_ov_w, g2_ov_rd_w, _ = g2_gen.get(w)
+        g2_ov_l, g2_ov_rd_l, _ = g2_gen.get(l)
         # (aggiornamento dopo lettura)
+
+        # --- Indoor ---
+        indoor_val = 0.0 if str(row.get('indoor', 'O')).upper() in ('O', '', 'NAN') else 1.0
 
         # --- Recent form + Form Volatility ---
         rf_w = recent_form_t.get(w, [])
@@ -367,53 +358,45 @@ def carica_e_prepara(csv_path: str):
         oq_l = _oq_score(oq_hist_l, rk_l)
         # (aggiornamento dopo lettura)
 
-        # --- Court speed ---
-        tourney_year = int(str(row['tourney_date'])[:4]) if pd.notna(row.get('tourney_date')) else 2025
-        surf_safe    = surf if isinstance(surf, str) else 'Hard'
-        court_ace, court_spd = get_court_stats(row.get('tourney_name', ''), surf_safe, tourney_year)
-
-        # ── Costruzione vettore feature ──────────────────────────────────────
+        # ── Costruzione vettore feature v6 (32 feature) ──────────────────────
         diffs = {
-            'log_rank_ratio':        np.log1p(rk_l)  - np.log1p(rk_w),
-            'log_pts_ratio':         np.log1p(pts_w) - np.log1p(pts_l),
-            'diff_elo':              elo_w   - elo_l,
-            'diff_elo_overall':      elo_ov_w - elo_ov_l,
+            'log_rank_ratio':        np.log1p(rk_l)    - np.log1p(rk_w),
+            'log_pts_ratio':         np.log1p(pts_w)   - np.log1p(pts_l),
+            'diff_glicko':           g2_r_w    - g2_r_l,
+            'diff_glicko_overall':   g2_ov_w   - g2_ov_l,
+            'diff_glicko_rd':        g2_rd_w   - g2_rd_l,
             'diff_streak':           float(str_w - str_l),
-            'diff_recent_form':      form_w  - form_l,
-            'diff_form_volatility':  fvol_w  - fvol_l,       # NEW v5
+            'diff_recent_form':      form_w    - form_l,
             'surface_enc':           float(row['surface_enc']),
             'tourney_level':         float(row['tourney_level_enc']),
             'round_enc':             float(row['round_enc']),
             'is_best_of_5':          is_bo5,
-            'diff_h2h':              h2h_w   - h2h_l,
-            'diff_h2h_surface':      h2h_s_w - h2h_s_l,
-            'diff_skill':            sk_w    - sk_l,
-            'diff_momentum':         mw      - ml,
-            'diff_surface_trend':    st_w    - st_l,          # NEW v5
-            'diff_fatigue':          f_w     - f_l,
+            'indoor':                indoor_val,
+            'diff_h2h':              h2h_w     - h2h_l,
+            'diff_h2h_surface':      h2h_s_w   - h2h_s_l,
+            'diff_skill':            sk_w      - sk_l,
+            'diff_momentum':         mw        - ml,
+            'diff_fatigue':          f_w       - f_l,
             'diff_days_since_last':  days_since_w - days_since_l,
-            'diff_weeks_load':       wload_w - wload_l,       # NEW v5
-            'diff_ace':              sa_w['ace']      - sa_l['ace'],
-            'diff_1st_pct':          sa_w['1st_pct']  - sa_l['1st_pct'],
-            'diff_1st_won':          sa_w['1st_won']  - sa_l['1st_won'],
-            'diff_2nd_won':          sa_w['2nd_won']  - sa_l['2nd_won'],
-            'diff_bp_saved':         sa_w['bp_saved'] - sa_l['bp_saved'],
+            'diff_weeks_load':       wload_w   - wload_l,
+            'diff_ace':              sa_w['ace']        - sa_l['ace'],
+            'diff_1st_pct':          sa_w['1st_pct']    - sa_l['1st_pct'],
+            'diff_1st_won':          sa_w['1st_won']    - sa_l['1st_won'],
+            'diff_2nd_won':          sa_w['2nd_won']    - sa_l['2nd_won'],
+            'diff_bp_saved':         sa_w['bp_saved']   - sa_l['bp_saved'],
             'diff_return_pct':       ra_w['return_pct'] - ra_l['return_pct'],
             'diff_bp_conv':          ra_w['bp_conv']    - ra_l['bp_conv'],
             'diff_return_1st':       ra_w['return_1st'] - ra_l['return_1st'],
-            'diff_home':             home_w  - home_l,
-            'diff_opponent_quality': oq_w    - oq_l,
-            'diff_close_match_pct':  cmp_w   - cmp_l,         # NEW v5
-            'diff_upset_tendency':   up_w    - up_l,           # NEW v5
-            'diff_late_round_wr':    lrwr_w  - lrwr_l,         # NEW v5
-            'court_ace_pct':         court_ace,
-            'court_speed':           court_spd,
+            'diff_home':             home_w    - home_l,
+            'diff_opponent_quality': oq_w      - oq_l,
+            'diff_upset_tendency':   up_w      - up_l,
+            'diff_late_round_wr':    lrwr_w    - lrwr_l,
             'level_weight':          lev_w,
         }
 
         # Chiavi simmetriche: non si negano per d0
         _SYMM_KEYS = ('surface_enc', 'tourney_level', 'round_enc', 'is_best_of_5',
-                      'level_weight', 'court_ace_pct', 'court_speed')
+                      'indoor', 'level_weight')
 
         d1 = diffs.copy()
         d1['target']      = 1
@@ -456,10 +439,9 @@ def carica_e_prepara(csv_path: str):
         ml_l = match_load_t.setdefault(l, []); ml_l.append(td_days)
         if len(ml_l) > 80: ml_l.pop(0)
 
-        elo_surf[(w, surf)] = elo_w + k_dynamic * (1.0 - expected_w)
-        elo_surf[(l, surf)] = elo_l + k_dynamic * (0.0 - (1.0 - expected_w))
-        elo_overall[w]      = elo_ov_w + k_dynamic * (1.0 - expected_ov)
-        elo_overall[l]      = elo_ov_l + k_dynamic * (0.0 - (1.0 - expected_ov))
+        # Aggiorna Glicko-2 superficie e overall (post-match, no leakage)
+        store_s.update_match(w, l)
+        g2_gen.update_match(w, l)
 
         rf_w.append(1.0); rf_l.append(0.0)
         if len(rf_w) > 10: rf_w.pop(0)
@@ -489,18 +471,24 @@ def carica_e_prepara(csv_path: str):
         opp_quality_t[l] = (oq_hist_l + [(0, rk_w)])[-5:]
 
         # Serve / Return stats
-        def upd_serve(player, rd, pref):
-            s = serve_t.setdefault(player, {})
-            svpt = rd.get(f'{pref}_svpt', np.nan); fi = rd.get(f'{pref}_1stIn', np.nan)
-            fw   = rd.get(f'{pref}_1stWon', np.nan); sw = rd.get(f'{pref}_2ndWon', np.nan)
-            bps  = rd.get(f'{pref}_bpSaved', np.nan); bpf = rd.get(f'{pref}_bpFaced', np.nan)
+        def upd_serve(player, rd_row, pref):
+            svpt = rd_row.get(f'{pref}_svpt', np.nan)
+            if not svpt or pd.isna(svpt) or float(svpt) <= 0:
+                return
+            s    = serve_t.setdefault(player, {})
+            fi   = rd_row.get(f'{pref}_1stIn', np.nan)
+            fw   = rd_row.get(f'{pref}_1stWon', np.nan)
+            sw   = rd_row.get(f'{pref}_2ndWon', np.nan)
+            bps  = rd_row.get(f'{pref}_bpSaved', np.nan)
+            bpf  = rd_row.get(f'{pref}_bpFaced', np.nan)
+            svpt_f = float(svpt)
             for k2, v in [
-                    ('ace',     rd.get(f'{pref}_ace', np.nan)),
-                    ('1st_pct', fi/svpt if svpt and svpt > 0 else np.nan),
-                    ('1st_won', fw/fi   if fi and fi > 0 else np.nan),
-                    ('2nd_won', sw/(svpt-fi) if svpt and fi and (svpt-fi) > 0 else np.nan),
-                    ('bp_saved', bps/bpf if bpf and bpf > 0 else np.nan)]:
-                if not (isinstance(v, float) and np.isnan(v)):
+                    ('ace',      rd_row.get(f'{pref}_ace', np.nan)),
+                    ('1st_pct',  float(fi)/svpt_f if fi and not pd.isna(fi) else np.nan),
+                    ('1st_won',  float(fw)/float(fi) if fi and float(fi) > 0 and not pd.isna(fw) else np.nan),
+                    ('2nd_won',  float(sw)/(svpt_f - float(fi)) if fi and (svpt_f - float(fi)) > 0 and not pd.isna(sw) else np.nan),
+                    ('bp_saved', float(bps)/float(bpf) if bpf and float(bpf) > 0 and not pd.isna(bps) else np.nan)]:
+                if v is not np.nan and not (isinstance(v, float) and np.isnan(v)):
                     lst = s.setdefault(k2, []); lst.append(float(v))
                     if len(lst) > 10: lst.pop(0)
 
@@ -541,8 +529,13 @@ def carica_e_prepara(csv_path: str):
     # ── Salva stati per predictor ────────────────────────────────────────────
     wrate_final = {k: v[0]/v[1] if v[1] >= 5 else 0.5 for k, v in wrate_running.items()}
     joblib.dump(wrate_final,       'stats_superficie_v2.pkl');  print("   → stats_superficie_v2.pkl")
-    joblib.dump(elo_surf,          'elo_surface.pkl');           print("   → elo_surface.pkl")
-    joblib.dump(elo_overall,       'elo_overall.pkl');           print("   → elo_overall.pkl")
+    glicko2_surf = {
+        'Hard': g2_hard.to_dict(), 'Clay': g2_clay.to_dict(),
+        'Grass': g2_grass.to_dict(), 'Gen': g2_gen.to_dict()
+    }
+    joblib.dump(glicko2_surf,  'glicko2_stores.pkl'); print("   → glicko2_stores.pkl")
+    joblib.dump(serve_t,       'serve_stats.pkl');    print("   → serve_stats.pkl")
+    joblib.dump(return_t,      'return_stats.pkl');   print("   → return_stats.pkl")
     joblib.dump(streak_t,          'streak_players.pkl');        print("   → streak_players.pkl")
     joblib.dump(racha_t,           'momentum_surface.pkl');      print("   → momentum_surface.pkl")
     joblib.dump(recent_form_t,     'recent_form.pkl');           print("   → recent_form.pkl")
@@ -554,7 +547,7 @@ def carica_e_prepara(csv_path: str):
     joblib.dump(late_round_t,      'late_round_hist.pkl');       print("   → late_round_hist.pkl")
     joblib.dump(match_load_t,      'match_load.pkl');            print("   → match_load.pkl")
 
-    return df_out, wrate_final, elo_surf, streak_t
+    return df_out, wrate_final, glicko2_surf, streak_t
 
 
 # ── Lista feature v5.1 (30 feature) ──────────────────────────────────────────
@@ -568,35 +561,37 @@ def carica_e_prepara(csv_path: str):
 FEATURES = [
     'log_rank_ratio',           # 0   ranking compresso
     'log_pts_ratio',            # 1   punti ATP
-    'diff_elo',                 # 2   Elo superficie
-    'diff_elo_overall',         # 3   Elo overall
-    'diff_streak',              # 4   striscia attiva
-    'diff_recent_form',         # 5   media ultimi 10
-    'surface_enc',              # 6   superficie
-    'tourney_level',            # 7   livello torneo
-    'round_enc',                # 8   round
-    'is_best_of_5',             # 9   Bo3 vs Bo5
-    'diff_h2h',                 # 10  H2H globale
-    'diff_h2h_surface',         # 11  H2H superficie
-    'diff_skill',               # 12  win-rate superficie (running)
-    'diff_momentum',            # 13  rolling 10 su superficie
-    'diff_fatigue',             # 14  minuti torneo corrente
-    'diff_days_since_last',     # 15  riposo
-    'diff_weeks_load',          # 16  match ultime 8 settimane  [v5]
-    'diff_ace',                 # 17  ace
-    'diff_1st_pct',             # 18  1st serve %
-    'diff_1st_won',             # 19  1st serve won %
-    'diff_2nd_won',             # 20  2nd serve won %
-    'diff_bp_saved',            # 21  break point saved %
-    'diff_return_pct',          # 22  return %
-    'diff_bp_conv',             # 23  break point conv %
-    'diff_return_1st',          # 24  return 1st serve %
-    'diff_home',                # 25  vantaggio casa
-    'diff_opponent_quality',    # 26  qualità avversari ultimi 5
-    'diff_upset_tendency',      # 27  tendenza a perdere vs rank peggiori  [v5]
-    'diff_late_round_wr',       # 28  win rate QF/SF/F  [v5]
-    'level_weight',             # 29  peso torneo
-]   # totale: 30 feature
+    'diff_glicko',              # 2   Glicko-2 superficie (ex diff_elo)
+    'diff_glicko_overall',      # 3   Glicko-2 overall (ex diff_elo_overall)
+    'diff_glicko_rd',           # 4   Glicko-2 RD diff — incertezza [NEW]
+    'diff_streak',              # 5   striscia attiva
+    'diff_recent_form',         # 6   media ultimi 10
+    'surface_enc',              # 7   superficie
+    'tourney_level',            # 8   livello torneo
+    'round_enc',                # 9   round
+    'is_best_of_5',             # 10  Bo3 vs Bo5
+    'indoor',                   # 11  indoor/outdoor [NEW]
+    'diff_h2h',                 # 12  H2H globale
+    'diff_h2h_surface',         # 13  H2H superficie
+    'diff_skill',               # 14  win-rate superficie (running)
+    'diff_momentum',            # 15  rolling 10 su superficie
+    'diff_fatigue',             # 16  minuti torneo corrente
+    'diff_days_since_last',     # 17  riposo
+    'diff_weeks_load',          # 18  match ultime 8 settimane
+    'diff_ace',                 # 19  ace
+    'diff_1st_pct',             # 20  1st serve %
+    'diff_1st_won',             # 21  1st serve won %
+    'diff_2nd_won',             # 22  2nd serve won %
+    'diff_bp_saved',            # 23  break point saved %
+    'diff_return_pct',          # 24  return %
+    'diff_bp_conv',             # 25  break point conv %
+    'diff_return_1st',          # 26  return 1st serve %
+    'diff_home',                # 27  vantaggio casa
+    'diff_opponent_quality',    # 28  qualità avversari ultimi 5
+    'diff_upset_tendency',      # 29  tendenza upset
+    'diff_late_round_wr',       # 30  win rate QF/SF/F
+    'level_weight',             # 31  peso torneo
+]   # totale: 32 feature — v6.0
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -639,68 +634,68 @@ ARCH_OPTIONS = {
     '4L_m':    [256, 128, 64, 32],
 }
 
-# Indici v5.1 (30 feature):
-# 0=log_rank, 1=log_pts, 2=elo, 3=elo_ov, 4=streak, 5=form
-# 6=surface, 7=level, 8=round, 9=bo5, 10=h2h, 11=h2h_surf, 12=skill
-# 13=momentum, 14=fatigue, 15=days_since, 16=weeks_load
-# 17=ace, 18=1st_pct, 19=1st_won, 20=2nd_won, 21=bp_saved
-# 22=return_pct, 23=bp_conv, 24=return_1st, 25=home, 26=opp_quality
-# 27=upset_tendency, 28=late_round_wr, 29=level_weight
+# Indici v6.0 (32 feature):
+# 0=log_rank, 1=log_pts, 2=glicko, 3=glicko_ov, 4=glicko_rd, 5=streak, 6=form
+# 7=surface, 8=level, 9=round, 10=bo5, 11=indoor, 12=h2h, 13=h2h_surf
+# 14=skill, 15=momentum, 16=fatigue, 17=days_since, 18=weeks_load
+# 19=ace, 20=1st_pct, 21=1st_won, 22=2nd_won, 23=bp_saved
+# 24=return_pct, 25=bp_conv, 26=return_1st, 27=home, 28=opp_quality
+# 29=upset_tendency, 30=late_round_wr, 31=level_weight
 
 INTERACTION_SETS = {
-    'core': [                    # ranking × forma × h2h
-        (2, 12),  # elo × skill
-        (0, 13),  # rank × momentum
-        (2, 13),  # elo × momentum
-        (12, 13), # skill × momentum
+    'core': [
+        (2, 14),  # glicko × skill
+        (0, 15),  # rank × momentum
+        (2, 15),  # glicko × momentum
+        (14, 15), # skill × momentum
         (0, 1),   # rank × pts
-        (2, 10),  # elo × h2h
-        (4, 13),  # streak × momentum
-        (12, 14), # skill × fatigue
-        (14, 13), # fatigue × momentum
-        (1, 12),  # pts × skill
+        (2, 12),  # glicko × h2h
+        (5, 15),  # streak × momentum
+        (14, 16), # skill × fatigue
+        (16, 15), # fatigue × momentum
+        (1, 14),  # pts × skill
     ],
-    'upset': [                   # feature trap match
-        (2, 27),  # elo × upset_tendency
-        (0, 27),  # rank × upset_tendency
-        (5, 27),  # form × upset_tendency
-        (2, 28),  # elo × late_round_wr
-        (4, 27),  # streak × upset_tendency
-        (13, 27), # momentum × upset_tendency
-        (16, 27), # weeks_load × upset_tendency
-        (2, 10),  # elo × h2h
+    'upset': [
+        (2, 29),  # glicko × upset_tendency
+        (0, 29),  # rank × upset_tendency
+        (6, 29),  # form × upset_tendency
+        (2, 30),  # glicko × late_round_wr
+        (5, 29),  # streak × upset_tendency
+        (15, 29), # momentum × upset_tendency
+        (18, 29), # weeks_load × upset_tendency
+        (2, 12),  # glicko × h2h
         (0, 1),   # rank × pts
-        (2, 12),  # elo × skill
+        (2, 14),  # glicko × skill
     ],
-    'serve_return': [            # servizio × ritorno
-        (2, 12),  # elo × skill
-        (0, 13),  # rank × momentum
-        (2, 13),  # elo × momentum
-        (17, 22), # ace × return_pct
-        (19, 24), # 1st_won × return_1st
-        (21, 23), # bp_saved × bp_conv
-        (2, 10),  # elo × h2h
-        (12, 13), # skill × momentum
-        (4, 13),  # streak × momentum
+    'serve_return': [
+        (2, 14),  # glicko × skill
+        (0, 15),  # rank × momentum
+        (2, 15),  # glicko × momentum
+        (19, 24), # ace × return_pct
+        (21, 26), # 1st_won × return_1st
+        (23, 25), # bp_saved × bp_conv
+        (2, 12),  # glicko × h2h
+        (14, 15), # skill × momentum
+        (5, 15),  # streak × momentum
         (0, 1),   # rank × pts
     ],
-    'context': [                 # contesto torneo
-        (2, 12),  # elo × skill
-        (0, 13),  # rank × momentum
-        (2, 6),   # elo × surface
-        (12, 6),  # skill × surface
-        (13, 6),  # momentum × surface
-        (2, 7),   # elo × level
+    'context': [
+        (2, 14),  # glicko × skill
+        (0, 15),  # rank × momentum
+        (2, 7),   # glicko × surface
+        (14, 7),  # skill × surface
+        (15, 7),  # momentum × surface
+        (2, 8),   # glicko × level
         (0, 1),   # rank × pts
-        (2, 10),  # elo × h2h
-        (4, 13),  # streak × momentum
-        (12, 13), # skill × momentum
+        (2, 12),  # glicko × h2h
+        (5, 15),  # streak × momentum
+        (14, 15), # skill × momentum
     ],
     'minimal': [
-        (2, 12),  # elo × skill
-        (0, 13),  # rank × momentum
-        (2, 13),  # elo × momentum
-        (2, 10),  # elo × h2h
+        (2, 14),  # glicko × skill
+        (0, 15),  # rank × momentum
+        (2, 15),  # glicko × momentum
+        (2, 12),  # glicko × h2h
         (0, 1),   # rank × pts
     ],
 }
@@ -857,16 +852,16 @@ def optuna_search(X_tr, y_tr, X_val_sc, X_te_sc,
 
             model = TennisANNv3(input_dim, hl, dr, n_inter, i_pairs)
             model, _ = train_model(model, ldr_tr, ldr_val, epochs=ep, lr=lr, smoothing=sm)
-            acc_v, _ = valuta(model, X_val_sc, y_val_np)
+            _, ll_v = valuta(model, X_val_sc, y_val_np)
             trial.set_user_attr('model', model)
             trial.set_user_attr('hl', hl)
             trial.set_user_attr('hp', {'hidden_layers': hl, 'dropout': dr, 'lr': lr,
                                        'batch_size': bs, 'epochs': ep, 'lambda_decay': lam,
                                        'label_smoothing': sm, 'interaction_set': iset,
                                        'interaction_pairs': i_pairs, 'n_interactions': n_inter})
-            return acc_v
+            return ll_v
 
-        study = optuna.create_study(direction='maximize',
+        study = optuna.create_study(direction='minimize',
                                     sampler=optuna.samplers.TPESampler(seed=SEED))
         study.optimize(objective, n_trials=n_trials,
                        callbacks=[lambda s, t: print(
@@ -947,7 +942,7 @@ def train_lgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
     y_val_np  = y_val.values if hasattr(y_val,  'values') else np.array(y_val)
     y_test_np = y_test.values if hasattr(y_test,'values') else np.array(y_test)
 
-    best_model = [None]; best_acc = [0.0]
+    best_model = [None]; best_acc = [float('inf')]
 
     def objective(trial):
         params = {
@@ -968,15 +963,15 @@ def train_lgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
                   eval_set=[(X_val, y_val_np)],
                   callbacks=[lgb.early_stopping(50, verbose=False), lgb.log_evaluation(period=0)])
         probs = model.predict_proba(X_val)[:, 1]
-        acc  = accuracy_score(y_val_np, (probs >= 0.5).astype(int))
-        if acc > best_acc[0]: best_acc[0] = acc; best_model[0] = model
-        return acc
+        ll = log_loss(y_val_np, probs)
+        if ll < best_acc[0]: best_acc[0] = ll; best_model[0] = model
+        return ll
 
     if HAS_OPTUNA:
-        study = optuna.create_study(direction='maximize', sampler=optuna.samplers.TPESampler(seed=SEED))
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=SEED))
         study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
         model = best_model[0]
-        print(f"   LightGBM best val: {best_acc[0]:.4f}")
+        print(f"   LightGBM best val log-loss: {best_acc[0]:.4f}")
     else:
         model = lgb.LGBMClassifier(n_estimators=500, learning_rate=0.05, max_depth=6, seed=SEED)
         model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr, eval_set=[(X_val, y_val_np)],
@@ -1012,7 +1007,7 @@ def train_xgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
     y_val_np  = y_val.values if hasattr(y_val,  'values') else np.array(y_val)
     y_test_np = y_test.values if hasattr(y_test,'values') else np.array(y_test)
 
-    best_model = [None]; best_acc = [0.0]
+    best_model = [None]; best_acc = [float('inf')]
 
     def objective(trial):
         params = {
@@ -1032,15 +1027,15 @@ def train_xgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
         model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr,
                   eval_set=[(X_val, y_val_np)], verbose=False)
         probs = model.predict_proba(X_val)[:, 1]
-        acc   = accuracy_score(y_val_np, (probs >= 0.5).astype(int))
-        if acc > best_acc[0]: best_acc[0] = acc; best_model[0] = model
-        return acc
+        ll   = log_loss(y_val_np, probs)
+        if ll < best_acc[0]: best_acc[0] = ll; best_model[0] = model
+        return ll
 
     if HAS_OPTUNA:
-        study = optuna.create_study(direction='maximize', sampler=optuna.samplers.TPESampler(seed=SEED))
+        study = optuna.create_study(direction='minimize', sampler=optuna.samplers.TPESampler(seed=SEED))
         study.optimize(objective, n_trials=n_trials, show_progress_bar=True)
         model = best_model[0]
-        print(f"   XGBoost best val: {best_acc[0]:.4f}")
+        print(f"   XGBoost best val log-loss: {best_acc[0]:.4f}")
     else:
         model = xgb_lib.XGBClassifier(n_estimators=500, learning_rate=0.05, max_depth=6, seed=SEED)
         model.fit(X_tr, y_tr_np, sample_weight=sample_weights_tr,
@@ -1051,6 +1046,52 @@ def train_xgb_optuna(X_tr, y_tr, X_val, y_val, X_test, y_test,
     ll  = log_loss(y_test_np, y_pred)
     print(f"   XGBoost test: acc={acc:.4f} | log_loss={ll:.4f}")
     return model, acc, ll
+
+
+
+def train_lgb_surface_specific(X_tr_df, y_tr, X_val_df, y_val,
+                                X_test_df, y_test,
+                                sample_weights_tr=None, n_trials=None):
+    """Allena un LightGBM separato per Hard, Clay, Grass."""
+    if not HAS_LGB:
+        print("   LightGBM non disponibile, skip surface models")
+        return {}, {}
+    if n_trials is None:
+        n_trials = TRIALS_GBM
+
+    SURFACES = {0: 'Hard', 1: 'Clay', 2: 'Grass'}
+    models = {}
+    accs   = {}
+
+    for surf_enc, surf_name in SURFACES.items():
+        mask_tr   = X_tr_df['surface_enc'] == surf_enc
+        mask_val  = X_val_df['surface_enc'] == surf_enc
+        mask_test = X_test_df['surface_enc'] == surf_enc
+
+        n_tr = mask_tr.sum()
+        if n_tr < 200:
+            print(f"   {surf_name}: solo {n_tr} esempi train — skip")
+            continue
+
+        X_tr_s  = X_tr_df[mask_tr][FEATURES].fillna(0).values
+        y_tr_s  = y_tr[mask_tr].values if hasattr(y_tr[mask_tr], 'values') else y_tr[mask_tr]
+        X_val_s = X_val_df[mask_val][FEATURES].fillna(0).values
+        y_val_s = y_val[mask_val].values if hasattr(y_val[mask_val], 'values') else y_val[mask_val]
+        X_te_s  = X_test_df[mask_test][FEATURES].fillna(0).values
+        y_te_s  = y_test[mask_test].values if hasattr(y_test[mask_test], 'values') else y_test[mask_test]
+        w_s     = sample_weights_tr[mask_tr] if sample_weights_tr is not None else None
+
+        print(f"\n  LGB Surface: {surf_name} ({n_tr:,} train | {mask_val.sum():,} val)")
+        model, acc, ll = train_lgb_optuna(
+            X_tr_s, y_tr_s, X_val_s, y_val_s, X_te_s, y_te_s,
+            sample_weights_tr=w_s, n_trials=n_trials
+        )
+        if model is not None:
+            models[surf_name] = model
+            accs[surf_name]   = acc
+            print(f"    -> {surf_name}: acc={acc:.4f} | log_loss={ll:.4f}")
+
+    return models, accs
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1125,8 +1166,10 @@ def confronto_finale(results_list):
 if __name__ == '__main__':
 
     CSV_CANDIDATES = [
-        'historialTenis.csv', '../scraping/historialTenis.csv',
-        'historial_tenis_COMPLETO.csv', '../scraping/historial_tenis_COMPLETO.csv',
+        'master_dataset.csv',
+        '../scraping/master_dataset.csv',
+        '../scraping/historialTenis.csv',
+        'historialTenis.csv',
     ]
     csv_path = next((p for p in CSV_CANDIDATES if os.path.exists(p)), None)
     if csv_path is None:
@@ -1138,7 +1181,7 @@ if __name__ == '__main__':
         print("="*60)
 
     # ── 1. Feature engineering ────────────────────────────────────────────────
-    df_ml, wrate_final, elo_surf, streak_t = carica_e_prepara(csv_path)
+    df_ml, wrate_final, glicko2_data, streak_t = carica_e_prepara(csv_path)
 
     # ── 1b. Escludi Challenger dal training ML ────────────────────────────────
     # I challenger vengono usati per calcolare elo/form/streak (feature quality),
@@ -1246,6 +1289,33 @@ if __name__ == '__main__':
     y_val_np  = y_val.values  if hasattr(y_val,  'values') else np.array(y_val)
     y_test_np = y_test.values if hasattr(y_test, 'values') else np.array(y_test)
 
+    # ── Surface-specific LGB ──────────────────────────────────────────────────
+    print("\n🌍 Training LGB Surface-Specific (Hard / Clay / Grass)...")
+    surf_lgb_models, surf_lgb_accs = train_lgb_surface_specific(
+        df_tr, y_tr, df_val, y_val, df_test, y_test,
+        sample_weights_tr=combined_weights, n_trials=TRIALS_GBM
+    )
+
+    # Calcola accuracy ensemble surface LGB sul test set
+    if surf_lgb_models:
+        surf_map_enc = {'Hard': 0, 'Clay': 1, 'Grass': 2}
+        surf_preds = np.full(len(y_test_np), 0.5)
+        for sname, smodel in surf_lgb_models.items():
+            smask = df_test['surface_enc'] == surf_map_enc[sname]
+            if smask.sum() > 0:
+                surf_preds[smask.values] = smodel.predict_proba(
+                    df_test[smask][FEATURES].fillna(0).values
+                )[:, 1]
+        if lgb_model is not None:
+            no_surf = ~df_test['surface_enc'].isin([0, 1, 2]).values
+            if no_surf.sum() > 0:
+                surf_preds[no_surf] = lgb_model.predict_proba(X_te_sc[no_surf])[:, 1]
+        surf_acc = accuracy_score(y_test_np, (surf_preds >= 0.5).astype(int))
+        surf_ll  = log_loss(y_test_np, surf_preds)
+        print(f"\n   LGB Surface ensemble: acc={surf_acc:.4f} | log_loss={surf_ll:.4f}")
+    else:
+        surf_acc, surf_ll = 0.0, float('inf')
+
     best_ann = best['_model']
     ann_probs_val  = get_ann_probs(best_ann, X_val_sc)
     ann_probs_test = get_ann_probs(best_ann, X_te_sc)
@@ -1266,15 +1336,14 @@ if __name__ == '__main__':
     ]
     print(f"   → {len(top5_for_uncertainty)} modelli salvati per uncertainty estimation")
 
-    # ── Calibrazione isotonica su test set ────────────────────────────────────
-    # Fittiamo su top5_ann_probs_test (le migliori probabilità disponibili)
-    # Il test set è l'ultimo 15% per data → nessun leakage
+    # ── Calibrazione isotonica su VALIDATION SET (fix: no leakage su test) ────
     from sklearn.isotonic import IsotonicRegression
     from sklearn.calibration import calibration_curve as sk_calibration_curve
 
+    raw_probs_val  = np.mean([get_ann_probs(r['_model'], X_val_sc) for r in risultati[:5]], axis=0).flatten()
     raw_probs_test = top5_ann_probs_test.flatten()
     calibrator = IsotonicRegression(out_of_bounds='clip')
-    calibrator.fit(raw_probs_test, y_test_np)
+    calibrator.fit(raw_probs_val, y_val_np)
     calibrated_probs_test = calibrator.predict(raw_probs_test)
     ll_calibrated = log_loss(y_test_np, calibrated_probs_test)
     acc_calibrated = accuracy_score(y_test_np, (calibrated_probs_test >= 0.5).astype(int))
@@ -1351,6 +1420,9 @@ if __name__ == '__main__':
     if xgb_model:
         results_list.append({'Modello': 'XGBoost',  'Accuracy': xgb_acc, 'Log Loss': xgb_ll,
                               'Note': f'Optuna {TRIALS_GBM} trials', '_strategy': 'xgb'})
+    if surf_lgb_models:
+        results_list.append({'Modello': 'LGB Surface', 'Accuracy': surf_acc, 'Log Loss': surf_ll,
+                              'Note': 'LGB Hard/Clay/Grass routing', '_strategy': 'lgb_surface'})
 
     for r in results_list:
         r['_score'] = r['Accuracy'] - r['Log Loss']
@@ -1423,7 +1495,7 @@ if __name__ == '__main__':
     model_final, _ = train_model(model_final, ldr_tr_fin, ldr_val_fin, epochs=ep, lr=lr, smoothing=sm)
 
     # Re-train GBM se la strategia vincente li richiede
-    needs_gbm  = best_strategy in ('lgb', 'xgb', 'ensemble_avg', 'ensemble_avg_top5', 'ensemble_stacking')
+    needs_gbm  = best_strategy in ('lgb', 'lgb_surface', 'xgb', 'ensemble_avg', 'ensemble_avg_top5', 'ensemble_stacking')
     needs_top5 = best_strategy in ('ann_top5', 'ensemble_avg_top5')
 
     X_all_sc = scaler_final.transform(X_all)
@@ -1475,10 +1547,26 @@ if __name__ == '__main__':
         'calibrator':           calibrator,
         'calibration_curve':    calibration_curve_data,
         'ann_top5_uncertainty': top5_for_uncertainty,
+        'lgb_surface_models':   {},
     }
     if best_strategy == 'ann_top5':
         modelo_finale['ann_top5'] = [{'state_dict': sd, 'config': c}
                                      for sd, c in zip(top5_state_dicts, top5_configs)]
+    elif best_strategy == 'lgb_surface':
+        print("   Re-training LGB Surface models su tutti i dati...")
+        surf_final_models = {}
+        for sname, sm_model in surf_lgb_models.items():
+            senc = {'Hard': 0, 'Clay': 1, 'Grass': 2}[sname]
+            mask_all_s = df_ml['surface_enc'] == senc
+            if mask_all_s.sum() > 0:
+                X_all_s = X_all_sc[mask_all_s.values]
+                y_all_s = y_all_np[mask_all_s.values]
+                w_all_s = all_weights[mask_all_s.values]
+                m_s = lgb.LGBMClassifier(**sm_model.get_params())
+                m_s.fit(X_all_s, y_all_s, sample_weight=w_all_s)
+                surf_final_models[sname] = m_s
+        modelo_finale['lgb_surface_models'] = surf_final_models
+        modelo_finale['lgb_model'] = lgb_final
     elif best_strategy == 'lgb':
         modelo_finale['lgb_model'] = lgb_final
     elif best_strategy == 'xgb':
@@ -1499,7 +1587,7 @@ if __name__ == '__main__':
     confronto_finale(results_clean)
 
     print("\n✅ File salvati:")
-    for f in ['modelo_finale.pkl', 'scaler_ann.pkl', 'elo_surface.pkl', 'elo_overall.pkl',
+    for f in ['modelo_finale.pkl', 'scaler_ann.pkl', 'glicko2_stores.pkl', 'serve_stats.pkl', 'return_stats.pkl',
               'streak_players.pkl', 'momentum_surface.pkl', 'recent_form.pkl',
               'close_match_hist.pkl', 'upset_hist.pkl', 'late_round_hist.pkl', 'match_load.pkl',
               'resultados_comparacion_finale.csv']:

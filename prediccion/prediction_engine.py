@@ -12,28 +12,28 @@ In questo modo qualsiasi modifica alla logica si riflette su entrambi.
 import numpy as np
 import torch
 import torch.nn as nn
+import sys, os as _os
+sys.path.insert(0, _os.path.dirname(__file__))
+from glicko2 import Glicko2Store
 
 # ── Costanti ──────────────────────────────────────────────────────────────────
 
 ANN_FEATURES = [
     'log_rank_ratio', 'log_pts_ratio',
-    'diff_elo', 'diff_elo_overall',
+    'diff_glicko', 'diff_glicko_overall', 'diff_glicko_rd',
     'diff_streak', 'diff_recent_form',
     'surface_enc', 'tourney_level', 'round_enc',
-    'is_best_of_5',
+    'is_best_of_5', 'indoor',
     'diff_h2h', 'diff_h2h_surface',
     'diff_skill', 'diff_momentum',
-    'diff_fatigue', 'diff_days_since_last',
-    'diff_weeks_load',
+    'diff_fatigue', 'diff_days_since_last', 'diff_weeks_load',
     'diff_ace', 'diff_1st_pct', 'diff_1st_won',
     'diff_2nd_won', 'diff_bp_saved',
     'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',
-    'diff_home',
-    'diff_opponent_quality',
-    'diff_upset_tendency',
-    'diff_late_round_wr',
+    'diff_home', 'diff_opponent_quality',
+    'diff_upset_tendency', 'diff_late_round_wr',
     'level_weight',
-]  # 30 feature (v5.1)
+]  # 32 feature (v6.0)
 
 
 SURFACE_MAP = {'Hard': 0, 'Clay': 1, 'Grass': 2}
@@ -66,8 +66,8 @@ ROUND_MAP_STR = {
 BK_OVERROUND = 2 / 1.85   # ~8.1% margine bookmaker (per quote ideali)
 
 DEFAULT_INTERACTION_PAIRS = [
-    (4, 12), (0, 15), (4, 15), (12, 15), (0, 1),
-    (4, 16), (6, 15), (12, 14), (14, 15), (1, 12),
+    (2, 14), (0, 15), (2, 15), (14, 15), (0, 1),
+    (2, 12), (5, 15), (14, 16), (16, 15), (1, 14),
 ]
 N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
 
@@ -180,6 +180,17 @@ def predici(input_sc, input_t: torch.Tensor, modelo_finale: dict) -> tuple:
         anns  = [_build_ann(c) for c in modelo_finale['ann_top5']]
         probs = [_ann_prob(a, input_t) for a in anns]
         return float(np.mean(probs)), modelo_finale['model_name']
+
+    elif s == 'lgb_surface':
+        surf_models = modelo_finale.get('lgb_surface_models', {})
+        surf_enc_val = int(round(float(input_sc[0, 7])))
+        surf_name = {0: 'Hard', 1: 'Clay', 2: 'Grass'}.get(surf_enc_val)
+        model_s = surf_models.get(surf_name) if surf_name else None
+        if model_s is None:
+            model_s = modelo_finale.get('lgb_model')
+        if model_s is None:
+            raise ValueError("lgb_surface: nessun modello disponibile")
+        return float(model_s.predict_proba(input_sc)[:, 1][0]), modelo_finale['model_name']
 
     elif s == 'lgb':
         return float(modelo_finale['lgb_model'].predict_proba(input_sc)[:, 1][0]), \

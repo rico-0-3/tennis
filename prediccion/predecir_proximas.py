@@ -21,6 +21,7 @@ from prediction_engine import (
     ANN_FEATURES, SURFACE_MAP, LEVEL_LABEL, LEVEL_MULT_LABEL, ROUND_MAP_STR,
     BK_OVERROUND, TennisANNv3, _build_ann, _ann_prob, predici,
     calc_oq, days_since_last, weeks_load, upset_tendency, late_round_wr,
+    Glicko2Store,
 )
 
 INPUT_JSON  = os.path.join(SCRAP_DIR, "proximas_partidas.json")
@@ -59,8 +60,12 @@ def load_resources():
     res['modelo']           = joblib.load(pp('modelo_finale.pkl'))
     res['perfiles']         = load(ps('perfiles_jugadores.pkl'), {})
     res['stats_dict']       = load(pp('stats_superficie_v2.pkl'), {})
-    res['elo_surface']      = load(pp('elo_surface.pkl'),       {})
-    res['elo_overall']      = load(pp('elo_overall.pkl'),       {})
+    _glicko2_raw = load(pp('glicko2_stores.pkl'), {})
+    res['glicko2_surf_store'] = {
+        s: Glicko2Store.from_dict(d) for s, d in _glicko2_raw.items()
+    } if _glicko2_raw else {}
+    res['serve_stats']  = load(pp('serve_stats.pkl'),  {})
+    res['return_stats'] = load(pp('return_stats.pkl'), {})
     res['streak_players']   = load(pp('streak_players.pkl'),    {})
     res['momentum_surface'] = load(pp('momentum_surface.pkl'),  {})
     res['recent_form']      = load(pp('recent_form.pkl'),       {})
@@ -127,11 +132,12 @@ def _resolve_player(raw: str, res: dict) -> str:
 
 
 def build_features(p1, p2, superficie, livello, turno, res):
-    """Costruisce le 30 feature per una coppia di giocatori."""
+    """Costruisce le 32 feature v6 per una coppia di giocatori."""
     perfiles         = res['perfiles']
     stats_dict       = res['stats_dict']
-    elo_surface      = res['elo_surface']
-    elo_overall      = res['elo_overall']
+    g2_stores        = res.get('glicko2_surf_store', {})
+    serve_stats      = res.get('serve_stats', {})
+    return_stats     = res.get('return_stats', {})
     streak_players   = res['streak_players']
     momentum_surface = res['momentum_surface']
     recent_form      = res['recent_form']
@@ -149,11 +155,12 @@ def build_features(p1, p2, superficie, livello, turno, res):
     r2  = ranking_dict.get(p2, int(sa2.get('rank', 500)))
     pts1 = sa1.get('points', 0); pts2 = sa2.get('points', 0)
 
-    ELO_DEFAULT = 1500.0
-    elo1  = elo_surface.get((p1, superficie), ELO_DEFAULT)
-    elo2  = elo_surface.get((p2, superficie), ELO_DEFAULT)
-    elov1 = elo_overall.get(p1, ELO_DEFAULT)
-    elov2 = elo_overall.get(p2, ELO_DEFAULT)
+    g2_s   = g2_stores.get(superficie, g2_stores.get('Gen', Glicko2Store()))
+    g2_gen = g2_stores.get('Gen', Glicko2Store())
+    g2_r1,  g2_rd1,  _ = g2_s.get(p1)
+    g2_r2,  g2_rd2,  _ = g2_s.get(p2)
+    g2_ov1, g2_ovrd1, _ = g2_gen.get(p1)
+    g2_ov2, g2_ovrd2, _ = g2_gen.get(p2)
 
     rf1   = recent_form.get(p1, [])
     rf2   = recent_form.get(p2, [])
@@ -192,42 +199,46 @@ def build_features(p1, p2, superficie, livello, turno, res):
     skill1 = _get_skill(stats_dict, p1, superficie)
     skill2 = _get_skill(stats_dict, p2, superficie)
 
-    rtn_pct1 = 1.0 - sa1.get('serve_win', 65) / 100
-    rtn_pct2 = 1.0 - sa2.get('serve_win', 65) / 100
-    bp_conv1 = 1.0 - sa1.get('bp_saved', 60) / 100
-    bp_conv2 = 1.0 - sa2.get('bp_saved', 60) / 100
-    # diff_return_1st: 0.30 per entrambi → differenza = 0.0 (identico al predictor manuale)
+    def _get_serve(player, key, default):
+        vals = serve_stats.get(player, {}).get(key, [])
+        return float(np.mean(vals)) if vals else default
+
+    def _get_return(player, key, default):
+        vals = return_stats.get(player, {}).get(key, [])
+        return float(np.mean(vals)) if vals else default
 
     best_of = 5 if livello == "Grand Slam" else 3
     lev_w   = LEVEL_MULT_LABEL.get(livello, 1.0)
 
     row = {
-        'log_rank_ratio':        np.log1p(r2) - np.log1p(r1),
+        'log_rank_ratio':        np.log1p(r2)   - np.log1p(r1),
         'log_pts_ratio':         np.log1p(pts1) - np.log1p(pts2),
-        'diff_elo':              elo1 - elo2,
-        'diff_elo_overall':      elov1 - elov2,
+        'diff_glicko':           g2_r1    - g2_r2,
+        'diff_glicko_overall':   g2_ov1   - g2_ov2,
+        'diff_glicko_rd':        g2_rd1   - g2_rd2,
         'diff_streak':           float(strk1 - strk2),
         'diff_recent_form':      form1 - form2,
         'surface_enc':           float(SURFACE_MAP.get(superficie, 0)),
         'tourney_level':         float(LEVEL_LABEL.get(livello, 3)),
         'round_enc':             float(ROUND_MAP_STR.get(turno, 3)),
         'is_best_of_5':          1.0 if best_of == 5 else 0.0,
+        'indoor':                0.0,
         'diff_h2h':              float(diff_h2h),
         'diff_h2h_surface':      float(h2h_s1 - h2h_s2),
         'diff_skill':            skill1 - skill2,
         'diff_momentum':         mom1 - mom2,
-        'diff_fatigue':          0.0,           # non disponibile da scraper
+        'diff_fatigue':          0.0,
         'diff_days_since_last':  days1 - days2,
         'diff_weeks_load':       wload1 - wload2,
-        'diff_ace':              sa1.get('aces', 0) - sa2.get('aces', 0),
-        'diff_1st_pct':          (sa1.get('first_serve_pct', 62) - sa2.get('first_serve_pct', 62)) / 100,
-        'diff_1st_won':          (sa1.get('serve_win', 65) - sa2.get('serve_win', 65)) / 100,
-        'diff_2nd_won':          (sa1.get('second_serve_win', 50) - sa2.get('second_serve_win', 50)) / 100,
-        'diff_bp_saved':         (sa1.get('bp_saved', 60) - sa2.get('bp_saved', 60)) / 100,
-        'diff_return_pct':       rtn_pct1 - rtn_pct2,
-        'diff_bp_conv':          bp_conv1 - bp_conv2,
-        'diff_return_1st':       0.0,           # 0.30 - 0.30 = 0.0, identico al predictor manuale
-        'diff_home':             0.0,           # paese torneo non disponibile da scraper
+        'diff_ace':              _get_serve(p1, 'ace',     5.0)   - _get_serve(p2, 'ace',     5.0),
+        'diff_1st_pct':          _get_serve(p1, '1st_pct', 0.62) - _get_serve(p2, '1st_pct', 0.62),
+        'diff_1st_won':          _get_serve(p1, '1st_won', 0.70) - _get_serve(p2, '1st_won', 0.70),
+        'diff_2nd_won':          _get_serve(p1, '2nd_won', 0.50) - _get_serve(p2, '2nd_won', 0.50),
+        'diff_bp_saved':         _get_serve(p1, 'bp_saved', 0.62)  - _get_serve(p2, 'bp_saved', 0.62),
+        'diff_return_pct':       _get_return(p1, 'return_pct', 0.35) - _get_return(p2, 'return_pct', 0.35),
+        'diff_bp_conv':          _get_return(p1, 'bp_conv',    0.35) - _get_return(p2, 'bp_conv',    0.35),
+        'diff_return_1st':       _get_return(p1, 'return_1st', 0.30) - _get_return(p2, 'return_1st', 0.30),
+        'diff_home':             0.0,
         'diff_opponent_quality': calc_oq(opp_quality.get(p1, []), r1)
                                  - calc_oq(opp_quality.get(p2, []), r2),
         'diff_upset_tendency':   upt1 - upt2,
