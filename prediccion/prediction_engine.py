@@ -163,6 +163,49 @@ def _ann_prob(model: TennisANNv3, input_t: torch.Tensor) -> float:
     return float(1.0 / (1.0 + np.exp(-logit)))
 
 
+def _apply_cal(cal, p: float) -> float:
+    """
+    Applica il calibratore alla probabilità grezza.
+    Gestisce sia LogisticRegression (predict_proba) che IsotonicRegression (predict).
+    """
+    if cal is None:
+        return p
+    try:
+        if hasattr(cal, 'predict_proba'):
+            return float(cal.predict_proba([[p]])[0, 1])
+        return float(cal.predict([p])[0])
+    except Exception:
+        return p
+
+
+def predici_con_cal(input_sc, input_t: torch.Tensor, modelo_finale: dict) -> tuple:
+    """
+    Entry point unificato per tutte le predizioni.
+    Applica: raw prediction → top-5 ensemble → calibrazione.
+
+    Restituisce: (prob_calibrata: float, nome_modello: str, ann_std: float)
+      - ann_std = 0.0 se top-5 non disponibile
+    """
+    cal = modelo_finale.get('calibrator')
+
+    prob, nome = predici(input_sc, input_t, modelo_finale)
+    prob = _apply_cal(cal, prob)
+    ann_std = 0.0
+
+    top5_data = modelo_finale.get('ann_top5_uncertainty') or modelo_finale.get('ann_top5')
+    if top5_data:
+        try:
+            top5_models = [_build_ann(c) for c in top5_data]
+            probs_top5  = [_ann_prob(m, input_t) for m in top5_models]
+            ann_std     = float(np.std(probs_top5))
+            raw_mean    = float(np.mean(probs_top5))
+            prob        = _apply_cal(cal, raw_mean) if cal is not None else raw_mean
+        except Exception:
+            pass
+
+    return prob, nome, ann_std
+
+
 def predici(input_sc, input_t: torch.Tensor, modelo_finale: dict) -> tuple:
     """
     Produce la probabilità di vittoria del giocatore 1 usando la strategia

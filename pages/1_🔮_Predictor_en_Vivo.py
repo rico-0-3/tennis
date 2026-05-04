@@ -14,7 +14,7 @@ _pred_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'pred
 sys.path.insert(0, _pred_dir)
 from prediction_engine import (
     ANN_FEATURES, SURFACE_MAP, LEVEL_LABEL, LEVEL_MULT_LABEL, ROUND_MAP_STR,
-    BK_OVERROUND, TennisANNv3, _build_ann, _ann_prob, predici,
+    BK_OVERROUND, TennisANNv3, _build_ann, _ann_prob, predici, _apply_cal,
     calc_oq, days_since_last, weeks_load as weeks_load_fn,
     upset_tendency as upset_tendency_fn, late_round_wr as late_round_wr_fn,
 )
@@ -716,11 +716,7 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
 
     # Calibrazione (se calibratore disponibile nel modelo_finale)
     calibrator = modelo_finale.get('calibrator', None)
-    if calibrator is not None:
-        try:
-            prob_j1 = float(calibrator.predict([prob_j1])[0])
-        except Exception:
-            pass
+    prob_j1 = _apply_cal(calibrator, prob_j1)
 
     # Uncertainty: top-5 ANN ensemble
     uncertainty_result = None
@@ -733,13 +729,7 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
                 uncertainty_result = predict_with_uncertainty(input_t, top5_models)
                 ann_std = uncertainty_result['p_std']
                 raw_top5_mean = uncertainty_result['p_mean']
-                if calibrator is not None:
-                    try:
-                        prob_j1 = float(calibrator.predict([raw_top5_mean])[0])
-                    except Exception:
-                        prob_j1 = raw_top5_mean
-                else:
-                    prob_j1 = raw_top5_mean
+                prob_j1 = _apply_cal(calibrator, raw_top5_mean) if calibrator is not None else raw_top5_mean
             except Exception:
                 pass
 
