@@ -5,8 +5,8 @@ Versione di aggiorna_tutto.py che accetta flag da riga di comando.
 Pensata per essere eseguita da GitHub Actions.
 
 Uso:
-    python run_pipeline.py --scraping --fusione --profili --court-speed
-    python run_pipeline.py --scraping --fusione --profili --court-speed --modelli --ann --special-bets
+    python run_pipeline.py --scraping --profili --court-speed
+    python run_pipeline.py --scraping --profili --court-speed --modelli --ann --special-bets
 """
 
 import subprocess
@@ -34,7 +34,7 @@ def sezione(titolo: str):
 
 def esegui(script: str, cwd: str, desc: str = ""):
     """Esegue uno script Python con output in tempo reale."""
-    print(f"\n▶  {desc or script}")
+    print(f"\n>  {desc or script}")
     print(f"   ({cwd})")
     print("-"*W)
 
@@ -57,71 +57,67 @@ def esegui(script: str, cwd: str, desc: str = ""):
         proc.wait()
 
         if proc.returncode != 0:
-            print(f"\n❌  '{script}' terminato con errore (codice {proc.returncode})")
+            print(f"\n  '{script}' terminato con errore (codice {proc.returncode})")
             return False
 
-        print(f"\n✅  '{script}' completato con successo", flush=True)
+        print(f"\n  '{script}' completato con successo", flush=True)
         return True
 
     except FileNotFoundError:
-        print(f"\n❌  Script non trovato: {os.path.join(cwd, script)}")
+        print(f"\n  Script non trovato: {os.path.join(cwd, script)}")
         return False
     except Exception as e:
-        print(f"\n❌  Errore imprevisto: {e}")
+        print(f"\n  Errore imprevisto: {e}")
         return False
 
 def copia_se_esiste(src: str, dst: str):
     if os.path.exists(src):
         shutil.copy2(src, dst)
-        print(f"   📋  Copiato: {os.path.basename(src)}  →  {os.path.relpath(dst, ROOT)}")
+        print(f"   Copiato: {os.path.basename(src)}  ->  {os.path.relpath(dst, ROOT)}")
     else:
-        print(f"   ⚠️   Non trovato: {os.path.relpath(src, ROOT)}")
+        print(f"   Non trovato: {os.path.relpath(src, ROOT)}")
 
 def filtra_ritiri_e_copia(src: str, dst: str):
     """Filtra match con RET e W/O prima di copiare in prediccion."""
     if not os.path.exists(src):
-        print(f"   ⚠️   Non trovato: {os.path.relpath(src, ROOT)}")
+        print(f"   Non trovato: {os.path.relpath(src, ROOT)}")
         return
-    
+
     try:
         import pandas as pd
-        
-        print(f"   🔍  Caricamento dataset: {os.path.basename(src)}")
+
+        print(f"   Caricamento dataset: {os.path.basename(src)}")
         df = pd.read_csv(src, low_memory=False)
-        
+
         n_originale = len(df)
-        print(f"   📊  Match totali: {n_originale:,}")
-        
-        # Filtra ritiri (RET) e walkovers (W/O)
+        print(f"   Match totali: {n_originale:,}")
+
         mask_ritiri = df['score'].astype(str).str.contains('RET', na=False, case=False)
         mask_wo = df['score'].astype(str).str.contains('W/O', na=False, case=False)
-        
+
         n_ritiri = mask_ritiri.sum()
         n_wo = mask_wo.sum()
-        
-        # Mantieni solo match completi
+
         df_pulito = df[~(mask_ritiri | mask_wo)].copy()
         n_finale = len(df_pulito)
-        
-        # Salva dataset pulito
+
         df_pulito.to_csv(dst, index=False)
-        
-        print(f"   🗑️  Rimossi {n_ritiri:,} ritiri (RET)")
-        print(f"   🗑️  Rimossi {n_wo:,} walkovers (W/O)")
-        print(f"   ✅  Match puliti: {n_finale:,} ({100*n_finale/n_originale:.1f}%)")
-        print(f"   💾  Salvato: {os.path.relpath(dst, ROOT)}")
-        
+
+        print(f"   Rimossi {n_ritiri:,} ritiri (RET)")
+        print(f"   Rimossi {n_wo:,} walkovers (W/O)")
+        print(f"   Match puliti: {n_finale:,} ({100*n_finale/n_originale:.1f}%)")
+        print(f"   Salvato: {os.path.relpath(dst, ROOT)}")
+
     except Exception as e:
-        print(f"   ❌  Errore durante il filtraggio: {e}")
-        print(f"   📋  Fallback: copia normale")
+        print(f"   Errore durante il filtraggio: {e}")
+        print(f"   Fallback: copia normale")
         shutil.copy2(src, dst)
 
 # ─── PIPELINE ────────────────────────────────────────────────────────────────
 
 def main():
     parser = argparse.ArgumentParser(description="Pipeline Tennis Predictor")
-    parser.add_argument("--scraping",     action="store_true", help="Scraping ATP")
-    parser.add_argument("--fusione",      action="store_true", help="Fusione storico")
+    parser.add_argument("--scraping",     action="store_true", help="Download TML (ranking + dati partite)")
     parser.add_argument("--profili",      action="store_true", help="Profili giocatori")
     parser.add_argument("--bio",          action="store_true", help="Bio giocatori (tennisstats.com)")
     parser.add_argument("--court-speed",  action="store_true", help="Court Speed")
@@ -130,155 +126,125 @@ def main():
     parser.add_argument("--special-bets", action="store_true", help="Training Special Bets (Ace, DF, Break)")
     args = parser.parse_args()
 
-    # Se nessun flag passato, non fare nulla
-    if not any([args.scraping, args.fusione, args.profili, args.bio,
+    if not any([args.scraping, args.profili, args.bio,
                 args.court_speed, args.modelli, args.ann, args.special_bets]):
-        print("⚠️  Nessuna fase selezionata. Usa --scraping, --fusione, ecc.")
+        print("  Nessuna fase selezionata. Usa --scraping, --profili, ecc.")
         sys.exit(1)
 
     inizio = time.time()
 
     print("=" * W)
-    print("  🎾  TENNIS PREDICTOR — PIPELINE (GitHub Actions)")
+    print("  TENNIS PREDICTOR — PIPELINE (GitHub Actions)")
     print(f"  {time.strftime('%d/%m/%Y %H:%M:%S')}")
     print("=" * W)
     print(f"   Python: {PYTHON}")
 
-    scraping_ok = {}
-
     # ═══ FASE 1 — Scraping Ranking ═══════════════════════════════════════════
     if args.scraping:
-        sezione("1️⃣  FASE 1 — Scraping Ranking ATP")
-        scraping_ok["RANK"] = esegui("scraper_ranking.py", SCRAPING, "Ranking ATP")
+        sezione("FASE 1 — Scraping Ranking ATP")
+        esegui("scraper_ranking.py", SCRAPING, "Ranking ATP")
 
-    # ═══ FASE 2 — Scraping Partite ═══════════════════════════════════════════
+    # ═══ FASE 2 — Download incrementale TML ══════════════════════════════════
     if args.scraping:
-        sezione("2️⃣  FASE 2 — Scraping Partite ATP")
-        scraping_ok["MATCH"] = esegui("scraper_2026_final.py", SCRAPING, "Partite ATP 2025-2026")
-
-    # ═══ FASE 3 — Elaborazione dati ══════════════════════════════════════════
-    if args.scraping:
-        sezione("3️⃣  FASE 3 — Elaborazione dati")
-        if scraping_ok.get("MATCH", False):
-            esegui("enriquecer_2026.py",             SCRAPING, "Arricchimento dati 2026")
-            esegui("corregir_superficie_ranking.py", SCRAPING, "Correzione superfici e ranking")
-        else:
-            print("   ⚠️   Scraping partite fallito — uso dati precedenti")
-
-    # ═══ FASE 4 — Fusione storico ════════════════════════════════════════════
-    if args.fusione:
-        sezione("4️⃣  FASE 4 — Fusione dataset")
-        ok = esegui("fusionar_historico_final.py", SCRAPING, "Fusione storico completo")
-        if not ok:
-            print("   ❌  Fusione fallita. Impossibile continuare.")
+        sezione("FASE 2 — Download dati TML (TennisMyLife)")
+        ok_tml = esegui("download_data.py", SCRAPING, "Download incrementale TML -> master_dataset.csv")
+        if not ok_tml:
+            print("   Download TML fallito. Impossibile continuare.")
             return
-        
-        # Filtra ritiri e walkovers prima di copiare in prediccion
+
         filtra_ritiri_e_copia(
-            os.path.join(SCRAPING, "historialTenis.csv"),
-            os.path.join(PREDICCION, "historialTenis.csv")
+            os.path.join(SCRAPING,   "master_dataset.csv"),
+            os.path.join(PREDICCION, "master_dataset.csv"),
         )
 
     # ═══ FASE 5b — Bio giocatori ════════════════════════════════════════════
     if args.bio:
-        sezione("5️⃣b  FASE 5b — Bio giocatori (tennisstats.com)")
+        sezione("FASE 5b — Bio giocatori (tennisstats.com)")
         ok_bio = esegui("scraper_bio_jugadores.py", SCRAPING, "Bio giocatori (DOB + altezza)")
         if ok_bio:
             copia_se_esiste(
                 os.path.join(SCRAPING, "bio_jugadores.json"),
-                os.path.join(PREDICCION, "bio_jugadores.json")
+                os.path.join(PREDICCION, "bio_jugadores.json"),
             )
 
     # ═══ FASE 5 — Profili giocatori ══════════════════════════════════════════
     if args.profili:
-        sezione("5️⃣  FASE 5 — Profili giocatori")
+        sezione("FASE 5 — Profili giocatori")
         ok = esegui("generar_perfiles.py", SCRAPING, "Profili giocatori")
         if ok:
             copia_se_esiste(
                 os.path.join(SCRAPING, "perfiles_jugadores.pkl"),
-                os.path.join(PREDICCION, "perfiles_jugadores.pkl")
+                os.path.join(PREDICCION, "perfiles_jugadores.pkl"),
             )
             copia_se_esiste(
                 os.path.join(SCRAPING, "bio_jugadores.json"),
-                os.path.join(PREDICCION, "bio_jugadores.json")
+                os.path.join(PREDICCION, "bio_jugadores.json"),
             )
 
     # ═══ FASE 6 — Court Speed ════════════════════════════════════════════════
     if args.court_speed:
-        sezione("6️⃣  FASE 6 — Court Speed (scraping + arricchimento)")
+        sezione("FASE 6 — Court Speed (scraping + arricchimento)")
         ok_speed = esegui("scraper_court_speed.py", SCRAPING, "Court Speed 1991-2026")
         if ok_speed:
             esegui("enriquecer_court_speed.py", SCRAPING, "Arricchimento court speed")
             copia_se_esiste(
                 os.path.join(SCRAPING, "court_speed_dict.pkl"),
-                os.path.join(PREDICCION, "court_speed_dict.pkl")
+                os.path.join(PREDICCION, "court_speed_dict.pkl"),
             )
         else:
-            print("   ⚠️   Court Speed fallito — court_speed_dict.pkl non aggiornato")
+            print("   Court Speed fallito — court_speed_dict.pkl non aggiornato")
 
-    # ══════════════════════════════════════════════════════════════════════════
-    # FASE 10 — Predizioni Prossime Partite (sempre)
-    # ══════════════════════════════════════════════════════════════════════════
-    sezione("🔟  FASE 10 — Predizioni Prossime Partite")
+    # ═══ FASE 10 — Predizioni Prossime Partite (sempre) ══════════════════════
+    sezione("FASE 10 — Predizioni Prossime Partite")
     esegui("scraper_proximas_partidas.py", SCRAPING,   "Scraping partite upcoming")
     esegui("predecir_proximas.py",         PREDICCION, "Predizioni batch prossime partite")
 
     # ═══ FASE 7 — Training modelli ═══════════════════════════════════════════
     if args.modelli:
-        sezione("7️⃣  FASE 7 — Training modelli")
+        sezione("FASE 7 — Training modelli")
         modelli = [
             ("predict_xgboost.py",  "Training XGBoost"),
             ("predict_ensemble.py", "Training Ensemble (LR+RF+XGB)"),
-            ("predict_LR.py",      "Training Logistic Regression"),
+            ("predict_LR.py",       "Training Logistic Regression"),
         ]
         for script, desc in modelli:
             esegui(script, PREDICCION, desc)
 
     # ═══ FASE 8 — Training ANN ═══════════════════════════════════════════════
     if args.ann:
-        sezione("8️⃣  FASE 8 — Training ANN")
+        sezione("FASE 8 — Training ANN")
         ok = esegui("train_ann.py", PREDICCION, "Optuna Bayesian search + ANN")
         if ok:
-            print("   🏆  Modello ANN addestrato e salvato in prediccion/")
+            print("   Modello ANN addestrato e salvato in prediccion/")
 
     # ═══ FASE 9 — Training Scommesse Speciali ════════════════════════════════
     if args.special_bets:
-        sezione("9️⃣  FASE 9 — Training Scommesse Speciali")
+        sezione("FASE 9 — Training Scommesse Speciali")
         ok = esegui("train_special_bet.py", PREDICCION, "Training modelli Ace, DF, Break")
         if ok:
-            print("   🏆  Modelli speciali addestrati e salvati in prediccion/")
-
-    # ── Sincronizzazione finale ──────────────────────────────────────────────
-    sezione("🔄  SINCRONIZZAZIONE FINALE")
-    src_hist = os.path.join(SCRAPING,   "historialTenis.csv")
-    dst_hist = os.path.join(PREDICCION, "historialTenis.csv")
-    if os.path.exists(src_hist):
-        filtra_ritiri_e_copia(src_hist, dst_hist)
-        print("   ✅  historialTenis.csv filtrato e sincronizzato: scraping/ → prediccion/")
-    else:
-        print("   ⚠️   historialTenis.csv non trovato in scraping/ — nessuna copia")
+            print("   Modelli speciali addestrati e salvati in prediccion/")
 
     # ── Riepilogo ────────────────────────────────────────────────────────────
     fine   = time.time()
     minuti = (fine - inizio) / 60
 
-    sezione("✅  RIEPILOGO")
-    print(f"   ⏱️  Tempo totale: {minuti:.1f} minuti")
+    sezione("RIEPILOGO")
+    print(f"   Tempo totale: {minuti:.1f} minuti")
     print()
 
     files_check = [
-        (os.path.join(SCRAPING,   "historialTenis.csv"),        "historialTenis.csv (dataset)"),
+        (os.path.join(SCRAPING,   "master_dataset.csv"),        "master_dataset.csv (dataset TML)"),
         (os.path.join(SCRAPING,   "ranking_2026.csv"),          "ranking_2026.csv"),
         (os.path.join(SCRAPING,   "perfiles_jugadores.pkl"),    "perfiles_jugadores.pkl"),
         (os.path.join(SCRAPING,   "court_speed_dict.pkl"),      "court_speed_dict.pkl"),
-        (os.path.join(PREDICCION, "modelo_xgboost_final.pkl"),  "modelo_xgboost_final.pkl"),
-        (os.path.join(PREDICCION, "modelo_ensemble.pkl"),       "modelo_ensemble.pkl"),
-        (os.path.join(PREDICCION, "modelo_ann.pth"),             "modelo_ann.pth (ANN)"),
-        (os.path.join(PREDICCION, "scaler_ann.pkl"),             "scaler_ann.pkl (ANN)"),
-        (os.path.join(PREDICCION, "modelos_special_bets.pkl"),   "modelos_special_bets.pkl (Special Bets)"),
+        (os.path.join(PREDICCION, "master_dataset.csv"),        "prediccion/master_dataset.csv"),
+        (os.path.join(PREDICCION, "modelo_finale.pkl"),         "modelo_finale.pkl (ANN v6)"),
+        (os.path.join(PREDICCION, "scaler_ann.pkl"),            "scaler_ann.pkl"),
+        (os.path.join(PREDICCION, "glicko2_stores.pkl"),        "glicko2_stores.pkl"),
+        (os.path.join(PREDICCION, "modelos_special_bets.pkl"),  "modelos_special_bets.pkl"),
     ]
     for path, desc in files_check:
-        stato = "✅" if os.path.exists(path) else "❌ MANCANTE"
+        stato = "OK" if os.path.exists(path) else "MANCANTE"
         print(f"   {stato}  {desc}")
 
     print()

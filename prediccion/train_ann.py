@@ -75,6 +75,7 @@ print(f"🖥️  Device: {device}")
 # ─── Configurazione globale ───────────────────────────────────────────────────
 # QUICK_TEST = True → 2 epoche + 5 trial: per verificare feature / debug rapido
 QUICK_TEST  = False
+ML_MIN_YEAR = 2015  # Solo partite >= questo anno nel training ML (Glicko-2 usa tutto lo storico)
 
 TRIALS      = 5   if QUICK_TEST else 100
 TRIALS_GBM  = 5   if QUICK_TEST else 50
@@ -116,7 +117,12 @@ def carica_e_prepara(csv_path: str):
     df = pd.read_csv(csv_path, low_memory=False)
     df['tourney_date'] = pd.to_numeric(df['tourney_date'], errors='coerce')
     df = df.sort_values(by=['tourney_date', 'match_num']).reset_index(drop=True)
-    df['minutes'] = df['minutes'].fillna(90)
+    df['minutes'] = pd.to_numeric(df['minutes'], errors='coerce').fillna(90)
+    # Converti tutte le colonne statistiche a numerico (il CSV TML può avere stringhe miste)
+    _stat_cols = [c for c in df.columns if any(c.startswith(p) for p in
+                  ('w_', 'l_', 'winner_rank', 'loser_rank', 'winner_rank_points', 'loser_rank_points'))]
+    for c in _stat_cols:
+        df[c] = pd.to_numeric(df[c], errors='coerce')
     print(f"   → {len(df):,} partite caricate")
 
     # ── Encoding ─────────────────────────────────────────────────────────────
@@ -1068,9 +1074,14 @@ def train_lgb_surface_specific(X_tr_df, y_tr, X_val_df, y_val,
         mask_val  = X_val_df['surface_enc'] == surf_enc
         mask_test = X_test_df['surface_enc'] == surf_enc
 
-        n_tr = mask_tr.sum()
+        n_tr   = mask_tr.sum()
+        n_val  = mask_val.sum()
+        n_test = mask_test.sum()
         if n_tr < 200:
             print(f"   {surf_name}: solo {n_tr} esempi train — skip")
+            continue
+        if n_val < 10 or n_test < 10:
+            print(f"   {surf_name}: val={n_val} / test={n_test} troppo piccoli — skip")
             continue
 
         X_tr_s  = X_tr_df[mask_tr][FEATURES].fillna(0).values
@@ -1092,6 +1103,58 @@ def train_lgb_surface_specific(X_tr_df, y_tr, X_val_df, y_val,
             print(f"    -> {surf_name}: acc={acc:.4f} | log_loss={ll:.4f}")
 
     return models, accs
+
+
+def train_ann_surface_specific(df_tr, y_tr, X_tr_sc,
+                                df_val, y_val, X_val_sc,
+                                df_test, y_test, X_te_sc,
+                                n_trials=None):
+    """Allena un'ANN separata per Hard, Clay, Grass con Optuna."""
+    if n_trials is None:
+        n_trials = TRIALS
+
+    SURFACES = {0: 'Hard', 1: 'Clay', 2: 'Grass'}
+    ann_surf_results = {}
+
+    y_tr_np   = y_tr.values   if hasattr(y_tr,   'values') else np.array(y_tr)
+    y_val_np  = y_val.values  if hasattr(y_val,  'values') else np.array(y_val)
+    y_te_np   = y_test.values if hasattr(y_test, 'values') else np.array(y_test)
+    d_tr_arr  = df_tr['tourney_date'].values
+    lw_tr_arr = df_tr['level_weight'].values
+
+    for surf_enc, surf_name in SURFACES.items():
+        mask_tr   = (df_tr['surface_enc'].values   == surf_enc)
+        mask_val  = (df_val['surface_enc'].values  == surf_enc)
+        mask_test = (df_test['surface_enc'].values == surf_enc)
+
+        n_tr, n_val, n_test = mask_tr.sum(), mask_val.sum(), mask_test.sum()
+        if n_tr < 500:
+            print(f"   {surf_name}: solo {n_tr} esempi train — skip")
+            continue
+        if n_val < 20 or n_test < 10:
+            print(f"   {surf_name}: val={n_val} / test={n_test} troppo piccoli — skip")
+            continue
+
+        print(f"\n  ANN Surface: {surf_name} ({n_tr:,} train | {n_val:,} val | {n_test:,} test)")
+        risultati_s = optuna_search(
+            X_tr_sc[mask_tr],
+            pd.Series(y_tr_np[mask_tr]),
+            X_val_sc[mask_val],
+            X_te_sc[mask_test],
+            pd.Series(y_val_np[mask_val]),
+            pd.Series(y_te_np[mask_test]),
+            pd.Series(d_tr_arr[mask_tr]),
+            lw_tr_arr[mask_tr],
+            n_trials=n_trials,
+            label=surf_name,
+        )
+        if risultati_s:
+            best_s = risultati_s[0]
+            acc_s, ll_s = valuta(best_s['_model'], X_te_sc[mask_test], y_te_np[mask_test])
+            print(f"    -> {surf_name}: acc={acc_s:.4f} | log_loss={ll_s:.4f}")
+            ann_surf_results[surf_name] = risultati_s
+
+    return ann_surf_results
 
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -1183,12 +1246,12 @@ if __name__ == '__main__':
     # ── 1. Feature engineering ────────────────────────────────────────────────
     df_ml, wrate_final, glicko2_data, streak_t = carica_e_prepara(csv_path)
 
-    # ── 1b. Escludi Challenger dal training ML ────────────────────────────────
-    # I challenger vengono usati per calcolare elo/form/streak (feature quality),
-    # ma NON come esempi di addestramento: sono meno prevedibili e abbassano l'accuracy.
+    # ── 1b. Filtro anno minimo + escludi Challenger dal training ML ──────────
     n_before = len(df_ml)
+    if ML_MIN_YEAR:
+        df_ml = df_ml[df_ml['tourney_date'] >= ML_MIN_YEAR * 10000].copy()
     df_ml = df_ml[df_ml['level_weight'] != 0.8].copy()
-    print(f"   → Challenger esclusi dal training ML: "
+    print(f"   → Filtro ML_MIN_YEAR={ML_MIN_YEAR} + Challenger esclusi: "
           f"{n_before - len(df_ml):,} righe rimosse | {len(df_ml):,} righe rimaste")
 
     # ── 2. [BUG2+BUG3 FIX] Temporal split per data cronologica ───────────────
@@ -1234,7 +1297,7 @@ if __name__ == '__main__':
         corr['target'] = y_tr.values
         feat_corr = corr.corr()['target'].drop('target').abs().sort_values(ascending=False)
         for feat, val in feat_corr.items():
-            bar = '█' * int(val * 40)
+            bar = '█' * int(val * 40) if not (val != val) else ''
             print(f"   {feat:35s} {val:.4f}  {bar}")
         print()
 
@@ -1316,6 +1379,31 @@ if __name__ == '__main__':
     else:
         surf_acc, surf_ll = 0.0, float('inf')
 
+    # ── Surface-specific ANN ──────────────────────────────────────────────────
+    print("\n🧠 Training ANN Surface-Specific (Hard / Clay / Grass)...")
+    ann_surf_models = train_ann_surface_specific(
+        df_tr, y_tr, X_tr_sc,
+        df_val, y_val, X_val_sc,
+        df_test, y_test, X_te_sc,
+        n_trials=TRIALS,
+    )
+
+    # Calcola accuracy ANN surface routing sul test set
+    if ann_surf_models:
+        _surf_enc_map = {'Hard': 0, 'Clay': 1, 'Grass': 2}
+        ann_surf_preds = get_ann_probs(best['_model'], X_te_sc).flatten()  # fallback globale
+        for sname, sresults in ann_surf_models.items():
+            smask = (df_test['surface_enc'].values == _surf_enc_map[sname])
+            if smask.sum() > 0:
+                ann_surf_preds[smask] = get_ann_probs(
+                    sresults[0]['_model'], X_te_sc[smask]
+                ).flatten()
+        ann_surf_acc = accuracy_score(y_test_np, (ann_surf_preds >= 0.5).astype(int))
+        ann_surf_ll  = log_loss(y_test_np, ann_surf_preds)
+        print(f"\n   ANN Surface ensemble: acc={ann_surf_acc:.4f} | log_loss={ann_surf_ll:.4f}")
+    else:
+        ann_surf_acc, ann_surf_ll = 0.0, float('inf')
+
     best_ann = best['_model']
     ann_probs_val  = get_ann_probs(best_ann, X_val_sc)
     ann_probs_test = get_ann_probs(best_ann, X_te_sc)
@@ -1361,6 +1449,18 @@ if __name__ == '__main__':
 
     joblib.dump(calibrator, 'calibrator_ann.pkl')
     print(f"   → calibrator_ann.pkl salvato")
+
+    # ── Accuracy per superficie (su calibrated probs del test set) ────────────
+    _surf_acc_map = {'Hard': 0, 'Clay': 1, 'Grass': 2}
+    surface_accuracy = {}
+    for sname, senc in _surf_acc_map.items():
+        smask = df_test['surface_enc'].values == senc
+        if smask.sum() >= 10:
+            surface_accuracy[sname] = float(accuracy_score(
+                y_test_np[smask], (calibrated_probs_test[smask] >= 0.5).astype(int)
+            ))
+    print(f"   Accuracy per superficie: " +
+          " | ".join(f"{s}={v:.1%}" for s, v in surface_accuracy.items()))
 
     val_probs  = {'ANN': ann_probs_val}
     test_probs = {'ANN': ann_probs_test}
@@ -1423,6 +1523,9 @@ if __name__ == '__main__':
     if surf_lgb_models:
         results_list.append({'Modello': 'LGB Surface', 'Accuracy': surf_acc, 'Log Loss': surf_ll,
                               'Note': 'LGB Hard/Clay/Grass routing', '_strategy': 'lgb_surface'})
+    if ann_surf_models:
+        results_list.append({'Modello': 'ANN Surface', 'Accuracy': ann_surf_acc, 'Log Loss': ann_surf_ll,
+                              'Note': 'ANN Hard/Clay/Grass routing', '_strategy': 'ann_surface'})
 
     for r in results_list:
         r['_score'] = r['Accuracy'] - r['Log Loss']
@@ -1496,6 +1599,7 @@ if __name__ == '__main__':
 
     # Re-train GBM se la strategia vincente li richiede
     needs_gbm  = best_strategy in ('lgb', 'lgb_surface', 'xgb', 'ensemble_avg', 'ensemble_avg_top5', 'ensemble_stacking')
+    needs_ann_surf = best_strategy == 'ann_surface'
     needs_top5 = best_strategy in ('ann_top5', 'ensemble_avg_top5')
 
     X_all_sc = scaler_final.transform(X_all)
@@ -1548,10 +1652,51 @@ if __name__ == '__main__':
         'calibration_curve':    calibration_curve_data,
         'ann_top5_uncertainty': top5_for_uncertainty,
         'lgb_surface_models':   {},
+        'ann_surface_models':   {},
+        'surface_accuracy':     surface_accuracy,
     }
     if best_strategy == 'ann_top5':
         modelo_finale['ann_top5'] = [{'state_dict': sd, 'config': c}
                                      for sd, c in zip(top5_state_dicts, top5_configs)]
+    elif best_strategy == 'ann_surface':
+        print("   Re-training ANN Surface models su tutti i dati...")
+        surf_final_ann = {}
+        for sname, sresults in ann_surf_models.items():
+            senc = {'Hard': 0, 'Clay': 1, 'Grass': 2}[sname]
+            mask_all_s = df_ml['surface_enc'].values == senc
+            if mask_all_s.sum() < 100:
+                continue
+            X_all_s  = X_all_sc[mask_all_s]
+            y_all_s  = y_all_np[mask_all_s]
+            d_all_s  = d_all.values[mask_all_s]
+            lw_all_s = lw_all[mask_all_s]
+            ud_s  = np.sort(np.unique(d_all_s[~np.isnan(d_all_s.astype(float))]))
+            cut_s = ud_s[int(len(ud_s) * 0.85)] if len(ud_s) > 1 else d_all_s[0]
+            mtr_s = d_all_s <  cut_s
+            mva_s = d_all_s >= cut_s
+            w_s   = torch.tensor(calcola_pesi_combinati(d_all_s[mtr_s], lw_all_s[mtr_s], 0.003))
+            Xtr_s_t = torch.tensor(X_all_s[mtr_s].astype(np.float32))
+            ytr_s_t = torch.tensor(y_all_s[mtr_s].astype(np.float32))
+            Xva_s_t = torch.tensor(X_all_s[mva_s].astype(np.float32))
+            yva_s_t = torch.tensor(y_all_s[mva_s].astype(np.float32))
+            hp_s  = sresults[0]['_config']
+            hl_s  = hp_s['hidden_layers']; dr_s = hp_s['dropout']
+            lr_s  = hp_s['lr'];             bs_s = hp_s['batch_size']
+            ep_s  = hp_s['epochs'];          sm_s = hp_s.get('label_smoothing', 0.05)
+            ip_s  = hp_s.get('interaction_pairs', DEFAULT_INTERACTION_PAIRS)
+            ni_s  = hp_s.get('n_interactions', len(ip_s))
+            bs_eff_s = bs_s * 2 if USE_CUDA and bs_s < 2048 else bs_s
+            ldr_s_tr  = DataLoader(TensorDataset(Xtr_s_t, ytr_s_t), batch_size=bs_eff_s,
+                                   sampler=WeightedRandomSampler(w_s, len(w_s), replacement=True),
+                                   pin_memory=PIN_MEM, num_workers=N_WORKERS)
+            ldr_s_val = DataLoader(TensorDataset(Xva_s_t, yva_s_t), batch_size=4096,
+                                   shuffle=False, pin_memory=PIN_MEM, num_workers=N_WORKERS)
+            print(f"   Re-training ANN {sname} ({mask_all_s.sum():,} match)...")
+            m_s = TennisANNv3(len(FEATURES), hl_s, dr_s, ni_s, ip_s)
+            m_s, _ = train_model(m_s, ldr_s_tr, ldr_s_val, epochs=ep_s, lr=lr_s, smoothing=sm_s)
+            surf_final_ann[sname] = {'state_dict': m_s.state_dict(), 'config': hp_s}
+        modelo_finale['ann_surface_models'] = surf_final_ann
+
     elif best_strategy == 'lgb_surface':
         print("   Re-training LGB Surface models su tutti i dati...")
         surf_final_models = {}

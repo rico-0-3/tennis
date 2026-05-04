@@ -19,7 +19,14 @@
       "Bash(python:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(\"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\venv\\\\Scripts\\\\python.exe\" -m pytest tests/ -v)",
+      "Bash(git worktree *)",
+      "Bash(git branch *)",
+      "Bash(git stash *)",
+      "Bash(dir \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\pages\")",
+      "Bash(dir \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\.github\")",
+      "Bash(dir *)"
     ]
   }
 }

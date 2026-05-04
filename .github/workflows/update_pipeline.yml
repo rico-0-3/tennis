@@ -1,15 +1,10 @@
-name: 🎾 Aggiorna Dati Tennis
+name: Aggiorna Dati Tennis
 
 on:
   workflow_dispatch:
     inputs:
       esegui_scraping:
-        description: 'Scraping ATP (Ranking + Partite + Elaborazione)'
-        required: false
-        type: boolean
-        default: true
-      esegui_fusione:
-        description: 'Fusione Storico'
+        description: 'Download TML (Ranking + Dati Partite)'
         required: false
         type: boolean
         default: true
@@ -18,7 +13,7 @@ on:
         required: false
         type: boolean
         default: true
-      esegui_bio:  # <--- AGGIUNTO QUI
+      esegui_bio:
         description: 'Bio Giocatori (DOB + altezza da tennisstats.com)'
         required: false
         type: boolean
@@ -57,32 +52,26 @@ jobs:
       contents: write
 
     steps:
-      - name: 📥 Checkout repo
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🐍 Setup Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: 'pip'
 
-      - name: 🌐 Installa Chrome
-        uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: 'stable'
-
-      - name: 📦 Installa dipendenze
+      - name: Installa dipendenze
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: 🎾 Esegui Pipeline
+      - name: Esegui Pipeline
         run: |
           python run_pipeline.py \
             ${{ inputs.esegui_scraping == true && '--scraping' || '' }} \
-            ${{ inputs.esegui_fusione == true && '--fusione' || '' }} \
             ${{ inputs.esegui_profili == true && '--profili' || '' }} \
             ${{ inputs.esegui_bio == true && '--bio' || '' }} \
             ${{ inputs.esegui_court_speed == true && '--court-speed' || '' }} \
@@ -90,13 +79,12 @@ jobs:
             ${{ inputs.esegui_ann == true && '--ann' || '' }} \
             ${{ inputs.esegui_special_bets == true && '--special-bets' || '' }}
 
-      - name: 📤 Commit & Push risultati
+      - name: Commit & Push risultati
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # Forza full redeploy Streamlit Cloud (svuota cache @st.cache_resource)
-          # Aggiorna il commento in requirements.txt senza toccare le dipendenze reali
           grep -v "^# last_update:" requirements.txt > requirements_tmp.txt && mv requirements_tmp.txt requirements.txt
           echo "# last_update: $(date -u '+%Y-%m-%d %H:%M UTC')" >> requirements.txt
 
@@ -104,6 +92,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "Nessuna modifica da committare."
           else
-            git commit -m "🤖 Aggiornamento automatico dati tennis"
+            git commit -m "Aggiornamento automatico dati tennis"
             git push
           fi

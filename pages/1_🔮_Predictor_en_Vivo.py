@@ -316,7 +316,20 @@ finale_name     = modelo_finale['model_name']
 finale_accuracy = modelo_finale.get('accuracy', 0)
 finale_score    = modelo_finale.get('score', 0)
 finale_trained  = modelo_finale.get('trained_date', 'N/D')
-st.sidebar.success(f"🎯 Modello attivo: **{finale_name}**\n\nAcc: {finale_accuracy:.1%} · Score: {finale_score:.4f}\n\n📅 Addestrato: {finale_trained}")
+surf_acc        = modelo_finale.get('surface_accuracy', {})
+
+_surf_lines = " · ".join(
+    f"{s[0]}: {v:.1%}" for s, v in [("Hard", surf_acc.get("Hard")),
+                                      ("Clay", surf_acc.get("Clay")),
+                                      ("Grass", surf_acc.get("Grass"))]
+    if v is not None
+)
+st.sidebar.success(
+    f"🎯 Modello attivo: **{finale_name}**\n\n"
+    f"Acc: {finale_accuracy:.1%} · Score: {finale_score:.4f}\n\n"
+    + (f"H: {surf_acc.get('Hard', 0):.1%} · C: {surf_acc.get('Clay', 0):.1%} · G: {surf_acc.get('Grass', 0):.1%}\n\n" if surf_acc else "")
+    + f"📅 Addestrato: {finale_trained}"
+)
 
 
 def get_skill(p, s): return stats_dict.get((p, s), 0.5)

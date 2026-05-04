@@ -181,6 +181,16 @@ def predici(input_sc, input_t: torch.Tensor, modelo_finale: dict) -> tuple:
         probs = [_ann_prob(a, input_t) for a in anns]
         return float(np.mean(probs)), modelo_finale['model_name']
 
+    elif s == 'ann_surface':
+        surf_enc_val = int(round(float(input_sc[0, 7])))
+        surf_name = {0: 'Hard', 1: 'Clay', 2: 'Grass'}.get(surf_enc_val)
+        ann_surf_models = modelo_finale.get('ann_surface_models', {})
+        if surf_name and surf_name in ann_surf_models:
+            ann = _build_ann(ann_surf_models[surf_name])
+        else:
+            ann = _build_ann(modelo_finale['ann'])  # fallback globale
+        return _ann_prob(ann, input_t), modelo_finale['model_name']
+
     elif s == 'lgb_surface':
         surf_models = modelo_finale.get('lgb_surface_models', {})
         surf_enc_val = int(round(float(input_sc[0, 7])))

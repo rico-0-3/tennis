@@ -154,8 +154,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("##### 📡 Dati")
-    scraping    = st.checkbox(" Scraping ATP (Ranking + Partite + Elaborazione)", value=True)
-    fusione     = st.checkbox(" Fusione Storico", value=True)
+    scraping    = st.checkbox(" Download TML (Ranking + Dati Partite)", value=True)
     profili     = st.checkbox(" Profili Giocatori", value=True)
     bio         = st.checkbox(" Bio Giocatori (DOB + altezza da tennisstats.com)", value=False)
     court_speed = st.checkbox(" Court Speed (scraping + arricchimento)", value=True)
@@ -179,13 +178,12 @@ st.divider()
 if st.button(" Avvia Aggiornamento", type="primary", use_container_width=True):
     inputs = {
         "esegui_scraping":    scraping,
-        "esegui_fusione":     fusione,
         "esegui_profili":     profili,
         "esegui_bio":         bio,
         "esegui_court_speed": court_speed,
         "esegui_modelli":     modelli_base,
         "esegui_ann":         ann,
-        "esegui_special_bets": special_bets, # Nuova variabile!
+        "esegui_special_bets": special_bets,
     }
 
     with st.spinner(" Invio richiesta a GitHub Actions..."):
