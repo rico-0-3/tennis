@@ -1120,8 +1120,8 @@ def confronto_finale(results_list):
 if __name__ == '__main__':
 
     CSV_CANDIDATES = [
-        '../scraping/master_dataset.csv',
         'master_dataset.csv',
+        '../scraping/master_dataset.csv',
         '../scraping/historialTenis.csv',
         'historialTenis.csv',
     ]
@@ -1496,7 +1496,7 @@ if __name__ == '__main__':
     confronto_finale(results_clean)
 
     print("\n✅ File salvati:")
-    for f in ['modelo_finale.pkl', 'scaler_ann.pkl', 'elo_surface.pkl', 'elo_overall.pkl',
+    for f in ['modelo_finale.pkl', 'scaler_ann.pkl', 'glicko2_stores.pkl', 'serve_stats.pkl', 'return_stats.pkl',
               'streak_players.pkl', 'momentum_surface.pkl', 'recent_form.pkl',
               'close_match_hist.pkl', 'upset_hist.pkl', 'late_round_hist.pkl', 'match_load.pkl',
               'resultados_comparacion_finale.csv']:
