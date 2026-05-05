@@ -708,6 +708,14 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
         'level_weight':         lev_w,
     }])
 
+    n_expected = getattr(finale_scaler, 'n_features_in_', len(ANN_FEATURES))
+    if n_expected != len(ANN_FEATURES):
+        st.error(
+            f"⚠️ Il modello salvato è stato addestrato con **{n_expected} feature** "
+            f"ma il codice attuale ne usa **{len(ANN_FEATURES)}**. "
+            "Riaddestra il modello dalla pagina **Aggiorna Dati** (spunta Training Modelli + Training ANN)."
+        )
+        st.stop()
     input_sc = finale_scaler.transform(ann_input[ANN_FEATURES].values)
     input_t  = torch.tensor(input_sc.astype(np.float32))
 
