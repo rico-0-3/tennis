@@ -265,7 +265,7 @@ def predici_partita(partita: dict, res: dict) -> dict:
         modelo   = res['modelo']
         scaler   = modelo['scaler']
         df_row   = pd.DataFrame([row])
-        input_sc = scaler.transform(df_row[ANN_FEATURES])
+        input_sc = scaler.transform(df_row[ANN_FEATURES].values)
         input_t  = torch.tensor(input_sc.astype(np.float32))
         prob_p1, modello_usato = predici(input_sc, input_t, modelo)
 

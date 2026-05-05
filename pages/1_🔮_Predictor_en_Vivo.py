@@ -708,7 +708,7 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
         'level_weight':         lev_w,
     }])
 
-    input_sc = finale_scaler.transform(ann_input[ANN_FEATURES])
+    input_sc = finale_scaler.transform(ann_input[ANN_FEATURES].values)
     input_t  = torch.tensor(input_sc.astype(np.float32))
 
     # ── Predizione con modello finale (usa wrapper che passa modelo_finale) ──
