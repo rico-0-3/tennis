@@ -327,7 +327,7 @@ _surf_lines = " · ".join(
 st.sidebar.success(
     f"🎯 Modello attivo: **{finale_name}**\n\n"
     f"Acc: {finale_accuracy:.1%} · Score: {finale_score:.4f}\n\n"
-    + (f"H: {surf_acc.get('Hard', 0):.1%} · C: {surf_acc.get('Clay', 0):.1%} · G: {surf_acc.get('Grass', 0):.1%}\n\n" if surf_acc else "")
+    + (("  ".join(f"{k[0]}: {v:.1%}" for k, v in surf_acc.items()) + "\n\n") if surf_acc else "")
     + f"📅 Addestrato: {finale_trained}"
 )
 
