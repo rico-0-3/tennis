@@ -609,7 +609,7 @@ def calcola_pesi_temporali(date_series: pd.Series, lambda_decay: float = 0.003) 
     days_ago = (max_date - date_series) / 10000 * 365
     weights  = np.exp(-lambda_decay * days_ago)
     weights  = weights / weights.sum() * len(weights)
-    return weights.values.astype(np.float32)
+    return np.asarray(weights).astype(np.float32)
 
 
 def calcola_pesi_combinati(date_series: pd.Series, level_weights: np.ndarray,
@@ -1128,8 +1128,10 @@ def train_ann_surface_specific(df_tr, y_tr, X_tr_sc,
         mask_test = (df_test['surface_enc'].values == surf_enc)
 
         n_tr, n_val, n_test = mask_tr.sum(), mask_val.sum(), mask_test.sum()
-        if n_tr < 500:
-            print(f"   {surf_name}: solo {n_tr} esempi train — skip")
+        # Soglia più alta per evitare overfitting su superfici con pochi dati (es. Grass ~5k)
+        min_tr = 8000
+        if n_tr < min_tr:
+            print(f"   {surf_name}: {n_tr} esempi train < {min_tr} — skip (fallback ANN globale)")
             continue
         if n_val < 20 or n_test < 10:
             print(f"   {surf_name}: val={n_val} / test={n_test} troppo piccoli — skip")
