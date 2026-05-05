@@ -1,116 +1,6 @@
 {
-  "updated_at": "2026-05-04T19:57:43.529335",
+  "updated_at": "2026-05-05T06:00:42.237443",
   "partite": [
-    {
-      "p1": "Singh D.",
-      "p2": "Beckles D.",
-      "torneo": "Brazzaville challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-04",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Sanogo E.",
-      "p2": "Marrero Curbelo I.",
-      "torneo": "Brazzaville challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-04",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Sanogo E."
-    },
-    {
-      "p1": "Tosetto R.",
-      "p2": "Tsitsipas P.",
-      "torneo": "Santos challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-04",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Huertas Del Pino A.",
-      "p2": "Augusto Dos Santos R.",
-      "torneo": "Santos challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-04",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Cigarran T.",
-      "p2": "Miguel L.",
-      "torneo": "Santos challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-04",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Schenekenberg G.",
-      "p2": "Scramin do Lago J.",
-      "torneo": "Santos challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-04",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Kwon S.",
-      "p2": "Uchida K.",
-      "torneo": "Wuxi challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Noguchi R.",
-      "p2": "Bar Biryukov P.",
-      "torneo": "Wuxi challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Jung J.",
-      "p2": "Ilagan A.",
-      "torneo": "Wuxi challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Walton A.",
-      "p2": "Hsu Y.",
-      "torneo": "Wuxi challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
     {
       "p1": "Wu T.",
       "p2": "McCabe J.",
@@ -134,6 +24,28 @@
       "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
     },
     {
+      "p1": "Walton A.",
+      "p2": "Hsu Y.",
+      "torneo": "Wuxi challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-05",
+      "skipped": true,
+      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
+    },
+    {
+      "p1": "Matsuoka H.",
+      "p2": "Jones M.",
+      "torneo": "Wuxi challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-05",
+      "skipped": true,
+      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
+    },
+    {
       "p1": "Smith K.",
       "p2": "Yunchaokete B.",
       "torneo": "Wuxi challenger",
@@ -147,17 +59,6 @@
     {
       "p1": "Tomic B.",
       "p2": "Ayeni A.",
-      "torneo": "Wuxi challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Matsuoka H.",
-      "p2": "Jones M.",
       "torneo": "Wuxi challenger",
       "livello": "Challenger",
       "superficie": "Grass",
@@ -310,63 +211,8 @@
       "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
     },
     {
-      "p1": "Bax F.",
-      "p2": "Arcon A.",
-      "torneo": "Brazzaville challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Mansouri S.",
-      "p2": "Bolangi B.",
-      "torneo": "Brazzaville challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Bolangi B."
-    },
-    {
-      "p1": "Lock C.",
-      "p2": "Vasa I.",
-      "torneo": "Brazzaville challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Aggarwal P.",
-      "p2": "Ribero F.",
-      "torneo": "Brazzaville challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Britto L.",
-      "p2": "Bicknell B.",
-      "torneo": "Brazzaville challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-05",
-      "skipped": true,
-      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
-    },
-    {
-      "p1": "Maginley H.",
-      "p2": "Covato M.",
+      "p1": "Singh K.",
+      "p2": "Singh D.",
       "torneo": "Brazzaville challenger",
       "livello": "Challenger",
       "superficie": "Grass",
@@ -398,8 +244,52 @@
       "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
     },
     {
+      "p1": "Britto L.",
+      "p2": "Bicknell B.",
+      "torneo": "Brazzaville challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-05",
+      "skipped": true,
+      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
+    },
+    {
+      "p1": "Lock C.",
+      "p2": "Vasa I.",
+      "torneo": "Brazzaville challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-05",
+      "skipped": true,
+      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
+    },
+    {
+      "p1": "Maginley H.",
+      "p2": "Covato M.",
+      "torneo": "Brazzaville challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-05",
+      "skipped": true,
+      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
+    },
+    {
       "p1": "Geerts M.",
       "p2": "Dinev D.",
+      "torneo": "Brazzaville challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-05",
+      "skipped": true,
+      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
+    },
+    {
+      "p1": "Aggarwal P.",
+      "p2": "Ribero F.",
       "torneo": "Brazzaville challenger",
       "livello": "Challenger",
       "superficie": "Grass",
@@ -431,8 +321,8 @@
       "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
     },
     {
-      "p1": "Perez B.",
-      "p2": "Lalami Laaroussi Y.",
+      "p1": "Bax F.",
+      "p2": "Arcon A.",
       "torneo": "Brazzaville challenger",
       "livello": "Challenger",
       "superficie": "Grass",
@@ -442,9 +332,20 @@
       "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
     },
     {
-      "p1": "Alves M.",
-      "p2": "Casanova H.",
-      "torneo": "Santos challenger",
+      "p1": "Mansouri S.",
+      "p2": "Bolangi B.",
+      "torneo": "Brazzaville challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-05",
+      "skipped": true,
+      "motivo": "Giocatori non nel database: Bolangi B."
+    },
+    {
+      "p1": "Perez B.",
+      "p2": "Lalami Laaroussi Y.",
+      "torneo": "Brazzaville challenger",
       "livello": "Challenger",
       "superficie": "Grass",
       "turno": "32mi",
@@ -697,6 +598,28 @@
     {
       "p1": "Fernandez B.",
       "p2": "Remondy Pagotto V.",
+      "torneo": "Santos challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-05",
+      "skipped": true,
+      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
+    },
+    {
+      "p1": "Miguel L.",
+      "p2": "Schenekenberg G.",
+      "torneo": "Santos challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-05",
+      "skipped": true,
+      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
+    },
+    {
+      "p1": "Huertas Del Pino A.",
+      "p2": "Tosetto R.",
       "torneo": "Santos challenger",
       "livello": "Challenger",
       "superficie": "Grass",
@@ -994,6 +917,17 @@
     {
       "p1": "Rodrigues Longobardi P.",
       "p2": "La Serna J.",
+      "torneo": "Santos challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-06",
+      "skipped": true,
+      "motivo": "Errore predizione: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\nTraceback (most recent call last):\n  File \"/home/runner/work/tennis/tennis/prediccion/predecir_proximas.py\", line 268, in predici_partita\n    input_sc = scaler.transform(df_row[ANN_FEATURES])\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/_set_output.py\", line 316, in wrapped\n    data_to_wrap = f(self, X, *args, **kwargs)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/preprocessing/_data.py\", line 1094, in transform\n    X = validate_data(\n        ^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2877, in validate_data\n    _check_feature_names(_estimator, X, reset=reset)\n  File \"/opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages/sklearn/utils/validation.py\", line 2729, in _check_feature_names\n    raise ValueError(message)\nValueError: The feature names should match those that were passed during fit.\nFeature names unseen at fit time:\n- diff_glicko\n- diff_glicko_overall\n- diff_glicko_rd\n- indoor\nFeature names seen at fit time, yet now missing:\n- diff_elo\n- diff_elo_overall\n\n"
+    },
+    {
+      "p1": "Alves M.",
+      "p2": "Casanova H.",
       "torneo": "Santos challenger",
       "livello": "Challenger",
       "superficie": "Grass",
