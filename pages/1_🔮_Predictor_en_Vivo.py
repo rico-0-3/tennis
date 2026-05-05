@@ -17,6 +17,7 @@ from prediction_engine import (
     BK_OVERROUND, TennisANNv3, _build_ann, _ann_prob, predici, _apply_cal,
     calc_oq, days_since_last, weeks_load as weeks_load_fn,
     upset_tendency as upset_tendency_fn, late_round_wr as late_round_wr_fn,
+    Glicko2Store,
 )
 
 # Import court speed helper
@@ -71,8 +72,8 @@ in fase di addestramento come il **migliore** tra diverse strategie:
 | 📊 **Ensemble Avg** | Media ANN+LGB+XGB | Media semplice delle probabilità dei 3 modelli |
 | 🎯 **Ensemble Stacking** | Meta-Learner | Regressione logistica che combina i 3 modelli con pesi ottimali |
 
-Il sistema analizza **30 feature** tra cui:
-* 📊 **Gerarchia:** Ranking (log), Punti (log), Elo (globale e per superficie).
+Il sistema analizza **32 feature** tra cui:
+* 📊 **Gerarchia:** Ranking (log), Punti (log), Glicko-2 (globale e per superficie).
 * ⚔️ **Storico:** Scontri diretti (H2H globale e per superficie), forma recente.
 * 🧠 **Momento:** Striscia, momentum, fatica, giorni dall'ultimo match.
 * 🎯 **Tecnica:** Ace, servizio (1st pct, 1st won, 2nd won), break point, resa al ritorno.
@@ -83,101 +84,8 @@ Il sistema analizza **30 feature** tra cui:
 st.write("---")
 
 
-# â"€â"€â"€ Definizione ANN v3 (stessa architettura di train_ann.py) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-DEFAULT_INTERACTION_PAIRS = [
-    (4, 12), (0, 15), (4, 15), (12, 15), (0, 1),
-    (4, 16), (6, 15), (12, 14), (14, 15), (1, 12),
-]
-N_INTERACTIONS = len(DEFAULT_INTERACTION_PAIRS)
 
 
-class TennisANNv3(nn.Module):
-    """Wide & Deep con Feature Interaction e Residual Connections."""
-    def __init__(self, input_dim: int, hidden_layers: list, dropout: float = 0.3,
-                 n_interactions: int = N_INTERACTIONS,
-                 interaction_pairs: list = None):
-        super().__init__()
-        self.interaction_pairs = interaction_pairs or DEFAULT_INTERACTION_PAIRS
-        self.n_interactions = min(n_interactions, len(self.interaction_pairs))
-
-        # === Wide path ===
-        self.wide = nn.Linear(input_dim, 1)
-
-        # === Deep path con residual ===
-        interaction_dim = input_dim + self.n_interactions
-        self.deep_layers = nn.ModuleList()
-        self.deep_norms = nn.ModuleList()
-        self.deep_drops = nn.ModuleList()
-        self.residual_projs = nn.ModuleList()
-
-        prev = interaction_dim
-        for h in hidden_layers:
-            self.deep_layers.append(nn.Linear(prev, h))
-            self.deep_norms.append(nn.BatchNorm1d(h))
-            self.deep_drops.append(nn.Dropout(dropout))
-            if prev != h:
-                self.residual_projs.append(nn.Linear(prev, h))
-            else:
-                self.residual_projs.append(nn.Identity())
-            prev = h
-
-        self.deep_out = nn.Linear(prev, 1)
-
-    def forward(self, x):
-        wide_out = self.wide(x)
-
-        interactions = []
-        for i, j in self.interaction_pairs[:self.n_interactions]:
-            if i < x.shape[1] and j < x.shape[1]:
-                interactions.append(x[:, i] * x[:, j])
-            else:
-                interactions.append(torch.zeros(x.shape[0], device=x.device))
-        inter_t = torch.stack(interactions, dim=1)
-        deep_in = torch.cat([x, inter_t], dim=1)
-
-        h = deep_in
-        for layer, norm, drop, res_proj in zip(
-                self.deep_layers, self.deep_norms,
-                self.deep_drops, self.residual_projs):
-            identity = res_proj(h)
-            h = layer(h)
-            h = norm(h)
-            h = torch.relu(h)
-            h = drop(h)
-            h = h + identity
-
-        deep_out = self.deep_out(h)
-        return (wide_out + deep_out).squeeze(1)
-
-
-ANN_FEATURES = [
-    'log_rank_ratio', 'log_pts_ratio',
-    'diff_elo', 'diff_elo_overall',
-    'diff_streak', 'diff_recent_form',
-    'surface_enc', 'tourney_level', 'round_enc',
-    'is_best_of_5',
-    'diff_h2h', 'diff_h2h_surface',
-    'diff_skill', 'diff_momentum',
-    'diff_fatigue', 'diff_days_since_last',
-    'diff_weeks_load',
-    'diff_ace', 'diff_1st_pct', 'diff_1st_won',
-    'diff_2nd_won', 'diff_bp_saved',
-    'diff_return_pct', 'diff_bp_conv', 'diff_return_1st',
-    'diff_home',
-    'diff_opponent_quality',
-    'diff_upset_tendency',
-    'diff_late_round_wr',
-    'level_weight',
-]  # 30 feature (v5.1)
-
-
-SURFACE_MAP   = {'Hard': 0, 'Clay': 1, 'Grass': 2}
-LEVEL_MAP     = {'G': 5, 'M': 4, 'A': 3, 'F': 4, 'C': 2, 'S': 1, 'E': 0}
-ROUND_MAP_STR = {'Finale': 7, 'Semifinale': 6, 'Quarti': 5,
-                 'Ottavi di finale (16mi)': 4, '32mi': 3,
-                 '64mi': 2, '128mi': 1, 'Round Robin': 4}
-LEVEL_MULT_LABEL = {'Grand Slam': 2.0, 'Masters 1000': 1.5, 'ATP 500': 1.0,
-                    'ATP 250': 1.0, 'Challenger': 0.8}
 
 
 
@@ -232,23 +140,29 @@ def cargar_todo(_version: str):
         except Exception as e:
             st.warning(f"modelo_finale.pkl non caricato: {e}")
 
-    # Elo + streak + momentum + elo_overall + recent_form
-    elo_surface = {}     # {(player, surface): elo_float}
+    # Glicko-2 + streak + momentum + recent_form + serve/return stats
+    glicko2_surf_store = {}  # {surface: Glicko2Store}
     streak_players = {}
-    momentum_surface = {}  # {(player, surface): [last 10 results]}
-    elo_path    = pp('elo_surface.pkl')
+    momentum_surface = {}
+    recent_form = {}
+    serve_stats = {}
+    return_stats = {}
+
+    _g2_raw = None
+    g2_path     = pp('glicko2_stores.pkl')
     streak_path = pp('streak_players.pkl')
     mom_path    = pp('momentum_surface.pkl')
-    elo_ov_path = pp('elo_overall.pkl')
     rf_path     = pp('recent_form.pkl')
-    if os.path.exists(elo_path):    elo_surface      = joblib.load(elo_path)
+    ss_path     = pp('serve_stats.pkl')
+    rs_path     = pp('return_stats.pkl')
+    if os.path.exists(g2_path):
+        _g2_raw = joblib.load(g2_path)
+        glicko2_surf_store = {s: Glicko2Store.from_dict(d) for s, d in _g2_raw.items()}
     if os.path.exists(streak_path): streak_players   = joblib.load(streak_path)
     if os.path.exists(mom_path):    momentum_surface = joblib.load(mom_path)
-
-    elo_overall = {}     # {player: elo_float}
-    recent_form = {}     # {player: [last 10 results]}
-    if os.path.exists(elo_ov_path): elo_overall  = joblib.load(elo_ov_path)
-    if os.path.exists(rf_path):     recent_form  = joblib.load(rf_path)
+    if os.path.exists(rf_path):     recent_form      = joblib.load(rf_path)
+    if os.path.exists(ss_path):     serve_stats      = joblib.load(ss_path)
+    if os.path.exists(rs_path):     return_stats     = joblib.load(rs_path)
 
     h2h_surface_dict = {}  # {(p1, p2, surface): [w1, w2]}
     last_match_date_dict = {}  # {player: int (YYYYMMDD)}
@@ -283,16 +197,18 @@ def cargar_todo(_version: str):
 
     return (stats_dict, perfiles, df_history, ranking_dict,
             modelo_finale,
-            elo_surface, streak_players,
-            momentum_surface, elo_overall, recent_form,
+            glicko2_surf_store, streak_players,
+            momentum_surface, recent_form,
+            serve_stats, return_stats,
             h2h_surface_dict, last_match_date_dict, opp_quality_dict,
             match_load_dict, upset_hist_dict, late_round_hist_dict)
 
 
 (stats_dict, perfiles, df_history, ranking_dict,
  modelo_finale,
- elo_surface, streak_players,
- momentum_surface, elo_overall, recent_form,
+ glicko2_surf_store, streak_players,
+ momentum_surface, recent_form,
+ serve_stats, return_stats,
  h2h_surface_dict, last_match_date_dict,
  opp_quality_dict,
  match_load_dict, upset_hist_dict,
@@ -427,7 +343,7 @@ with st.sidebar:
     st.header("⚙️ Configurazione")
 
     st.subheader("🧠 Cervello dell'IA")
-    st.info("Usando: **ANN v4.1** — Wide&Deep + Residual + GBM Ensemble (30 feature, calibrato) 🔥")
+    st.info("Usando: **ANN v6** — Wide&Deep + Residual + Surface routing (32 feature, calibrato) 🔥")
 
     st.divider()
 
@@ -462,7 +378,6 @@ with st.sidebar:
     best_of       = st.selectbox("Formato", [3, 5], index=0,
                                   help="3 = best-of-3 (ATP normali) | 5 = best-of-5 (Grand Slam)")
 
-    LEVEL_LABEL = {'Grand Slam': 5, 'Masters 1000': 4, 'ATP 500': 3, 'ATP 250': 3, 'Challenger': 2}
 
 
 # â"€â"€â"€ GIOCATORI â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
@@ -580,7 +495,7 @@ def _calc_oq(history, my_rank):
 
 
 # â"€â"€â"€ PREDIZIONE â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
-if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=True):
+if st.button("🔮 PREDICI con ANN v6", type="primary", use_container_width=True):
 
     skill1  = get_skill(nombre1, superficie)
     skill2  = get_skill(nombre2, superficie)
@@ -597,14 +512,13 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
     seed1_eff = seed1 if seed1 > 0 else 33
     seed2_eff = seed2 if seed2 > 0 else 33
 
-    # Elo per superficie
-    ELO_DEFAULT = 1500.0
-    elo1 = elo_surface.get((nombre1, superficie), ELO_DEFAULT)
-    elo2 = elo_surface.get((nombre2, superficie), ELO_DEFAULT)
-
-    # Elo overall (all surfaces)
-    elo_ov1 = elo_overall.get(nombre1, ELO_DEFAULT)
-    elo_ov2 = elo_overall.get(nombre2, ELO_DEFAULT)
+    # Glicko-2 per superficie + overall
+    g2_s   = glicko2_surf_store.get(superficie, glicko2_surf_store.get('Gen', Glicko2Store()))
+    g2_gen = glicko2_surf_store.get('Gen', Glicko2Store())
+    g2_r1,  g2_rd1,  _ = g2_s.get(nombre1)
+    g2_r2,  g2_rd2,  _ = g2_s.get(nombre2)
+    g2_ov1, _,        _ = g2_gen.get(nombre1)
+    g2_ov2, _,        _ = g2_gen.get(nombre2)
 
     # Recent form (all surfaces, last 10 matches)
     rf1 = recent_form.get(nombre1, [])
@@ -635,13 +549,20 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
     mom1_val = np.mean(mom_surf_1) if mom_surf_1 else mom1
     mom2_val = np.mean(mom_surf_2) if mom_surf_2 else mom2
 
-    # Return stats (dai profili, approssimazione)
-    rtn_pct1 = 1.0 - (sa1.get('serve_win', 65) / 100)  # approssimazione
-    rtn_pct2 = 1.0 - (sa2.get('serve_win', 65) / 100)
-    bp_conv1 = 1.0 - (sa1.get('bp_saved', 60) / 100)   # approssimazione
-    bp_conv2 = 1.0 - (sa2.get('bp_saved', 60) / 100)
-    rtn_1st1 = 0.30  # default (non disponibile nel profilo)
-    rtn_1st2 = 0.30
+    # Serve / return stats (da pkl v6)
+    def _gs(player, key, default):
+        vals = serve_stats.get(player, {}).get(key, [])
+        return float(np.mean(vals)) if vals else default
+    def _gr(player, key, default):
+        vals = return_stats.get(player, {}).get(key, [])
+        return float(np.mean(vals)) if vals else default
+
+    rtn_pct1 = _gr(nombre1, 'return_pct', 0.35)
+    rtn_pct2 = _gr(nombre2, 'return_pct', 0.35)
+    bp_conv1 = _gr(nombre1, 'bp_conv', 0.35)
+    bp_conv2 = _gr(nombre2, 'bp_conv', 0.35)
+    rtn_1st1 = _gr(nombre1, 'return_1st', 0.30)
+    rtn_1st2 = _gr(nombre2, 'return_1st', 0.30)
 
     # H2H per superficie (dal pkl)
     p1k, p2k = sorted([nombre1, nombre2])
@@ -674,38 +595,39 @@ if st.button("🔮 PREDICI con ANN v5.1", type="primary", use_container_width=Tr
     lev_w = LEVEL_MULT_LABEL.get(livello, 1.0)
 
     ann_input = pd.DataFrame([{
-        'log_rank_ratio':   np.log1p(r2) - np.log1p(r1),
-        'log_pts_ratio':    np.log1p(pts1) - np.log1p(pts2),
-        'diff_elo':         elo1 - elo2,
-        'diff_elo_overall':  elo_ov1 - elo_ov2,
-        'diff_streak':      float(strk1 - strk2),
-        'diff_recent_form':  form1 - form2,
-        'surface_enc':      float(SURFACE_MAP.get(superficie, 0)),
-        'tourney_level':    float(LEVEL_LABEL.get(livello, 3)),
-        'round_enc':        float(ROUND_MAP_STR.get(turno, 3)),
-        'is_best_of_5':     1.0 if best_of == 5 else 0.0,
-        'diff_skill':       skill1 - skill2,
-        'diff_home':        home1 - home2,
-        'diff_fatigue':     fat1 - fat2,
-        'diff_momentum':    mom1_val - mom2_val,
-        'diff_h2h':         diff_h2h,
-        'diff_h2h_surface': float(_h2h_s1 - _h2h_s2),
-        'diff_days_since_last': float(_days1 - _days2),
-        'diff_weeks_load':  wload1 - wload2,
-        'diff_ace':         sa1.get('aces', 0) - sa2.get('aces', 0),
-        'diff_1st_pct':     (sa1.get('first_serve_pct', 62) - sa2.get('first_serve_pct', 62)) / 100,
-        'diff_1st_won':     (sa1.get('serve_win', 65) - sa2.get('serve_win', 65)) / 100,
-        'diff_2nd_won':     (sa1.get('second_serve_win', 50) - sa2.get('second_serve_win', 50)) / 100,
-        'diff_bp_saved':    (sa1.get('bp_saved', 60) - sa2.get('bp_saved', 60)) / 100,
-        'diff_return_pct':  rtn_pct1 - rtn_pct2,
-        'diff_bp_conv':     bp_conv1 - bp_conv2,
-        'diff_return_1st':  rtn_1st1 - rtn_1st2,
-        # Opponent Quality Score (ultimi 5 match) — usa calc_oq dal shared engine
+        'log_rank_ratio':        np.log1p(r2) - np.log1p(r1),
+        'log_pts_ratio':         np.log1p(pts1) - np.log1p(pts2),
+        'diff_glicko':           g2_r1 - g2_r2,
+        'diff_glicko_overall':   g2_ov1 - g2_ov2,
+        'diff_glicko_rd':        g2_rd1 - g2_rd2,
+        'diff_streak':           float(strk1 - strk2),
+        'diff_recent_form':      form1 - form2,
+        'surface_enc':           float(SURFACE_MAP.get(superficie, 0)),
+        'tourney_level':         float(LEVEL_LABEL.get(livello, 3)),
+        'round_enc':             float(ROUND_MAP_STR.get(turno, 3)),
+        'is_best_of_5':          1.0 if best_of == 5 else 0.0,
+        'indoor':                0.0,
+        'diff_h2h':              float(diff_h2h),
+        'diff_h2h_surface':      float(_h2h_s1 - _h2h_s2),
+        'diff_skill':            skill1 - skill2,
+        'diff_momentum':         mom1_val - mom2_val,
+        'diff_fatigue':          float(fat1 - fat2),
+        'diff_days_since_last':  float(_days1 - _days2),
+        'diff_weeks_load':       wload1 - wload2,
+        'diff_ace':              _gs(nombre1, 'ace', 5.0)      - _gs(nombre2, 'ace', 5.0),
+        'diff_1st_pct':          _gs(nombre1, '1st_pct', 0.62) - _gs(nombre2, '1st_pct', 0.62),
+        'diff_1st_won':          _gs(nombre1, '1st_won', 0.70) - _gs(nombre2, '1st_won', 0.70),
+        'diff_2nd_won':          _gs(nombre1, '2nd_won', 0.50) - _gs(nombre2, '2nd_won', 0.50),
+        'diff_bp_saved':         _gs(nombre1, 'bp_saved', 0.62)- _gs(nombre2, 'bp_saved', 0.62),
+        'diff_return_pct':       rtn_pct1 - rtn_pct2,
+        'diff_bp_conv':          bp_conv1 - bp_conv2,
+        'diff_return_1st':       rtn_1st1 - rtn_1st2,
+        'diff_home':             float(home1 - home2),
         'diff_opponent_quality': calc_oq(opp_quality_dict.get(nombre1, []), r1)
-                                - calc_oq(opp_quality_dict.get(nombre2, []), r2),
-        'diff_upset_tendency':  upt1 - upt2,
-        'diff_late_round_wr':   lrwr1 - lrwr2,
-        'level_weight':         lev_w,
+                                 - calc_oq(opp_quality_dict.get(nombre2, []), r2),
+        'diff_upset_tendency':   upt1 - upt2,
+        'diff_late_round_wr':    lrwr1 - lrwr2,
+        'level_weight':          lev_w,
     }])
 
     n_expected = getattr(finale_scaler, 'n_features_in_', len(ANN_FEATURES))
