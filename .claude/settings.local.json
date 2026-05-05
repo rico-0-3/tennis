@@ -26,7 +26,9 @@
       "Bash(git stash *)",
       "Bash(dir \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\pages\")",
       "Bash(dir \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\.github\")",
-      "Bash(dir *)"
+      "Bash(dir *)",
+      "Bash(git push *)",
+      "Bash(git pull *)"
     ]
   }
 }
