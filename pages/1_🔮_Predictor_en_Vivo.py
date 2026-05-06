@@ -713,8 +713,9 @@ if st.button("🔮 PREDICI con ANN v6", type="primary", use_container_width=True
 
         # Quote ideali con margine bookmaker (overround ~8.1%, come 1.85 su 50/50)
         BK_OVERROUND = 2 / 1.85  # ≈ 1.0811
-        q_ideale_v = 1 / (prob_display * BK_OVERROUND)
-        q_ideale_p = 1 / ((1 - prob_display) * BK_OVERROUND)
+        p_safe = float(np.clip(prob_display, 1e-6, 1 - 1e-6))
+        q_ideale_v = 1 / (p_safe * BK_OVERROUND)
+        q_ideale_p = 1 / ((1 - p_safe) * BK_OVERROUND)
         cq1, cq2 = st.columns(2)
         cq1.metric(
             label=f"📊 Quota Ideale — {vincitore}",
