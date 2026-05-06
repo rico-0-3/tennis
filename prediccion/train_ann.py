@@ -1305,9 +1305,9 @@ if __name__ == '__main__':
 
     # ── 3. Scaler ──────────────────────────────────────────────────────────────
     scaler = StandardScaler()
-    X_tr_sc  = scaler.fit_transform(X_tr)
-    X_val_sc = scaler.transform(X_val)
-    X_te_sc  = scaler.transform(X_test)
+    X_tr_sc  = scaler.fit_transform(X_tr.values)
+    X_val_sc = scaler.transform(X_val.values)
+    X_te_sc  = scaler.transform(X_test.values)
     joblib.dump(scaler, 'scaler_ann.pkl')
     print(f"   → scaler_ann.pkl salvato  |  {len(FEATURES)} feature")
 
@@ -1565,7 +1565,7 @@ if __name__ == '__main__':
     lw_all = df_ml['level_weight'].values
 
     scaler_final = StandardScaler()
-    scaler_final.fit(X_all)
+    scaler_final.fit(X_all.values)
     joblib.dump(scaler_final, 'scaler_ann.pkl')
 
     # 85% train / 15% val per early stopping (split temporale)
@@ -1574,8 +1574,8 @@ if __name__ == '__main__':
     mask_fin_tr  = d_all <  cut_fin
     mask_fin_val = d_all >= cut_fin
 
-    X_tr_fin_sc  = scaler_final.transform(X_all[mask_fin_tr])
-    X_val_fin_sc = scaler_final.transform(X_all[mask_fin_val])
+    X_tr_fin_sc  = scaler_final.transform(X_all[mask_fin_tr].values)
+    X_val_fin_sc = scaler_final.transform(X_all[mask_fin_val].values)
     y_tr_fin     = y_all[mask_fin_tr]
     y_val_fin    = y_all[mask_fin_val]
     d_tr_fin     = d_all[mask_fin_tr]
@@ -1612,7 +1612,7 @@ if __name__ == '__main__':
     needs_ann_surf = best_strategy == 'ann_surface'
     needs_top5 = best_strategy in ('ann_top5', 'ensemble_avg_top5')
 
-    X_all_sc = scaler_final.transform(X_all)
+    X_all_sc = scaler_final.transform(X_all.values)
     y_all_np = y_all.values if hasattr(y_all, 'values') else np.array(y_all)
     all_weights = calcola_pesi_combinati(d_all, lw_all, 0.003)
 
