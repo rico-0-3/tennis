@@ -1426,18 +1426,26 @@ if __name__ == '__main__':
     ]
     print(f"   → {len(top5_for_uncertainty)} modelli salvati per uncertainty estimation")
 
-    # ── Calibrazione isotonica su VALIDATION SET (fix: no leakage su test) ────
-    from sklearn.isotonic import IsotonicRegression
+    # ── Calibrazione Temperature Scaling su VALIDATION SET (no leakage su test) ─
+    from scipy.optimize import minimize_scalar
     from sklearn.calibration import calibration_curve as sk_calibration_curve
+    from prediction_engine import TemperatureScaler
 
     raw_probs_val  = np.mean([get_ann_probs(r['_model'], X_val_sc) for r in risultati[:5]], axis=0).flatten()
     raw_probs_test = top5_ann_probs_test.flatten()
-    calibrator = IsotonicRegression(out_of_bounds='clip')
-    calibrator.fit(raw_probs_val, y_val_np)
+
+    def _nll_temp(T):
+        p = np.clip(raw_probs_val, 1e-7, 1 - 1e-7)
+        cal_p = 1.0 / (1.0 + np.exp(-np.log(p / (1 - p)) / T))
+        return log_loss(y_val_np, cal_p)
+
+    _res   = minimize_scalar(_nll_temp, bounds=(0.1, 10.0), method='bounded')
+    T_opt  = float(_res.x)
+    calibrator = TemperatureScaler(T_opt)
     calibrated_probs_test = calibrator.predict(raw_probs_test)
-    ll_calibrated = log_loss(y_test_np, calibrated_probs_test)
+    ll_calibrated  = log_loss(y_test_np, calibrated_probs_test)
     acc_calibrated = accuracy_score(y_test_np, (calibrated_probs_test >= 0.5).astype(int))
-    print(f"   Calibrated (isotonic): acc={acc_calibrated:.4f} | log_loss={ll_calibrated:.4f}")
+    print(f"   Calibrated (temperature T={T_opt:.4f}): acc={acc_calibrated:.4f} | log_loss={ll_calibrated:.4f}")
 
     # Curva di calibrazione (per reliability diagram nel dashboard)
     try:

@@ -163,10 +163,23 @@ def _ann_prob(model: TennisANNv3, input_t: torch.Tensor) -> float:
     return float(1.0 / (1.0 + np.exp(-logit)))
 
 
-def _apply_cal(cal, p: float) -> float:
+class TemperatureScaler:
+    """Calibrazione via Temperature Scaling (un parametro T).
+    API compatibile con IsotonicRegression: .predict(array) → array.
+    Strettamente monotona: input distinti → output distinti.
     """
-    Applica il calibratore alla probabilità grezza.
-    Gestisce sia LogisticRegression (predict_proba) che IsotonicRegression (predict).
+    def __init__(self, T: float = 1.0):
+        self.T = float(T)
+
+    def predict(self, probs):
+        p = np.clip(np.asarray(probs, dtype=np.float64), 1e-7, 1 - 1e-7)
+        logits = np.log(p / (1 - p)) / self.T
+        return 1.0 / (1.0 + np.exp(-logits))
+
+
+def _apply_cal(cal, p: float) -> float:
+    """Applica il calibratore alla probabilità grezza.
+    Gestisce TemperatureScaler, IsotonicRegression e LogisticRegression.
     """
     if cal is None:
         return p
