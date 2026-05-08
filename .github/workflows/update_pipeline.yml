@@ -93,10 +93,14 @@ jobs:
             echo "Nessuna modifica da committare."
           else
             current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+            if [ -z "${current_branch}" ]; then
+              echo "Impossibile determinare il branch corrente."
+              exit 1
+            fi
             git commit -m "Aggiornamento automatico dati tennis"
             git fetch origin "${current_branch}"
             if ! git rebase "origin/${current_branch}"; then
-              git rebase --abort || true
+              git rebase --abort
               echo "Rebase fallito durante il sync con origin/${current_branch}."
               exit 1
             fi
