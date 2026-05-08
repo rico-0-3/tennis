@@ -144,24 +144,6 @@
     "data": "2026-05-08"
   },
   {
-    "p1": "Lajal M.",
-    "p2": "Sweeny D.",
-    "torneo": "Wuxi challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-05-08"
-  },
-  {
-    "p1": "Kwon S.",
-    "p2": "Santillan A.",
-    "torneo": "Wuxi challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-05-08"
-  },
-  {
     "p1": "Walton A.",
     "p2": "Yunchaokete B.",
     "torneo": "Wuxi challenger",
@@ -429,6 +411,15 @@
     "livello": "Masters 1000",
     "superficie": "Clay",
     "turno": "Ottavi di finale (16mi)",
+    "data": "2026-05-09"
+  },
+  {
+    "p1": "Lajal M.",
+    "p2": "Kwon S.",
+    "torneo": "Wuxi challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
     "data": "2026-05-09"
   }
 ]

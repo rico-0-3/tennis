@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-08T06:06:44.198909",
+  "updated_at": "2026-05-08T09:16:20.409454",
   "partite": [
     {
       "p1": "Khachanov K.",
@@ -302,44 +302,6 @@
       "h2h_p2": 1,
       "quota_fav": 1.27,
       "quota_sfav": 3.44,
-      "modello": "ANN Surface",
-      "skipped": false
-    },
-    {
-      "p1": "Lajal M.",
-      "p2": "Sweeny D.",
-      "torneo": "Wuxi challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-08",
-      "prob_p1": 0.5955,
-      "prob_p2": 0.4045,
-      "favorito": "Mark Lajal",
-      "confidenza": 0.5955,
-      "h2h_p1": 0,
-      "h2h_p2": 0,
-      "quota_fav": 1.55,
-      "quota_sfav": 2.29,
-      "modello": "ANN Surface",
-      "skipped": false
-    },
-    {
-      "p1": "Kwon S.",
-      "p2": "Santillan A.",
-      "torneo": "Wuxi challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-08",
-      "prob_p1": 0.543,
-      "prob_p2": 0.457,
-      "favorito": "Soon Woo Kwon",
-      "confidenza": 0.543,
-      "h2h_p1": 0,
-      "h2h_p2": 0,
-      "quota_fav": 1.7,
-      "quota_sfav": 2.02,
       "modello": "ANN Surface",
       "skipped": false
     },
@@ -902,6 +864,25 @@
       "h2h_p2": 0,
       "quota_fav": 1.16,
       "quota_sfav": 4.54,
+      "modello": "ANN Surface",
+      "skipped": false
+    },
+    {
+      "p1": "Lajal M.",
+      "p2": "Kwon S.",
+      "torneo": "Wuxi challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-09",
+      "prob_p1": 0.5892,
+      "prob_p2": 0.4108,
+      "favorito": "Mark Lajal",
+      "confidenza": 0.5892,
+      "h2h_p1": 0,
+      "h2h_p2": 0,
+      "quota_fav": 1.57,
+      "quota_sfav": 2.25,
       "modello": "ANN Surface",
       "skipped": false
     }
