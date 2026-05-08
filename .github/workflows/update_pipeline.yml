@@ -101,7 +101,7 @@ jobs:
             git fetch origin "${current_branch}"
             if ! git rebase "origin/${current_branch}"; then
               git rebase --abort
-              echo "Rebase fallito durante il sync con origin/${current_branch}."
+              echo "Rebase fallito durante il sync con origin/${current_branch}. Verifica eventuali conflitti sul branch remoto."
               exit 1
             fi
             git push
