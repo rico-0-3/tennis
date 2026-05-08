@@ -93,8 +93,7 @@ jobs:
             echo "Nessuna modifica da committare."
           else
             current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
-            # Rebase can happen with staged generated files, so autostash is required here.
-            git pull --rebase --autostash origin "${current_branch}"
             git commit -m "Aggiornamento automatico dati tennis"
+            git pull --rebase origin "${current_branch}"
             git push
           fi
