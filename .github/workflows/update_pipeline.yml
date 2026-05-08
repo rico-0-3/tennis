@@ -94,6 +94,11 @@ jobs:
           else
             current_branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
             git commit -m "Aggiornamento automatico dati tennis"
-            git pull --rebase origin "${current_branch}"
+            git fetch origin "${current_branch}"
+            if ! git rebase "origin/${current_branch}"; then
+              git rebase --abort || true
+              echo "Rebase fallito durante il sync con origin/${current_branch}."
+              exit 1
+            fi
             git push
           fi
