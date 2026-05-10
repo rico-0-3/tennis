@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-10T06:33:19.544410",
+  "updated_at": "2026-05-10T06:56:06.596484",
   "partite": [
     {
       "p1": "Ruud C.",
@@ -260,15 +260,26 @@
       "skipped": false
     },
     {
-      "p1": "Honda N.",
-      "p2": "Sarran P.",
+      "p1": "Aggarwal P.",
+      "p2": "Hans K.",
       "torneo": "Bangalore 2 challenger",
       "livello": "Challenger",
       "superficie": "Grass",
       "turno": "32mi",
       "data": "2026-05-10",
       "skipped": true,
-      "motivo": "Giocatori non nel database: Sarran P."
+      "motivo": "Giocatori non nel database: Hans K."
+    },
+    {
+      "p1": "Karki R.",
+      "p2": "Kshitij A.",
+      "torneo": "Bangalore 2 challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-10",
+      "skipped": true,
+      "motivo": "Giocatori non nel database: Kshitij A."
     },
     {
       "p1": "Ganta S.",
@@ -290,39 +301,6 @@
       "skipped": false
     },
     {
-      "p1": "Karki R.",
-      "p2": "Kshitij A.",
-      "torneo": "Bangalore 2 challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-10",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Kshitij A."
-    },
-    {
-      "p1": "Aggarwal P.",
-      "p2": "Hans K.",
-      "torneo": "Bangalore 2 challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-10",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Hans K."
-    },
-    {
-      "p1": "Lakshmanan A.",
-      "p2": "Iakubenko V.",
-      "torneo": "Bangalore 2 challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-10",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Iakubenko V."
-    },
-    {
       "p1": "Betov S.",
       "p2": "Masabayashi T.",
       "torneo": "Bangalore 2 challenger",
@@ -342,6 +320,17 @@
       "skipped": false
     },
     {
+      "p1": "Lakshmanan A.",
+      "p2": "Iakubenko V.",
+      "torneo": "Bangalore 2 challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-10",
+      "skipped": true,
+      "motivo": "Giocatori non nel database: Iakubenko V."
+    },
+    {
       "p1": "Yamanaka T.",
       "p2": "Kothapalli G.",
       "torneo": "Bangalore 2 challenger",
@@ -351,25 +340,6 @@
       "data": "2026-05-10",
       "skipped": true,
       "motivo": "Giocatori non nel database: Kothapalli G."
-    },
-    {
-      "p1": "Gray A.",
-      "p2": "Kaliyanda Poonacha N.",
-      "torneo": "Bangalore 2 challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-10",
-      "prob_p1": 0.3296,
-      "prob_p2": 0.6704,
-      "favorito": "Niki Kaliyanda Poonacha",
-      "confidenza": 0.6704,
-      "h2h_p1": 0,
-      "h2h_p2": 0,
-      "quota_fav": 1.38,
-      "quota_sfav": 2.81,
-      "modello": "ANN Surface",
-      "skipped": false
     },
     {
       "p1": "Lomakin G.",
@@ -400,6 +370,25 @@
       "data": "2026-05-10",
       "skipped": true,
       "motivo": "Giocatori non nel database: Vasudev M V."
+    },
+    {
+      "p1": "Gray A.",
+      "p2": "Kaliyanda Poonacha N.",
+      "torneo": "Bangalore 2 challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-10",
+      "prob_p1": 0.3296,
+      "prob_p2": 0.6704,
+      "favorito": "Niki Kaliyanda Poonacha",
+      "confidenza": 0.6704,
+      "h2h_p1": 0,
+      "h2h_p2": 0,
+      "quota_fav": 1.38,
+      "quota_sfav": 2.81,
+      "modello": "ANN Surface",
+      "skipped": false
     },
     {
       "p1": "Geschwind F.",
@@ -1937,17 +1926,6 @@
       "skipped": false
     },
     {
-      "p1": "Palan D.",
-      "p2": "Kesharwani M.",
-      "torneo": "Bangalore 2 challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-11",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Kesharwani M."
-    },
-    {
       "p1": "Dev S.",
       "p2": "Charlton J.",
       "torneo": "Bangalore 2 challenger",
@@ -2117,6 +2095,17 @@
       "quota_sfav": 4.49,
       "modello": "ANN Surface",
       "skipped": false
+    },
+    {
+      "p1": "Palan D.",
+      "p2": "Kesharwani M.",
+      "torneo": "Bangalore 2 challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-05-11",
+      "skipped": true,
+      "motivo": "Giocatori non nel database: Kesharwani M."
     },
     {
       "p1": "Ambrogi L.",

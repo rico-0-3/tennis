@@ -126,17 +126,8 @@
     "data": "2026-05-10"
   },
   {
-    "p1": "Honda N.",
-    "p2": "Sarran P.",
-    "torneo": "Bangalore 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-05-10"
-  },
-  {
-    "p1": "Ganta S.",
-    "p2": "Taguchi R.",
+    "p1": "Aggarwal P.",
+    "p2": "Hans K.",
     "torneo": "Bangalore 2 challenger",
     "livello": "Challenger",
     "superficie": "Grass",
@@ -153,17 +144,8 @@
     "data": "2026-05-10"
   },
   {
-    "p1": "Aggarwal P.",
-    "p2": "Hans K.",
-    "torneo": "Bangalore 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-05-10"
-  },
-  {
-    "p1": "Lakshmanan A.",
-    "p2": "Iakubenko V.",
+    "p1": "Ganta S.",
+    "p2": "Taguchi R.",
     "torneo": "Bangalore 2 challenger",
     "livello": "Challenger",
     "superficie": "Grass",
@@ -180,8 +162,8 @@
     "data": "2026-05-10"
   },
   {
-    "p1": "Yamanaka T.",
-    "p2": "Kothapalli G.",
+    "p1": "Lakshmanan A.",
+    "p2": "Iakubenko V.",
     "torneo": "Bangalore 2 challenger",
     "livello": "Challenger",
     "superficie": "Grass",
@@ -189,8 +171,8 @@
     "data": "2026-05-10"
   },
   {
-    "p1": "Gray A.",
-    "p2": "Kaliyanda Poonacha N.",
+    "p1": "Yamanaka T.",
+    "p2": "Kothapalli G.",
     "torneo": "Bangalore 2 challenger",
     "livello": "Challenger",
     "superficie": "Grass",
@@ -209,6 +191,15 @@
   {
     "p1": "Vasudev M V.",
     "p2": "Vishal Balsekar A.",
+    "torneo": "Bangalore 2 challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-05-10"
+  },
+  {
+    "p1": "Gray A.",
+    "p2": "Kaliyanda Poonacha N.",
     "torneo": "Bangalore 2 challenger",
     "livello": "Challenger",
     "superficie": "Grass",
@@ -981,15 +972,6 @@
     "data": "2026-05-11"
   },
   {
-    "p1": "Palan D.",
-    "p2": "Kesharwani M.",
-    "torneo": "Bangalore 2 challenger",
-    "livello": "Challenger",
-    "superficie": "Grass",
-    "turno": "32mi",
-    "data": "2026-05-11"
-  },
-  {
     "p1": "Dev S.",
     "p2": "Charlton J.",
     "torneo": "Bangalore 2 challenger",
@@ -1064,6 +1046,15 @@
   {
     "p1": "Jasika O.",
     "p2": "Stewart H.",
+    "torneo": "Bangalore 2 challenger",
+    "livello": "Challenger",
+    "superficie": "Grass",
+    "turno": "32mi",
+    "data": "2026-05-11"
+  },
+  {
+    "p1": "Palan D.",
+    "p2": "Kesharwani M.",
     "torneo": "Bangalore 2 challenger",
     "livello": "Challenger",
     "superficie": "Grass",
