@@ -97,12 +97,10 @@ jobs:
               echo "Impossibile determinare il branch corrente."
               exit 1
             fi
-            git commit -m "Aggiornamento automatico dati tennis"
+            # Porta HEAD all'ultimo stato di origin mantenendo le modifiche staged,
+            # così il commit avviene sempre in cima al remoto (no rebase, no conflitti)
             git fetch origin "${current_branch}"
-            if ! git rebase "origin/${current_branch}"; then
-              git rebase --abort
-              echo "Rebase fallito durante il sync con origin/${current_branch}. Verifica eventuali conflitti sul branch remoto."
-              exit 1
-            fi
-            git push
+            git reset --soft "origin/${current_branch}"
+            git commit -m "Aggiornamento automatico dati tennis"
+            git push origin "${current_branch}"
           fi
