@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-21T05:39:05.786023",
+  "updated_at": "2026-05-21T07:57:52.726553",
   "partite": [
     {
       "p1": "Buse I.",
@@ -264,25 +264,6 @@
       "h2h_p2": 0,
       "quota_fav": 1.68,
       "quota_sfav": 2.07,
-      "modello": "ANN Best",
-      "skipped": false
-    },
-    {
-      "p1": "Stewart H.",
-      "p2": "Milic O.",
-      "torneo": "Bangalore 3 challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-21",
-      "prob_p1": 0.488,
-      "prob_p2": 0.512,
-      "favorito": "Ognjen Milic",
-      "confidenza": 0.512,
-      "h2h_p1": 0,
-      "h2h_p2": 0,
-      "quota_fav": 1.81,
-      "quota_sfav": 1.9,
       "modello": "ANN Best",
       "skipped": false
     },
