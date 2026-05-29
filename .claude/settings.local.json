@@ -30,7 +30,10 @@
       "Bash(git push *)",
       "Bash(git pull *)",
       "Bash(git reset *)",
-      "PowerShell(cd \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\scraping\"; $env:PYTHONIOENCODING=\"utf-8\"; python generar_perfiles.py 2>&1 | Select-Object -Last 25)"
+      "PowerShell(cd \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\scraping\"; $env:PYTHONIOENCODING=\"utf-8\"; python generar_perfiles.py 2>&1 | Select-Object -Last 25)",
+      "PowerShell(cd \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\scraping\"; $env:PYTHONIOENCODING=\"utf-8\"; python generar_perfiles.py 2>&1 | Select-Object -Last 15)",
+      "PowerShell(cd \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\scraping\"; $env:PYTHONIOENCODING=\"utf-8\"; python scraper_resultados_recientes.py 2>&1)",
+      "PowerShell(cd \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\scraping\"; $env:PYTHONIOENCODING=\"utf-8\"; python generar_perfiles.py 2>&1 | Select-Object -Last 8)"
     ]
   }
 }
