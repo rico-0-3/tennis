@@ -29,7 +29,8 @@
       "Bash(dir *)",
       "Bash(git push *)",
       "Bash(git pull *)",
-      "Bash(git reset *)"
+      "Bash(git reset *)",
+      "PowerShell(cd \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\scraping\"; $env:PYTHONIOENCODING=\"utf-8\"; python generar_perfiles.py 2>&1 | Select-Object -Last 25)"
     ]
   }
 }
