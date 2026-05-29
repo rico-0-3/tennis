@@ -39,7 +39,7 @@ SKIP_KEYWORDS = ["utr", "itf", "futures", "wta", "fed cup", "davis", "billie jea
 
 # ── Mapping torneo → superficie ───────────────────────────────────────────────
 SUPERFICIE_MAP = {
-    "australian open": "Hard", "roland garros": "Clay", "wimbledon": "Grass",
+    "australian open": "Hard", "roland garros": "Clay", "french open": "Clay", "wimbledon": "Grass",
     "us open": "Hard", "indian wells": "Hard", "miami": "Hard",
     "monte carlo": "Clay", "monte-carlo": "Clay", "rome": "Clay",
     "canada": "Hard", "montreal": "Hard", "toronto": "Hard",
@@ -108,7 +108,7 @@ ROUND_MAP = {
 }
 
 LIVELLO_MAP = {
-    "australian open": "Grand Slam", "roland garros": "Grand Slam",
+    "australian open": "Grand Slam", "roland garros": "Grand Slam", "french open": "Grand Slam",
     "wimbledon": "Grand Slam", "us open": "Grand Slam",
     "indian wells": "Masters 1000", "miami": "Masters 1000",
     "monte carlo": "Masters 1000", "monte-carlo": "Masters 1000",
