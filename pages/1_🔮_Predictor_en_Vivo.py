@@ -762,6 +762,102 @@ if st.button("🔮 PREDICI con ANN v6", type="primary", use_container_width=True
                     f"Upset tendency: {bd['upset_tendency']}/40"
                 )
 
+    # ── Sentiment Analysis (Groq + news multi-fonte) ───────────────────────────
+    st.divider()
+    _groq_key = ""
+    try:
+        _groq_key = st.secrets.get("GROQ_API_KEY", "")
+    except Exception:
+        pass
+
+    if _groq_key:
+        st.subheader("📰 Sentiment Analysis — News + AI")
+        with st.spinner("Ricerca notizie recenti (Google News · Reddit · BBC · TennisAbstract)..."):
+            try:
+                _sent_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'prediccion')
+                if _sent_dir not in sys.path:
+                    sys.path.insert(0, _sent_dir)
+                from sentiment_engine import get_match_sentiment
+
+                sent = get_match_sentiment(nombre1, nombre2, torneo, superficie, _groq_key)
+
+                if sent:
+                    s_prob1  = float(sent.get("prob_player1", 0.5))
+                    s_prob2  = 1.0 - s_prob1
+                    s_sent1  = sent.get("sentiment_p1", "neutral")
+                    s_sent2  = sent.get("sentiment_p2", "neutral")
+                    s_summ   = sent.get("summary", "")
+                    s_factors= sent.get("key_factors", [])
+                    s_conf   = sent.get("confidence", "medium")
+                    n1       = sent.get("n_headlines_p1", 0)
+                    n2       = sent.get("n_headlines_p2", 0)
+
+                    SENT_EMOJI = {"positive": "😊", "negative": "😟", "neutral": "😐"}
+                    CONF_ICON  = {"low": "🔴", "medium": "🟡", "high": "🟢"}
+
+                    # Divergenza ANN vs Sentiment
+                    divergenza = abs(prob_j1 - s_prob1)
+                    if divergenza < 0.08:
+                        div_label = "✅ Concordi"
+                    elif divergenza < 0.18:
+                        div_label = "⚠️ Lieve divergenza"
+                    else:
+                        div_label = "🔴 Alta divergenza — verifica notizie"
+
+                    cs1, cs2, cs3 = st.columns(3)
+                    cs1.metric(
+                        f"{SENT_EMOJI[s_sent1]} {nombre1}",
+                        f"{s_prob1:.0%}",
+                        delta=f"{n1} notizie analizzate",
+                        delta_color="off",
+                        help="Probabilità stimata dal sentiment delle notizie"
+                    )
+                    cs2.metric(
+                        f"{SENT_EMOJI[s_sent2]} {nombre2}",
+                        f"{s_prob2:.0%}",
+                        delta=f"{n2} notizie analizzate",
+                        delta_color="off",
+                        help="Probabilità stimata dal sentiment delle notizie"
+                    )
+                    ann_pct  = f"{prob_j1:.0%}"
+                    sent_pct = f"{s_prob1:.0%}"
+                    cs3.metric(
+                        f"{CONF_ICON[s_conf]} ANN vs Sentiment",
+                        f"{ann_pct} → {sent_pct}",
+                        delta=div_label,
+                        delta_color="off"
+                    )
+
+                    if s_summ:
+                        st.info(f"💬 {s_summ}")
+                    if s_factors:
+                        st.caption("**Fattori chiave:** " + "  ·  ".join(f"`{f}`" for f in s_factors))
+
+                    # Notizie analizzate (espandibile)
+                    h1_all = sent.get("headlines_p1", [])
+                    h2_all = sent.get("headlines_p2", [])
+                    if h1_all or h2_all:
+                        with st.expander("📰 Notizie analizzate"):
+                            cn1, cn2 = st.columns(2)
+                            with cn1:
+                                st.markdown(f"**{nombre1}**")
+                                for h in h1_all[:6]:
+                                    st.caption(f"• {h}")
+                                if not h1_all:
+                                    st.caption("Nessuna notizia trovata")
+                            with cn2:
+                                st.markdown(f"**{nombre2}**")
+                                for h in h2_all[:6]:
+                                    st.caption(f"• {h}")
+                                if not h2_all:
+                                    st.caption("Nessuna notizia trovata")
+                else:
+                    st.warning("⚠️ Sentiment non disponibile — nessun risultato da Groq.")
+            except Exception as _e:
+                st.warning(f"⚠️ Sentiment non disponibile: {_e}")
+    else:
+        st.caption("🔑 Chiave Groq non configurata — sentiment analysis disabilitata.")
+
 
 # SCOMMESSE SPECIALI (VALUE BET) â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€â"€
 from scipy.stats import poisson

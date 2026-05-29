@@ -21,3 +21,6 @@ prediccion/game_tracker.pkl
 
 # Git worktrees
 .worktrees/
+
+# Streamlit secrets (API keys — non committare mai)
+.streamlit/secrets.toml
