@@ -152,6 +152,11 @@ def main():
             print("   Download TML fallito. Impossibile continuare.")
             return
 
+        # ── FASE 2b: risultati recenti da TennisExplorer (colma il lag TML) ──
+        sezione("FASE 2b — Risultati recenti (TennisExplorer, gap TML)")
+        esegui("scraper_resultados_recientes.py", SCRAPING,
+               "Risultati mancanti fino a ieri (TennisExplorer)")
+
         filtra_ritiri_e_copia(
             os.path.join(SCRAPING,   "master_dataset.csv"),
             os.path.join(PREDICCION, "master_dataset.csv"),
