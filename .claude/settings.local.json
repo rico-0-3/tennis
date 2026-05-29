@@ -28,7 +28,8 @@
       "Bash(dir \"C:\\\\Users\\\\riccardo\\\\Desktop\\\\tennis\\\\.github\")",
       "Bash(dir *)",
       "Bash(git push *)",
-      "Bash(git pull *)"
+      "Bash(git pull *)",
+      "Bash(git reset *)"
     ]
   }
 }

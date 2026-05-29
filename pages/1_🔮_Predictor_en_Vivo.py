@@ -779,7 +779,7 @@ if st.button("🔮 PREDICI con ANN v6", type="primary", use_container_width=True
                     sys.path.insert(0, _sent_dir)
                 from sentiment_engine import get_match_sentiment
 
-                sent = get_match_sentiment(nombre1, nombre2, torneo, superficie, _groq_key)
+                sent = get_match_sentiment(nombre1, nombre2, torneo_sel, superficie, _groq_key)
 
                 if sent:
                     s_prob1  = float(sent.get("prob_player1", 0.5))
