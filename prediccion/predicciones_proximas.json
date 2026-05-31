@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-05-31T11:45:24.589566",
+  "updated_at": "2026-05-31T11:54:29.511145",
   "partite": [
     {
       "p1": "Jodar R.",
@@ -242,36 +242,6 @@
       "motivo": "Giocatori non nel database: Brady P."
     },
     {
-      "p1": "Brown P.",
-      "p2": "Chopra K.",
-      "torneo": "Centurion 2 challenger",
-      "livello": "Challenger",
-      "superficie": "Clay",
-      "turno": "32mi",
-      "data": "2026-05-31",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Brown P., Chopra K."
-    },
-    {
-      "p1": "Van Der Merwe M.",
-      "p2": "Van Schalkwyk C.",
-      "torneo": "Centurion 2 challenger",
-      "livello": "Challenger",
-      "superficie": "Clay",
-      "turno": "32mi",
-      "data": "2026-05-31",
-      "prob_p1": 0.542,
-      "prob_p2": 0.458,
-      "favorito": "Melle van Gemerden",
-      "confidenza": 0.542,
-      "h2h_p1": 0,
-      "h2h_p2": 0,
-      "quota_fav": 1.71,
-      "quota_sfav": 2.02,
-      "modello": "ANN Best",
-      "skipped": false
-    },
-    {
       "p1": "Kimhi O.",
       "p2": "Zhu M.",
       "torneo": "Centurion 2 challenger",
@@ -283,17 +253,6 @@
       "motivo": "Giocatori non nel database: Zhu M."
     },
     {
-      "p1": "Ngwenya S.",
-      "p2": "Van Wyk K.",
-      "torneo": "Centurion 2 challenger",
-      "livello": "Challenger",
-      "superficie": "Clay",
-      "turno": "32mi",
-      "data": "2026-05-31",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Ngwenya S."
-    },
-    {
       "p1": "Weightman O.",
       "p2": "Salton D.",
       "torneo": "Centurion 2 challenger",
@@ -303,6 +262,17 @@
       "data": "2026-05-31",
       "skipped": true,
       "motivo": "Giocatori non nel database: Salton D."
+    },
+    {
+      "p1": "Ngwenya S.",
+      "p2": "Van Wyk K.",
+      "torneo": "Centurion 2 challenger",
+      "livello": "Challenger",
+      "superficie": "Clay",
+      "turno": "32mi",
+      "data": "2026-05-31",
+      "skipped": true,
+      "motivo": "Giocatori non nel database: Ngwenya S."
     },
     {
       "p1": "Duran T.",
@@ -500,17 +470,6 @@
       "data": "2026-05-31",
       "skipped": true,
       "motivo": "Giocatori non nel database: Fix D., Marti Pujolras A."
-    },
-    {
-      "p1": "Jorda Sanchis D.",
-      "p2": "Fornaci D.",
-      "torneo": "Perugia challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-05-31",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Fornaci D."
     },
     {
       "p1": "Tu L.",
