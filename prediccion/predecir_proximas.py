@@ -88,17 +88,25 @@ def load_resources():
         res['df_history'] = pd.DataFrame()
 
     # ── Indice cognome+iniziale → nome completo ──────────────────────────────
-    # Gestisce nomi scraper tipo "Lehecka J." → perfiles "Jiri Lehecka"
-    name_index = {}  # "lehecka_j" → "Jiri Lehecka"
+    # Gestisce: "Lehecka J." → "Jiri Lehecka"
+    #           "Auger Aliassime F." → "Felix Auger-Aliassime" (cognomi con trattino)
+    name_index = {}
     for full in res['perfiles']:
         words = full.split()
         if not words:
             continue
         first_initial = words[0][0].lower()
         for w in words[1:]:
-            key = w.lower().rstrip('-') + "_" + first_initial
+            w_lower = w.lower()
+            key = w_lower + "_" + first_initial
             if key not in name_index:
                 name_index[key] = full
+            # Componenti del cognome con trattino: "Auger-Aliassime" → "auger_f", "aliassime_f"
+            for component in w_lower.split('-'):
+                if component:
+                    ck = component + "_" + first_initial
+                    if ck not in name_index:
+                        name_index[ck] = full
     res['name_index'] = name_index
 
     return res
@@ -127,9 +135,13 @@ def _resolve_player(raw: str, res: dict) -> str:
         return norm
 
     for word in parts[:-1]:
-        key = word.lower().rstrip('-') + "_" + initial
-        if key in name_index:
-            return name_index[key]
+        w_lower = word.lower()
+        if w_lower + "_" + initial in name_index:
+            return name_index[w_lower + "_" + initial]
+        # Componenti del trattino: "Bautista-Agut R." → prova "bautista_r", "agut_r"
+        for component in w_lower.split('-'):
+            if component and component + "_" + initial in name_index:
+                return name_index[component + "_" + initial]
 
     return norm
 

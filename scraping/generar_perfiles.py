@@ -10,10 +10,10 @@ _NAME_PARTICLES = frozenset({
 })
 
 def normalize_player_name(name):
-    """Forma canonica: prima lettera maiuscola, particelle nobiliari minuscole."""
+    """Forma canonica: trattini → spazi, particelle minuscole, prima lettera maiuscola."""
     if not name or not isinstance(name, str):
         return name
-    parts = ' '.join(name.strip().split()).split()
+    parts = ' '.join(name.strip().replace('-', ' ').split()).split()
     return ' '.join(
         p.lower() if (i > 0 and p.lower() in _NAME_PARTICLES) else p.capitalize()
         for i, p in enumerate(parts)

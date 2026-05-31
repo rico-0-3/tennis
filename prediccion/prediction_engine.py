@@ -72,15 +72,17 @@ _NAME_PARTICLES = frozenset({
 })
 
 def normalize_player_name(name: str) -> str:
-    """Forma canonica: prima lettera maiuscola, particelle nobiliari in minuscolo.
+    """Forma canonica: trattini → spazi, particelle minuscole, prima lettera maiuscola.
 
-    Esempi: 'Alex De Minaur' → 'Alex de Minaur'
-            'JANNIK SINNER'  → 'Jannik Sinner'
-            'alex de minaur' → 'Alex de Minaur'
+    Risolve tutti i casi in automatico:
+      'Alex De Minaur'        → 'Alex de Minaur'
+      'Felix Auger-Aliassime' → 'Felix Auger Aliassime'
+      'Felix Auger aliassime' → 'Felix Auger Aliassime'
+      'Pablo Carreno-Busta'   → 'Pablo Carreno Busta'
     """
     if not name or not isinstance(name, str):
         return name
-    parts = ' '.join(name.strip().split()).split()
+    parts = ' '.join(name.strip().replace('-', ' ').split()).split()
     return ' '.join(
         p.lower() if (i > 0 and p.lower() in _NAME_PARTICLES) else p.capitalize()
         for i, p in enumerate(parts)

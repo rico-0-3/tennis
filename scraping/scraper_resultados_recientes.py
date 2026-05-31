@@ -34,10 +34,10 @@ _NAME_PARTICLES = frozenset({
 })
 
 def normalize_player_name(name):
-    """Forma canonica: prima lettera maiuscola, particelle nobiliari minuscole."""
+    """Forma canonica: trattini → spazi, particelle minuscole, prima lettera maiuscola."""
     if not name or not isinstance(name, str):
         return name
-    parts = ' '.join(name.strip().split()).split()
+    parts = ' '.join(name.strip().replace('-', ' ').split()).split()
     return ' '.join(
         p.lower() if (i > 0 and p.lower() in _NAME_PARTICLES) else p.capitalize()
         for i, p in enumerate(parts)
@@ -206,49 +206,64 @@ def _fetch_round_map(tourney_url: str, livello: str) -> dict:
 def _build_name_index(df: pd.DataFrame) -> dict:
     """
     Costruisce un indice {cognome_iniziale: nome_completo} dai nomi TML.
-    Esempio: "sinner_j" → "Jannik Sinner"
+    Gestisce cognomi con trattino: "Auger-Aliassime" → indicizza anche "auger_f" e "aliassime_f".
     """
     idx = {}
     for col in ["winner_name", "loser_name"]:
         for name in df[col].dropna().unique():
             parts = str(name).strip().split()
             if len(parts) >= 2:
-                surname  = parts[-1].lower()
-                initial  = parts[0][0].lower()
-                key      = f"{surname}_{initial}"
+                surname = parts[-1].lower()
+                initial = parts[0][0].lower()
+                key = f"{surname}_{initial}"
                 if key not in idx:
                     idx[key] = name
-                # Anche solo cognome (per casi ambigui)
                 if surname not in idx:
                     idx[surname] = name
+                # Indicizza ogni componente dei cognomi con trattino
+                # "Auger-Aliassime" → aggiungi anche "auger_f" e "aliassime_f"
+                for component in surname.split('-'):
+                    if component:
+                        ck = f"{component}_{initial}"
+                        if ck not in idx:
+                            idx[ck] = name
+                        if component not in idx:
+                            idx[component] = name
     return idx
 
 
 def _resolve_name(abbreviated: str, name_index: dict) -> str:
     """
     Converte "Cognome I." → nome completo TML.
-    Gestisce cognomi composti: "De Minaur A." → "Alex de Minaur"
-    L'iniziale è sempre l'ultimo token; prova ogni parola precedente come cognome.
+    Gestisce cognomi composti e con trattino:
+      "De Minaur A."    → "Alex de Minaur"
+      "Bautista-Agut R."→ "Roberto Bautista Agut"
+      "Auger Aliassime F." → "Felix Auger-Aliassime"
     """
     s = abbreviated.strip()
     parts = s.split()
     if len(parts) < 2:
         return s
-    # L'ultima parte è l'iniziale del nome (es. "A." → "a")
     initial = parts[-1].rstrip('.').lower()
     if not initial:
         return s
-    # Prova ogni parola del cognome (es. "De Minaur A." → prova "de_a", poi "minaur_a")
     for word in parts[:-1]:
-        key = f"{word.lower()}_{initial}"
-        full = name_index.get(key)
+        w_lower = word.lower()
+        # Prova il nome intero
+        full = name_index.get(f"{w_lower}_{initial}")
         if full:
             return full
-    # Fallback: solo l'ultima parola del cognome senza iniziale
+        # Prova ogni componente del trattino ("Bautista-Agut" → "bautista", "agut")
+        for component in w_lower.split('-'):
+            if component:
+                full = name_index.get(f"{component}_{initial}")
+                if full:
+                    return full
+    # Fallback senza iniziale
     full = name_index.get(parts[-2].lower())
     if full:
         return full
-    return s  # fallback: nome abbreviato originale
+    return s
 
 
 def _build_score(w_sets: list, l_sets: list) -> str:
