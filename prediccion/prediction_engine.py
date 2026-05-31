@@ -65,6 +65,27 @@ ROUND_MAP_STR = {
 
 BK_OVERROUND = 2 / 1.85   # ~8.1% margine bookmaker (per quote ideali)
 
+# ── Normalizzazione nomi giocatori ────────────────────────────────────────────
+_NAME_PARTICLES = frozenset({
+    'de', 'del', 'van', 'der', 'von', 'da', 'di', 'dos', 'das',
+    'las', 'los', 'el', 'le', 'la', 'du', 'des', 'den', 'ter', 'ten', 'al', 'y',
+})
+
+def normalize_player_name(name: str) -> str:
+    """Forma canonica: prima lettera maiuscola, particelle nobiliari in minuscolo.
+
+    Esempi: 'Alex De Minaur' → 'Alex de Minaur'
+            'JANNIK SINNER'  → 'Jannik Sinner'
+            'alex de minaur' → 'Alex de Minaur'
+    """
+    if not name or not isinstance(name, str):
+        return name
+    parts = ' '.join(name.strip().split()).split()
+    return ' '.join(
+        p.lower() if (i > 0 and p.lower() in _NAME_PARTICLES) else p.capitalize()
+        for i, p in enumerate(parts)
+    )
+
 DEFAULT_INTERACTION_PAIRS = [
     (2, 14), (0, 15), (2, 15), (14, 15), (0, 1),
     (2, 12), (5, 15), (14, 16), (16, 15), (1, 14),

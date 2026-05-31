@@ -4,10 +4,27 @@ import numpy as np
 import json
 from datetime import date
 
+_NAME_PARTICLES = frozenset({
+    'de', 'del', 'van', 'der', 'von', 'da', 'di', 'dos', 'das',
+    'las', 'los', 'el', 'le', 'la', 'du', 'des', 'den', 'ter', 'ten', 'al', 'y',
+})
+
+def normalize_player_name(name):
+    """Forma canonica: prima lettera maiuscola, particelle nobiliari minuscole."""
+    if not name or not isinstance(name, str):
+        return name
+    parts = ' '.join(name.strip().split()).split()
+    return ' '.join(
+        p.lower() if (i > 0 and p.lower() in _NAME_PARTICLES) else p.capitalize()
+        for i, p in enumerate(parts)
+    )
+
 # Carica bio reale da tennisstats.com (se disponibile)
 try:
     with open("bio_jugadores.json", "r", encoding="utf-8") as _f:
-        BIO_REAL = json.load(_f)
+        _bio_raw = json.load(_f)
+    # Normalizza le chiavi per coerenza con i nomi del dataset
+    BIO_REAL = {normalize_player_name(k): v for k, v in _bio_raw.items()}
     print(f"   ✅ bio_jugadores.json caricato ({len(BIO_REAL)} giocatori)")
 except FileNotFoundError:
     BIO_REAL = {}
@@ -30,7 +47,11 @@ try:
     
     # --- A. LIMPIEZA Y FORMATO ---
     df['tourney_id'] = df['tourney_id'].astype(str)
-    
+
+    # Normalizza nomi giocatori: forma canonica unica (risolve duplicati per capitalizzazione)
+    df['winner_name'] = df['winner_name'].apply(normalize_player_name)
+    df['loser_name']  = df['loser_name'].apply(normalize_player_name)
+
     # Asegurar que columnas numéricas no tengan texto basura
     cols_check = ['winner_age', 'winner_ht', 'loser_age', 'loser_ht', 'winner_rank', 'loser_rank']
     for col in cols_check:
@@ -194,8 +215,8 @@ try:
         # URL ej: https://www.atptour.com/en/players/jannik-sinner/s0ag/overview
         def extraer_nombre_real(url):
             try:
-                slug = str(url).split('/')[5] # Corta la URL y agarra "jannik-sinner"
-                return slug.replace('-', ' ').title() # Lo convierte a "Jannik Sinner"
+                slug = str(url).split('/')[5]  # "jannik-sinner" o "alex-de-minaur"
+                return normalize_player_name(slug.replace('-', ' '))  # "Jannik Sinner" / "Alex de Minaur"
             except:
                 return ""
                 

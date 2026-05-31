@@ -83,6 +83,22 @@ MAX_EPOCHS  = 3   if QUICK_TEST else 120
 
 LEVEL_MULT = {'G': 2.0, 'M': 1.5, 'F': 1.4, 'A': 1.0,
               'D': 1.0, 'C': 0.8, 'S': 0.7, 'E': 0.5}
+
+_NAME_PARTICLES = frozenset({
+    'de', 'del', 'van', 'der', 'von', 'da', 'di', 'dos', 'das',
+    'las', 'los', 'el', 'le', 'la', 'du', 'des', 'den', 'ter', 'ten', 'al', 'y',
+})
+
+def normalize_player_name(name):
+    """Forma canonica: prima lettera maiuscola, particelle nobiliari minuscole."""
+    if not name or not isinstance(name, str):
+        return name
+    parts = ' '.join(name.strip().split()).split()
+    return ' '.join(
+        p.lower() if (i > 0 and p.lower() in _NAME_PARTICLES) else p.capitalize()
+        for i, p in enumerate(parts)
+    )
+
 import platform as _platform
 N_WORKERS  = min(4, os.cpu_count() or 1) if (torch.cuda.is_available() and _platform.system() == 'Linux') else 0
 
@@ -191,6 +207,8 @@ def carica_e_prepara(csv_path: str):
             continue
         if not isinstance(surf, str):
             continue
+        w = normalize_player_name(w)
+        l = normalize_player_name(l)
 
         total_games, sets_played = parse_total_games(str(row.get('score', '')))
         best_of_val = row.get('best_of', 3)

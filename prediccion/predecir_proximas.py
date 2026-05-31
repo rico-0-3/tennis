@@ -21,7 +21,7 @@ from prediction_engine import (
     ANN_FEATURES, SURFACE_MAP, LEVEL_LABEL, LEVEL_MULT_LABEL, ROUND_MAP_STR,
     BK_OVERROUND, TennisANNv3, _build_ann, _ann_prob, predici,
     calc_oq, days_since_last, weeks_load, upset_tendency, late_round_wr,
-    Glicko2Store,
+    Glicko2Store, normalize_player_name,
 )
 
 INPUT_JSON  = os.path.join(SCRAP_DIR, "proximas_partidas.json")
@@ -112,23 +112,26 @@ def _resolve_player(raw: str, res: dict) -> str:
     perfiles   = res['perfiles']
     name_index = res.get('name_index', {})
 
+    norm = normalize_player_name(raw)
+    if norm in perfiles:
+        return norm
     if raw in perfiles:
         return raw
 
     parts = raw.split()
     if len(parts) < 2:
-        return raw
+        return norm
 
     initial = parts[-1].rstrip('.').lower()
     if not initial:
-        return raw
+        return norm
 
     for word in parts[:-1]:
         key = word.lower().rstrip('-') + "_" + initial
         if key in name_index:
             return name_index[key]
 
-    return raw
+    return norm
 
 
 def build_features(p1, p2, superficie, livello, turno, res):
