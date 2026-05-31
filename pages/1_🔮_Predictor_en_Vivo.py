@@ -17,7 +17,7 @@ from prediction_engine import (
     BK_OVERROUND, TennisANNv3, _build_ann, _ann_prob, predici, _apply_cal,
     calc_oq, days_since_last, weeks_load as weeks_load_fn,
     upset_tendency as upset_tendency_fn, late_round_wr as late_round_wr_fn,
-    Glicko2Store, normalize_player_name,
+    Glicko2Store,
 )
 
 # Import court speed helper
