@@ -28,6 +28,21 @@ import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 
+_NAME_PARTICLES = frozenset({
+    'de', 'del', 'van', 'der', 'von', 'da', 'di', 'dos', 'das',
+    'las', 'los', 'el', 'le', 'la', 'du', 'des', 'den', 'ter', 'ten', 'al', 'y',
+})
+
+def normalize_player_name(name):
+    """Forma canonica: prima lettera maiuscola, particelle nobiliari minuscole."""
+    if not name or not isinstance(name, str):
+        return name
+    parts = ' '.join(name.strip().split()).split()
+    return ' '.join(
+        p.lower() if (i > 0 and p.lower() in _NAME_PARTICLES) else p.capitalize()
+        for i, p in enumerate(parts)
+    )
+
 # ── Path ──────────────────────────────────────────────────────────────────────
 
 SCRAPING_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -212,18 +227,28 @@ def _build_name_index(df: pd.DataFrame) -> dict:
 def _resolve_name(abbreviated: str, name_index: dict) -> str:
     """
     Converte "Cognome I." → nome completo TML.
-    Fallback: restituisce il nome abbreviato originale.
+    Gestisce cognomi composti: "De Minaur A." → "Alex de Minaur"
+    L'iniziale è sempre l'ultimo token; prova ogni parola precedente come cognome.
     """
     s = abbreviated.strip()
     parts = s.split()
-    if len(parts) >= 2:
-        surname = parts[0].lower()
-        initial = parts[1][0].lower() if parts[1] else ""
-        # Prova "cognome_iniziale" prima, poi solo cognome
-        full = name_index.get(f"{surname}_{initial}") or name_index.get(surname)
+    if len(parts) < 2:
+        return s
+    # L'ultima parte è l'iniziale del nome (es. "A." → "a")
+    initial = parts[-1].rstrip('.').lower()
+    if not initial:
+        return s
+    # Prova ogni parola del cognome (es. "De Minaur A." → prova "de_a", poi "minaur_a")
+    for word in parts[:-1]:
+        key = f"{word.lower()}_{initial}"
+        full = name_index.get(key)
         if full:
             return full
-    return s  # fallback: nome abbreviato
+    # Fallback: solo l'ultima parola del cognome senza iniziale
+    full = name_index.get(parts[-2].lower())
+    if full:
+        return full
+    return s  # fallback: nome abbreviato originale
 
 
 def _build_score(w_sets: list, l_sets: list) -> str:
@@ -442,9 +467,9 @@ def update_master_dataset(lag_days: int = 1) -> int:
         day_rows = scrape_day(cur)
         added = 0
         for r in day_rows:
-            # Risolvi nomi abbreviati → nomi completi TML
-            r["winner_name"] = _resolve_name(r["winner_name"], name_index)
-            r["loser_name"]  = _resolve_name(r["loser_name"],  name_index)
+            # Risolvi nomi abbreviati → nomi completi TML, poi normalizza
+            r["winner_name"] = normalize_player_name(_resolve_name(r["winner_name"], name_index))
+            r["loser_name"]  = normalize_player_name(_resolve_name(r["loser_name"],  name_index))
             key = (r["winner_name"].lower(), r["loser_name"].lower(), r["tourney_date"])
             if key not in existing:
                 existing.add(key)
