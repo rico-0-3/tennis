@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-08T08:15:18.788823",
+  "updated_at": "2026-06-08T08:53:08.859658",
   "partite": [
     {
       "p1": "Davidovich Fokina A.",
@@ -492,17 +492,6 @@
       "motivo": "Giocatori non nel database: Krumich M., Erhard M."
     },
     {
-      "p1": "Gadamauri B.",
-      "p2": "Kuzmanov D.",
-      "torneo": "Bratislava 2 challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-06-08",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Gadamauri B."
-    },
-    {
       "p1": "Neumayer L.",
       "p2": "Daniel T.",
       "torneo": "Bratislava 2 challenger",
@@ -520,6 +509,17 @@
       "quota_sfav": 3.65,
       "modello": "ANN Surface",
       "skipped": false
+    },
+    {
+      "p1": "Gadamauri B.",
+      "p2": "Kuzmanov D.",
+      "torneo": "Bratislava 2 challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-06-08",
+      "skipped": true,
+      "motivo": "Giocatori non nel database: Gadamauri B."
     },
     {
       "p1": "Barton H.",
@@ -552,17 +552,6 @@
       "skipped": false
     },
     {
-      "p1": "Sanchez Jover C.",
-      "p2": "Mazza M.",
-      "torneo": "Cattolica challenger",
-      "livello": "Challenger",
-      "superficie": "Grass",
-      "turno": "32mi",
-      "data": "2026-06-08",
-      "skipped": true,
-      "motivo": "Giocatori non nel database: Sanchez Jover C., Mazza M."
-    },
-    {
       "p1": "Nesterov P.",
       "p2": "Ferrari G.",
       "torneo": "Cattolica challenger",
@@ -572,6 +561,17 @@
       "data": "2026-06-08",
       "skipped": true,
       "motivo": "Giocatori non nel database: Ferrari G."
+    },
+    {
+      "p1": "Sanchez Jover C.",
+      "p2": "Mazza M.",
+      "torneo": "Cattolica challenger",
+      "livello": "Challenger",
+      "superficie": "Grass",
+      "turno": "32mi",
+      "data": "2026-06-08",
+      "skipped": true,
+      "motivo": "Giocatori non nel database: Sanchez Jover C., Mazza M."
     },
     {
       "p1": "Ratti L.",
